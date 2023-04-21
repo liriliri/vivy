@@ -18,5 +18,8 @@
   "devDependencies": {
     "licia": "^1.38.1",
     "prettier": "^2.8.7"
+  },
+  "dependencies": {
+    "execa": "^7.1.1"
   }
 }
