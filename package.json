@@ -4,7 +4,8 @@
   "description": "Stable diffusion desktop application",
   "main": "index.js",
   "scripts": {
-    "format": "prettier \"easy-diffusion/env/*.mjs\" \"easy-diffusion/*.mjs\" --write"
+    "start": "electon ./dist/main/index.js",
+    "format": "prettier \"easy-diffusion/env/*.mjs\" \"easy-diffusion/*.mjs\" \"src/**/*.{ts,tsx}\" --write"
   },
   "repository": {
     "type": "git",
@@ -16,10 +17,15 @@
   },
   "homepage": "https://github.com/liriliri/vivy#readme",
   "devDependencies": {
-    "licia": "^1.38.1",
-    "prettier": "^2.8.7"
+    "electron": "^24.1.2",
+    "electron-builder": "^23.6.0",
+    "prettier": "^2.8.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^4.3.1"
   },
   "dependencies": {
-    "execa": "^7.1.1"
+    "execa": "^7.1.1",
+    "licia": "^1.38.1"
   }
 }
