@@ -5,3 +5,4 @@ easy-diffusion/ui
 easy-diffusion/scripts
 easy-diffusion/models
 easy-diffusion/plugins
+dist/

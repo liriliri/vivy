@@ -4,8 +4,11 @@
   "description": "Stable diffusion desktop application",
   "main": "index.js",
   "scripts": {
-    "start": "electon ./dist/main/index.js",
-    "format": "prettier \"easy-diffusion/env/*.mjs\" \"easy-diffusion/*.mjs\" \"src/**/*.{ts,tsx}\" --write"
+    "dev:renderer": "vite",
+    "build:main": "vite build --config vite.main.ts",
+    "build:renderer": "vite build",
+    "start": "electron ./dist/main/index.js",
+    "format": "prettier \"easy-diffusion/env/*.mjs\" \"easy-diffusion/*.mjs\" \"src/**/*.{ts,tsx}\" \"*.{ts,json}\" --write"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,7 @@
   },
   "homepage": "https://github.com/liriliri/vivy#readme",
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
     "electron": "^24.1.2",
     "electron-builder": "^23.6.0",
     "prettier": "^2.8.7",

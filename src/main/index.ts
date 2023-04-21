@@ -1,1 +1,3 @@
-console.log('test')
+import uuid from 'licia/uuid'
+
+console.log(uuid())
