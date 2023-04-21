@@ -1,49 +1,15 @@
-import { getInstallerFiles } from './util.mjs'
-import os from 'os'
+import { getInstallerFiles, getPlatform, getArch } from './util.mjs'
 
 const installDir = getInstallerFiles('mamba')
 const envDir = getInstallerFiles('env')
 const installPath = installDir + '/micromamba'
-
-function getPlatform() {
-  let platform = os.platform()
-
-  switch(platform) {
-    case 'linux':
-      break;
-    case 'darwin':
-      platform = 'osx';
-      break;
-    default:
-      platform = 'unknown';
-  }
-
-  return platform
-}
-
-function getArch() {
-  let arch = os.arch();
-
-  switch (arch) {
-    case 'x64':
-      arch = '64';
-      break;
-    case 'arm64':
-      arch = 'arm64';
-      break;
-    default:
-      arch = 'unknown';  
-  }
-
-  return arch
-}
 
 export async function installMamba() {
   if (await fs.exists(installPath)) {
     return
   }
   const platform = getPlatform()
-  const arch = getArch() 
+  const arch = getArch()
   if (platform === 'unknown' || arch === 'unknown') {
     return
   }
