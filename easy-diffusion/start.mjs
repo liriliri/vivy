@@ -10,10 +10,8 @@ function resolve(p) {
 
 async function main() {
   const binPath = resolve('installer_files/env/bin')
-  process.env.PATH = `${binPath}:${process.env.PATH}`
 
   const appDir = resolve('easy-diffusion/ui')
-  process.env.SD_UI_PATH = appDir
   await execa(
     'uvicorn',
     [
@@ -29,7 +27,12 @@ async function main() {
     ],
     {
       cwd: appDir,
-      stdout: 'inherit',
+      stdio: 'inherit',
+      env: {
+        PATH: `${binPath}:${process.env.PATH}`,
+        SD_UI_PATH: appDir,
+        PYTORCH_ENABLE_MPS_FALLBACK: 1,
+      },
     }
   )
 }
