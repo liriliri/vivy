@@ -4,7 +4,7 @@
   "description": "Stable diffusion desktop application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier \"easy-diffusion/env/*.mjs\" \"easy-diffusion/*.mjs\" --write"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/liriliri/vivy#readme",
   "devDependencies": {
-    "licia": "^1.38.1"
+    "licia": "^1.38.1",
+    "prettier": "^2.8.7"
   }
 }
