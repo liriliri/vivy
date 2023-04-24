@@ -8,7 +8,9 @@ if (!app.requestSingleInstanceLock()) {
 let win: BrowserWindow | null = null
 
 async function createWindow() {
-  win = new BrowserWindow({})
+  win = new BrowserWindow({
+    title: 'VIVY',
+  })
 
   if (import.meta.env.MODE === 'development') {
     win.loadURL('http://localhost:8080')
