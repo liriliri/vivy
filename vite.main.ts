@@ -1,5 +1,9 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
+import { builtinModules } from 'node:module'
+
+const builtins = builtinModules.filter((e) => !e.startsWith('_'))
+builtins.push('electron', ...builtins.map((m) => `node:${m}`))
 
 export default defineConfig({
   build: {
@@ -10,5 +14,11 @@ export default defineConfig({
       fileName: 'index',
       formats: ['cjs'],
     },
+    rollupOptions: {
+      external: builtins,
+    },
+  },
+  resolve: {
+    browserField: false,
   },
 })

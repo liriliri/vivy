@@ -4,6 +4,7 @@
   "description": "Stable diffusion desktop application",
   "main": "index.js",
   "scripts": {
+    "dev:main": "vite build --watch --config vite.main.ts --mode=development",
     "dev:renderer": "vite",
     "build:main": "vite build --config vite.main.ts",
     "build:renderer": "vite build",
