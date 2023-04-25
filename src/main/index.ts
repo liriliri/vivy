@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from 'electron'
-import { isDev, resolve } from './lib/util'
-import { execa } from 'execa'
+import { isDev } from './lib/util'
+import getPort from 'licia/getPort'
+import * as easyDiffusion from './lib/easyDiffusion'
+import * as menu from './lib/menu'
 
 if (!app.requestSingleInstanceLock()) {
   app.quit()
@@ -19,37 +21,14 @@ async function createWindow() {
   }
 }
 
-async function startEasyDiffusion() {
-  const binPath = resolve('easy-diffusion/installer_files/env/bin')
-
-  const appDir = resolve('easy-diffusion/ui')
-  await execa(
-    'uvicorn',
-    [
-      'main:server_api',
-      '--app-dir',
-      appDir,
-      '--port',
-      '9000',
-      '--host',
-      '0.0.0.0',
-      '--log-level',
-      'error',
-    ],
-    {
-      cwd: appDir,
-      stdio: 'inherit',
-      env: {
-        PATH: `${binPath}:${process.env.PATH}`,
-        SD_UI_PATH: appDir,
-        PYTORCH_ENABLE_MPS_FALLBACK: '1',
-      },
-    }
-  )
-}
-
 app.on('ready', createWindow)
-app.on('ready', startEasyDiffusion)
+app.on('ready', async () => {
+  const port = await getPort(9000)
+  easyDiffusion.start(port)
+})
+app.on('ready', () => {
+  menu.init()
+})
 
 app.on('second-instance', () => {
   if (win) {
