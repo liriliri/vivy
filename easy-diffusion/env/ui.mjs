@@ -7,4 +7,6 @@ export async function installUi() {
   }
   const srcPath = resolve('stable-diffusion-ui/ui')
   await fs.copy(srcPath, targetPath)
+  const pathPath = resolve('patch')
+  await fs.copy(pathPath, targetPath)
 }

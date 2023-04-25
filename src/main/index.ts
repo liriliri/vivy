@@ -1,6 +1,5 @@
 import { app, BrowserWindow } from 'electron'
 import { isDev } from './lib/util'
-import getPort from 'licia/getPort'
 import * as easyDiffusion from './lib/easyDiffusion'
 import * as menu from './lib/menu'
 
@@ -20,6 +19,8 @@ async function createWindow() {
     win.loadURL('http://localhost:8080')
   }
 }
+
+app.setName('Vivy')
 
 app.on('ready', createWindow)
 app.on('ready', async () => easyDiffusion.start())

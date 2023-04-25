@@ -10,3 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export function resolve(p) {
   return path.resolve(__dirname, '../../', p)
 }
+
+export function isMac() {
+  return process.platform === 'darwin'
+}
