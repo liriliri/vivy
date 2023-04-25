@@ -1,11 +1,15 @@
 import { execa } from 'execa'
 import { resolve } from './util'
 import toStr from 'licia/toStr'
+import getPort from 'licia/getPort'
+import config from './config'
 
-export async function start(port: number) {
+export async function start() {
   const binPath = resolve('easy-diffusion/installer_files/env/bin')
   const appDir = resolve('easy-diffusion/ui')
 
+  const port = await getPort(config.easyDiffusionPort)
+  config.easyDiffusionPort = port
   await execa(
     'uvicorn',
     [

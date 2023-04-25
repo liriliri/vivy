@@ -22,10 +22,7 @@ async function createWindow() {
 }
 
 app.on('ready', createWindow)
-app.on('ready', async () => {
-  const port = await getPort(9000)
-  easyDiffusion.start(port)
-})
+app.on('ready', async () => easyDiffusion.start())
 app.on('ready', () => {
   menu.init()
 })
