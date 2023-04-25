@@ -10,7 +10,7 @@ export function getInstallerFiles(p) {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export function resolve(p) {
-  return path.resolve(__dirname, '../../', p)
+  return path.resolve(__dirname, '../', p)
 }
 
 export function getPlatform() {

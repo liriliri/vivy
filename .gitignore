@@ -1,8 +1,8 @@
 node_modules/
-installer_files/
 package-lock.json
 easy-diffusion/ui
 easy-diffusion/scripts
 easy-diffusion/models
 easy-diffusion/plugins
+easy-diffusion/installer_files/
 dist/

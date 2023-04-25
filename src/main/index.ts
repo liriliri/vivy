@@ -20,7 +20,7 @@ async function createWindow() {
 }
 
 async function startEasyDiffusion() {
-  const binPath = resolve('installer_files/env/bin')
+  const binPath = resolve('easy-diffusion/installer_files/env/bin')
 
   const appDir = resolve('easy-diffusion/ui')
   await execa(

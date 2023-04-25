@@ -1,7 +1,7 @@
 import { resolve } from './util.mjs'
 
 export async function installUi() {
-  const targetPath = resolve('easy-diffusion/ui')
+  const targetPath = resolve('ui')
   if (await fs.exists(targetPath)) {
     return
   }
