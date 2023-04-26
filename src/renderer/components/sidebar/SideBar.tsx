@@ -3,7 +3,7 @@ import './Sidebar.scss'
 export default function () {
   return (
     <div id="sidebar">
-      <div class="prompt">
+      <div className="prompt">
         <textarea />
       </div>
       <div className="negative-prompt">
