@@ -1,10 +1,13 @@
-import SideBar from './components/sidebar/SideBar'
+import Sidebar from './components/sidebar/Sidebar'
 import Gallery from './components/gallery/Gallery'
+import Toolbar from './components/toolbar/Toolbar'
+import './App.scss'
 
 export default function App() {
   return (
-    <div>
-      <SideBar />
+    <div id="app">
+      <Toolbar />
+      <Sidebar />
       <Gallery />
     </div>
   )

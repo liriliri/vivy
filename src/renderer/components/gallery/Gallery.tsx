@@ -1,11 +1,12 @@
-import Viewer from './Viewer'
-import List from './List'
+import ImageViewer from './ImageViewer'
+import ImageList from './ImageList'
+import './Gallery.scss'
 
 export default function () {
   return (
-    <div>
-      <Viewer />
-      <List />
+    <div id="gallery">
+      <ImageViewer />
+      <ImageList />
     </div>
   )
 }

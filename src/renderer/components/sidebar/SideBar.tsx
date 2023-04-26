@@ -1,3 +1,5 @@
+import './Sidebar.scss'
+
 export default function () {
-  return <div>SideBar</div>
+  return <div id="sidebar">Sidebar</div>
 }
