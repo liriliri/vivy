@@ -1,4 +1,4 @@
-import { Menu, MenuItemConstructorOptions, shell, app } from 'electron'
+import { Menu, MenuItemConstructorOptions, app, BrowserWindow } from 'electron'
 import * as easyDiffusion from './easyDiffusion'
 import { isMac } from './util'
 
@@ -8,13 +8,43 @@ function getTemplate(): MenuItemConstructorOptions[] {
     submenu: [{ role: 'quit' }],
   }
 
+  let easyDiffusionWin: BrowserWindow | null = null
+
+  const edit = {
+    label: 'Edit',
+    submenu: [
+      {
+        role: 'copy',
+      },
+      {
+        role: 'paste',
+      },
+    ],
+  }
+
   const tools = {
     label: 'Tools',
     submenu: [
       {
         label: 'Easy Diffusion',
         click() {
-          shell.openExternal(`http://localhost:${easyDiffusion.getPort()}`)
+          if (easyDiffusionWin && !easyDiffusionWin.isDestroyed()) {
+            easyDiffusionWin.focus()
+            return
+          }
+          easyDiffusionWin = new BrowserWindow({
+            title: 'Easy Diffusion',
+            minimizable: false,
+            maximizable: false,
+            width: 1000,
+            height: 650,
+            minHeight: 650,
+            minWidth: 1000,
+          })
+          easyDiffusionWin.on('close', () => easyDiffusionWin?.destroy())
+          easyDiffusionWin.loadURL(
+            `http://localhost:${easyDiffusion.getPort()}`
+          )
         },
       },
     ],
@@ -29,7 +59,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
     ],
   }
 
-  const template = [tools, help]
+  const template = [edit, tools, help]
   if (isMac()) {
     template.unshift(vivy)
   }

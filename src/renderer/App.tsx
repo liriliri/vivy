@@ -1,3 +1,11 @@
+import SideBar from './components/sidebar/SideBar'
+import Gallery from './components/gallery/Gallery'
+
 export default function App() {
-  return <div>Hello</div>
+  return (
+    <div>
+      <SideBar />
+      <Gallery />
+    </div>
+  )
 }
