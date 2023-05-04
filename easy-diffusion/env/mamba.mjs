@@ -1,23 +1,31 @@
 import { getInstallerFiles, getPlatform, getArch } from './util.mjs'
 
+const platform = getPlatform()
+const arch = getArch()
 const installDir = getInstallerFiles('mamba')
 const envDir = getInstallerFiles('env')
-const installPath = installDir + '/micromamba'
+const installPath =
+  installDir + '/micromamba' + (platform === 'win' ? '.exe' : '')
 
 export async function installMamba() {
-  if (await fs.exists(installPath)) {
+  if (
+    (await fs.exists(installPath)) ||
+    platform === 'unknown' ||
+    arch === 'unknown'
+  ) {
     return
   }
-  const platform = getPlatform()
-  const arch = getArch()
-  if (platform === 'unknown' || arch === 'unknown') {
-    return
-  }
-  const downloadUrl = `https://micro.mamba.pm/api/micromamba/${platform}-${arch}/latest`
+
   await fs.ensureDir(installDir)
-  console.log(downloadUrl)
-  await $`curl -L ${downloadUrl} | tar -xvj -O bin/micromamba > ${installPath}`
-  await $`chmod +x ${installPath}`
+  if (platform === 'win') {
+    const downloadUrl =
+      'https://github.com/cmdr2/stable-diffusion-ui/releases/download/v1.1/micromamba.exe'
+    await $`curl -Lk ${downloadUrl} > ${installPath}`
+  } else {
+    const downloadUrl = `https://micro.mamba.pm/api/micromamba/${platform}-${arch}/latest`
+    await $`curl -L ${downloadUrl} | tar -xvj -O bin/micromamba > ${installPath}`
+    await $`chmod +x ${installPath}`
+  }
   await $`echo "Micromamba version:"`
   await $`${installPath} --version`
 }

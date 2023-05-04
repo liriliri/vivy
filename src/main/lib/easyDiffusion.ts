@@ -2,13 +2,22 @@ import { execa } from 'execa'
 import { resolve } from './util'
 import toStr from 'licia/toStr'
 import getFreePort from 'licia/getPort'
+import isWindows from 'licia/isWindows'
 
 let port = 9000
 export const getPort = () => port
 
 export async function start() {
-  const binPath = resolve('easy-diffusion/installer_files/env/bin')
   const appDir = resolve('easy-diffusion/ui')
+
+  let PATH = process.env.PATH
+  if (isWindows) {
+    const binPath = resolve('easy-diffusion/installer_files/env')
+    PATH = `${binPath};${PATH}`
+  } else {
+    const binPath = resolve('easy-diffusion/installer_files/env/bin')
+    PATH = `${binPath}:${PATH}`
+  }
 
   port = await getFreePort(port)
   await execa(
@@ -28,7 +37,7 @@ export async function start() {
       cwd: appDir,
       stdio: 'inherit',
       env: {
-        PATH: `${binPath}:${process.env.PATH}`,
+        PATH,
         SD_UI_PATH: appDir,
         PYTORCH_ENABLE_MPS_FALLBACK: '1',
       },

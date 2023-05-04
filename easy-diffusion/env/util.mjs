@@ -1,6 +1,7 @@
 import path from 'path'
 import os from 'os'
 import { fileURLToPath } from 'url'
+import normalizePath from 'licia/normalizePath.js'
 import contain from 'licia/contain.js'
 
 export function getInstallerFiles(p) {
@@ -10,7 +11,7 @@ export function getInstallerFiles(p) {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export function resolve(p) {
-  return path.resolve(__dirname, '../', p)
+  return normalizePath(path.resolve(__dirname, '../', p))
 }
 
 export function getPlatform() {
@@ -19,6 +20,9 @@ export function getPlatform() {
   switch (platform) {
     case 'darwin':
       platform = 'osx'
+      break
+    case 'win32':
+      platform = 'win'
       break
     default:
       platform = 'unknown'
@@ -44,10 +48,26 @@ export function getArch() {
   return arch
 }
 
-export function exportPath() {
-  const path = getInstallerFiles('env/bin')
-  if (contain(process.env.PATH, path)) {
-    return
+function addPathToEnv(path) {
+  const platform = getPlatform()
+
+  if (!contain(process.env.PATH, path)) {
+    if (platform === 'win') {
+      process.env.PATH = `${path};${process.env.PATH}`
+    } else {
+      process.env.PATH = `${path}:${process.env.PATH}`
+    }
   }
-  process.env.PATH = `${path}:${process.env.PATH}`
+}
+
+export function exportPath() {
+  const platform = getPlatform()
+
+  if (platform === 'win') {
+    addPathToEnv(getInstallerFiles('env'))
+    addPathToEnv(getInstallerFiles('env/Library/bin'))
+    addPathToEnv(getInstallerFiles('env/Scripts'))
+  } else {
+    addPathToEnv(getInstallerFiles('env/bin'))
+  }
 }

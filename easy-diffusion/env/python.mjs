@@ -1,8 +1,14 @@
-import { getInstallerFiles } from './util.mjs'
+import { getInstallerFiles, getPlatform } from './util.mjs'
 
-export async function installPipModules(modules) {
+const platform = getPlatform()
+
+export async function installPipModules(modules, options = {}) {
   setPythonEnv()
-  await $`python -m pip install --upgrade ${modules}`
+  if (options.extraIndexUrl) {
+    await $`python -m pip install --upgrade ${modules} --extra-index-url ${options.extraIndexUrl}`
+  } else {
+    await $`python -m pip install --upgrade ${modules}`
+  }
 }
 
 export async function installCondaModules(modules) {
@@ -12,5 +18,11 @@ export async function installCondaModules(modules) {
 
 function setPythonEnv() {
   process.env.PYTHONNOUSERSITE = 1
-  process.env.PYTHONPATH = getInstallerFiles('env/lib/python3.8/site-packages')
+  if (platform === 'win') {
+    process.env.PYTHONPATH = getInstallerFiles('env/Lib/site-packages')
+  } else {
+    process.env.PYTHONPATH = getInstallerFiles(
+      'env/lib/python3.8/site-packages'
+    )
+  }
 }
