@@ -13,6 +13,10 @@ let win: BrowserWindow | null = null
 async function createWindow() {
   win = new BrowserWindow({
     title: 'VIVY',
+    width: 1200,
+    height: 800,
+    minWidth: 1200,
+    minHeight: 800,
   })
 
   if (isDev()) {

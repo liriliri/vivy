@@ -1,5 +1,5 @@
 import './ImageViewer.scss'
 
-export default function ImageViewer() {
-  return <div id="image-viewer">Image Viewer</div>
+export default function () {
+  return <div id="image-viewer"></div>
 }

@@ -4,4 +4,30 @@
 
 body {
   margin: 0;
+  font-size: 14px;
+  cursor: default;
+}
+
+:root {
+  --vivy-background: #f1f3f4;
+  --vivy-border: #dadce0;
+  --vivy-primary: #0e639c;
+  --vivy-primary-lighter: #1177bb;
+}
+
+textarea {
+  outline: none;
+  border: 1px solid var(--vivy-border);
+  border-radius: 4px;
+}
+
+button {
+  background: var(--vivy-primary);
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  padding: 6px;
+  &:active {
+    background: var(--vivy-primary-lighter);
+  }
 }

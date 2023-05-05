@@ -1,9 +1,25 @@
 #sidebar {
-  background: #fbfbfb;
+  background: var(--vivy-background);
+  padding: 14px 8px;
   position: absolute;
-  border-right: 1px solid #dadce0;
+  border-right: 1px solid var(--vivy-border);
   left: 0;
   top: 40px;
-  bottom: 0;
+  bottom: 22px;
   width: 400px;
+}
+
+.prompt, .negative-prompt {
+  margin-bottom: 8px;
+  textarea {
+    height: 80px;
+    padding: 6px;
+    resize: vertical;
+    width: 100%;
+  }
+}
+
+.generate-image {
+  width: 100%;
+  padding: 12px 0;
 }
