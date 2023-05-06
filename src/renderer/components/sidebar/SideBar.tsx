@@ -9,7 +9,11 @@ export default function () {
     const setting = new LunaSetting(
       generateSettingRef.current as HTMLDivElement
     )
-    setting.appendSelect('sampler', 'Euler', 'Sampler', '', {
+    setting.appendNumber('inferenceSteps', 35, 'Inference Steps', {})
+    setting.appendNumber('seed', -1, 'Seed', {})
+    setting.appendNumber('width', 512, 'Width', {})
+    setting.appendNumber('height', 512, 'height', {})
+    setting.appendSelect('sampler', 'Euler', 'Sampler', {
       Euler: 'euler',
     })
   }, [])
