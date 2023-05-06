@@ -24,10 +24,13 @@
   },
   "homepage": "https://github.com/liriliri/vivy#readme",
   "devDependencies": {
+    "@types/react": "^18.2.5",
+    "@types/react-dom": "^18.2.4",
     "@vitejs/plugin-react": "^4.0.0",
     "concurrently": "^8.0.1",
     "electron": "^24.1.2",
     "electron-builder": "^23.6.0",
+    "luna-setting": "^0.7.0",
     "prettier": "^2.8.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
