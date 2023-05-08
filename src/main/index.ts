@@ -2,6 +2,8 @@ import { app, BrowserWindow } from 'electron'
 import { isDev } from './lib/util'
 import * as easyDiffusion from './lib/easyDiffusion'
 import * as menu from './lib/menu'
+import * as ipc from './lib/ipc'
+import path from 'path'
 
 if (!app.requestSingleInstanceLock()) {
   app.quit()
@@ -17,6 +19,10 @@ async function createWindow() {
     height: 800,
     minWidth: 1200,
     minHeight: 800,
+    webPreferences: {
+      preload: path.join(__dirname, '../preload/index.js'),
+      webSecurity: false,
+    },
   })
 
   if (isDev()) {
@@ -26,9 +32,10 @@ async function createWindow() {
 
 app.setName('Vivy')
 
-app.on('ready', createWindow)
-app.on('ready', async () => easyDiffusion.start())
 app.on('ready', () => {
+  easyDiffusion.start()
+  ipc.init()
+  createWindow()
   menu.init()
 })
 
