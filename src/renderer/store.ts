@@ -1,4 +1,7 @@
-import { makeAutoObservable } from 'mobx'
+import { action, makeObservable, observable, runInAction } from 'mobx'
+import clone from 'licia/clone'
+import uuid from 'licia/uuid'
+import Emitter from 'licia/Emitter'
 import * as request from './lib/request'
 
 interface IGenerateSetting {
@@ -11,24 +14,52 @@ interface IGenerateSetting {
   model: string
 }
 
-class Image {
-  id = ''
+enum ImageStatus {
+  Wait,
+  Generating,
+  Complete,
+}
+
+class Image extends Emitter {
+  id = uuid()
   data = ''
+  status = ImageStatus.Wait
   progress = 0
-  constructor(id: string) {
-    this.id = id
+  generateSetting: IGenerateSetting
+  constructor(generateSetting: IGenerateSetting) {
+    super()
+
+    makeObservable(this, {
+      data: observable,
+      progress: observable,
+      getProgress: action,
+      generate: action,
+    })
+
+    this.generateSetting = generateSetting
+  }
+  async generate() {
+    this.status = ImageStatus.Generating
+    const result = await request.generateImage(this.generateSetting)
+    this.id = result.task
+
     this.getProgress()
   }
   async getProgress() {
     const result = await request.getImageProgress(this.id)
 
     if (result.total_steps) {
-      this.progress = Math.round((result.step / result.total_steps) * 100)
+      runInAction(() => {
+        this.progress = Math.round((result.step / result.total_steps) * 100)
+      })
     }
 
     if (result.status === 'succeeded') {
-      this.data = result.output[0].data
-      console.log(this.data)
+      runInAction(() => {
+        this.data = result.output[0].data
+        this.status = ImageStatus.Complete
+      })
+      this.emit('complete')
     } else {
       setTimeout(() => this.getProgress(), 1000)
     }
@@ -47,29 +78,65 @@ class Store {
   }
   isReady = false
   models: string[] = []
+  currentImage?: Image
   images: Image[] = []
+  imageQueue: Image[] = []
   constructor() {
-    makeAutoObservable(this)
+    makeObservable(this, {
+      generateSetting: observable,
+      isReady: observable,
+      images: observable,
+      currentImage: observable,
+      checkHealth: action,
+      updateGenerateSetting: action,
+      generateImage: action,
+      selectImage: action,
+    })
 
     this.checkHealth()
     setInterval(() => this.checkHealth(), 5000)
+  }
+  selectImage(image: Image) {
+    this.currentImage = image
   }
   async checkHealth() {
     try {
       const result = await request.ping()
       if (result.status === 'Online') {
-        this.isReady = true
+        runInAction(() => (this.isReady = true))
+        this.doGenerateImage()
       }
     } catch (e) {
-      this.isReady = false
+      runInAction(() => (this.isReady = false))
     }
   }
   updateGenerateSetting(key, val) {
     this.generateSetting[key] = val
   }
   async generateImage() {
-    const result = await request.generateImage(this.generateSetting)
-    this.images.push(new Image(result.task))
+    const image = new Image(clone(this.generateSetting))
+    this.images.push(image)
+    this.imageQueue.push(image)
+    this.doGenerateImage()
+  }
+  async doGenerateImage() {
+    if (!this.isReady) {
+      return
+    }
+    const image = this.imageQueue.shift()
+    if (image) {
+      switch (image.status) {
+        case ImageStatus.Complete:
+          this.doGenerateImage()
+          break
+        case ImageStatus.Wait:
+          image.on('complete', () => this.doGenerateImage())
+          await image.generate()
+          break
+        case ImageStatus.Generating:
+          break
+      }
+    }
   }
 }
 

@@ -6,4 +6,29 @@
   left: 0;
   right: 0;
   bottom: 0;
+  overflow-y: auto;
+  padding: 14px 8px;
+}
+
+.image-item {
+  width: 112px;
+  height: 112px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  border: 1px solid var(--vivy-border);
+  border-radius: 4px;
+  float: left;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  &:hover {
+    border-color: var(--vivy-primary);
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 }
