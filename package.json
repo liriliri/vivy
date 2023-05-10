@@ -14,7 +14,7 @@
     "build:renderer": "vite build",
     "start": "electron ./dist/main/index.js",
     "start:easy-diffusion": "node ./easy-diffusion/start.mjs",
-    "format": "prettier \"easy-diffusion/env/*.mjs\" \"src/**/*.{ts,tsx}\" \"*.{ts,json}\" --write"
+    "format": "prettier \"easy-diffusion/env/*.mjs\" \"src/**/*.{ts,tsx,scss}\" \"*.{ts,json}\" --write"
   },
   "repository": {
     "type": "git",

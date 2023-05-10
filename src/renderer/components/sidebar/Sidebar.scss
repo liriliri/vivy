@@ -6,6 +6,7 @@
   top: 40px;
   bottom: 22px;
   width: 400px;
+  overflow-y: auto;
 }
 
 .generate-basic {
@@ -13,7 +14,8 @@
   border-bottom: 1px solid var(--vivy-border);
 }
 
-.prompt, .negative-prompt {
+.prompt,
+.negative-prompt {
   margin-bottom: 8px;
   textarea {
     height: 80px;
