@@ -4,16 +4,6 @@ import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
 import * as request from './lib/request'
 
-interface IGenerateSetting {
-  prompt: string
-  sampler: string
-  seed: number
-  width: number
-  height: number
-  inferenceSteps: number
-  model: string
-}
-
 enum ImageStatus {
   Wait,
   Generating,
@@ -69,6 +59,7 @@ class Image extends Emitter {
 class Store {
   generateSetting: IGenerateSetting = {
     prompt: 'a photograph of an astronaut riding a horse',
+    negativePrompt: '',
     model: '',
     sampler: 'euler',
     inferenceSteps: 35,

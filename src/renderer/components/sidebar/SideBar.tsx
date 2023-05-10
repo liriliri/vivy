@@ -50,7 +50,13 @@ export default observer(function () {
           />
         </div>
         <div className="negative-prompt">
-          <textarea placeholder="Negative Prompt" />
+          <textarea
+            placeholder="Negative Prompt"
+            value={store.generateSetting.negativePrompt}
+            onChange={(e) => {
+              store.updateGenerateSetting('negativePrompt', e.target.value)
+            }}
+          />
         </div>
         <button
           className="generate-image button"

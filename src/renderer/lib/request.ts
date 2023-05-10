@@ -11,30 +11,26 @@ export async function ping() {
   return result.data
 }
 
-interface IGenerateImageOptions {
-  prompt: string
-}
-
-export async function generateImage(options: IGenerateImageOptions) {
+export async function generateImage(options: IGenerateSetting) {
   const url = await getEasyDiffusionUrl('render')
   const result = await axios.post(url, {
     active_tags: [],
     block_nsfw: false,
     guidance_scale: 1.1,
-    height: 512,
+    height: options.height,
     inactive_tags: [],
     metadata_output_format: 'none',
-    negative_prompt: '',
+    negative_prompt: options.negativePrompt,
     num_inference_steps: 35,
     num_outputs: 1,
-    original_prompt: 'a photograph of an astronaut riding a horse',
+    original_prompt: options.prompt,
     output_format: 'jpeg',
     output_lossless: false,
     output_quality: 75,
-    prompt: 'a photograph of an astronaut riding a horse',
-    sampler_name: 'euler',
+    prompt: options.prompt,
+    sampler_name: options.sampler,
     seed: 326488850,
-    session_id: '1683531438324',
+    session_id: sessionId,
     show_only_filtered_image: true,
     stream_image_progress: false,
     stream_progress_updates: true,
@@ -43,7 +39,7 @@ export async function generateImage(options: IGenerateImageOptions) {
     use_vae_model: '',
     used_random_seed: true,
     vram_usage_level: 'balanced',
-    width: 512,
+    width: options.width,
   })
 
   return result.data
