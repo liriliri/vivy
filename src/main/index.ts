@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron'
 import { isDev } from './lib/util'
-import * as easyDiffusion from './lib/easyDiffusion'
+import * as webui from './lib/webui'
 import * as menu from './lib/menu'
 import * as ipc from './lib/ipc'
 import path from 'path'
@@ -33,7 +33,7 @@ async function createWin() {
 app.setName('Vivy')
 
 app.on('ready', () => {
-  easyDiffusion.start()
+  webui.start()
   ipc.init()
   createWin()
   menu.init()

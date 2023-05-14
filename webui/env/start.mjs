@@ -14,7 +14,7 @@ async function main() {
     PATH = `${binPath}:${PATH}`
   }
 
-  await execa('python', ['launch.py'], {
+  await execa('python', ['launch.py', '--api'], {
     cwd: appDir,
     stdio: 'inherit',
     env: {
