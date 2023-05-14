@@ -1,4 +1,4 @@
-import { Menu, MenuItemConstructorOptions, app, BrowserWindow } from 'electron'
+import { Menu, MenuItemConstructorOptions, app } from 'electron'
 import * as easyDiffusion from './easyDiffusion'
 import { isMac } from './util'
 
@@ -7,8 +7,6 @@ function getTemplate(): MenuItemConstructorOptions[] {
     label: app.name,
     submenu: [{ role: 'quit' }],
   }
-
-  let easyDiffusionWin: BrowserWindow | null = null
 
   const edit = {
     label: 'Edit',
@@ -28,23 +26,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
       {
         label: 'Easy Diffusion',
         click() {
-          if (easyDiffusionWin && !easyDiffusionWin.isDestroyed()) {
-            easyDiffusionWin.focus()
-            return
-          }
-          easyDiffusionWin = new BrowserWindow({
-            title: 'Easy Diffusion',
-            minimizable: false,
-            maximizable: false,
-            width: 1000,
-            height: 650,
-            minHeight: 650,
-            minWidth: 1000,
-          })
-          easyDiffusionWin.on('close', () => easyDiffusionWin?.destroy())
-          easyDiffusionWin.loadURL(
-            `http://localhost:${easyDiffusion.getPort()}`
-          )
+          easyDiffusion.showWin()
         },
       },
     ],

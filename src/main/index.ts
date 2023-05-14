@@ -12,7 +12,7 @@ if (!app.requestSingleInstanceLock()) {
 
 let win: BrowserWindow | null = null
 
-async function createWindow() {
+async function createWin() {
   win = new BrowserWindow({
     title: 'VIVY',
     width: 1200,
@@ -35,7 +35,7 @@ app.setName('Vivy')
 app.on('ready', () => {
   easyDiffusion.start()
   ipc.init()
-  createWindow()
+  createWin()
   menu.init()
 })
 
