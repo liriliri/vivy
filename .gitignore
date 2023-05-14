@@ -5,4 +5,5 @@ easy-diffusion/scripts
 easy-diffusion/models
 easy-diffusion/plugins
 easy-diffusion/installer_files/
+webui/installer_files/
 dist/
