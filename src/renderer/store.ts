@@ -2,7 +2,8 @@ import { action, makeObservable, observable, runInAction } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
-import * as request from './lib/request'
+import * as easyDiffusion from './lib/easyDiffusion'
+import webui from './lib/webui'
 
 enum ImageStatus {
   Wait,
@@ -30,13 +31,13 @@ class Image extends Emitter {
   }
   async generate() {
     this.status = ImageStatus.Generating
-    const result = await request.generateImage(this.generateSetting)
+    const result = await easyDiffusion.generateImage(this.generateSetting)
     this.id = result.task
 
     this.getProgress()
   }
   async getProgress() {
-    const result = await request.getImageProgress(this.id)
+    const result = await easyDiffusion.getImageProgress(this.id)
 
     if (result.total_steps) {
       runInAction(() => {
@@ -84,15 +85,16 @@ class Store {
       selectImage: action,
     })
 
-    this.checkHealth()
-    setInterval(() => this.checkHealth(), 5000)
+    // this.checkHealth()
+    // setInterval(() => this.checkHealth(), 5000)
   }
   selectImage(image: Image) {
     this.currentImage = image
   }
   async checkHealth() {
+    await webui.waitForReady()
     try {
-      const result = await request.ping()
+      const result = await easyDiffusion.ping()
       if (result.status === 'Online') {
         runInAction(() => (this.isReady = true))
         this.doGenerateImage()

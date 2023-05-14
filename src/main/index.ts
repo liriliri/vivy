@@ -22,6 +22,7 @@ async function createWin() {
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       webSecurity: false,
+      sandbox: false,
     },
   })
 

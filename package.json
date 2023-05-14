@@ -24,6 +24,9 @@
     "url": "https://github.com/liriliri/vivy/issues"
   },
   "homepage": "https://github.com/liriliri/vivy#readme",
+  "dependencies": {
+    "stable-diffusion-api": "^0.0.7"
+  },
   "devDependencies": {
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.4",
