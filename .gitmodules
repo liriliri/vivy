@@ -1,3 +1,6 @@
 [submodule "stable-diffusion-ui"]
 	path = easy-diffusion/stable-diffusion-ui
 	url = https://github.com/cmdr2/stable-diffusion-ui.git
+[submodule "webui/stable-diffustion-webui"]
+	path = webui/stable-diffusion-webui
+	url = https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
