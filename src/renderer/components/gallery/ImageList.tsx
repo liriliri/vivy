@@ -4,7 +4,7 @@ import store from '../../store'
 import './ImageList.scss'
 
 export default observer(function () {
-  const images = map(store.images, (image) => {
+  /* const images = map(store.tasks, (task) => {
     if (image.data) {
       return (
         <div
@@ -22,7 +22,7 @@ export default observer(function () {
         </div>
       )
     }
-  })
+  }) */
 
-  return <div id="image-list">{images}</div>
+  return <div id="image-list"></div>
 })

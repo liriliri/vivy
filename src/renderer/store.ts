@@ -3,25 +3,25 @@ import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
 import * as easyDiffusion from './lib/easyDiffusion'
-import webui from './lib/webui'
+import * as webui from './lib/webui'
 
-enum ImageStatus {
+enum TaskStatus {
   Wait,
   Generating,
   Complete,
 }
 
-class Image extends Emitter {
+class Task extends Emitter {
   id = uuid()
-  data = ''
-  status = ImageStatus.Wait
+  status = TaskStatus.Wait
+  images: string[] = []
   progress = 0
   generateSetting: IGenerateSetting
   constructor(generateSetting: IGenerateSetting) {
     super()
 
     makeObservable(this, {
-      data: observable,
+      images: observable,
       progress: observable,
       getProgress: action,
       generate: action,
@@ -30,11 +30,16 @@ class Image extends Emitter {
     this.generateSetting = generateSetting
   }
   async generate() {
-    this.status = ImageStatus.Generating
-    const result = await easyDiffusion.generateImage(this.generateSetting)
-    this.id = result.task
+    const { generateSetting } = this
+    this.status = TaskStatus.Generating
+    const result = await webui.txt2img({
+      prompt: generateSetting.prompt,
+      negative_prompt: generateSetting.negativePrompt,
+      batch_size: generateSetting.batchSize,
+    })
+    this.images = result.images
 
-    this.getProgress()
+    // this.getProgress()
   }
   async getProgress() {
     const result = await easyDiffusion.getImageProgress(this.id)
@@ -47,8 +52,7 @@ class Image extends Emitter {
 
     if (result.status === 'succeeded') {
       runInAction(() => {
-        this.data = result.output[0].data
-        this.status = ImageStatus.Complete
+        this.status = TaskStatus.Complete
       })
       this.emit('complete')
     } else {
@@ -71,62 +75,54 @@ class Store {
   isReady = false
   models: string[] = []
   currentImage?: Image
-  images: Image[] = []
-  imageQueue: Image[] = []
+  tasks: Task[] = []
+  taskQueue: Task[] = []
   constructor() {
     makeObservable(this, {
       generateSetting: observable,
       isReady: observable,
-      images: observable,
+      tasks: observable,
       currentImage: observable,
-      checkHealth: action,
+      checkReady: action,
       updateGenerateSetting: action,
-      generateImage: action,
+      createTask: action,
       selectImage: action,
     })
 
-    // this.checkHealth()
-    // setInterval(() => this.checkHealth(), 5000)
+    this.checkReady()
   }
   selectImage(image: Image) {
     this.currentImage = image
   }
-  async checkHealth() {
+  async checkReady() {
     await webui.waitForReady()
-    try {
-      const result = await easyDiffusion.ping()
-      if (result.status === 'Online') {
-        runInAction(() => (this.isReady = true))
-        this.doGenerateImage()
-      }
-    } catch (e) {
-      runInAction(() => (this.isReady = false))
-    }
+    runInAction(() => (this.isReady = true))
+    this.doCreateTask()
   }
   updateGenerateSetting(key, val) {
     this.generateSetting[key] = val
   }
-  async generateImage() {
-    const image = new Image(clone(this.generateSetting))
-    this.images.push(image)
-    this.imageQueue.push(image)
-    this.doGenerateImage()
+  async createTask() {
+    const image = new Task(clone(this.generateSetting))
+    this.tasks.push(image)
+    this.taskQueue.push(image)
+    this.doCreateTask()
   }
-  async doGenerateImage() {
+  async doCreateTask() {
     if (!this.isReady) {
       return
     }
-    const image = this.imageQueue.shift()
-    if (image) {
-      switch (image.status) {
-        case ImageStatus.Complete:
-          this.doGenerateImage()
+    const task = this.taskQueue.shift()
+    if (task) {
+      switch (task.status) {
+        case TaskStatus.Complete:
+          this.doCreateTask()
           break
-        case ImageStatus.Wait:
-          image.on('complete', () => this.doGenerateImage())
-          await image.generate()
+        case TaskStatus.Wait:
+          task.on('complete', () => this.doCreateTask())
+          await task.generate()
           break
-        case ImageStatus.Generating:
+        case TaskStatus.Generating:
           break
       }
     }

@@ -60,7 +60,7 @@ export default observer(function () {
         </div>
         <button
           className="generate-image button"
-          onClick={() => store.generateImage()}
+          onClick={() => store.createTask()}
         >
           Generate Image
         </button>

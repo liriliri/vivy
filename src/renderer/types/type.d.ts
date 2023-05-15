@@ -6,5 +6,6 @@ interface IGenerateSetting {
   width: number
   height: number
   inferenceSteps: number
+  batchSize: number
   model: string
 }
