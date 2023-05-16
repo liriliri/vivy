@@ -11,7 +11,7 @@ export async function ping() {
   return result.data
 }
 
-export async function generateImage(options: IGenerateSetting) {
+export async function txt2img(options: ITxt2ImgOptions) {
   const url = await getEasyDiffusionUrl('render')
   const result = await axios.post(url, {
     active_tags: [],

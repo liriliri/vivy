@@ -6,32 +6,41 @@ import './Sidebar.scss'
 import { autorun } from 'mobx'
 
 export default observer(function () {
-  const generateSettingRef = useRef<HTMLDivElement>(null)
+  const txt2imgOptionsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const setting = new LunaSetting(
-      generateSettingRef.current as HTMLDivElement
-    )
+    const setting = new LunaSetting(txt2imgOptionsRef.current as HTMLDivElement)
     setting.on('change', (key, val) => {
-      store.updateGenerateSetting(key, val)
+      store.updateTxt2ImgOptions(key, val)
     })
     autorun(() => {
       setting.clear()
-      setting.appendNumber(
-        'inferenceSteps',
-        store.generateSetting.inferenceSteps,
-        'Inference Steps',
-        {}
-      )
-      const generateSetting = store.generateSetting
-      setting.appendNumber('seed', generateSetting.seed, 'Seed', {})
-      setting.appendNumber('width', generateSetting.width, 'Width', {})
-      setting.appendNumber('height', generateSetting.height, 'height', {})
-      setting.appendSelect('sampler', generateSetting.sampler, 'Sampler', {
-        PLMS: 'plms',
-        DDIM: 'ddim',
-        Heun: 'heun',
-        Euler: 'euler',
+      setting.appendNumber('steps', store.txt2imgOptions.steps, 'steps', {})
+      const txt2imgOptions = store.txt2imgOptions
+      setting.appendNumber('seed', txt2imgOptions.seed, 'Seed', {})
+      setting.appendNumber('width', txt2imgOptions.width, 'Width', {})
+      setting.appendNumber('height', txt2imgOptions.height, 'height', {})
+      setting.appendSelect('sampler', txt2imgOptions.sampler, 'Sampler', {
+        'Euler a': 'Euler a',
+        Euler: 'Euler',
+        LMS: 'LMS',
+        Heun: 'Heun',
+        DPM2: 'DPM2',
+        'DPM2 a': 'DPM2 a',
+        'DPM++ 2S a': 'DPM++ 2S a',
+        'DPM++ 2M': 'DPM++ 2M',
+        'DPM++ SDE': 'DPM++ SDE',
+        'DPM fast': 'DPM fast',
+        'DPM adaptive': 'DPM adaptive',
+        'LMS Karras': 'LMS Karras',
+        'DPM2 Karras': 'DPM2 Karras',
+        'DPM2 a Karras': 'DPM2 a Karras',
+        'DPM++ 2S a Karras': 'DPM++ 2S a Karras',
+        'DPM++ 2M Karras': 'DPM++ 2M Karras',
+        'DPM++ SDE Karras': 'DPM++ SDE Karras',
+        DDIM: 'DDIM',
+        PLMS: 'PLMS',
+        UniPC: 'UniPC',
       })
     })
     return () => setting.destroy()
@@ -43,18 +52,18 @@ export default observer(function () {
         <div className="prompt">
           <textarea
             placeholder="Prompt"
-            value={store.generateSetting.prompt}
+            value={store.txt2imgOptions.prompt}
             onChange={(e) => {
-              store.updateGenerateSetting('prompt', e.target.value)
+              store.updateTxt2ImgOptions('prompt', e.target.value)
             }}
           />
         </div>
         <div className="negative-prompt">
           <textarea
             placeholder="Negative Prompt"
-            value={store.generateSetting.negativePrompt}
+            value={store.txt2imgOptions.negativePrompt}
             onChange={(e) => {
-              store.updateGenerateSetting('negativePrompt', e.target.value)
+              store.updateTxt2ImgOptions('negativePrompt', e.target.value)
             }}
           />
         </div>
@@ -65,7 +74,7 @@ export default observer(function () {
           Generate Image
         </button>
       </div>
-      <div ref={generateSettingRef} className="generate-setting"></div>
+      <div ref={txt2imgOptionsRef} className="generate-setting"></div>
     </div>
   )
 })

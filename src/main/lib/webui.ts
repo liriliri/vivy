@@ -1,4 +1,5 @@
 import { execa } from 'execa'
+import { BrowserWindow } from 'electron'
 import { resolve, isMac } from './util'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
@@ -42,4 +43,25 @@ export async function start() {
     stderr: 'inherit',
     env,
   })
+}
+
+let webuiWin: BrowserWindow | null = null
+
+export function showWin() {
+  if (webuiWin && !webuiWin.isDestroyed()) {
+    webuiWin.focus()
+    return
+  }
+  webuiWin = new BrowserWindow({
+    title: 'Easy Diffusion',
+    minimizable: false,
+    maximizable: false,
+    width: 1200,
+    height: 850,
+    minHeight: 850,
+    minWidth: 1200,
+  })
+  webuiWin.setMenu(null)
+  webuiWin.on('close', () => webuiWin?.destroy())
+  webuiWin.loadURL(`http://localhost:${getPort()}`)
 }

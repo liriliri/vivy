@@ -11,87 +11,93 @@ enum TaskStatus {
   Complete,
 }
 
+interface IImage {
+  id: string
+  data: string
+}
+
 class Task extends Emitter {
   id = uuid()
   status = TaskStatus.Wait
-  images: string[] = []
+  images: IImage[] = []
   progress = 0
-  generateSetting: IGenerateSetting
-  constructor(generateSetting: IGenerateSetting) {
+  txt2imgOptions: ITxt2ImgOptions
+  constructor(txt2imgOptions: ITxt2ImgOptions) {
     super()
 
     makeObservable(this, {
       images: observable,
       progress: observable,
       getProgress: action,
-      generate: action,
+      run: action,
     })
 
-    this.generateSetting = generateSetting
+    this.txt2imgOptions = txt2imgOptions
+    for (let i = 0; i < txt2imgOptions.batchSize; i++) {
+      this.images[i] = {
+        id: uuid(),
+        data: '',
+      }
+    }
   }
-  async generate() {
-    const { generateSetting } = this
+  async run() {
+    const { txt2imgOptions } = this
     this.status = TaskStatus.Generating
-    const result = await webui.txt2img({
-      prompt: generateSetting.prompt,
-      negative_prompt: generateSetting.negativePrompt,
-      batch_size: generateSetting.batchSize,
-    })
-    this.images = result.images
-
-    // this.getProgress()
+    this.getProgress()
+    const result = await webui.txt2img(txt2imgOptions)
+    this.progress = 100
+    this.status = TaskStatus.Complete
+    this.emit('complete')
+    for (let i = 0; i < txt2imgOptions.batchSize; i++) {
+      this.images[i].data = `data:image/png;base64,${result.images[i]}`
+    }
   }
   async getProgress() {
-    const result = await easyDiffusion.getImageProgress(this.id)
+    const result = await webui.getProgress()
+    const progress = result.progress
 
-    if (result.total_steps) {
-      runInAction(() => {
-        this.progress = Math.round((result.step / result.total_steps) * 100)
-      })
-    }
+    runInAction(() => {
+      this.progress = Math.round(progress * 100)
+    })
 
-    if (result.status === 'succeeded') {
-      runInAction(() => {
-        this.status = TaskStatus.Complete
-      })
-      this.emit('complete')
-    } else {
+    if (this.status !== TaskStatus.Complete) {
       setTimeout(() => this.getProgress(), 1000)
     }
   }
 }
 
 class Store {
-  generateSetting: IGenerateSetting = {
+  txt2imgOptions: ITxt2ImgOptions = {
     prompt: 'a photograph of an astronaut riding a horse',
     negativePrompt: '',
     model: '',
-    sampler: 'euler',
-    inferenceSteps: 35,
+    sampler: 'Euler a',
+    steps: 35,
     seed: -1,
     width: 512,
     height: 512,
+    batchSize: 1,
   }
   isReady = false
   models: string[] = []
-  currentImage?: Image
+  currentImage?: IImage
   tasks: Task[] = []
   taskQueue: Task[] = []
   constructor() {
     makeObservable(this, {
-      generateSetting: observable,
+      txt2imgOptions: observable,
       isReady: observable,
       tasks: observable,
       currentImage: observable,
       checkReady: action,
-      updateGenerateSetting: action,
+      updateTxt2ImgOptions: action,
       createTask: action,
       selectImage: action,
     })
 
     this.checkReady()
   }
-  selectImage(image: Image) {
+  selectImage(image: IImage) {
     this.currentImage = image
   }
   async checkReady() {
@@ -99,28 +105,29 @@ class Store {
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
-  updateGenerateSetting(key, val) {
-    this.generateSetting[key] = val
+  updateTxt2ImgOptions(key, val) {
+    this.txt2imgOptions[key] = val
   }
   async createTask() {
-    const image = new Task(clone(this.generateSetting))
+    const image = new Task(clone(this.txt2imgOptions))
     this.tasks.push(image)
     this.taskQueue.push(image)
     this.doCreateTask()
   }
-  async doCreateTask() {
+  doCreateTask() {
     if (!this.isReady) {
       return
     }
-    const task = this.taskQueue.shift()
+    const task = this.taskQueue[0]
     if (task) {
       switch (task.status) {
         case TaskStatus.Complete:
+          this.taskQueue.shift()
           this.doCreateTask()
           break
         case TaskStatus.Wait:
           task.on('complete', () => this.doCreateTask())
-          await task.generate()
+          task.run()
           break
         case TaskStatus.Generating:
           break

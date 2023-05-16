@@ -1,5 +1,5 @@
 import { Menu, MenuItemConstructorOptions, app } from 'electron'
-import * as easyDiffusion from './easyDiffusion'
+import * as webui from './webui'
 import { isMac } from './util'
 
 function getTemplate(): MenuItemConstructorOptions[] {
@@ -24,9 +24,9 @@ function getTemplate(): MenuItemConstructorOptions[] {
     label: 'Tools',
     submenu: [
       {
-        label: 'Easy Diffusion',
+        label: 'Stable Diffusion Webui',
         click() {
-          easyDiffusion.showWin()
+          webui.showWin()
         },
       },
     ],

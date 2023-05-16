@@ -16,9 +16,9 @@ async function createWin() {
   win = new BrowserWindow({
     title: 'VIVY',
     width: 1200,
-    height: 800,
+    height: 850,
     minWidth: 1200,
-    minHeight: 800,
+    minHeight: 850,
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       webSecurity: false,
