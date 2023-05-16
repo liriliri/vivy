@@ -2,7 +2,6 @@ import { action, makeObservable, observable, runInAction } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
-import * as easyDiffusion from './lib/easyDiffusion'
 import * as webui from './lib/webui'
 
 enum TaskStatus {
@@ -72,11 +71,12 @@ class Store {
     negativePrompt: '',
     model: '',
     sampler: 'Euler a',
-    steps: 35,
+    steps: 20,
     seed: -1,
     width: 512,
     height: 512,
-    batchSize: 1,
+    batchSize: 2,
+    cfgScale: 7,
   }
   isReady = false
   models: string[] = []

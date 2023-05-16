@@ -8,4 +8,5 @@ interface ITxt2ImgOptions {
   steps: number
   batchSize: number
   model: string
+  cfgScale: number
 }

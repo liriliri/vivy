@@ -1,3 +1,9 @@
 .luna-setting {
   background: transparent;
 }
+
+.luna-setting-item {
+  &.luna-setting-selected:focus {
+    outline: none;
+  }
+}

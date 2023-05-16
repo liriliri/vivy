@@ -15,33 +15,61 @@ export default observer(function () {
     })
     autorun(() => {
       setting.clear()
-      setting.appendNumber('steps', store.txt2imgOptions.steps, 'steps', {})
       const txt2imgOptions = store.txt2imgOptions
-      setting.appendNumber('seed', txt2imgOptions.seed, 'Seed', {})
-      setting.appendNumber('width', txt2imgOptions.width, 'Width', {})
-      setting.appendNumber('height', txt2imgOptions.height, 'height', {})
-      setting.appendSelect('sampler', txt2imgOptions.sampler, 'Sampler', {
-        'Euler a': 'Euler a',
-        Euler: 'Euler',
-        LMS: 'LMS',
-        Heun: 'Heun',
-        DPM2: 'DPM2',
-        'DPM2 a': 'DPM2 a',
-        'DPM++ 2S a': 'DPM++ 2S a',
-        'DPM++ 2M': 'DPM++ 2M',
-        'DPM++ SDE': 'DPM++ SDE',
-        'DPM fast': 'DPM fast',
-        'DPM adaptive': 'DPM adaptive',
-        'LMS Karras': 'LMS Karras',
-        'DPM2 Karras': 'DPM2 Karras',
-        'DPM2 a Karras': 'DPM2 a Karras',
-        'DPM++ 2S a Karras': 'DPM++ 2S a Karras',
-        'DPM++ 2M Karras': 'DPM++ 2M Karras',
-        'DPM++ SDE Karras': 'DPM++ SDE Karras',
-        DDIM: 'DDIM',
-        PLMS: 'PLMS',
-        UniPC: 'UniPC',
+      setting.appendSelect(
+        'sampler',
+        txt2imgOptions.sampler,
+        'Sampling Method',
+        {
+          'Euler a': 'Euler a',
+          Euler: 'Euler',
+          LMS: 'LMS',
+          Heun: 'Heun',
+          DPM2: 'DPM2',
+          'DPM2 a': 'DPM2 a',
+          'DPM++ 2S a': 'DPM++ 2S a',
+          'DPM++ 2M': 'DPM++ 2M',
+          'DPM++ SDE': 'DPM++ SDE',
+          'DPM fast': 'DPM fast',
+          'DPM adaptive': 'DPM adaptive',
+          'LMS Karras': 'LMS Karras',
+          'DPM2 Karras': 'DPM2 Karras',
+          'DPM2 a Karras': 'DPM2 a Karras',
+          'DPM++ 2S a Karras': 'DPM++ 2S a Karras',
+          'DPM++ 2M Karras': 'DPM++ 2M Karras',
+          'DPM++ SDE Karras': 'DPM++ SDE Karras',
+          DDIM: 'DDIM',
+          PLMS: 'PLMS',
+          UniPC: 'UniPC',
+        }
+      )
+      setting.appendNumber('steps', txt2imgOptions.steps, 'Sampling Steps', {})
+      setting.appendNumber('width', txt2imgOptions.width, 'Width', {
+        range: true,
+        min: 64,
+        max: 2048,
       })
+      setting.appendNumber('height', txt2imgOptions.height, 'Height', {
+        range: true,
+        min: 64,
+        max: 2048,
+      })
+      setting.appendNumber(
+        'batchSize',
+        txt2imgOptions.batchSize,
+        'Batch Size',
+        {
+          range: true,
+          min: 1,
+          max: 8,
+        }
+      )
+      setting.appendNumber('cfgScale', txt2imgOptions.cfgScale, 'CFG Scale', {
+        range: true,
+        min: 1,
+        max: 30,
+      })
+      setting.appendNumber('seed', txt2imgOptions.seed, 'Seed', {})
     })
     return () => setting.destroy()
   }, [])
@@ -67,11 +95,8 @@ export default observer(function () {
             }}
           />
         </div>
-        <button
-          className="generate-image button"
-          onClick={() => store.createTask()}
-        >
-          Generate Image
+        <button className="generate button" onClick={() => store.createTask()}>
+          Generate
         </button>
       </div>
       <div ref={txt2imgOptionsRef} className="generate-setting"></div>

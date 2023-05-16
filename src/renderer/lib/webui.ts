@@ -90,7 +90,7 @@ export async function txt2img(
     batch_size: options.batchSize,
     n_iter: 1,
     steps: options.steps,
-    cfg_scale: 7.0,
+    cfg_scale: options.cfgScale,
     width: 512,
     height: 512,
     restore_faces: false,
