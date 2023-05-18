@@ -2,8 +2,12 @@
   background: var(--vivy-background);
   border-bottom: 1px solid var(--vivy-border);
   position: absolute;
-  height: 40px;
   left: 0;
   top: 0;
   right: 0;
+  .luna-toolbar-item-select {
+    select {
+      width: 200px;
+    }
+  }
 }

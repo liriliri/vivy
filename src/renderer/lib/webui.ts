@@ -18,6 +18,15 @@ type Progress = {
   textinfo: string
 }
 
+type StableDiffusionModel = {
+  title: string
+  model_name: string
+  hash: string
+  sha256: string
+  filename: string
+  config: string
+}
+
 type ApiRawResponse = {
   image?: string
   images?: string[]
@@ -97,7 +106,7 @@ export async function txt2img(
     tiling: false,
     do_not_save_samples: false,
     do_not_save_grid: false,
-    negative_prompt: '',
+    negative_prompt: options.negativePrompt,
     eta: 1.0,
     s_churn: 0,
     s_tmax: 0,
@@ -143,4 +152,9 @@ export async function waitForReady(
       }
     }, checkInterval * 1000)
   })
+}
+
+export async function getSdModels(): Promise<StableDiffusionModel[]> {
+  const response = await api.get<StableDiffusionModel[]>('/sdapi/v1/sd-models')
+  return response.data
 }

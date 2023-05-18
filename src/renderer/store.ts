@@ -2,6 +2,7 @@ import { action, makeObservable, observable, runInAction } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
+import map from 'licia/map'
 import * as webui from './lib/webui'
 
 enum TaskStatus {
@@ -65,6 +66,11 @@ class Task extends Emitter {
   }
 }
 
+interface IModel {
+  name: string
+  filename: string
+}
+
 class Store {
   txt2imgOptions: ITxt2ImgOptions = {
     prompt: 'a photograph of an astronaut riding a horse',
@@ -79,8 +85,8 @@ class Store {
     cfgScale: 7,
   }
   isReady = false
-  models: string[] = []
-  currentImage?: IImage
+  models: IModel[] = []
+  selectedImage?: IImage
   tasks: Task[] = []
   taskQueue: Task[] = []
   constructor() {
@@ -88,7 +94,8 @@ class Store {
       txt2imgOptions: observable,
       isReady: observable,
       tasks: observable,
-      currentImage: observable,
+      models: observable,
+      selectedImage: observable,
       checkReady: action,
       updateTxt2ImgOptions: action,
       createTask: action,
@@ -98,10 +105,20 @@ class Store {
     this.checkReady()
   }
   selectImage(image: IImage) {
-    this.currentImage = image
+    this.selectedImage = image
+  }
+  async getModels() {
+    const models = await webui.getSdModels()
+    this.models = map(models, (model) => {
+      return {
+        name: model.model_name,
+        filename: model.filename,
+      }
+    })
   }
   async checkReady() {
     await webui.waitForReady()
+    await this.getModels()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
