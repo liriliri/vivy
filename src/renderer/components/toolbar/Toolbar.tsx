@@ -18,7 +18,7 @@ export default function () {
         each(store.models, (model) => {
           options[model.name] = model.name
         })
-        toolbar.appendSelect('model', '', options)
+        toolbar.appendSelect('model', '', 'Model', options)
       } else {
         toolbar.appendSelect('model', 'loading', {
           loading: 'loading',
