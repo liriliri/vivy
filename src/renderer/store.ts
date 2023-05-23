@@ -73,12 +73,6 @@ class Task extends Emitter {
   }
 }
 
-interface IModel {
-  title: string
-  modelName: string
-  fileName: string
-}
-
 interface ITxt2ImgOptions {
   prompt: string
   negativePrompt: string
@@ -93,7 +87,7 @@ interface ITxt2ImgOptions {
 }
 
 interface IOptions {
-  selectedModel: string
+  model: string
 }
 
 class Store {
@@ -110,10 +104,10 @@ class Store {
     cfgScale: 7,
   }
   options: IOptions = {
-    selectedModel: '',
+    model: '',
   }
   isReady = false
-  models: IModel[] = []
+  models: string[] = []
   selectedImage?: IImage
   tasks: Task[] = []
   taskQueue: Task[] = []
@@ -123,14 +117,15 @@ class Store {
       isReady: observable,
       tasks: observable,
       models: observable,
+      options: observable,
       selectedImage: observable,
-      checkReady: action,
-      updateTxt2ImgOptions: action,
+      waitForReady: action,
+      setTxt2ImgOptions: action,
       createTask: action,
       selectImage: action,
     })
 
-    this.checkReady()
+    this.waitForReady()
   }
   selectImage(image: IImage) {
     this.selectedImage = image
@@ -138,28 +133,29 @@ class Store {
   async getOptions() {
     const options = await webui.getOptions()
     this.options = {
-      selectedModel: options.sd_model_checkpoint,
+      model: options.sd_model_checkpoint,
     }
   }
   async getModels() {
     const models = await webui.getSdModels()
-    this.models = map(models, (model) => {
-      return {
-        title: model.title,
-        modelName: model.model_name,
-        fileName: model.filename,
-      }
-    })
+    this.models = map(models, (model) => model.title)
   }
-  async checkReady() {
+  async waitForReady() {
     await webui.waitForReady()
     await this.getOptions()
     await this.getModels()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
-  updateTxt2ImgOptions(key, val) {
+  setTxt2ImgOptions(key, val) {
     this.txt2imgOptions[key] = val
+  }
+  async setOptions(key, val) {
+    const { options } = this
+    options[key] = val
+    await webui.setOptions({
+      sd_model_checkpoint: options.model,
+    })
   }
   async createTask() {
     const image = new Task(clone(this.txt2imgOptions))

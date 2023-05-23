@@ -176,3 +176,8 @@ export async function getOptions(): Promise<Options> {
   const response = await api.get('/sdapi/v1/options')
   return response.data
 }
+
+export async function setOptions(options: Options) {
+  const response = await api.post('/sdapi/v1/options', options)
+  return response.data
+}

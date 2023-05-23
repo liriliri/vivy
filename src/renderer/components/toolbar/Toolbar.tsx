@@ -11,14 +11,17 @@ export default function () {
 
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
+    toolbar.on('change', (key, val) => {
+      store.setOptions(key, val)
+    })
     autorun(() => {
       toolbar.clear()
       if (!isEmpty(store.models)) {
         const options = {}
         each(store.models, (model) => {
-          options[model.title] = model.title
+          options[model] = model
         })
-        toolbar.appendSelect('model', '', 'Model', options)
+        toolbar.appendSelect('model', store.options.model, 'Model', options)
       } else {
         toolbar.appendSelect('model', 'loading', {
           loading: 'loading',

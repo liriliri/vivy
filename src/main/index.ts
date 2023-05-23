@@ -15,9 +15,9 @@ let win: BrowserWindow | null = null
 async function createWin() {
   win = new BrowserWindow({
     title: 'VIVY',
-    width: 1200,
+    width: 1280,
     height: 850,
-    minWidth: 1200,
+    minWidth: 1280,
     minHeight: 850,
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),

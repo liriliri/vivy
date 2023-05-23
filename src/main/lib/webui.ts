@@ -56,10 +56,10 @@ export function showWin() {
     title: 'Easy Diffusion',
     minimizable: false,
     maximizable: false,
-    width: 1200,
+    width: 1280,
     height: 850,
     minHeight: 850,
-    minWidth: 1200,
+    minWidth: 1280,
   })
   webuiWin.setMenu(null)
   webuiWin.on('close', () => webuiWin?.destroy())

@@ -11,7 +11,7 @@ export default observer(function () {
   useEffect(() => {
     const setting = new LunaSetting(txt2imgOptionsRef.current as HTMLDivElement)
     setting.on('change', (key, val) => {
-      store.updateTxt2ImgOptions(key, val)
+      store.setTxt2ImgOptions(key, val)
     })
     autorun(() => {
       setting.clear()
@@ -82,7 +82,7 @@ export default observer(function () {
             placeholder="Prompt"
             value={store.txt2imgOptions.prompt}
             onChange={(e) => {
-              store.updateTxt2ImgOptions('prompt', e.target.value)
+              store.setTxt2ImgOptions('prompt', e.target.value)
             }}
           />
         </div>
@@ -91,7 +91,7 @@ export default observer(function () {
             placeholder="Negative Prompt"
             value={store.txt2imgOptions.negativePrompt}
             onChange={(e) => {
-              store.updateTxt2ImgOptions('negativePrompt', e.target.value)
+              store.setTxt2ImgOptions('negativePrompt', e.target.value)
             }}
           />
         </div>
