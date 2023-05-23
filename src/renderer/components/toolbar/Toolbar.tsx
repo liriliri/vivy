@@ -16,7 +16,7 @@ export default function () {
       if (!isEmpty(store.models)) {
         const options = {}
         each(store.models, (model) => {
-          options[model.name] = model.name
+          options[model.title] = model.title
         })
         toolbar.appendSelect('model', '', 'Model', options)
       } else {

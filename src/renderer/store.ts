@@ -44,7 +44,14 @@ class Task extends Emitter {
     const { txt2imgOptions } = this
     this.status = TaskStatus.Generating
     this.getProgress()
-    const result = await webui.txt2img(txt2imgOptions)
+    const result = await webui.txt2img({
+      prompt: txt2imgOptions.prompt,
+      negative_prompt: txt2imgOptions.negativePrompt,
+      batch_size: txt2imgOptions.batchSize,
+      steps: txt2imgOptions.steps,
+      sampler_name: txt2imgOptions.sampler,
+      cfg_scale: txt2imgOptions.cfgScale,
+    })
     this.progress = 100
     this.status = TaskStatus.Complete
     this.emit('complete')
@@ -67,8 +74,26 @@ class Task extends Emitter {
 }
 
 interface IModel {
-  name: string
-  filename: string
+  title: string
+  modelName: string
+  fileName: string
+}
+
+interface ITxt2ImgOptions {
+  prompt: string
+  negativePrompt: string
+  sampler: string
+  seed: number
+  width: number
+  height: number
+  steps: number
+  batchSize: number
+  model: string
+  cfgScale: number
+}
+
+interface IOptions {
+  selectedModel: string
 }
 
 class Store {
@@ -83,6 +108,9 @@ class Store {
     height: 512,
     batchSize: 2,
     cfgScale: 7,
+  }
+  options: IOptions = {
+    selectedModel: '',
   }
   isReady = false
   models: IModel[] = []
@@ -107,17 +135,25 @@ class Store {
   selectImage(image: IImage) {
     this.selectedImage = image
   }
+  async getOptions() {
+    const options = await webui.getOptions()
+    this.options = {
+      selectedModel: options.sd_model_checkpoint,
+    }
+  }
   async getModels() {
     const models = await webui.getSdModels()
     this.models = map(models, (model) => {
       return {
-        name: model.model_name,
-        filename: model.filename,
+        title: model.title,
+        modelName: model.model_name,
+        fileName: model.filename,
       }
     })
   }
   async checkReady() {
     await webui.waitForReady()
+    await this.getOptions()
     await this.getModels()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()

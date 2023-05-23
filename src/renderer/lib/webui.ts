@@ -18,6 +18,10 @@ type Progress = {
   textinfo: string
 }
 
+type Options = {
+  sd_model_checkpoint: string
+}
+
 type StableDiffusionModel = {
   title: string
   model_name: string
@@ -33,6 +37,15 @@ type ApiRawResponse = {
   info?: any
   html_info?: any
   parameters?: any
+}
+
+type Txt2ImgOptions = {
+  prompt: string
+  negative_prompt: string
+  batch_size: number
+  steps: number
+  cfg_scale: number
+  sampler_name: string
 }
 
 type AxiosApiRawResponse = AxiosResponse<ApiRawResponse>
@@ -77,7 +90,7 @@ class StableDiffusionResult {
 }
 
 export async function txt2img(
-  options: ITxt2ImgOptions
+  options: Txt2ImgOptions
 ): Promise<StableDiffusionResult> {
   const response = await api.post<ApiRawResponse>('/sdapi/v1/txt2img', {
     enable_hr: false,
@@ -96,17 +109,17 @@ export async function txt2img(
     subseed_strength: 0.0,
     seed_resize_from_h: 0,
     seed_resize_from_w: 0,
-    batch_size: options.batchSize,
+    batch_size: options.batch_size,
     n_iter: 1,
     steps: options.steps,
-    cfg_scale: options.cfgScale,
+    cfg_scale: options.cfg_scale,
     width: 512,
     height: 512,
     restore_faces: false,
     tiling: false,
     do_not_save_samples: false,
     do_not_save_grid: false,
-    negative_prompt: options.negativePrompt,
+    negative_prompt: options.negative_prompt,
     eta: 1.0,
     s_churn: 0,
     s_tmax: 0,
@@ -118,7 +131,7 @@ export async function txt2img(
     script_name: null,
     send_images: true,
     save_images: false,
-    sampler_name: options.sampler,
+    sampler_name: options.sampler_name,
     use_deprecated_controlnet: false,
   })
   return new StableDiffusionResult(response)
@@ -156,5 +169,10 @@ export async function waitForReady(
 
 export async function getSdModels(): Promise<StableDiffusionModel[]> {
   const response = await api.get<StableDiffusionModel[]>('/sdapi/v1/sd-models')
+  return response.data
+}
+
+export async function getOptions(): Promise<Options> {
+  const response = await api.get('/sdapi/v1/options')
   return response.data
 }
