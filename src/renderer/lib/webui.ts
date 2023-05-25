@@ -48,6 +48,12 @@ type Txt2ImgOptions = {
   sampler_name: string
 }
 
+type Sampler = {
+  name: string
+  aliases: string[]
+  options: Record<string, unknown>
+}
+
 type AxiosApiRawResponse = AxiosResponse<ApiRawResponse>
 
 const api = axios.create({
@@ -179,5 +185,10 @@ export async function getOptions(): Promise<Options> {
 
 export async function setOptions(options: Options) {
   const response = await api.post('/sdapi/v1/options', options)
+  return response.data
+}
+
+export async function getSamplers(): Promise<Sampler[]> {
+  const response = await api.get<Sampler[]>('/sdapi/v1/samplers')
   return response.data
 }

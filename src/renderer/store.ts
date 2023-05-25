@@ -108,6 +108,7 @@ class Store {
   }
   isReady = false
   models: string[] = []
+  samplers: string[] = []
   selectedImage?: IImage
   tasks: Task[] = []
   taskQueue: Task[] = []
@@ -117,6 +118,7 @@ class Store {
       isReady: observable,
       tasks: observable,
       models: observable,
+      samplers: observable,
       options: observable,
       selectedImage: observable,
       waitForReady: action,
@@ -136,6 +138,10 @@ class Store {
       model: options.sd_model_checkpoint,
     }
   }
+  async getSamplers() {
+    const samplers = await webui.getSamplers()
+    this.samplers = map(samplers, (sampler) => sampler.name)
+  }
   async getModels() {
     const models = await webui.getSdModels()
     this.models = map(models, (model) => model.title)
@@ -144,6 +150,7 @@ class Store {
     await webui.waitForReady()
     await this.getOptions()
     await this.getModels()
+    await this.getSamplers()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }

@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite'
 import store from '../../store'
 import './Sidebar.scss'
 import { autorun } from 'mobx'
+import isEmpty from 'licia/isEmpty'
+import each from 'licia/each'
 
 export default observer(function () {
   const txt2imgOptionsRef = useRef<HTMLDivElement>(null)
@@ -16,33 +18,22 @@ export default observer(function () {
     autorun(() => {
       setting.clear()
       const txt2imgOptions = store.txt2imgOptions
-      setting.appendSelect(
-        'sampler',
-        txt2imgOptions.sampler,
-        'Sampling Method',
-        {
-          'Euler a': 'Euler a',
-          Euler: 'Euler',
-          LMS: 'LMS',
-          Heun: 'Heun',
-          DPM2: 'DPM2',
-          'DPM2 a': 'DPM2 a',
-          'DPM++ 2S a': 'DPM++ 2S a',
-          'DPM++ 2M': 'DPM++ 2M',
-          'DPM++ SDE': 'DPM++ SDE',
-          'DPM fast': 'DPM fast',
-          'DPM adaptive': 'DPM adaptive',
-          'LMS Karras': 'LMS Karras',
-          'DPM2 Karras': 'DPM2 Karras',
-          'DPM2 a Karras': 'DPM2 a Karras',
-          'DPM++ 2S a Karras': 'DPM++ 2S a Karras',
-          'DPM++ 2M Karras': 'DPM++ 2M Karras',
-          'DPM++ SDE Karras': 'DPM++ SDE Karras',
-          DDIM: 'DDIM',
-          PLMS: 'PLMS',
-          UniPC: 'UniPC',
-        }
-      )
+      if (!isEmpty(store.samplers)) {
+        const options = {}
+        each(store.samplers, (sampler) => {
+          options[sampler] = sampler
+        })
+        setting.appendSelect(
+          'sampler',
+          txt2imgOptions.sampler,
+          'Sampling Method',
+          options
+        )
+      } else {
+        setting.appendSelect('sampler', 'loading', 'Sampling Method', {
+          loading: 'loading',
+        })
+      }
       setting.appendNumber('steps', txt2imgOptions.steps, 'Sampling Steps', {})
       setting.appendNumber('width', txt2imgOptions.width, 'Width', {
         range: true,
