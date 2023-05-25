@@ -51,6 +51,8 @@ class Task extends Emitter {
       steps: txt2imgOptions.steps,
       sampler_name: txt2imgOptions.sampler,
       cfg_scale: txt2imgOptions.cfgScale,
+      width: txt2imgOptions.width,
+      height: txt2imgOptions.height,
     })
     this.progress = 100
     this.status = TaskStatus.Complete

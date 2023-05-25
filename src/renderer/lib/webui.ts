@@ -46,6 +46,8 @@ type Txt2ImgOptions = {
   steps: number
   cfg_scale: number
   sampler_name: string
+  width: number
+  height: number
 }
 
 type Sampler = {
@@ -119,8 +121,8 @@ export async function txt2img(
     n_iter: 1,
     steps: options.steps,
     cfg_scale: options.cfg_scale,
-    width: 512,
-    height: 512,
+    width: options.width,
+    height: options.height,
     restore_faces: false,
     tiling: false,
     do_not_save_samples: false,
