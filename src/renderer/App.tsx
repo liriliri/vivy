@@ -5,6 +5,7 @@ import Statusbar from './components/statusbar/Statusbar'
 import './App.scss'
 import 'luna-setting/luna-setting.css'
 import 'luna-toolbar/luna-toolbar.css'
+import 'luna-image-viewer/luna-image-viewer.css'
 import './luna.scss'
 
 export default function App() {

@@ -34,6 +34,7 @@
     "electron-builder": "^23.6.0",
     "execa": "^7.1.1",
     "licia": "^1.38.1",
+    "luna-image-viewer": "^0.1.1",
     "luna-setting": "^0.7.0",
     "luna-toolbar": "^0.2.2",
     "mobx": "^6.9.0",
