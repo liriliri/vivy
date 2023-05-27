@@ -13,7 +13,7 @@
     "build:preload": "vite build --config vite.preload.ts",
     "build:renderer": "vite build",
     "start": "electron ./dist/main/index.js",
-    "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss}\" \"*.{ts,json}\" --write",
+    "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css}\" \"*.{ts,json}\" --write",
     "genIcon": "lsla genIcon --input src/renderer/icon --output src/renderer/icon.css --name vivy-icon && lsla prettier src/renderer/icon.css --write"
   },
   "repository": {

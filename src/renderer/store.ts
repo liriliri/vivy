@@ -58,7 +58,7 @@ class Task extends Emitter {
     this.status = TaskStatus.Complete
     this.emit('complete')
     for (let i = 0; i < txt2imgOptions.batchSize; i++) {
-      this.images[i].data = `data:image/png;base64,${result.images[i]}`
+      this.images[i].data = result.images[i]
     }
   }
   async getProgress() {

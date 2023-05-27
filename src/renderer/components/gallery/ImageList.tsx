@@ -14,7 +14,7 @@ export default observer(function () {
             key={image.id}
             onClick={() => store.selectImage(image)}
           >
-            <img src={image.data} />
+            <img src={`data:image/png;base64,${image.data}`} />
           </div>
         )
       } else {

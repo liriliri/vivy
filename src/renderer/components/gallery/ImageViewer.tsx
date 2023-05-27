@@ -3,9 +3,12 @@ import { useEffect, useRef } from 'react'
 import store from '../../store'
 import LunaImageViewer from 'luna-image-viewer'
 import LunaToolbar from 'luna-toolbar'
+import download from 'licia/download'
+import mime from 'licia/mime'
 import './ImageViewer.scss'
+import convertBin from 'licia/convertBin'
 import { autorun } from 'mobx'
-import { toolbarIcon } from '../../lib/luna'
+import { toolbarIcon, toolbarSpace } from '../../lib/luna'
 
 export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -24,6 +27,16 @@ export default observer(function () {
     toolbar.appendHtml(
       toolbarIcon('rotate-right', () => imageViewer.rotate(90))
     )
+    toolbarSpace(toolbar)
+    toolbar.appendHtml(
+      toolbarIcon('save', () => {
+        if (store.selectedImage) {
+          const { selectedImage } = store
+          const blob = convertBin(selectedImage.data, 'Blob')
+          download(blob, `image-${selectedImage.id}.png`, mime('png'))
+        }
+      })
+    )
     return () => toolbar.destroy()
   }, [])
 
@@ -33,7 +46,10 @@ export default observer(function () {
     })
     autorun(() => {
       if (store.selectedImage) {
-        imageViewer.setOption('image', store.selectedImage.data)
+        imageViewer.setOption(
+          'image',
+          `data:image/png;base64,${store.selectedImage.data}`
+        )
       }
     })
     return () => imageViewer.destroy()
