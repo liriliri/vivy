@@ -1,7 +1,7 @@
 import types from 'licia/types'
 import h from 'licia/h'
 
-export function createToolbarIcon(iconName: string, handler: types.anyFn) {
+export function toolbarIcon(iconName: string, handler: types.AnyFn) {
   return h(
     '.icon',
     {},

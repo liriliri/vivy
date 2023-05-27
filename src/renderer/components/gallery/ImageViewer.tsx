@@ -5,7 +5,7 @@ import LunaImageViewer from 'luna-image-viewer'
 import LunaToolbar from 'luna-toolbar'
 import './ImageViewer.scss'
 import { autorun } from 'mobx'
-import { createToolbarIcon } from '../../lib/luna'
+import { toolbarIcon } from '../../lib/luna'
 
 export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -15,12 +15,8 @@ export default observer(function () {
 
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
-    toolbar.appendHtml(
-      createToolbarIcon('zoom-in', () => imageViewer.zoom(0.1))
-    )
-    toolbar.appendHtml(
-      createToolbarIcon('zoom-out', () => imageViewer.zoom(-0.1))
-    )
+    toolbar.appendHtml(toolbarIcon('zoom-in', () => imageViewer.zoom(0.1)))
+    toolbar.appendHtml(toolbarIcon('zoom-out', () => imageViewer.zoom(-0.1)))
     return () => toolbar.destroy()
   }, [])
 
