@@ -10,4 +10,17 @@
 
 .luna-image-viewer {
   border: none;
+  background: transparent;
+}
+
+.luna-toolbar {
+  background: var(--vivy-background);
+  border-bottom: 1px solid var(--vivy-border);
+  .icon {
+    display: flex;
+    align-items: center;
+    &:hover {
+      color: var(--vivy-primary);
+    }
+  }
 }
