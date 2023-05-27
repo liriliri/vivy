@@ -15,8 +15,15 @@ export default observer(function () {
 
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
+    toolbar.appendHtml(toolbarIcon('reset', () => imageViewer.reset()))
     toolbar.appendHtml(toolbarIcon('zoom-in', () => imageViewer.zoom(0.1)))
     toolbar.appendHtml(toolbarIcon('zoom-out', () => imageViewer.zoom(-0.1)))
+    toolbar.appendHtml(
+      toolbarIcon('rotate-left', () => imageViewer.rotate(-90))
+    )
+    toolbar.appendHtml(
+      toolbarIcon('rotate-right', () => imageViewer.rotate(90))
+    )
     return () => toolbar.destroy()
   }, [])
 
