@@ -2,7 +2,9 @@ import { action, makeObservable, observable, runInAction } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
+import remove from 'licia/remove'
 import map from 'licia/map'
+import idxOf from 'licia/idxOf'
 import * as webui from './lib/webui'
 
 enum TaskStatus {
@@ -11,7 +13,7 @@ enum TaskStatus {
   Complete,
 }
 
-interface IImage {
+export interface IImage {
   id: string
   data: string
 }
@@ -56,10 +58,10 @@ class Task extends Emitter {
     })
     this.progress = 100
     this.status = TaskStatus.Complete
-    this.emit('complete')
     for (let i = 0; i < txt2imgOptions.batchSize; i++) {
       this.images[i].data = result.images[i]
     }
+    this.emit('complete', this.images)
   }
   async getProgress() {
     const result = await webui.getProgress()
@@ -111,9 +113,9 @@ class Store {
   isReady = false
   models: string[] = []
   samplers: string[] = []
+  images: IImage[] = []
   selectedImage?: IImage
   tasks: Task[] = []
-  taskQueue: Task[] = []
   constructor() {
     makeObservable(this, {
       txt2imgOptions: observable,
@@ -121,18 +123,31 @@ class Store {
       tasks: observable,
       models: observable,
       samplers: observable,
+      images: observable,
       options: observable,
       selectedImage: observable,
       waitForReady: action,
       setTxt2ImgOptions: action,
       createTask: action,
       selectImage: action,
+      deleteImage: action,
     })
 
     this.waitForReady()
   }
-  selectImage(image: IImage) {
+  selectImage(image?: IImage) {
     this.selectedImage = image
+  }
+  deleteImage(image: IImage) {
+    const { images, selectedImage } = this
+    if (image === selectedImage) {
+      let idx = idxOf(images, selectedImage) + 1
+      if (idx === images.length) {
+        idx -= 2
+      }
+      this.selectImage(images[idx])
+    }
+    remove(images, (item) => item === image)
   }
   async getOptions() {
     const options = await webui.getOptions()
@@ -169,22 +184,24 @@ class Store {
   async createTask() {
     const image = new Task(clone(this.txt2imgOptions))
     this.tasks.push(image)
-    this.taskQueue.push(image)
     this.doCreateTask()
   }
   doCreateTask() {
     if (!this.isReady) {
       return
     }
-    const task = this.taskQueue[0]
+    const task = this.tasks[0]
     if (task) {
       switch (task.status) {
         case TaskStatus.Complete:
-          this.taskQueue.shift()
+          this.tasks.shift()
           this.doCreateTask()
           break
         case TaskStatus.Wait:
-          task.on('complete', () => this.doCreateTask())
+          task.on('complete', (images) => {
+            this.images.push(...images)
+            this.doCreateTask()
+          })
           task.run()
           break
         case TaskStatus.Generating:

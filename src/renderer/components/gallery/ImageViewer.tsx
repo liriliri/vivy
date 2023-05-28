@@ -18,24 +18,44 @@ export default observer(function () {
 
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
-    toolbar.appendHtml(toolbarIcon('reset', () => imageViewer.reset()))
-    toolbar.appendHtml(toolbarIcon('zoom-in', () => imageViewer.zoom(0.1)))
-    toolbar.appendHtml(toolbarIcon('zoom-out', () => imageViewer.zoom(-0.1)))
     toolbar.appendHtml(
-      toolbarIcon('rotate-left', () => imageViewer.rotate(-90))
+      toolbarIcon(
+        'save',
+        () => {
+          if (store.selectedImage) {
+            const { selectedImage } = store
+            const blob = convertBin(selectedImage.data, 'Blob')
+            download(blob, `image-${selectedImage.id}.png`, mime('png'))
+          }
+        },
+        'Save'
+      )
+    )
+    toolbar.appendSeparator()
+    toolbar.appendHtml(toolbarIcon('reset', () => imageViewer.reset(), 'Reset'))
+    toolbar.appendHtml(
+      toolbarIcon('zoom-in', () => imageViewer.zoom(0.1), 'Zoom In')
     )
     toolbar.appendHtml(
-      toolbarIcon('rotate-right', () => imageViewer.rotate(90))
+      toolbarIcon('zoom-out', () => imageViewer.zoom(-0.1), 'Zoom Out')
+    )
+    toolbar.appendHtml(
+      toolbarIcon('rotate-left', () => imageViewer.rotate(-90), 'Rotate Left')
+    )
+    toolbar.appendHtml(
+      toolbarIcon('rotate-right', () => imageViewer.rotate(90), 'Rotate Right')
     )
     toolbarSpace(toolbar)
     toolbar.appendHtml(
-      toolbarIcon('save', () => {
-        if (store.selectedImage) {
-          const { selectedImage } = store
-          const blob = convertBin(selectedImage.data, 'Blob')
-          download(blob, `image-${selectedImage.id}.png`, mime('png'))
-        }
-      })
+      toolbarIcon(
+        'delete',
+        () => {
+          if (store.selectedImage) {
+            store.deleteImage(store.selectedImage)
+          }
+        },
+        'Delete'
+      )
     )
     return () => toolbar.destroy()
   }, [])
@@ -50,6 +70,8 @@ export default observer(function () {
           'image',
           `data:image/png;base64,${store.selectedImage.data}`
         )
+      } else {
+        imageViewer.setOption('image', '')
       }
     })
     return () => imageViewer.destroy()
