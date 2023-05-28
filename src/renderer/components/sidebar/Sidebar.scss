@@ -18,10 +18,22 @@
 .negative-prompt {
   margin-bottom: 8px;
   textarea {
-    height: 80px;
     padding: 6px;
+    font-size: 12px;
     resize: none;
     width: 100%;
+  }
+}
+
+.prompt {
+  textarea {
+    height: 100px;
+  }
+}
+
+.negative-prompt {
+  textarea {
+    height: 60px;
   }
 }
 

@@ -71,6 +71,7 @@ export default observer(function () {
         <div className="prompt">
           <textarea
             placeholder="Prompt"
+            spellCheck="false"
             value={store.txt2imgOptions.prompt}
             onChange={(e) => {
               store.setTxt2ImgOptions('prompt', e.target.value)
@@ -80,6 +81,7 @@ export default observer(function () {
         <div className="negative-prompt">
           <textarea
             placeholder="Negative Prompt"
+            spellCheck="false"
             value={store.txt2imgOptions.negativePrompt}
             onChange={(e) => {
               store.setTxt2ImgOptions('negativePrompt', e.target.value)
