@@ -130,6 +130,7 @@ class Store {
       setTxt2ImgOptions: action,
       createTask: action,
       selectImage: action,
+      deleteAllImages: action,
       deleteImage: action,
     })
 
@@ -148,6 +149,10 @@ class Store {
       this.selectImage(images[idx])
     }
     remove(images, (item) => item === image)
+  }
+  deleteAllImages() {
+    this.selectImage()
+    this.images = []
   }
   async getOptions() {
     const options = await webui.getOptions()

@@ -1,7 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import each from 'licia/each'
+import LunaToolbar from 'luna-toolbar'
 import store, { IImage } from '../../store'
 import './ImageList.scss'
+import { useEffect, useRef } from 'react'
+import { toolbarIcon, toolbarSpace } from '../../lib/luna'
 
 function Image(image: IImage) {
   return (
@@ -16,10 +19,14 @@ function Image(image: IImage) {
 }
 
 export default observer(function () {
+  const toolbarRef = useRef<HTMLDivElement>(null)
+
   const images: JSX.Element[] = []
+
   each(store.images, (image) => {
     images.push(Image(image))
   })
+
   each(store.tasks, (task) => {
     each(task.images, (image) => {
       if (image.data) {
@@ -34,5 +41,27 @@ export default observer(function () {
     })
   })
 
-  return <div id="image-list">{images}</div>
+  useEffect(() => {
+    const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
+
+    toolbarSpace(toolbar)
+    toolbar.appendHtml(
+      toolbarIcon(
+        'delete-all',
+        () => {
+          store.deleteAllImages()
+        },
+        'Delete All'
+      )
+    )
+
+    return () => toolbar.destroy()
+  }, [])
+
+  return (
+    <div id="image-list">
+      <div className="image-list-toolbar" ref={toolbarRef}></div>
+      <div className="image-list-body">{images}</div>
+    </div>
+  )
 })
