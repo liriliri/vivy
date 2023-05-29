@@ -29,6 +29,11 @@ export default function () {
           })
           .disable()
       }
+      toolbar.appendSpace()
+      toolbar.appendSelect('mode', 'txt2img', 'Mode', {
+        'Text to Image': 'txt2img',
+        'Image to Image': 'img2img',
+      })
     })
     return () => toolbar.destroy()
   }, [])

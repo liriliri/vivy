@@ -160,7 +160,9 @@ class Store {
     this.images = []
   }
   async interrupt() {
-    await webui.interrupt()
+    if (this.tasks.length > 0) {
+      await webui.interrupt()
+    }
   }
   async getOptions() {
     const options = await webui.getOptions()
