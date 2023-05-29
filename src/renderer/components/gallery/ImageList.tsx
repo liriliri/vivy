@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import each from 'licia/each'
+import className from 'licia/className'
 import LunaToolbar from 'luna-toolbar'
 import store, { IImage, TaskStatus } from '../../store'
 import './ImageList.scss'
@@ -9,7 +10,9 @@ import { toolbarIcon } from '../../lib/luna'
 function Image(image: IImage) {
   return (
     <div
-      className="image-item"
+      className={className('image-item', {
+        selected: image === store.selectedImage,
+      })}
       key={image.id}
       onClick={() => store.selectImage(image)}
     >
@@ -52,6 +55,15 @@ export default observer(function () {
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
 
+    toolbar.appendHtml(
+      toolbarIcon(
+        'pause',
+        () => {
+          store.interrupt()
+        },
+        'Interrupt'
+      )
+    )
     toolbar.appendSpace()
     toolbar.appendSeparator()
     toolbar.appendHtml(

@@ -194,3 +194,7 @@ export async function getSamplers(): Promise<Sampler[]> {
   const response = await api.get<Sampler[]>('/sdapi/v1/samplers')
   return response.data
 }
+
+export async function interrupt() {
+  await api.post('/sdapi/v1/interrupt')
+}

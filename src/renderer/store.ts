@@ -23,7 +23,8 @@ class Task extends Emitter {
   status = TaskStatus.Wait
   images: IImage[] = []
   progress = 0
-  txt2imgOptions: ITxt2ImgOptions
+  private txt2imgOptions: ITxt2ImgOptions
+  private progressTimer?: NodeJS.Timeout
   constructor(txt2imgOptions: ITxt2ImgOptions) {
     super()
 
@@ -59,6 +60,9 @@ class Task extends Emitter {
     })
     this.progress = 100
     this.status = TaskStatus.Complete
+    if (this.progressTimer) {
+      clearTimeout(this.progressTimer)
+    }
     for (let i = 0; i < txt2imgOptions.batchSize; i++) {
       this.images[i].data = result.images[i]
     }
@@ -73,7 +77,7 @@ class Task extends Emitter {
     })
 
     if (this.status !== TaskStatus.Complete) {
-      setTimeout(() => this.getProgress(), 1000)
+      this.progressTimer = setTimeout(() => this.getProgress(), 1000)
     }
   }
 }
@@ -154,6 +158,9 @@ class Store {
   deleteAllImages() {
     this.selectImage()
     this.images = []
+  }
+  async interrupt() {
+    await webui.interrupt()
   }
   async getOptions() {
     const options = await webui.getOptions()
