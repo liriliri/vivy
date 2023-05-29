@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import each from 'licia/each'
 import LunaToolbar from 'luna-toolbar'
-import store, { IImage } from '../../store'
+import store, { IImage, TaskStatus } from '../../store'
 import './ImageList.scss'
 import { useEffect, useRef } from 'react'
 import { toolbarIcon } from '../../lib/luna'
@@ -32,11 +32,19 @@ export default observer(function () {
       if (image.data) {
         images.push(Image(image))
       } else {
-        images.push(
-          <div className="image-item" key={image.id}>
-            {task.progress}%
-          </div>
-        )
+        if (task.status === TaskStatus.Wait) {
+          images.push(
+            <div className="image-item" key={image.id}>
+              <span className="icon-image"></span>
+            </div>
+          )
+        } else {
+          images.push(
+            <div className="image-item" key={image.id}>
+              {task.progress}%
+            </div>
+          )
+        }
       }
     })
   })

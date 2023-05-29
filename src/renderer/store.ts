@@ -7,7 +7,7 @@ import map from 'licia/map'
 import idxOf from 'licia/idxOf'
 import * as webui from './lib/webui'
 
-enum TaskStatus {
+export enum TaskStatus {
   Wait,
   Generating,
   Complete,
@@ -30,6 +30,7 @@ class Task extends Emitter {
     makeObservable(this, {
       images: observable,
       progress: observable,
+      status: observable,
       getProgress: action,
       run: action,
     })
