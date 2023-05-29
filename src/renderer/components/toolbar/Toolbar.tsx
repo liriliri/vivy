@@ -23,9 +23,11 @@ export default function () {
         })
         toolbar.appendSelect('model', store.options.model, 'Model', options)
       } else {
-        toolbar.appendSelect('model', 'loading', {
-          loading: 'loading',
-        })
+        toolbar
+          .appendSelect('model', 'loading', {
+            loading: 'loading',
+          })
+          .disable()
       }
     })
     return () => toolbar.destroy()

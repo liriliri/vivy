@@ -16,10 +16,3 @@ export function toolbarIcon(
     })
   )
 }
-
-export function toolbarSpace(toolbar: LunaToolbar) {
-  const item = toolbar.appendHtml('')
-  item.$container.css({
-    flexGrow: '1',
-  })
-}

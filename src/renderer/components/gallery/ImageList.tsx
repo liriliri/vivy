@@ -4,7 +4,7 @@ import LunaToolbar from 'luna-toolbar'
 import store, { IImage } from '../../store'
 import './ImageList.scss'
 import { useEffect, useRef } from 'react'
-import { toolbarIcon, toolbarSpace } from '../../lib/luna'
+import { toolbarIcon } from '../../lib/luna'
 
 function Image(image: IImage) {
   return (
@@ -44,7 +44,8 @@ export default observer(function () {
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
 
-    toolbarSpace(toolbar)
+    toolbar.appendSpace()
+    toolbar.appendSeparator()
     toolbar.appendHtml(
       toolbarIcon(
         'delete-all',
