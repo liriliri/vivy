@@ -5,7 +5,7 @@ import LunaToolbar from 'luna-toolbar'
 import store, { IImage, TaskStatus } from '../../store'
 import './ImageList.scss'
 import { useEffect, useRef } from 'react'
-import { toolbarIcon } from '../../lib/luna'
+import { toolbarIcon } from '../../../lib/luna'
 
 function Image(image: IImage) {
   return (

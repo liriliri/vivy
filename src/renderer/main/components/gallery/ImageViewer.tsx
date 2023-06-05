@@ -8,7 +8,7 @@ import mime from 'licia/mime'
 import './ImageViewer.scss'
 import convertBin from 'licia/convertBin'
 import { autorun } from 'mobx'
-import { toolbarIcon } from '../../lib/luna'
+import { toolbarIcon } from '../../../lib/luna'
 
 export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)

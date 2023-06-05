@@ -5,7 +5,7 @@ import Emitter from 'licia/Emitter'
 import remove from 'licia/remove'
 import map from 'licia/map'
 import idxOf from 'licia/idxOf'
-import * as webui from './lib/webui'
+import * as webui from '../lib/webui'
 
 export enum TaskStatus {
   Wait,
