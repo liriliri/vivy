@@ -8,7 +8,7 @@ export function getWin() {
   return win
 }
 
-export function create() {
+export function showWin() {
   win = new BrowserWindow({
     title: 'VIVY',
     width: 1280,

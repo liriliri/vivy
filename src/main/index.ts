@@ -2,7 +2,7 @@ import { app } from 'electron'
 import * as webui from './lib/webui'
 import * as menu from './lib/menu'
 import * as ipc from './lib/ipc'
-import * as mainWin from './lib/mainWin'
+import * as main from './lib/main'
 
 if (!app.requestSingleInstanceLock()) {
   app.quit()
@@ -14,12 +14,12 @@ app.setName('Vivy')
 app.on('ready', () => {
   webui.start()
   ipc.init()
-  mainWin.create()
+  main.showWin()
   menu.init()
 })
 
 app.on('second-instance', () => {
-  const win = mainWin.getWin()
+  const win = main.getWin()
   if (win) {
     if (win.isMaximized()) {
       win.restore()

@@ -45,14 +45,14 @@ export async function start() {
   })
 }
 
-let webuiWin: BrowserWindow | null = null
+let win: BrowserWindow | null = null
 
 export function showWin() {
-  if (webuiWin && !webuiWin.isDestroyed()) {
-    webuiWin.focus()
+  if (win && !win.isDestroyed()) {
+    win.focus()
     return
   }
-  webuiWin = new BrowserWindow({
+  win = new BrowserWindow({
     title: 'Easy Diffusion',
     minimizable: false,
     maximizable: false,
@@ -61,7 +61,7 @@ export function showWin() {
     minHeight: 850,
     minWidth: 1280,
   })
-  webuiWin.setMenu(null)
-  webuiWin.on('close', () => webuiWin?.destroy())
-  webuiWin.loadURL(`http://localhost:${getPort()}`)
+  win.setMenu(null)
+  win.on('close', () => win?.destroy())
+  win.loadURL(`http://localhost:${getPort()}`)
 }

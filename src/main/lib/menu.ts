@@ -1,5 +1,6 @@
 import { Menu, MenuItemConstructorOptions, app } from 'electron'
 import * as webui from './webui'
+import * as prompt from './prompt'
 import { isMac } from './util'
 
 function getTemplate(): MenuItemConstructorOptions[] {
@@ -23,6 +24,12 @@ function getTemplate(): MenuItemConstructorOptions[] {
   const tools = {
     label: 'Tools',
     submenu: [
+      {
+        label: 'Prompt Builder',
+        click() {
+          prompt.showWin()
+        },
+      },
       {
         label: 'Stable Diffusion Webui',
         click() {

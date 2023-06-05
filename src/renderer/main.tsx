@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { isDev } from './lib/util'
 import hotKey from 'licia/hotkey'
 import MainApp from './main/App'
+import PromptApp from './prompt/App'
 import './main.scss'
 import './icon.css'
 import 'luna-setting/luna-setting.css'
@@ -10,7 +11,14 @@ import 'luna-image-viewer/luna-image-viewer.css'
 import './luna.scss'
 
 const container: HTMLElement = document.getElementById('app') as HTMLElement
-const app = <MainApp />
+
+let app = <MainApp />
+switch (location.pathname) {
+  case '/prompt':
+    app = <PromptApp />
+    document.title = 'Prompt Builder'
+    break
+}
 
 ReactDOM.createRoot(container).render(app)
 
