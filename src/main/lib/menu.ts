@@ -1,6 +1,7 @@
 import { Menu, MenuItemConstructorOptions, app } from 'electron'
 import * as webui from './webui'
 import * as prompt from './prompt'
+import * as model from './model'
 import { isMac } from './util'
 
 function getTemplate(): MenuItemConstructorOptions[] {
@@ -13,10 +14,19 @@ function getTemplate(): MenuItemConstructorOptions[] {
     label: 'Edit',
     submenu: [
       {
+        role: 'cut',
+      },
+      {
         role: 'copy',
       },
       {
         role: 'paste',
+      },
+      {
+        role: 'delete',
+      },
+      {
+        role: 'selectAll',
       },
     ],
   }
@@ -24,6 +34,12 @@ function getTemplate(): MenuItemConstructorOptions[] {
   const tools = {
     label: 'Tools',
     submenu: [
+      {
+        label: 'Model Manager',
+        click() {
+          model.showWin()
+        },
+      },
       {
         label: 'Prompt Builder',
         click() {
@@ -48,9 +64,9 @@ function getTemplate(): MenuItemConstructorOptions[] {
     ],
   }
 
-  const template = [edit, tools, help]
+  const template = [tools, help]
   if (isMac()) {
-    template.unshift(vivy)
+    template.unshift(edit, vivy)
   }
   return template
 }

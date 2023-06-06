@@ -3,6 +3,7 @@ import { isDev } from './lib/util'
 import hotKey from 'licia/hotkey'
 import MainApp from './main/App'
 import PromptApp from './prompt/App'
+import ModelApp from './model/App'
 import './main.scss'
 import './icon.css'
 import 'luna-setting/luna-setting.css'
@@ -17,6 +18,10 @@ switch (location.pathname) {
   case '/prompt':
     app = <PromptApp />
     document.title = 'Prompt Builder'
+    break
+  case '/model':
+    app = <ModelApp />
+    document.title = 'Model Manager'
     break
 }
 
