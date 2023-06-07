@@ -12,10 +12,10 @@ export function showWin() {
 
   win = new BrowserWindow({
     title: 'Prompt Builder',
-    width: 1280,
-    height: 850,
-    minWidth: 1280,
-    minHeight: 850,
+    width: 960,
+    height: 640,
+    minWidth: 960,
+    minHeight: 640,
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       webSecurity: false,

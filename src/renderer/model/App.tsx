@@ -1,3 +1,11 @@
-export default function Model() {
-  return <div>Model Manager</div>
+import Toolbar from './components/Toolbar'
+import ModelList from './components/ModelList'
+
+export default function App() {
+  return (
+    <>
+      <Toolbar />
+      <ModelList />
+    </>
+  )
 }

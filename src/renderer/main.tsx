@@ -9,6 +9,7 @@ import './icon.css'
 import 'luna-setting/luna-setting.css'
 import 'luna-toolbar/luna-toolbar.css'
 import 'luna-image-viewer/luna-image-viewer.css'
+import 'luna-data-grid/luna-data-grid.css'
 import './luna.scss'
 
 const container: HTMLElement = document.getElementById('app') as HTMLElement
