@@ -3,7 +3,7 @@ import LunaToolbar from 'luna-toolbar'
 import store from '../../store'
 import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
-import './Toolbar.scss'
+import Style from './Toolbar.module.scss'
 import { autorun } from 'mobx'
 
 export default function () {
@@ -38,5 +38,5 @@ export default function () {
     return () => toolbar.destroy()
   }, [])
 
-  return <div id="toolbar" ref={toolbarRef}></div>
+  return <div className={Style.toolbar} ref={toolbarRef}></div>
 }

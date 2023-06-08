@@ -1,6 +1,6 @@
 import LunaToolbar from 'luna-toolbar'
 import { useEffect, useRef } from 'react'
-import './Toolbar.scss'
+import Style from './Toolbar.module.scss'
 
 export default function Toolbar() {
   const toolbarRef = useRef<HTMLDivElement>(null)
@@ -13,5 +13,5 @@ export default function Toolbar() {
     return () => toolbar.destroy()
   }, [])
 
-  return <div id="toolbar" ref={toolbarRef}></div>
+  return <div className={Style.toolbar} ref={toolbarRef}></div>
 }

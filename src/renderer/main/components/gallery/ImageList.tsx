@@ -3,15 +3,15 @@ import each from 'licia/each'
 import className from 'licia/className'
 import LunaToolbar from 'luna-toolbar'
 import store, { IImage, TaskStatus } from '../../store'
-import './ImageList.scss'
+import Style from './ImageList.module.scss'
 import { useEffect, useRef } from 'react'
 import { toolbarIcon } from '../../../lib/luna'
 
 function Image(image: IImage) {
   return (
     <div
-      className={className('image-item', {
-        selected: image === store.selectedImage,
+      className={className(Style.item, {
+        [Style.selected]: image === store.selectedImage,
       })}
       key={image.id}
       onClick={() => store.selectImage(image)}
@@ -37,13 +37,13 @@ export default observer(function () {
       } else {
         if (task.status === TaskStatus.Wait) {
           images.push(
-            <div className="image-item" key={image.id}>
+            <div className={Style.item} key={image.id}>
               <span className="icon-image"></span>
             </div>
           )
         } else {
           images.push(
-            <div className="image-item" key={image.id}>
+            <div className={Style.item} key={image.id}>
               {task.progress}%
             </div>
           )
@@ -80,9 +80,9 @@ export default observer(function () {
   }, [])
 
   return (
-    <div id="image-list">
-      <div className="image-list-toolbar" ref={toolbarRef}></div>
-      <div className="image-list-body">{images}</div>
+    <div className={Style.imageList}>
+      <div className={Style.toolbar} ref={toolbarRef}></div>
+      <div className={Style.body}>{images}</div>
     </div>
   )
 })

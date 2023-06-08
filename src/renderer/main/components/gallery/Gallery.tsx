@@ -1,10 +1,10 @@
 import ImageViewer from './ImageViewer'
 import ImageList from './ImageList'
-import './Gallery.scss'
+import Style from './Gallery.module.scss'
 
 export default function () {
   return (
-    <div id="gallery">
+    <div className={Style.gallery}>
       <ImageViewer />
       <ImageList />
     </div>

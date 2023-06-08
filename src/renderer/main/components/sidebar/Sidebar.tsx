@@ -1,8 +1,9 @@
 import { useRef, useEffect } from 'react'
 import LunaSetting from 'luna-setting'
 import { observer } from 'mobx-react-lite'
+import className from 'licia/className'
 import store from '../../store'
-import './Sidebar.scss'
+import Style from './Sidebar.module.scss'
 import { autorun } from 'mobx'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
@@ -66,9 +67,9 @@ export default observer(function () {
   }, [])
 
   return (
-    <div id="sidebar">
-      <div className="generate-basic">
-        <div className="prompt">
+    <div className={Style.sidebar}>
+      <div className={Style.generateBasic}>
+        <div className={Style.prompt}>
           <textarea
             placeholder="Prompt"
             spellCheck="false"
@@ -78,7 +79,7 @@ export default observer(function () {
             }}
           />
         </div>
-        <div className="negative-prompt">
+        <div className={Style.negativePrompt}>
           <textarea
             placeholder="Negative Prompt"
             spellCheck="false"
@@ -88,7 +89,10 @@ export default observer(function () {
             }}
           />
         </div>
-        <button className="generate button" onClick={() => store.createTask()}>
+        <button
+          className={className(Style.generate, 'button')}
+          onClick={() => store.createTask()}
+        >
           Generate
         </button>
       </div>

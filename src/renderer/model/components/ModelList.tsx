@@ -1,6 +1,6 @@
 import LunaDataGrid from 'luna-data-grid'
 import { useEffect, useRef } from 'react'
-import './ModelList.scss'
+import Style from './ModelList.module.scss'
 
 export default function ModelList() {
   const dataGridRef = useRef<HTMLDivElement>(null)
@@ -45,5 +45,5 @@ export default function ModelList() {
     }
   }, [])
 
-  return <div id="model-list" ref={dataGridRef}></div>
+  return <div className={Style.modelList} ref={dataGridRef}></div>
 }

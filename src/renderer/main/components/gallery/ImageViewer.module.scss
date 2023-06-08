@@ -1,4 +1,4 @@
-#image-viewer {
+.image-viewer {
   background: #fff;
   position: absolute;
   top: 0;
@@ -8,7 +8,7 @@
   padding-top: 31px;
 }
 
-.image-viewer-toolbar {
+.toolbar {
   background: var(--vivy-background);
   position: absolute;
   top: 0;
@@ -16,7 +16,7 @@
   width: 100%;
 }
 
-.image-viewer-body {
+.body {
   width: 100%;
   height: 100%;
 }

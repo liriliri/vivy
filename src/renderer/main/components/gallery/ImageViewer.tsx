@@ -5,7 +5,7 @@ import LunaImageViewer from 'luna-image-viewer'
 import LunaToolbar from 'luna-toolbar'
 import download from 'licia/download'
 import mime from 'licia/mime'
-import './ImageViewer.scss'
+import Style from './ImageViewer.module.scss'
 import convertBin from 'licia/convertBin'
 import { autorun } from 'mobx'
 import { toolbarIcon } from '../../../lib/luna'
@@ -79,9 +79,9 @@ export default observer(function () {
   }, [])
 
   return (
-    <div id="image-viewer">
-      <div className="image-viewer-toolbar toolbar" ref={toolbarRef}></div>
-      <div className="image-viewer-body" ref={bodyRef}></div>
+    <div className={Style.imageViewer}>
+      <div className={Style.toolbar} ref={toolbarRef}></div>
+      <div className={Style.body} ref={bodyRef}></div>
     </div>
   )
 })

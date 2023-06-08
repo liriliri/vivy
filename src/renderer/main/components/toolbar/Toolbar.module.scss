@@ -1,9 +1,9 @@
-#toolbar {
+.toolbar {
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
-  .luna-toolbar-item-select {
+  :global(.luna-toolbar-item-select) {
     select {
       width: 200px;
     }
