@@ -1,6 +1,8 @@
 import LunaDataGrid from 'luna-data-grid'
 import { useEffect, useRef } from 'react'
 import Style from './ModelList.module.scss'
+import store from '../store'
+import { autorun } from 'mobx'
 
 export default function ModelList() {
   const dataGridRef = useRef<HTMLDivElement>(null)
@@ -9,8 +11,8 @@ export default function ModelList() {
     const dataGrid = new LunaDataGrid(dataGridRef.current as HTMLDivElement, {
       columns: [
         {
-          id: 'fileName',
-          title: 'File Name',
+          id: 'modelName',
+          title: 'Model Name',
         },
         {
           id: 'hash',
@@ -21,7 +23,7 @@ export default function ModelList() {
           title: 'File Size',
         },
         {
-          id: '',
+          id: 'action',
           title: 'Action',
         },
       ],
@@ -38,6 +40,11 @@ export default function ModelList() {
     window.addEventListener('resize', updateHeight)
 
     updateHeight()
+
+    autorun(() => {
+      dataGrid.clear()
+      console.log(store.models)
+    })
 
     return () => {
       window.removeEventListener('resize', updateHeight)

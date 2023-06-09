@@ -1,9 +1,7 @@
 import ReactDOM from 'react-dom/client'
+import { lazy } from 'react'
 import { isDev } from './lib/util'
 import hotKey from 'licia/hotkey'
-import MainApp from './main/App'
-import PromptApp from './prompt/App'
-import ModelApp from './model/App'
 import './main.scss'
 import './icon.css'
 import 'luna-setting/luna-setting.css'
@@ -14,19 +12,19 @@ import './luna.scss'
 
 const container: HTMLElement = document.getElementById('app') as HTMLElement
 
-let app = <MainApp />
+let App = lazy(() => import('./main/App'))
 switch (location.pathname) {
   case '/prompt':
-    app = <PromptApp />
+    App = lazy(() => import('./prompt/App'))
     document.title = 'Prompt Builder'
     break
   case '/model':
-    app = <ModelApp />
+    App = lazy(() => import('./model/App'))
     document.title = 'Model Manager'
     break
 }
 
-ReactDOM.createRoot(container).render(app)
+ReactDOM.createRoot(container).render(<App />)
 
 if (isDev()) {
   hotKey.on('f5', () => location.reload())
