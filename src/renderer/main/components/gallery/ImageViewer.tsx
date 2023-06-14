@@ -9,6 +9,7 @@ import Style from './ImageViewer.module.scss'
 import convertBin from 'licia/convertBin'
 import { autorun } from 'mobx'
 import { toolbarIcon } from '../../../lib/luna'
+import defaultImage from '../../../assets/img/default.png'
 
 export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)
@@ -18,7 +19,7 @@ export default observer(function () {
 
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
-    toolbar.appendHtml(
+    const save = toolbar.appendHtml(
       toolbarIcon(
         'save',
         () => {
@@ -47,7 +48,7 @@ export default observer(function () {
     )
     toolbar.appendSpace()
     toolbar.appendSeparator()
-    toolbar.appendHtml(
+    const deleteBtn = toolbar.appendHtml(
       toolbarIcon(
         'delete',
         () => {
@@ -58,6 +59,15 @@ export default observer(function () {
         'Delete'
       )
     )
+    autorun(() => {
+      if (!store.selectedImage) {
+        save.disable()
+        deleteBtn.disable()
+      } else {
+        save.enable()
+        deleteBtn.enable()
+      }
+    })
     return () => toolbar.destroy()
   }, [])
 
@@ -72,7 +82,7 @@ export default observer(function () {
           `data:image/png;base64,${store.selectedImage.data}`
         )
       } else {
-        imageViewer.setOption('image', '')
+        imageViewer.setOption('image', defaultImage)
       }
     })
     return () => imageViewer.destroy()
