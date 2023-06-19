@@ -8,5 +8,5 @@ exportPath()
 await $`python -m pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple`
 
 const targetPath = resolve('stable-diffusion-webui')
-const pathPath = resolve('patch')
-await fs.copy(pathPath, targetPath)
+const patchPath = resolve('patch')
+await fs.copy(patchPath, targetPath)
