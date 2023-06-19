@@ -2,18 +2,18 @@
   "name": "vivy",
   "version": "0.1.0",
   "description": "Stable diffusion desktop application",
-  "main": "index.js",
+  "main": "dist/main/index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:main\" \"npm run dev:preload\" \"npm run dev:renderer\"",
     "dev:main": "vite build --watch --config vite.main.ts --mode=development",
     "dev:preload": "vite build --watch --config vite.preload.ts --mode=development",
     "dev:renderer": "vite",
-    "build": "npm run build:main && npm run preload && npm run build:renderer",
+    "build": "zx script/build.mjs",
     "build:main": "vite build --config vite.main.ts",
     "build:preload": "vite build --config vite.preload.ts",
     "build:renderer": "vite build",
     "start": "electron ./dist/main/index.js",
-    "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css}\" \"*.{ts,json}\" --write",
+    "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css}\" \"*.{ts,json}\" \"script/*.mjs\" --write",
     "genIcon": "lsla genIcon --input src/renderer/icon --output src/renderer/icon.css --name vivy-icon && lsla prettier src/renderer/icon.css --write"
   },
   "repository": {
@@ -44,6 +44,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.62.1",
-    "vite": "^4.3.1"
+    "vite": "^4.3.1",
+    "zx": "^7.2.2"
   }
 }

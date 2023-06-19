@@ -1,4 +1,5 @@
 node_modules/
+release/
 package-lock.json
 easy-diffusion/ui
 easy-diffusion/scripts

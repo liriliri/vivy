@@ -24,5 +24,7 @@ export function showWin() {
 
   if (isDev()) {
     win.loadURL('http://localhost:8080')
+  } else {
+    win.loadFile('renderer/index.html')
   }
 }
