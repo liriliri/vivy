@@ -8,7 +8,11 @@ export function isDev() {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export function resolve(p) {
-  return path.resolve(__dirname, '../../', p)
+  if (isDev()) {
+    return path.resolve(__dirname, '../../', p)
+  } else {
+    return path.resolve(__dirname, '../', p)
+  }
 }
 
 export function isMac() {

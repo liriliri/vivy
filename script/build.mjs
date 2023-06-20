@@ -7,6 +7,9 @@ pkg.devDependencies = {
   electron,
 }
 delete pkg.scripts
+pkg.scripts = {
+  start: 'electron main/index.js',
+}
 pkg.main = 'main/index.js'
 
 await $`npm run build:main`
