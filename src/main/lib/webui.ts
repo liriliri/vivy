@@ -37,12 +37,23 @@ export async function start() {
   }
 
   port = await getFreePort(port)
-  await execa('python', ['launch.py', '--api', '--port', toStr(port), '--ckpt-dir', resolve('models')], {
-    cwd: appDir,
-    stdout: 'inherit',
-    stderr: 'inherit',
-    env,
-  })
+  await execa(
+    'python',
+    [
+      'launch.py',
+      '--api',
+      '--port',
+      toStr(port),
+      '--ckpt-dir',
+      resolve('models'),
+    ],
+    {
+      cwd: appDir,
+      stdout: 'inherit',
+      stderr: 'inherit',
+      env,
+    }
+  )
 }
 
 let win: BrowserWindow | null = null
