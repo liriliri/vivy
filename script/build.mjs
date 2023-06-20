@@ -14,10 +14,8 @@ await $`npm run build:preload`
 await $`npm run build:renderer`
 
 await fs.copy('webui/env', 'dist/webui/env')
-await fs.copy('webui/patch', 'dist/webui/patch')
 await $`./dist/webui/env/install.mjs`
 await $`rm -rf ./dist/webui/env`
-await $`rm -rf ./dist/webui/patch`
 cd('webui/stable-diffusion-webui')
 await $`git archive --format=zip --output=stable-diffusion-webui.zip v1.3.2`
 await $`unzip stable-diffusion-webui.zip -d ../../dist/webui/stable-diffusion-webui`

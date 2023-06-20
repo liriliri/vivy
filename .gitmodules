@@ -1,3 +1,3 @@
-[submodule "webui/stable-diffustion-webui"]
+[submodule "webui/stable-diffusion-webui"]
 	path = webui/stable-diffusion-webui
-	url = https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+	url = https://github.com/liriliri/stable-diffusion-webui.git
