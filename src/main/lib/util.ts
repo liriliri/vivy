@@ -1,4 +1,5 @@
 import path from 'path'
+import { app } from 'electron'
 import { fileURLToPath } from 'url'
 
 export function isDev() {
@@ -17,4 +18,8 @@ export function resolve(p) {
 
 export function isMac() {
   return process.platform === 'darwin'
+}
+
+export function getUserDataPath(p: string) {
+  return path.resolve(app.getPath('appData'), 'vivy', p)
 }
