@@ -5,11 +5,11 @@ cd('dist')
 const pkg = await fs.readJson('package.json')
 
 const config = {
-  asar: false,
   directories: {
     output: `../release/${pkg.version}`,
   },
   files: ['main', 'preload', 'renderer', 'webui'],
+  asarUnpack: ['webui/**/*'],
 }
 
 await builder.build({
