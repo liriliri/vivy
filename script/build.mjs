@@ -1,5 +1,3 @@
-import builder from 'electron-builder'
-
 const pkg = await fs.readJson('package.json')
 const electron = pkg.devDependencies.electron
 delete pkg.devDependencies
@@ -30,15 +28,3 @@ await fs.writeJson('package.json', pkg, {
 })
 
 await $`npm i`
-
-const config = {
-  asar: false,
-  directories: {
-    output: `../release/${pkg.version}`,
-  },
-  files: ['main', 'preload', 'renderer'],
-}
-
-await builder.build({
-  config,
-})

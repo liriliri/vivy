@@ -1,7 +1,6 @@
 import { execa } from 'execa'
 import { BrowserWindow } from 'electron'
 import { resolve, isMac, getUserDataPath } from './util'
-import path from 'path'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
 import extend from 'licia/extend'

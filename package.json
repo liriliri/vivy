@@ -9,6 +9,7 @@
     "dev:preload": "vite build --watch --config vite.preload.ts --mode=development",
     "dev:renderer": "vite",
     "build": "zx script/build.mjs",
+    "pack": "zx script/pack.mjs",
     "build:main": "vite build --config vite.main.ts",
     "build:preload": "vite build --config vite.preload.ts",
     "build:renderer": "vite build",
