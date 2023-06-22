@@ -14,6 +14,7 @@ await $`npm run build:main`
 await $`npm run build:preload`
 await $`npm run build:renderer`
 
+await fs.copy('build', 'dist/build')
 await fs.copy('webui/env', 'dist/webui/env')
 await $`./dist/webui/env/install.mjs`
 cd('webui/stable-diffusion-webui')
