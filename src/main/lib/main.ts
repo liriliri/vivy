@@ -26,6 +26,6 @@ export function showWin() {
   if (isDev()) {
     win.loadURL('http://localhost:8080')
   } else {
-    win.loadFile(path.resolve(app.getAppPath(), '../renderer/index.html'))
+    win.loadFile(path.resolve(__dirname, '../renderer/index.html'))
   }
 }

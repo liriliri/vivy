@@ -13,10 +13,10 @@ const config = {
   win: {
     target: [
       {
-        target: 'zip'
-      }
-    ]
-  }
+        target: 'zip',
+      },
+    ],
+  },
 }
 
 await builder.build({

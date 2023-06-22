@@ -41,6 +41,7 @@ export async function start() {
     'python',
     [
       'launch.py',
+      '--skip-prepare-environment',
       '--api',
       '--port',
       toStr(port),
