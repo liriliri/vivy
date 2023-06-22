@@ -29,7 +29,7 @@ export async function start() {
     extend(env, {
       COMMANDLINE_ARGS:
         '--skip-torch-cuda-test --upcast-sampling --no-half-vae --no-half --use-cpu interrogate',
-      TORCH_COMMAND: 'pip install torch torchvision',
+      TORCH_COMMAND: 'pip install torch==2.0.1 torchvision==0.15.2',
       K_DIFFUSION_REPO: 'https://github.com/brkirch/k-diffusion.git',
       K_DIFFUSION_COMMIT_HASH: '51c9778f269cedb55a4d88c79c0246d35bdadb71',
       PYTORCH_ENABLE_MPS_FALLBACK: '1',
