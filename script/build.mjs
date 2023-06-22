@@ -16,12 +16,13 @@ await $`npm run build:renderer`
 
 await fs.copy('webui/env', 'dist/webui/env')
 await $`./dist/webui/env/install.mjs`
-await $`rm -rf ./dist/webui/env`
 cd('webui/stable-diffusion-webui')
-await $`git archive --format=zip --output=stable-diffusion-webui.zip vivy`
+await $`git archive --format=zip --output=stable-diffusion-webui.zip origin/vivy`
 await $`unzip -o stable-diffusion-webui.zip -d ../../dist/webui/stable-diffusion-webui`
 await $`rm stable-diffusion-webui.zip`
 cd('../../dist')
+await $`./webui/env/prepare.mjs`
+await $`rm -rf ./webui/env`
 
 await fs.writeJson('package.json', pkg, {
   spaces: 2,

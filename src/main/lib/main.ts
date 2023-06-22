@@ -1,4 +1,5 @@
 import path from 'path'
+import { app } from 'electron'
 import { isDev } from './util'
 import { BrowserWindow } from 'electron'
 
@@ -25,6 +26,6 @@ export function showWin() {
   if (isDev()) {
     win.loadURL('http://localhost:8080')
   } else {
-    win.loadFile('renderer/index.html')
+    win.loadFile(path.resolve(app.getAppPath(), '../renderer/index.html'))
   }
 }

@@ -10,6 +10,13 @@ const config = {
   },
   files: ['main', 'preload', 'renderer', 'webui'],
   asarUnpack: ['webui/**/*'],
+  win: {
+    target: [
+      {
+        target: 'zip'
+      }
+    ]
+  }
 }
 
 await builder.build({

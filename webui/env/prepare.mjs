@@ -1,3 +1,4 @@
+#!/usr/bin/env zx
 import { execa } from 'execa'
 import extend from 'licia/extend.js'
 import isWindows from 'licia/isWindows.js'
@@ -32,7 +33,7 @@ async function main() {
     })
   }
 
-  await execa('python', ['launch.py', '--api'], {
+  await execa('python', ['launch.py', '--api', '--no-start'], {
     cwd: appDir,
     stdio: 'inherit',
     env,
