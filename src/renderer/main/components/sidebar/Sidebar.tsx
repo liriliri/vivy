@@ -37,12 +37,10 @@ export default observer(function () {
       }
       setting.appendNumber('steps', txt2imgOptions.steps, 'Sampling Steps', {})
       setting.appendNumber('width', txt2imgOptions.width, 'Width', {
-        range: true,
         min: 64,
         max: 2048,
       })
       setting.appendNumber('height', txt2imgOptions.height, 'Height', {
-        range: true,
         min: 64,
         max: 2048,
       })
