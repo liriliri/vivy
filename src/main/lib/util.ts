@@ -1,4 +1,5 @@
 import path from 'path'
+import contain from 'licia/contain'
 import { app } from 'electron'
 import { fileURLToPath } from 'url'
 
@@ -14,6 +15,16 @@ export function resolve(p) {
   } else {
     return path.resolve(__dirname, '../', p)
   }
+}
+
+export function resolveUnpack(p) {
+  const path = resolve(p)
+
+  if (!isDev() && contain(path, 'app.asar')) {
+    return path.replace('app.asar', 'app.asar.unpacked')
+  }
+
+  return path
 }
 
 export function isMac() {
