@@ -13,7 +13,7 @@ function Image(image: IImage) {
   return (
     <div
       className={className(Style.item, {
-        [Style.selected]: image === store.selectedImage,
+        [Style.selected]: image.id === store.selectedImage?.id,
       })}
       key={image.id}
       onClick={() => store.selectImage(image)}
@@ -59,11 +59,21 @@ export default observer(function () {
 
     toolbar.appendHtml(
       toolbarIcon(
+        'open-file',
+        () => {
+          store.openImage()
+        },
+        i18n.t('openImage')
+      )
+    )
+    toolbar.appendSeparator()
+    toolbar.appendHtml(
+      toolbarIcon(
         'pause',
         () => {
           store.interrupt()
         },
-        'Interrupt'
+        i18n.t('interrupt')
       )
     )
     toolbar.appendSpace()
@@ -74,7 +84,7 @@ export default observer(function () {
         () => {
           store.deleteAllImages()
         },
-        'Delete All'
+        i18n.t('deleteAllImages')
       )
     )
 

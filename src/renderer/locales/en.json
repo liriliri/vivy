@@ -1,3 +1,6 @@
 {
-  "noImages": "No Images"
+"noImages": "No Images",
+  "openImage": "Open Image",
+  "interrupt": "Interrupt Current Task",
+  "deleteAllImages": "Delete All Images"
 }

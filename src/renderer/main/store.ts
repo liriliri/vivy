@@ -4,6 +4,8 @@ import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
 import remove from 'licia/remove'
 import map from 'licia/map'
+import convertBin from 'licia/convertBin'
+import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
 import * as webui from '../lib/webui'
 
@@ -137,6 +139,7 @@ class Store {
       selectImage: action,
       deleteAllImages: action,
       deleteImage: action,
+      openImage: action,
     })
 
     this.waitForReady()
@@ -158,6 +161,22 @@ class Store {
   deleteAllImages() {
     this.selectImage()
     this.images = []
+  }
+  openImage() {
+    openFile({
+      accept: 'image/png',
+    }).then(async (fileList) => {
+      const file = fileList[0]
+      if (file) {
+        const buf = await convertBin.blobToArrBuffer(file)
+        const image = {
+          id: uuid(),
+          data: await convertBin(buf, 'base64'),
+        }
+        this.images.push(image)
+        this.selectImage(image)
+      }
+    })
   }
   async interrupt() {
     if (this.tasks.length > 0) {
