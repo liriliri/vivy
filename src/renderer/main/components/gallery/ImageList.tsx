@@ -7,6 +7,7 @@ import store, { IImage, TaskStatus } from '../../store'
 import Style from './ImageList.module.scss'
 import { useEffect, useRef } from 'react'
 import { toolbarIcon } from '../../../lib/luna'
+import { i18n } from '../../../lib/util'
 
 function Image(image: IImage) {
   return (
@@ -85,7 +86,7 @@ export default observer(function () {
       <div className={Style.toolbar} ref={toolbarRef}></div>
       <div className={Style.body}>
         {isEmpty(images) ? (
-          <div className={Style.noImages}>No Images</div>
+          <div className={Style.noImages}>{i18n.t('noImages')}</div>
         ) : (
           images
         )}

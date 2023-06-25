@@ -1,6 +1,5 @@
 import types from 'licia/types'
 import h from 'licia/h'
-import LunaToolbar from 'luna-toolbar'
 
 export function toolbarIcon(
   iconName: string,
