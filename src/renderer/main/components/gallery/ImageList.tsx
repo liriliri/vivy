@@ -69,6 +69,15 @@ export default observer(function () {
     toolbar.appendSeparator()
     toolbar.appendHtml(
       toolbarIcon(
+        'stop',
+        () => {
+          store.stop()
+        },
+        i18n.t('stop')
+      )
+    )
+    toolbar.appendHtml(
+      toolbarIcon(
         'pause',
         () => {
           store.interrupt()

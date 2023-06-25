@@ -1,6 +1,8 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
+import each from 'licia/each'
+import nextTick from 'licia/nextTick'
 import Emitter from 'licia/Emitter'
 import remove from 'licia/remove'
 import map from 'licia/map'
@@ -177,6 +179,15 @@ class Store {
         this.selectImage(image)
       }
     })
+  }
+  async stop() {
+    await this.interrupt()
+    const task = this.tasks[0]
+    if (task && task.status === TaskStatus.Generating) {
+      this.tasks = [task]
+    } else {
+      this.tasks = []
+    }
   }
   async interrupt() {
     if (this.tasks.length > 0) {

@@ -2,5 +2,6 @@
 "noImages": "No Images",
   "openImage": "Open Image",
   "interrupt": "Interrupt Current Task",
+  "stop": "Stop All Tasks",
   "deleteAllImages": "Delete All Images"
 }
