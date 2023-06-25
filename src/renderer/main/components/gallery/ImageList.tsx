@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import each from 'licia/each'
 import className from 'licia/className'
+import isEmpty from 'licia/isEmpty'
 import LunaToolbar from 'luna-toolbar'
 import store, { IImage, TaskStatus } from '../../store'
 import Style from './ImageList.module.scss'
@@ -82,7 +83,13 @@ export default observer(function () {
   return (
     <div className={Style.imageList}>
       <div className={Style.toolbar} ref={toolbarRef}></div>
-      <div className={Style.body}>{images}</div>
+      <div className={Style.body}>
+        {isEmpty(images) ? (
+          <div className={Style.noImages}>No Images</div>
+        ) : (
+          images
+        )}
+      </div>
     </div>
   )
 })
