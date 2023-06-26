@@ -14,7 +14,7 @@
     "build:preload": "vite build --config vite.preload.ts",
     "build:renderer": "vite build",
     "start": "electron ./dist/main/index.js",
-    "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css}\" \"*.{ts,json}\" \"script/*.mjs\" --write",
+    "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css,json}\" \"*.{ts,json}\" \"script/*.mjs\" --write",
     "genIcon": "lsla genIcon --input src/renderer/icon --output src/renderer/icon.css --name vivy-icon && lsla prettier src/renderer/icon.css --write"
   },
   "repository": {
@@ -38,6 +38,7 @@
     "licia": "^1.38.1",
     "luna-data-grid": "^0.4.3",
     "luna-image-viewer": "^0.1.1",
+    "luna-modal": "^1.0.0",
     "luna-setting": "^0.7.0",
     "luna-toolbar": "^0.3.0",
     "mobx": "^6.9.0",

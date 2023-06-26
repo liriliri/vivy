@@ -1,7 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import store from '../../store'
 import LunaImageViewer from 'luna-image-viewer'
+import LunaModal from 'luna-modal'
 import LunaToolbar from 'luna-toolbar'
 import download from 'licia/download'
 import mime from 'licia/mime'
@@ -10,12 +12,15 @@ import convertBin from 'licia/convertBin'
 import { autorun } from 'mobx'
 import { toolbarIcon } from '../../../lib/luna'
 import defaultImage from '../../../assets/img/default.png'
+import { i18n } from '../../../lib/util'
 
 export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)
   const toolbarRef = useRef<HTMLDivElement>(null)
+  const infoModalRef = useRef<HTMLDivElement>(null)
 
   let imageViewer: LunaImageViewer
+  let infoModal: LunaModal
 
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
@@ -31,6 +36,10 @@ export default observer(function () {
         },
         'Save'
       )
+    )
+    toolbar.appendSeparator()
+    toolbar.appendHtml(
+      toolbarIcon('info', () => infoModal.show(), i18n.t('imageInfo'))
     )
     toolbar.appendSeparator()
     toolbar.appendHtml(toolbarIcon('reset', () => imageViewer.reset(), 'Reset'))
@@ -88,10 +97,18 @@ export default observer(function () {
     return () => imageViewer.destroy()
   }, [])
 
+  useEffect(() => {
+    infoModal = new LunaModal(infoModalRef.current as HTMLDivElement, {
+      title: i18n.t('imageInfo'),
+      width: 640,
+    })
+  }, [])
+
   return (
     <div className={Style.imageViewer}>
       <div className={Style.toolbar} ref={toolbarRef}></div>
       <div className={Style.body} ref={bodyRef}></div>
+      {createPortal(<div ref={infoModalRef}></div>, document.body)}
     </div>
   )
 })
