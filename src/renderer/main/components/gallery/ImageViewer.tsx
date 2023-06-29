@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react-lite'
-import { useEffect, useRef } from 'react'
+import { ReactPortal, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import store from '../../store'
 import LunaImageViewer from 'luna-image-viewer'
 import LunaModal from 'luna-modal'
 import LunaToolbar from 'luna-toolbar'
 import download from 'licia/download'
+import h from 'licia/h'
 import mime from 'licia/mime'
 import Style from './ImageViewer.module.scss'
 import convertBin from 'licia/convertBin'
@@ -18,6 +19,7 @@ export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)
   const toolbarRef = useRef<HTMLDivElement>(null)
   const infoModalRef = useRef<HTMLDivElement>(null)
+  const [infoModalContent] = useState(h(`div.${Style.imageInfo}`))
 
   let imageViewer: LunaImageViewer
   let infoModal: LunaModal
@@ -38,8 +40,14 @@ export default observer(function () {
       )
     )
     toolbar.appendSeparator()
-    toolbar.appendHtml(
-      toolbarIcon('info', () => infoModal.show(), i18n.t('imageInfo'))
+    const info = toolbar.appendHtml(
+      toolbarIcon(
+        'info',
+        () => {
+          infoModal.show()
+        },
+        i18n.t('imageInfo')
+      )
     )
     toolbar.appendSeparator()
     toolbar.appendHtml(toolbarIcon('reset', () => imageViewer.reset(), 'Reset'))
@@ -73,6 +81,11 @@ export default observer(function () {
         save.disable()
         deleteBtn.disable()
       } else {
+        if (store.selectedImage.info) {
+          info.enable()
+        } else {
+          info.disable()
+        }
         save.enable()
         deleteBtn.enable()
       }
@@ -101,14 +114,29 @@ export default observer(function () {
     infoModal = new LunaModal(infoModalRef.current as HTMLDivElement, {
       title: i18n.t('imageInfo'),
       width: 640,
+      content: infoModalContent,
     })
   }, [])
+
+  let infoModalContentPortal: ReactPortal | null = null
+
+  if (store.selectedImage?.info) {
+    const info = store.selectedImage.info
+    infoModalContentPortal = createPortal(
+      <>
+        <div>{info.prompt}</div>
+        <div>{info.negativePrompt}</div>
+      </>,
+      infoModalContent
+    )
+  }
 
   return (
     <div className={Style.imageViewer}>
       <div className={Style.toolbar} ref={toolbarRef}></div>
       <div className={Style.body} ref={bodyRef}></div>
       {createPortal(<div ref={infoModalRef}></div>, document.body)}
+      {infoModalContentPortal}
     </div>
   )
 })

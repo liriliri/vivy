@@ -1,8 +1,6 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
-import each from 'licia/each'
-import nextTick from 'licia/nextTick'
 import Emitter from 'licia/Emitter'
 import remove from 'licia/remove'
 import map from 'licia/map'
@@ -17,9 +15,15 @@ export enum TaskStatus {
   Complete,
 }
 
+interface IImageInfo {
+  prompt?: string
+  negativePrompt?: string
+}
+
 export interface IImage {
   id: string
   data: string
+  info?: IImageInfo
 }
 
 class Task extends Emitter {
@@ -45,6 +49,10 @@ class Task extends Emitter {
       this.images[i] = {
         id: uuid(),
         data: '',
+        info: {
+          prompt: txt2imgOptions.prompt,
+          negativePrompt: txt2imgOptions.negativePrompt,
+        },
       }
     }
   }
