@@ -38,7 +38,7 @@
     "licia": "^1.38.1",
     "luna-data-grid": "^0.4.3",
     "luna-image-viewer": "^0.1.1",
-    "luna-modal": "^1.0.0",
+    "luna-modal": "^1.1.0",
     "luna-setting": "^0.8.0",
     "luna-toolbar": "^0.3.1",
     "mobx": "^6.9.0",

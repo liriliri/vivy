@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite'
-import { ReactPortal, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import store from '../../store'
 import LunaImageViewer from 'luna-image-viewer'
-import LunaModal from 'luna-modal'
+import LunaModal from 'luna-modal/react'
 import LunaToolbar from 'luna-toolbar'
 import download from 'licia/download'
-import h from 'licia/h'
 import mime from 'licia/mime'
 import Style from './ImageViewer.module.scss'
 import convertBin from 'licia/convertBin'
@@ -18,11 +17,9 @@ import { i18n } from '../../../lib/util'
 export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)
   const toolbarRef = useRef<HTMLDivElement>(null)
-  const infoModalRef = useRef<HTMLDivElement>(null)
-  const [infoModalContent] = useState(h(`div.${Style.imageInfo}`))
+  const [infoModalVisible, setInfoModalVisible] = useState(false)
 
   let imageViewer: LunaImageViewer
-  let infoModal: LunaModal
 
   useEffect(() => {
     const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
@@ -44,7 +41,7 @@ export default observer(function () {
       toolbarIcon(
         'info',
         () => {
-          infoModal.show()
+          setInfoModalVisible(true)
         },
         i18n.t('imageInfo')
       )
@@ -110,24 +107,15 @@ export default observer(function () {
     return () => imageViewer.destroy()
   }, [])
 
-  useEffect(() => {
-    infoModal = new LunaModal(infoModalRef.current as HTMLDivElement, {
-      title: i18n.t('imageInfo'),
-      width: 640,
-      content: infoModalContent,
-    })
-  }, [])
-
-  let infoModalContentPortal: ReactPortal | null = null
+  let infoModalContent: JSX.Element | null = null
 
   if (store.selectedImage?.info) {
     const info = store.selectedImage.info
-    infoModalContentPortal = createPortal(
+    infoModalContent = (
       <>
         <div>{info.prompt}</div>
         <div>{info.negativePrompt}</div>
-      </>,
-      infoModalContent
+      </>
     )
   }
 
@@ -135,8 +123,17 @@ export default observer(function () {
     <div className={Style.imageViewer}>
       <div className={Style.toolbar} ref={toolbarRef}></div>
       <div className={Style.body} ref={bodyRef}></div>
-      {createPortal(<div ref={infoModalRef}></div>, document.body)}
-      {infoModalContentPortal}
+      {createPortal(
+        <LunaModal
+          title={i18n.t('imageInfo')}
+          visible={infoModalVisible}
+          width={640}
+          onClose={() => setInfoModalVisible(false)}
+        >
+          {infoModalContent}
+        </LunaModal>,
+        document.body
+      )}
     </div>
   )
 })

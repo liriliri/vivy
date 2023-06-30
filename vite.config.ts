@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist/renderer',
+    rollupOptions: {
+      input: {
+        app: './index.html',
+      },
+    },
   },
   css: {
     modules: {
