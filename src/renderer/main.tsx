@@ -5,7 +5,7 @@ import hotKey from 'licia/hotkey'
 import './main.scss'
 import './icon.css'
 import 'luna-setting/luna-setting.css'
-import 'luna-toolbar/luna-toolbar.css'
+import 'luna-toolbar/css'
 import 'luna-image-viewer/luna-image-viewer.css'
 import 'luna-data-grid/luna-data-grid.css'
 import 'luna-modal/css'
@@ -13,14 +13,14 @@ import './luna.scss'
 
 const container: HTMLElement = document.getElementById('app') as HTMLElement
 
-let App = lazy(() => import('./main/App'))
+let App = lazy(() => import('./main/App.js') as Promise<any>)
 switch (location.pathname) {
   case '/prompt':
-    App = lazy(() => import('./prompt/App'))
+    App = lazy(() => import('./prompt/App.js') as Promise<any>)
     document.title = 'Prompt Builder'
     break
   case '/model':
-    App = lazy(() => import('./model/App'))
+    App = lazy(() => import('./model/App.js') as Promise<any>)
     document.title = 'Model Manager'
     break
 }

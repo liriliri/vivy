@@ -1,37 +1,35 @@
 import { useEffect, useRef } from 'react'
-import LunaToolbar from 'luna-toolbar'
+import LunaToolbar, { LunaToolbarSelect } from 'luna-toolbar/react'
 import store from '../../store'
 import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
+import types from 'licia/types'
 import Style from './Toolbar.module.scss'
-import { autorun } from 'mobx'
+import { observer } from 'mobx-react-lite'
 
-export default function () {
-  const toolbarRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
-    toolbar.on('change', (key, val) => {
-      store.setOptions(key, val)
+export default observer(function () {
+  let options: types.PlainObj<string> = {}
+  if (!isEmpty(store.models)) {
+    options = {}
+    each(store.models, (model) => {
+      options[model] = model
     })
-    autorun(() => {
-      toolbar.clear()
-      if (!isEmpty(store.models)) {
-        const options = {}
-        each(store.models, (model) => {
-          options[model] = model
-        })
-        toolbar.appendSelect('model', store.options.model, 'Model', options)
-      } else {
-        toolbar
-          .appendSelect('model', 'loading', {
-            loading: 'loading',
-          })
-          .disable()
-      }
-    })
-    return () => toolbar.destroy()
-  }, [])
+  } else {
+    options = {
+      loading: 'loading',
+    }
+  }
 
-  return <div className={Style.toolbar} ref={toolbarRef}></div>
-}
+  return (
+    <div className={Style.toolbar}>
+      <LunaToolbar>
+        <LunaToolbarSelect
+          key="model"
+          value={store.options.model}
+          title="Model"
+          options={options}
+        />
+      </LunaToolbar>
+    </div>
+  )
+})
