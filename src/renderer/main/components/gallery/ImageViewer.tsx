@@ -72,7 +72,7 @@ export default observer(function () {
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
           icon="save"
-          title="Save"
+          title={i18n.t('save')}
           onClick={save}
           disabled={!toBool(store.selectedImage)}
         />
@@ -86,34 +86,34 @@ export default observer(function () {
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="reset"
-          title="Reset"
+          title={i18n.t('reset')}
           onClick={() => imageViewer.reset()}
         />
         <ToolbarIcon
           icon="zoom-in"
-          title="Zoom In"
+          title={i18n.t('zoomIn')}
           onClick={() => imageViewer.zoom(0.1)}
         />
         <ToolbarIcon
           icon="zoom-out"
-          title="Zoom Out"
+          title={i18n.t('zoomOut')}
           onClick={() => imageViewer.zoom(-0.1)}
         />
         <ToolbarIcon
           icon="rotate-left"
-          title="Rotate Left"
+          title={i18n.t('rotateLeft')}
           onClick={() => imageViewer.rotate(-90)}
         />
         <ToolbarIcon
           icon="rotate-right"
-          title="Rotate Right"
+          title={i18n.t('rotateRight')}
           onClick={() => imageViewer.rotate(90)}
         />
         <LunaToolbarSpace />
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="delete"
-          title="Delete"
+          title={i18n.t('delete')}
           onClick={deleteImage}
           disabled={!toBool(store.selectedImage)}
         />

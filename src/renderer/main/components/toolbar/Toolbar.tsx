@@ -5,6 +5,7 @@ import isEmpty from 'licia/isEmpty'
 import types from 'licia/types'
 import Style from './Toolbar.module.scss'
 import { observer } from 'mobx-react-lite'
+import { i18n } from '../../../lib/util'
 
 export default observer(function () {
   let modelOptions: types.PlainObj<string> = {}
@@ -17,7 +18,7 @@ export default observer(function () {
   } else {
     modelDisabled = true
     modelOptions = {
-      loading: 'loading',
+      [i18n.t('loading')]: 'loading',
     }
   }
 

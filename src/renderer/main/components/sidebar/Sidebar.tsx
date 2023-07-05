@@ -7,6 +7,7 @@ import Style from './Sidebar.module.scss'
 import { autorun } from 'mobx'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
+import { i18n } from '../../../lib/util'
 
 export default observer(function () {
   const txt2imgOptionsRef = useRef<HTMLDivElement>(null)
@@ -27,42 +28,52 @@ export default observer(function () {
         setting.appendSelect(
           'sampler',
           txt2imgOptions.sampler,
-          'Sampling Method',
+          i18n.t('samplingMethod'),
           options
         )
       } else {
-        setting.appendSelect('sampler', 'loading', 'Sampling Method', {
+        setting.appendSelect('sampler', 'loading', i18n.t('samplingMethod'), {
           loading: 'loading',
         })
       }
-      setting.appendNumber('steps', txt2imgOptions.steps, 'Sampling Steps', {
-        min: 1,
-        max: 50,
-      })
-      setting.appendNumber('width', txt2imgOptions.width, 'Width', {
+      setting.appendNumber(
+        'steps',
+        txt2imgOptions.steps,
+        i18n.t('samplingSteps'),
+        {
+          min: 1,
+          max: 50,
+        }
+      )
+      setting.appendNumber('width', txt2imgOptions.width, i18n.t('width'), {
         min: 64,
         max: 2048,
       })
-      setting.appendNumber('height', txt2imgOptions.height, 'Height', {
+      setting.appendNumber('height', txt2imgOptions.height, i18n.t('height'), {
         min: 64,
         max: 2048,
       })
       setting.appendNumber(
         'batchSize',
         txt2imgOptions.batchSize,
-        'Batch Size',
+        i18n.t('batchSize'),
         {
           range: true,
           min: 1,
           max: 8,
         }
       )
-      setting.appendNumber('cfgScale', txt2imgOptions.cfgScale, 'CFG Scale', {
-        range: true,
-        min: 1,
-        max: 30,
-      })
-      setting.appendNumber('seed', txt2imgOptions.seed, 'Seed', {})
+      setting.appendNumber(
+        'cfgScale',
+        txt2imgOptions.cfgScale,
+        i18n.t('cfgScale'),
+        {
+          range: true,
+          min: 1,
+          max: 30,
+        }
+      )
+      setting.appendNumber('seed', txt2imgOptions.seed, i18n.t('seed'), {})
     })
     return () => setting.destroy()
   }, [])
@@ -72,7 +83,7 @@ export default observer(function () {
       <div className={Style.generateBasic}>
         <div className={Style.prompt}>
           <textarea
-            placeholder="Prompt"
+            placeholder={i18n.t('prompt')}
             spellCheck="false"
             value={store.txt2imgOptions.prompt}
             onChange={(e) => {
@@ -82,7 +93,7 @@ export default observer(function () {
         </div>
         <div className={Style.negativePrompt}>
           <textarea
-            placeholder="Negative Prompt"
+            placeholder={i18n.t('negativePrompt')}
             spellCheck="false"
             value={store.txt2imgOptions.negativePrompt}
             onChange={(e) => {
@@ -94,7 +105,7 @@ export default observer(function () {
           className={className(Style.generate, 'button')}
           onClick={() => store.createTask()}
         >
-          Generate
+          {i18n.t('generate')}
         </button>
       </div>
       <div ref={txt2imgOptionsRef} className="generate-setting"></div>
