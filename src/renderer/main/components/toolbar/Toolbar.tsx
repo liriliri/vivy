@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import LunaToolbar, { LunaToolbarSelect } from 'luna-toolbar/react'
 import store from '../../store'
 import each from 'licia/each'
@@ -8,28 +7,34 @@ import Style from './Toolbar.module.scss'
 import { observer } from 'mobx-react-lite'
 
 export default observer(function () {
-  let options: types.PlainObj<string> = {}
+  let modelOptions: types.PlainObj<string> = {}
+  let modelDisabled = false
   if (!isEmpty(store.models)) {
-    options = {}
+    modelOptions = {}
     each(store.models, (model) => {
-      options[model] = model
+      modelOptions[model] = model
     })
   } else {
-    options = {
+    modelDisabled = true
+    modelOptions = {
       loading: 'loading',
     }
   }
 
   return (
-    <div className={Style.toolbar}>
-      <LunaToolbar>
-        <LunaToolbarSelect
-          key="model"
-          value={store.options.model}
-          title="Model"
-          options={options}
-        />
-      </LunaToolbar>
-    </div>
+    <LunaToolbar
+      className={Style.toolbar}
+      onChange={(key, val) => {
+        store.setOptions(key, val)
+      }}
+    >
+      <LunaToolbarSelect
+        keyName="model"
+        value={store.options.model}
+        title="Model"
+        options={modelOptions}
+        disabled={modelDisabled}
+      />
+    </LunaToolbar>
   )
 })

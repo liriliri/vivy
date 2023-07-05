@@ -2,12 +2,14 @@ import { observer } from 'mobx-react-lite'
 import each from 'licia/each'
 import className from 'licia/className'
 import isEmpty from 'licia/isEmpty'
-import LunaToolbar from 'luna-toolbar'
+import LunaToolbar, {
+  LunaToolbarSeparator,
+  LunaToolbarSpace,
+} from 'luna-toolbar/react'
 import store, { IImage, TaskStatus } from '../../store'
 import Style from './ImageList.module.scss'
-import { useEffect, useRef } from 'react'
-import { toolbarIcon } from '../../../lib/luna'
 import { i18n } from '../../../lib/util'
+import ToolbarIcon from '../common/ToolbarIcon'
 
 function Image(image: IImage) {
   return (
@@ -24,8 +26,6 @@ function Image(image: IImage) {
 }
 
 export default observer(function () {
-  const toolbarRef = useRef<HTMLDivElement>(null)
-
   const images: JSX.Element[] = []
 
   each(store.images, (image) => {
@@ -54,55 +54,33 @@ export default observer(function () {
     })
   })
 
-  useEffect(() => {
-    const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
-
-    toolbar.appendHtml(
-      toolbarIcon(
-        'open-file',
-        () => {
-          store.openImage()
-        },
-        i18n.t('openImage')
-      )
-    )
-    toolbar.appendSeparator()
-    toolbar.appendHtml(
-      toolbarIcon(
-        'stop',
-        () => {
-          store.stop()
-        },
-        i18n.t('stop')
-      )
-    )
-    toolbar.appendHtml(
-      toolbarIcon(
-        'pause',
-        () => {
-          store.interrupt()
-        },
-        i18n.t('interrupt')
-      )
-    )
-    toolbar.appendSpace()
-    toolbar.appendSeparator()
-    toolbar.appendHtml(
-      toolbarIcon(
-        'delete-all',
-        () => {
-          store.deleteAllImages()
-        },
-        i18n.t('deleteAllImages')
-      )
-    )
-
-    return () => toolbar.destroy()
-  }, [])
-
   return (
     <div className={Style.imageList}>
-      <div className={Style.toolbar} ref={toolbarRef}></div>
+      <LunaToolbar className={Style.toolbar}>
+        <ToolbarIcon
+          icon="open-file"
+          title={i18n.t('openImage')}
+          onClick={() => store.openImage()}
+        />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
+          icon="stop"
+          title={i18n.t('stop')}
+          onClick={() => store.stop()}
+        />
+        <ToolbarIcon
+          icon="pause"
+          title={i18n.t('interrupt')}
+          onClick={() => store.interrupt()}
+        />
+        <LunaToolbarSpace />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
+          icon="delete-all"
+          title={i18n.t('deleteAllImages')}
+          onClick={() => store.deleteAllImages()}
+        />
+      </LunaToolbar>
       <div className={Style.body}>
         {isEmpty(images) ? (
           <div className={Style.noImages}>{i18n.t('noImages')}</div>
