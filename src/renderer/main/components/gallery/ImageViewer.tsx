@@ -20,25 +20,27 @@ import { i18n } from '../../../lib/util'
 
 export default observer(function () {
   const bodyRef = useRef<HTMLDivElement>(null)
+  const imageViewerRef = useRef<LunaImageViewer>()
   const [infoModalVisible, setInfoModalVisible] = useState(false)
 
-  let imageViewer: LunaImageViewer
-
   useEffect(() => {
-    imageViewer = new LunaImageViewer(bodyRef.current as HTMLDivElement, {
-      image: '',
-    })
+    imageViewerRef.current = new LunaImageViewer(
+      bodyRef.current as HTMLDivElement,
+      {
+        image: '',
+      }
+    )
     autorun(() => {
       if (store.selectedImage) {
-        imageViewer.setOption(
+        imageViewerRef.current?.setOption(
           'image',
           `data:image/png;base64,${store.selectedImage.data}`
         )
       } else {
-        imageViewer.setOption('image', defaultImage)
+        imageViewerRef.current?.setOption('image', defaultImage)
       }
     })
-    return () => imageViewer.destroy()
+    return () => imageViewerRef.current?.destroy()
   }, [])
 
   function save() {
@@ -87,27 +89,27 @@ export default observer(function () {
         <ToolbarIcon
           icon="reset"
           title={i18n.t('reset')}
-          onClick={() => imageViewer.reset()}
+          onClick={() => imageViewerRef.current?.reset()}
         />
         <ToolbarIcon
           icon="zoom-in"
           title={i18n.t('zoomIn')}
-          onClick={() => imageViewer.zoom(0.1)}
+          onClick={() => imageViewerRef.current?.zoom(0.1)}
         />
         <ToolbarIcon
           icon="zoom-out"
           title={i18n.t('zoomOut')}
-          onClick={() => imageViewer.zoom(-0.1)}
+          onClick={() => imageViewerRef.current?.zoom(-0.1)}
         />
         <ToolbarIcon
           icon="rotate-left"
           title={i18n.t('rotateLeft')}
-          onClick={() => imageViewer.rotate(-90)}
+          onClick={() => imageViewerRef.current?.rotate(-90)}
         />
         <ToolbarIcon
           icon="rotate-right"
           title={i18n.t('rotateRight')}
-          onClick={() => imageViewer.rotate(90)}
+          onClick={() => imageViewerRef.current?.rotate(90)}
         />
         <LunaToolbarSpace />
         <LunaToolbarSeparator />
