@@ -67,11 +67,13 @@ export default observer(function () {
           icon="stop"
           title={i18n.t('stop')}
           onClick={() => store.stop()}
+          disabled={isEmpty(store.tasks)}
         />
         <ToolbarIcon
           icon="pause"
           title={i18n.t('interrupt')}
           onClick={() => store.interrupt()}
+          disabled={isEmpty(store.tasks)}
         />
         <LunaToolbarSpace />
         <LunaToolbarSeparator />
@@ -79,6 +81,7 @@ export default observer(function () {
           icon="delete-all"
           title={i18n.t('deleteAllImages')}
           onClick={() => store.deleteAllImages()}
+          disabled={isEmpty(store.images)}
         />
       </LunaToolbar>
       <div className={Style.body}>

@@ -33,7 +33,7 @@ export default observer(function () {
         )
       } else {
         setting.appendSelect('sampler', 'loading', i18n.t('samplingMethod'), {
-          loading: 'loading',
+          [i18n.t('loading')]: 'loading',
         })
       }
       setting.appendNumber(
