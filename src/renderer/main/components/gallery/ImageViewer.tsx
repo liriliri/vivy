@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import store from '../../store'
-import LunaImageViewer from 'luna-image-viewer'
+import LunaImageViewer from 'luna-image-viewer/react'
+import ImageViewer from 'luna-image-viewer'
 import LunaModal from 'luna-modal/react'
 import LunaToolbar, {
   LunaToolbarSeparator,
@@ -13,35 +14,13 @@ import toBool from 'licia/toBool'
 import mime from 'licia/mime'
 import Style from './ImageViewer.module.scss'
 import convertBin from 'licia/convertBin'
-import { autorun } from 'mobx'
 import ToolbarIcon from '../common/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import { i18n } from '../../../lib/util'
 
 export default observer(function () {
-  const bodyRef = useRef<HTMLDivElement>(null)
-  const imageViewerRef = useRef<LunaImageViewer>()
+  const imageViewerRef = useRef<ImageViewer>()
   const [infoModalVisible, setInfoModalVisible] = useState(false)
-
-  useEffect(() => {
-    imageViewerRef.current = new LunaImageViewer(
-      bodyRef.current as HTMLDivElement,
-      {
-        image: '',
-      }
-    )
-    autorun(() => {
-      if (store.selectedImage) {
-        imageViewerRef.current?.setOption(
-          'image',
-          `data:image/png;base64,${store.selectedImage.data}`
-        )
-      } else {
-        imageViewerRef.current?.setOption('image', defaultImage)
-      }
-    })
-    return () => imageViewerRef.current?.destroy()
-  }, [])
 
   function save() {
     if (store.selectedImage) {
@@ -67,6 +46,11 @@ export default observer(function () {
         <div>{info.negativePrompt}</div>
       </>
     )
+  }
+
+  let image = defaultImage
+  if (store.selectedImage) {
+    image = `data:image/png;base64,${store.selectedImage.data}`
   }
 
   return (
@@ -120,7 +104,11 @@ export default observer(function () {
           disabled={!toBool(store.selectedImage)}
         />
       </LunaToolbar>
-      <div className={Style.body} ref={bodyRef}></div>
+      <LunaImageViewer
+        className={Style.body}
+        image={image}
+        onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
+      ></LunaImageViewer>
       {createPortal(
         <LunaModal
           title={i18n.t('imageInfo')}

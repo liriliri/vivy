@@ -4,6 +4,7 @@ import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
 import remove from 'licia/remove'
 import map from 'licia/map'
+import last from 'licia/last'
 import convertBin from 'licia/convertBin'
 import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
@@ -166,7 +167,7 @@ class Store {
       }
       this.selectImage(images[idx])
     }
-    remove(images, (item) => item === image)
+    remove(images, (item: IImage) => item === image)
   }
   deleteAllImages() {
     this.selectImage()
@@ -183,8 +184,8 @@ class Store {
           id: uuid(),
           data: await convertBin(buf, 'base64'),
         }
-        this.images.push(image)
         this.selectImage(image)
+        this.images.push(this.selectedImage!)
       }
     })
   }

@@ -1,4 +1,3 @@
-import { execa } from 'execa'
 import { BrowserWindow } from 'electron'
 import { resolveUnpack, isMac, getUserDataPath } from './util'
 import getFreePort from 'licia/getPort'
@@ -36,7 +35,8 @@ export async function start() {
     })
   }
 
-  port = await getFreePort(port)
+  port = await getFreePort(port, '127.0.0.1')
+  const { execa } = await import('execa')
   await execa(
     'python',
     [
