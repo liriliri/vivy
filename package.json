@@ -39,7 +39,7 @@
     "luna-data-grid": "^0.4.3",
     "luna-image-viewer": "^0.2.0",
     "luna-modal": "^1.1.0",
-    "luna-setting": "^0.8.0",
+    "luna-setting": "^0.9.0",
     "luna-toolbar": "^0.4.0",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^4.0.2",

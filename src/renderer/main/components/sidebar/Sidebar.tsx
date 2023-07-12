@@ -1,5 +1,8 @@
 import { useRef, useEffect } from 'react'
-import LunaSetting from 'luna-setting'
+import LunaSetting, {
+  LunaSettingNumber,
+  LunaSettingSelect,
+} from 'luna-setting/react'
 import { observer } from 'mobx-react-lite'
 import className from 'licia/className'
 import store from '../../store'
@@ -10,73 +13,18 @@ import each from 'licia/each'
 import { i18n } from '../../../lib/util'
 
 export default observer(function () {
-  const txt2imgOptionsRef = useRef<HTMLDivElement>(null)
+  const { txt2imgOptions } = store
 
-  useEffect(() => {
-    const setting = new LunaSetting(txt2imgOptionsRef.current as HTMLDivElement)
-    setting.on('change', (key, val) => {
-      store.setTxt2ImgOptions(key, val)
+  let samplers: any = {}
+  if (!isEmpty(store.samplers)) {
+    each(store.samplers, (sampler) => {
+      samplers[sampler] = sampler
     })
-    autorun(() => {
-      setting.clear()
-      const txt2imgOptions = store.txt2imgOptions
-      if (!isEmpty(store.samplers)) {
-        const options = {}
-        each(store.samplers, (sampler) => {
-          options[sampler] = sampler
-        })
-        setting.appendSelect(
-          'sampler',
-          txt2imgOptions.sampler,
-          i18n.t('samplingMethod'),
-          options
-        )
-      } else {
-        setting.appendSelect('sampler', 'loading', i18n.t('samplingMethod'), {
-          [i18n.t('loading')]: 'loading',
-        })
-      }
-      setting.appendNumber(
-        'steps',
-        txt2imgOptions.steps,
-        i18n.t('samplingSteps'),
-        {
-          min: 1,
-          max: 50,
-        }
-      )
-      setting.appendNumber('width', txt2imgOptions.width, i18n.t('width'), {
-        min: 64,
-        max: 2048,
-      })
-      setting.appendNumber('height', txt2imgOptions.height, i18n.t('height'), {
-        min: 64,
-        max: 2048,
-      })
-      setting.appendNumber(
-        'batchSize',
-        txt2imgOptions.batchSize,
-        i18n.t('batchSize'),
-        {
-          range: true,
-          min: 1,
-          max: 8,
-        }
-      )
-      setting.appendNumber(
-        'cfgScale',
-        txt2imgOptions.cfgScale,
-        i18n.t('cfgScale'),
-        {
-          range: true,
-          min: 1,
-          max: 30,
-        }
-      )
-      setting.appendNumber('seed', txt2imgOptions.seed, i18n.t('seed'), {})
-    })
-    return () => setting.destroy()
-  }, [])
+  } else {
+    samplers = {
+      [i18n.t('loading')]: 'loading',
+    }
+  }
 
   return (
     <div className={Style.sidebar}>
@@ -108,7 +56,67 @@ export default observer(function () {
           {i18n.t('generate')}
         </button>
       </div>
-      <div ref={txt2imgOptionsRef} className="generate-setting"></div>
+      <LunaSetting onChange={(key, val) => store.setTxt2ImgOptions(key, val)}>
+        <LunaSettingSelect
+          keyName="sampler"
+          value={txt2imgOptions.sampler}
+          title={i18n.t('samplingMethod')}
+          options={samplers}
+        />
+        <LunaSettingNumber
+          keyName="steps"
+          value={txt2imgOptions.steps}
+          title={i18n.t('samplingSteps')}
+          options={{
+            min: 1,
+            max: 50,
+          }}
+        />
+        <LunaSettingNumber
+          keyName="width"
+          value={txt2imgOptions.width}
+          title={i18n.t('width')}
+          options={{
+            min: 64,
+            max: 2048,
+          }}
+        />
+        <LunaSettingNumber
+          keyName="height"
+          value={txt2imgOptions.height}
+          title={i18n.t('height')}
+          options={{
+            min: 64,
+            max: 2048,
+          }}
+        />
+        <LunaSettingNumber
+          keyName="batchSize"
+          value={txt2imgOptions.batchSize}
+          title={i18n.t('batchSize')}
+          options={{
+            range: true,
+            min: 1,
+            max: 8,
+          }}
+        />
+        <LunaSettingNumber
+          keyName="cfgScale"
+          value={txt2imgOptions.cfgScale}
+          title={i18n.t('cfgScale')}
+          options={{
+            range: true,
+            min: 1,
+            max: 30,
+          }}
+        />
+        <LunaSettingNumber
+          keyName="seed"
+          value={txt2imgOptions.seed}
+          title={i18n.t('seed')}
+          options={{}}
+        />
+      </LunaSetting>
     </div>
   )
 })
