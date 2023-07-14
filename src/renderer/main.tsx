@@ -7,7 +7,7 @@ import './icon.css'
 import 'luna-setting/css'
 import 'luna-toolbar/css'
 import 'luna-image-viewer/css'
-import 'luna-data-grid/luna-data-grid.css'
+import 'luna-data-grid/css'
 import 'luna-modal/css'
 import './luna.scss'
 

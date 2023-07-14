@@ -1,56 +1,48 @@
-import LunaDataGrid from 'luna-data-grid'
-import { useEffect, useRef } from 'react'
+import LunaDataGrid from 'luna-data-grid/react'
+import { useEffect, useState } from 'react'
 import Style from './ModelList.module.scss'
-import store from '../store'
-import { autorun } from 'mobx'
+import { observer } from 'mobx-react-lite'
 
-export default function ModelList() {
-  const dataGridRef = useRef<HTMLDivElement>(null)
+export default observer(function ModelList() {
+  const [height, setHeight] = useState(window.innerHeight - 30)
 
   useEffect(() => {
-    const dataGrid = new LunaDataGrid(dataGridRef.current as HTMLDivElement, {
-      columns: [
-        {
-          id: 'modelName',
-          title: 'Model Name',
-        },
-        {
-          id: 'hash',
-          title: 'File Hash',
-        },
-        {
-          id: 'size',
-          title: 'File Size',
-        },
-        {
-          id: 'action',
-          title: 'Action',
-        },
-      ],
-    })
-
     function updateHeight() {
-      const height = window.innerHeight - 30
-      dataGrid.setOption({
-        minHeight: height,
-        maxHeight: height,
-      } as any)
+      setHeight(window.innerHeight - 30)
     }
 
     window.addEventListener('resize', updateHeight)
 
-    updateHeight()
-
-    autorun(() => {
-      dataGrid.clear()
-      console.log(store.models)
-    })
-
     return () => {
       window.removeEventListener('resize', updateHeight)
-      dataGrid.destroy()
     }
   }, [])
 
-  return <div className={Style.modelList} ref={dataGridRef}></div>
-}
+  const columns = [
+    {
+      id: 'modelName',
+      title: 'Model Name',
+    },
+    {
+      id: 'hash',
+      title: 'File Hash',
+    },
+    {
+      id: 'size',
+      title: 'File Size',
+    },
+    {
+      id: 'action',
+      title: 'Action',
+    },
+  ]
+
+  return (
+    <LunaDataGrid
+      className={Style.modelList}
+      columns={columns}
+      minHeight={height}
+      maxHeight={height}
+    />
+  )
+})
