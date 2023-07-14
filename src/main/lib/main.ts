@@ -1,5 +1,4 @@
 import path from 'path'
-import { app } from 'electron'
 import { isDev } from './util'
 import { BrowserWindow } from 'electron'
 

@@ -157,7 +157,7 @@ export async function getProgress(
 export async function waitForReady(
   checkInterval: number = 5.0
 ): Promise<boolean> {
-  return new Promise((resolve, _reject) => {
+  return new Promise((resolve) => {
     const interval = setInterval(async () => {
       const result = await getProgress()
       const progress = result.progress

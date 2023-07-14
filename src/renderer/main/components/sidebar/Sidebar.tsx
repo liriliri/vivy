@@ -1,4 +1,3 @@
-import { useRef, useEffect } from 'react'
 import LunaSetting, {
   LunaSettingNumber,
   LunaSettingSelect,
@@ -7,7 +6,6 @@ import { observer } from 'mobx-react-lite'
 import className from 'licia/className'
 import store from '../../store'
 import Style from './Sidebar.module.scss'
-import { autorun } from 'mobx'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import { i18n } from '../../../lib/util'

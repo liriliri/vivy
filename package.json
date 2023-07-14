@@ -15,6 +15,7 @@
     "build:renderer": "vite build",
     "start": "electron ./dist/main/index.js",
     "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css,json}\" \"*.{ts,json}\" \"script/*.mjs\" --write",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "genIcon": "lsla genIcon --input src/renderer/icon --output src/renderer/icon.css --name vivy-icon && lsla prettier src/renderer/icon.css --write"
   },
   "repository": {
@@ -29,11 +30,15 @@
   "devDependencies": {
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.4",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.0",
     "axios": "^1.4.0",
     "concurrently": "^8.0.1",
     "electron": "^24.1.2",
     "electron-builder": "^23.6.0",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
     "execa": "^7.1.1",
     "licia": "^1.38.2",
     "luna-data-grid": "^0.4.3",
@@ -46,6 +51,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.62.1",
+    "typescript": "^5.1.6",
     "vite": "^4.3.1",
     "zx": "^7.2.2"
   }
