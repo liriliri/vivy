@@ -23,6 +23,10 @@ switch (location.pathname) {
     App = lazy(() => import('./model/App.js') as Promise<any>)
     document.title = 'Model Manager'
     break
+  case '/logger':
+    App = lazy(() => import('./logger/App.js') as Promise<any>)
+    document.title = 'Logger'
+    break
 }
 
 ReactDOM.createRoot(container).render(<App />)
