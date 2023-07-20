@@ -1,10 +1,16 @@
 import path from 'path'
 import { isDev } from './util'
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 
 let win: BrowserWindow | null = null
 
+let isIpcInit = false
 export function showWin() {
+  if (!isIpcInit) {
+    isIpcInit = true
+    initIpc()
+  }
+
   if (win && !win.isDestroyed()) {
     win.focus()
     return
@@ -28,4 +34,10 @@ export function showWin() {
   if (isDev()) {
     win.loadURL('http://localhost:8080/logger')
   }
+}
+
+function initIpc() {
+  ipcMain.handle('getLogs', () => {
+    return []
+  })
 }

@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import { resolveUnpack, isMac, getUserDataPath } from './util'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
@@ -59,7 +59,13 @@ export async function start() {
 
 let win: BrowserWindow | null = null
 
+let isIpcInit = false
 export function showWin() {
+  if (!isIpcInit) {
+    isIpcInit = true
+    initIpc()
+  }
+
   if (win && !win.isDestroyed()) {
     win.focus()
     return
@@ -76,4 +82,8 @@ export function showWin() {
   win.setMenu(null)
   win.on('close', () => win?.destroy())
   win.loadURL(`http://localhost:${getPort()}`)
+}
+
+function initIpc() {
+  ipcMain.handle('getWebuiPort', () => getPort())
 }
