@@ -1,9 +1,10 @@
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow } from 'electron'
 import { resolveUnpack, isMac, getUserDataPath } from './util'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
 import extend from 'licia/extend'
 import isWindows from 'licia/isWindows'
+import childProcess from 'child_process'
 
 let port = 7860
 export const getPort = () => port
@@ -36,10 +37,10 @@ export async function start() {
   }
 
   port = await getFreePort(port, '127.0.0.1')
-  const { execa } = await import('execa')
-  await execa(
+  const subprocess = childProcess.spawn(
     'python',
     [
+      '-u',
       'launch.py',
       '--skip-prepare-environment',
       '--api',
@@ -50,22 +51,17 @@ export async function start() {
     ],
     {
       cwd: appDir,
-      stdout: 'inherit',
-      stderr: 'inherit',
+      stdio: ['inherit', 'pipe', 'pipe'],
       env,
     }
   )
+  subprocess.stdout.on('data', (data) => process.stdout.write(data))
+  subprocess.stderr.on('data', (data) => process.stderr.write(data))
 }
 
 let win: BrowserWindow | null = null
 
-let isIpcInit = false
 export function showWin() {
-  if (!isIpcInit) {
-    isIpcInit = true
-    initIpc()
-  }
-
   if (win && !win.isDestroyed()) {
     win.focus()
     return
@@ -82,8 +78,4 @@ export function showWin() {
   win.setMenu(null)
   win.on('close', () => win?.destroy())
   win.loadURL(`http://localhost:${getPort()}`)
-}
-
-function initIpc() {
-  ipcMain.handle('getWebuiPort', () => getPort())
 }

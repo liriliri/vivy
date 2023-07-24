@@ -1,9 +1,9 @@
-import Log from './components/Log'
+import Terminal from './components/Terminal'
 
 export default function App() {
   return (
     <>
-      <Log />
+      <Terminal />
     </>
   )
 }

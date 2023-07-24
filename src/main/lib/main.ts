@@ -1,6 +1,7 @@
 import path from 'path'
 import { isDev } from './util'
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
+import * as webui from './webui'
 
 let win: BrowserWindow | null = null
 
@@ -8,7 +9,14 @@ export function getWin() {
   return win
 }
 
+let isIpcInit = false
+
 export function showWin() {
+  if (!isIpcInit) {
+    isIpcInit = true
+    initIpc()
+  }
+
   win = new BrowserWindow({
     title: 'VIVY',
     width: 1280,
@@ -27,4 +35,8 @@ export function showWin() {
   } else {
     win.loadFile(path.resolve(__dirname, '../renderer/index.html'))
   }
+}
+
+function initIpc() {
+  ipcMain.handle('getWebuiPort', () => webui.getPort())
 }

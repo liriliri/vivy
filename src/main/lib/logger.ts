@@ -1,4 +1,5 @@
 import path from 'path'
+import isBuffer from 'licia/isBuffer'
 import { isDev } from './util'
 import { BrowserWindow, ipcMain } from 'electron'
 
@@ -37,7 +38,34 @@ export function showWin() {
 }
 
 function initIpc() {
-  ipcMain.handle('getLogs', () => {
-    return []
-  })
+  ipcMain.handle('getLogs', () => logs)
+}
+
+const logs: string[] = []
+
+export function init() {
+  const stdoutWrite = process.stdout.write
+  const stderrWrite = process.stderr.write
+
+  process.stdout.write = function (...args) {
+    addLog(args[0])
+
+    return stdoutWrite.apply(process.stdout, args as any)
+  }
+
+  process.stderr.write = function (...args) {
+    addLog(args[0])
+
+    return stderrWrite.apply(process.stderr, args as any)
+  }
+
+  function addLog(data: string | Buffer) {
+    if (isBuffer(data)) {
+      data = data.toString()
+    }
+    logs.push(data as string)
+    if (win) {
+      win.webContents.send('addLog', data)
+    }
+  }
 }

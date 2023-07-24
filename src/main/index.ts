@@ -1,5 +1,6 @@
 import { app } from 'electron'
 import * as webui from './lib/webui'
+import * as logger from './lib/logger'
 import * as menu from './lib/menu'
 import * as main from './lib/main'
 
@@ -11,6 +12,7 @@ if (!app.requestSingleInstanceLock()) {
 app.setName('Vivy')
 
 app.on('ready', () => {
+  logger.init()
   webui.start()
   main.showWin()
   menu.init()
