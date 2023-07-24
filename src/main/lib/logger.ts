@@ -29,7 +29,9 @@ export function showWin() {
       sandbox: false,
     },
   })
-  win.setMenu(null)
+  if (!isDev()) {
+    win.setMenu(null)
+  }
   win.on('close', () => win?.destroy())
 
   if (isDev()) {
@@ -61,7 +63,7 @@ export function init() {
 
   function addLog(data: string | Buffer) {
     if (isBuffer(data)) {
-      data = data.toString()
+      data = data.toString('utf8')
     }
     logs.push(data as string)
     if (win) {
