@@ -35,7 +35,13 @@ export function showWin() {
   win.on('close', () => win?.destroy())
 
   if (isDev()) {
-    win.loadURL('http://localhost:8080/logger')
+    win.loadURL('http://localhost:8080/?page=logger')
+  } else {
+    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
+      query: {
+        page: 'logger',
+      },
+    })
   }
 }
 

@@ -26,6 +26,12 @@ export function showWin() {
   win.on('close', () => win?.destroy())
 
   if (isDev()) {
-    win.loadURL('http://localhost:8080/model')
+    win.loadURL('http://localhost:8080/?page=model')
+  } else {
+    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
+      query: {
+        page: 'model',
+      },
+    })
   }
 }
