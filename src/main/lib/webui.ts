@@ -51,6 +51,7 @@ export async function start() {
     ],
     {
       cwd: appDir,
+      windowsHide: true,
       stdio: ['inherit', 'pipe', 'pipe'],
       env,
     }

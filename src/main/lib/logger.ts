@@ -32,7 +32,10 @@ export function showWin() {
   if (!isDev()) {
     win.setMenu(null)
   }
-  win.on('close', () => win?.destroy())
+  win.on('close', () => {
+    win?.destroy()
+    win = null
+  })
 
   if (isDev()) {
     win.loadURL('http://localhost:8080/?page=logger')
