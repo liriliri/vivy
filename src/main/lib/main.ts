@@ -2,6 +2,7 @@ import path from 'path'
 import { isDev } from './util'
 import { BrowserWindow, ipcMain } from 'electron'
 import * as webui from './webui'
+import * as logger from './logger'
 
 let win: BrowserWindow | null = null
 
@@ -39,4 +40,5 @@ export function showWin() {
 
 function initIpc() {
   ipcMain.handle('getWebuiPort', () => webui.getPort())
+  ipcMain.handle('showLogger', () => logger.showWin())
 }
