@@ -1,8 +1,25 @@
 import path from 'path'
 import { isDev } from './util'
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow, ipcMain, app } from 'electron'
 import * as webui from './webui'
 import * as logger from './logger'
+import FileStore from 'licia/FileStore'
+import { getUserDataPath } from './util'
+import fs from 'licia/fs'
+import mkdir from 'licia/mkdir'
+
+const store = new FileStore(getUserDataPath('data/main.json'), {
+  bounds: {
+    width: 1280,
+    height: 850,
+  },
+})
+
+fs.exists(getUserDataPath('data')).then((exists) => {
+  if (!exists) {
+    mkdir(getUserDataPath('data'))
+  }
+})
 
 let win: BrowserWindow | null = null
 
@@ -20,16 +37,21 @@ export function showWin() {
 
   win = new BrowserWindow({
     title: 'VIVY',
-    width: 1280,
-    height: 850,
     minWidth: 1280,
     minHeight: 850,
+    ...store.get('bounds'),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       webSecurity: false,
       sandbox: false,
     },
+    show: false,
   })
+  win.once('ready-to-show', () => win?.show())
+  win.on('close', () => app.quit())
+  const savePos = () => store.set('bounds', win?.getBounds())
+  win.on('resize', savePos)
+  win.on('moved', savePos)
 
   if (isDev()) {
     win.loadURL('http://localhost:8080')

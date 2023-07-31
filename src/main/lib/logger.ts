@@ -12,7 +12,7 @@ export function showWin() {
     initIpc()
   }
 
-  if (win && !win.isDestroyed()) {
+  if (win) {
     win.focus()
     return
   }
@@ -28,10 +28,14 @@ export function showWin() {
       webSecurity: false,
       sandbox: false,
     },
+    show: false,
+    backgroundColor: '#000',
   })
   if (!isDev()) {
     win.setMenu(null)
   }
+
+  win.once('ready-to-show', () => win?.show())
   win.on('close', () => {
     win?.destroy()
     win = null

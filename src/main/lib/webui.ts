@@ -63,7 +63,7 @@ export async function start() {
 let win: BrowserWindow | null = null
 
 export function showWin() {
-  if (win && !win.isDestroyed()) {
+  if (win) {
     win.focus()
     return
   }
@@ -75,8 +75,13 @@ export function showWin() {
     height: 850,
     minHeight: 850,
     minWidth: 1280,
+    show: false,
   })
   win.setMenu(null)
-  win.on('close', () => win?.destroy())
+  win.once('ready-to-show', () => win?.show())
+  win.on('close', () => {
+    win?.destroy()
+    win = null
+  })
   win.loadURL(`http://localhost:${getPort()}`)
 }

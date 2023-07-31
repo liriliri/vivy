@@ -5,7 +5,7 @@ import { BrowserWindow } from 'electron'
 let win: BrowserWindow | null = null
 
 export function showWin() {
-  if (win && !win.isDestroyed()) {
+  if (win) {
     win.focus()
     return
   }
@@ -21,9 +21,15 @@ export function showWin() {
       webSecurity: false,
       sandbox: false,
     },
+    show: false,
   })
   win.setMenu(null)
-  win.on('close', () => win?.destroy())
+
+  win.once('ready-to-show', () => win?.show())
+  win.on('close', () => {
+    win?.destroy()
+    win = null
+  })
 
   if (isDev()) {
     win.loadURL('http://localhost:8080/?page=prompt')
