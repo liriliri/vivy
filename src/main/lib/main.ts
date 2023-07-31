@@ -63,4 +63,6 @@ export function showWin() {
 function initIpc() {
   ipcMain.handle('getWebuiPort', () => webui.getPort())
   ipcMain.handle('showLogger', () => logger.showWin())
+  ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
+  ipcMain.handle('getMainStore', (_, name) => store.get(name))
 }

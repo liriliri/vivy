@@ -5,6 +5,8 @@ contextBridge.exposeInMainWorld('main', {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
   showLogger: () => ipcRenderer.invoke('showLogger'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
+  getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
+  setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
 })
 
 contextBridge.exposeInMainWorld('preload', {

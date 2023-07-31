@@ -4,8 +4,8 @@ import extend from 'licia/extend'
 import en from '../locales/en.json'
 import zhCN from '../locales/zh-CN.json'
 
-export async function invokeMain(api) {
-  return await (window as any).main[api]()
+export async function invokeMain(api, ...args) {
+  return await (window as any).main[api](...args)
 }
 
 export function ipcOnEvent(event: string, cb: types.AnyFn) {

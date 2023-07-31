@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, runInAction } from 'mobx'
+import { action, makeObservable, observable, runInAction, toJS } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
@@ -7,7 +7,9 @@ import map from 'licia/map'
 import convertBin from 'licia/convertBin'
 import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
+import extend from 'licia/extend'
 import * as webui from '../lib/webui'
+import { invokeMain } from '../lib/util'
 
 export enum TaskStatus {
   Wait,
@@ -113,7 +115,7 @@ interface IOptions {
 
 class Store {
   txt2imgOptions: ITxt2ImgOptions = {
-    prompt: 'a photograph of an astronaut riding a horse',
+    prompt: '',
     negativePrompt: '',
     model: '',
     sampler: 'Euler a',
@@ -151,6 +153,7 @@ class Store {
       deleteImage: action,
       openImage: action,
     })
+    this.load()
 
     this.waitForReady()
   }
@@ -187,6 +190,12 @@ class Store {
         this.images.push(this.selectedImage!)
       }
     })
+  }
+  async load() {
+    const txt2imgOptions = await invokeMain('getMainStore', 'txt2imgOptions')
+    if (txt2imgOptions) {
+      extend(this.txt2imgOptions, txt2imgOptions)
+    }
   }
   async stop() {
     await this.interrupt()
@@ -226,6 +235,7 @@ class Store {
   }
   setTxt2ImgOptions(key, val) {
     this.txt2imgOptions[key] = val
+    invokeMain('setMainStore', 'txt2imgOptions', toJS(this.txt2imgOptions))
   }
   async setOptions(key, val) {
     const { options } = this
