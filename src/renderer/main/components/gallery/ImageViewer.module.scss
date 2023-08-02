@@ -1,11 +1,9 @@
 .image-viewer {
   background: #fff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 181px;
+  position: relative;
   padding-top: 31px;
+  flex: 1;
+  overflow: hidden;
 }
 
 .toolbar {

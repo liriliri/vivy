@@ -1,11 +1,8 @@
 .image-list {
   background: var(--vivy-background);
   border-top: 1px solid var(--vivy-border);
-  position: absolute;
   height: 181px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   padding-top: 31px;
 }
 
