@@ -1,4 +1,11 @@
-import { action, makeObservable, observable, runInAction, toJS } from 'mobx'
+import {
+  action,
+  isObservable,
+  makeObservable,
+  observable,
+  runInAction,
+  toJS,
+} from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import Emitter from 'licia/Emitter'
@@ -135,6 +142,9 @@ class Store {
   images: IImage[] = []
   selectedImage?: IImage
   tasks: Task[] = []
+  ui = {
+    imageListHeight: 181,
+  }
   constructor() {
     makeObservable(this, {
       txt2imgOptions: observable,
@@ -145,8 +155,10 @@ class Store {
       images: observable,
       options: observable,
       selectedImage: observable,
+      ui: observable,
       waitForReady: action,
       setTxt2ImgOptions: action,
+      setUi: action,
       createTask: action,
       selectImage: action,
       deleteAllImages: action,
@@ -192,10 +204,20 @@ class Store {
     })
   }
   async load() {
-    const txt2imgOptions = await invokeMain('getMainStore', 'txt2imgOptions')
+    const txt2imgOptions = await this.getStore('txt2imgOptions')
     if (txt2imgOptions) {
       extend(this.txt2imgOptions, txt2imgOptions)
     }
+    const ui = await this.getStore('ui')
+    if (ui) {
+      extend(this.ui, ui)
+    }
+  }
+  async getStore(name: string) {
+    return await invokeMain('getMainStore', name)
+  }
+  async setStore(name: string, val: any) {
+    await invokeMain('setMainStore', name, isObservable(val) ? toJS(val) : val)
   }
   async stop() {
     await this.interrupt()
@@ -233,9 +255,13 @@ class Store {
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
+  setUi(key, val) {
+    this.ui[key] = val
+    this.setStore('ui', this.ui)
+  }
   setTxt2ImgOptions(key, val) {
     this.txt2imgOptions[key] = val
-    invokeMain('setMainStore', 'txt2imgOptions', toJS(this.txt2imgOptions))
+    this.setStore('txt2imgOptions', this.txt2imgOptions)
   }
   async setOptions(key, val) {
     const { options } = this

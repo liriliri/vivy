@@ -1,9 +1,20 @@
 .image-list {
   background: var(--vivy-background);
   border-top: 1px solid var(--vivy-border);
-  height: 181px;
   position: relative;
   padding-top: 31px;
+  min-height: 181px;
+  max-height: calc(100vh - 262px);
+}
+
+.resizer {
+  position: absolute;
+  width: 100%;
+  touch-action: none;
+  left: 0;
+  top: -8px;
+  cursor: row-resize;
+  z-index: 120;
 }
 
 .toolbar {

@@ -10,6 +10,7 @@ import store, { IImage, TaskStatus } from '../../store'
 import Style from './ImageList.module.scss'
 import { i18n } from '../../../lib/util'
 import ToolbarIcon from '../common/ToolbarIcon'
+import { useCallback, useRef, useState } from 'react'
 
 function Image(image: IImage) {
   return (
@@ -27,6 +28,10 @@ function Image(image: IImage) {
 
 export default observer(function () {
   const images: JSX.Element[] = []
+  const imageListRef = useRef<HTMLDivElement>(null)
+  const [resizerStyle, setResizerStyle] = useState<any>({
+    height: '10px',
+  })
 
   each(store.images, (image) => {
     images.push(Image(image))
@@ -54,8 +59,46 @@ export default observer(function () {
     })
   })
 
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    const startY = e.clientY
+    const height = imageListRef.current!.offsetHeight
+    setResizerStyle({
+      position: 'fixed',
+      width: '100%',
+      height: '100%',
+    })
+
+    const onMouseMove = (e: MouseEvent) => {
+      const deltaY = startY - e.clientY
+      imageListRef.current!.style.height = `${height + deltaY}px`
+    }
+
+    const onMouseUp = (e: MouseEvent) => {
+      setResizerStyle({
+        height: '10px',
+      })
+      const deltaY = startY - e.clientY
+      store.setUi('imageListHeight', height + deltaY)
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+  }, [])
+
   return (
-    <div className={Style.imageList}>
+    <div
+      className={Style.imageList}
+      style={{
+        height: store.ui.imageListHeight,
+      }}
+      ref={imageListRef}
+    >
+      <div
+        className={Style.resizer}
+        style={resizerStyle}
+        onMouseDown={onMouseDown}
+      ></div>
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
           icon="open-file"
