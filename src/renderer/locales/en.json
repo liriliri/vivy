@@ -4,6 +4,7 @@
   "interrupt": "Interrupt Current Task",
   "stop": "Stop All Tasks",
   "deleteAllImages": "Delete All Images",
+  "deleteAllImagesConfirm": "Are you sure you want to delete all images?",
   "imageInfo": "Image Info",
   "loading": "Loading",
   "prompt": "Prompt",

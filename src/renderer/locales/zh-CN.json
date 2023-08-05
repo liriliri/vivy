@@ -4,6 +4,7 @@
   "interrupt": "中止当前任务",
   "stop": "停止所有任务",
   "deleteAllImages": "删除所有图片",
+  "deleteAllImagesConfirm": "确定要删除所有图片吗？",
   "imageInfo": "图片信息",
   "loading": "加载中",
   "prompt": "提示词",

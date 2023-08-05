@@ -11,6 +11,7 @@ import Style from './ImageList.module.scss'
 import { i18n } from '../../../lib/util'
 import ToolbarIcon from '../common/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
+import LunaModal from 'luna-modal'
 
 function Image(image: IImage) {
   return (
@@ -123,7 +124,14 @@ export default observer(function () {
         <ToolbarIcon
           icon="delete-all"
           title={i18n.t('deleteAllImages')}
-          onClick={() => store.deleteAllImages()}
+          onClick={async () => {
+            const result = await LunaModal.confirm(
+              i18n.t('deleteAllImagesConfirm')
+            )
+            if (result) {
+              store.deleteAllImages()
+            }
+          }}
           disabled={isEmpty(store.images)}
         />
       </LunaToolbar>
