@@ -8,12 +8,26 @@ body {
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   user-select: none;
+  color: var(--vivy-foreground);
   cursor: default;
 }
 
 :root {
+  --vivy-foreground: #333;
   --vivy-background: #f1f3f4;
+  --vivy-darker-background: #eee;
+  --vivy-lighter-background: #fff;
   --vivy-border: #dadce0;
+  --vivy-primary: #0e639c;
+  --vivy-primary-lighter: #1177bb;
+}
+
+.-theme-with-dark-background {
+  --vivy-foreground: #a5a5a5;
+  --vivy-background: #242424;
+  --vivy-darker-background: #292a2d;
+  --vivy-lighter-background: #3a3a3a;
+  --vivy-border: #3d3d3d;
   --vivy-primary: #0e639c;
   --vivy-primary-lighter: #1177bb;
 }

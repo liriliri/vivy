@@ -1,8 +1,13 @@
 .luna-setting {
-  background: transparent;
+  color: var(--vivy-foreground);
+  background: var(--vivy-background);
 }
 
 .luna-setting-item {
+  &:hover,
+  &.luna-setting-selected {
+    background: var(--vivy-darker-background);
+  }
   &.luna-setting-selected:focus {
     outline: none;
   }
@@ -10,12 +15,25 @@
 
 .luna-image-viewer {
   border: none;
-  background: transparent;
+  background: var(--vivy-lighter-background);
 }
 
 .luna-toolbar {
+  color: var(--vivy-foreground);
   background: var(--vivy-background);
-  border-bottom: 1px solid var(--vivy-border);
+  border-bottom-color: var(--vivy-border);
+  .luna-toolbar-item-separator {
+    background: var(--vivy-border);
+  }
+  .luna-toolbar-item-select {
+    select {
+      color: var(--vivy-foreground);
+      border-color: var(--vivy-lighter-background);
+    }
+    &:after {
+      border-top-color: var(--vivy-foreground);
+    }
+  }
   .icon {
     display: flex;
     align-items: center;
@@ -27,4 +45,14 @@
 
 .luna-modal {
   z-index: 100;
+}
+
+.-theme-with-dark-background {
+  .luna-toolbar {
+    .luna-toolbar-item-select {
+      select {
+        background: var(--vivy-lighter-background);
+      }
+    }
+  }
 }

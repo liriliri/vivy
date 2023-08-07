@@ -45,7 +45,7 @@
 .item {
   border: 1px solid var(--vivy-border);
   float: left;
-  background: #fff;
+  background: var(--vivy-lighter-background);
   display: flex;
   justify-content: center;
   align-items: center;
