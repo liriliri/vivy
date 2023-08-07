@@ -43,18 +43,12 @@
 }
 
 .item {
-  width: 112px;
-  height: 112px;
-  margin-right: 8px;
-  margin-bottom: 8px;
   border: 1px solid var(--vivy-border);
-  border-radius: 4px;
   float: left;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px;
   &:hover,
   &.selected {
     border-color: var(--vivy-primary);

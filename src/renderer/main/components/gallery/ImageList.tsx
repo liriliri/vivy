@@ -13,26 +13,13 @@ import ToolbarIcon from '../common/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
 
-function Image(image: IImage) {
-  return (
-    <div
-      className={className(Style.item, {
-        [Style.selected]: image.id === store.selectedImage?.id,
-      })}
-      key={image.id}
-      onClick={() => store.selectImage(image)}
-    >
-      <img src={`data:image/png;base64,${image.data}`} />
-    </div>
-  )
-}
-
 export default observer(function () {
   const images: JSX.Element[] = []
   const imageListRef = useRef<HTMLDivElement>(null)
   const [resizerStyle, setResizerStyle] = useState<any>({
     height: '10px',
   })
+  const itemStyle = getItemStyle()
 
   each(store.images, (image) => {
     images.push(Image(image))
@@ -45,13 +32,13 @@ export default observer(function () {
       } else {
         if (task.status === TaskStatus.Wait) {
           images.push(
-            <div className={Style.item} key={image.id}>
+            <div className={Style.item} key={image.id} style={itemStyle}>
               <span className="icon-image"></span>
             </div>
           )
         } else {
           images.push(
-            <div className={Style.item} key={image.id}>
+            <div className={Style.item} key={image.id} style={itemStyle}>
               {task.progress}%
             </div>
           )
@@ -108,6 +95,25 @@ export default observer(function () {
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
+          icon="zoom-in"
+          title={i18n.t('zoomIn')}
+          disabled={store.ui.imageListItemSize > 200}
+          onClick={() => {
+            const itemSize = Math.round(store.ui.imageListItemSize * 1.1)
+            store.setUi('imageListItemSize', itemSize)
+          }}
+        />
+        <ToolbarIcon
+          icon="zoom-out"
+          title={i18n.t('zoomOut')}
+          disabled={store.ui.imageListItemSize < 50}
+          onClick={() => {
+            const itemSize = Math.round(store.ui.imageListItemSize * 0.9)
+            store.setUi('imageListItemSize', itemSize)
+          }}
+        />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
           icon="stop"
           title={i18n.t('stop')}
           onClick={() => store.stop()}
@@ -145,3 +151,40 @@ export default observer(function () {
     </div>
   )
 })
+
+function Image(image: IImage) {
+  return (
+    <div
+      className={className(Style.item, {
+        [Style.selected]: image.id === store.selectedImage?.id,
+      })}
+      key={image.id}
+      style={getItemStyle()}
+      onClick={() => store.selectImage(image)}
+    >
+      <img src={`data:image/png;base64,${image.data}`} />
+    </div>
+  )
+}
+
+function getItemStyle() {
+  const { imageListItemSize: itemSize } = store.ui
+  let padding = 4
+  let margin = 8
+  let borderRadius = 4
+
+  if (itemSize < 100) {
+    padding = 2
+    margin = 4
+    borderRadius = 2
+  }
+
+  return {
+    width: itemSize,
+    height: itemSize,
+    marginRight: margin,
+    marginBottom: margin,
+    borderRadius,
+    padding,
+  }
+}

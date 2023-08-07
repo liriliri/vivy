@@ -144,6 +144,7 @@ class Store {
   tasks: Task[] = []
   ui = {
     imageListHeight: 181,
+    imageListItemSize: 112,
   }
   constructor() {
     makeObservable(this, {
