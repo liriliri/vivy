@@ -1,3 +1,5 @@
+@import './color.scss';
+
 * {
   box-sizing: border-box;
 }
@@ -8,28 +10,44 @@ body {
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   user-select: none;
-  color: var(--vivy-foreground);
+  color: var(--vivy-color-text);
   cursor: default;
 }
 
+@mixin prefix($declarations) {
+  @each $property, $value in $declarations {
+    #{'--vivy-' + $property}: $value;
+  }
+}
+
 :root {
-  --vivy-foreground: #333;
+  @include prefix(
+    (
+      color-text: $color-text,
+      color-primary: $color-primary,
+      color-primary-hover: $color-primary-hover,
+      color-primary-active: $color-primary-active,
+      color-border: $color-border,
+    )
+  );
   --vivy-background: #f1f3f4;
   --vivy-darker-background: #eee;
   --vivy-lighter-background: #fff;
-  --vivy-border: #dadce0;
-  --vivy-primary: #0e639c;
-  --vivy-primary-lighter: #1177bb;
 }
 
 .-theme-with-dark-background {
-  --vivy-foreground: #a5a5a5;
+  @include prefix(
+    (
+      color-text: $color-text-dark,
+      color-primary: $color-primary-dark,
+      color-primary-hover: $color-primary-hover-dark,
+      color-primary-active: $color-primary-active-dark,
+      color-border: $color-border-dark,
+    )
+  );
   --vivy-background: #242424;
   --vivy-darker-background: #292a2d;
   --vivy-lighter-background: #3a3a3a;
-  --vivy-border: #3d3d3d;
-  --vivy-primary: #0e639c;
-  --vivy-primary-lighter: #1177bb;
 }
 
 ::-webkit-scrollbar {
@@ -56,17 +74,20 @@ body {
 
 textarea {
   outline: none;
-  border: 1px solid var(--vivy-border);
+  border: 1px solid var(--vivy-color-border);
   border-radius: 4px;
 }
 
 button {
-  background: var(--vivy-primary);
+  background: var(--vivy-color-primary);
   border: none;
   color: #fff;
   border-radius: 4px;
   padding: 6px;
+  &:hover {
+    background: var(--vivy-color-primary-hover);
+  }
   &:active {
-    background: var(--vivy-primary-lighter);
+    background: var(--vivy-color-primary-active);
   }
 }

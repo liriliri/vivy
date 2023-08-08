@@ -1,10 +1,10 @@
 .image-list {
   background: var(--vivy-background);
-  border-top: 1px solid var(--vivy-border);
+  border-top: 1px solid var(--vivy-color-border);
   position: relative;
   padding-top: 31px;
   min-height: 181px;
-  max-height: calc(100vh - 262px);
+  max-height: calc(100vh - 306px);
 }
 
 .resizer {
@@ -43,7 +43,7 @@
 }
 
 .item {
-  border: 1px solid var(--vivy-border);
+  border: 1px solid var(--vivy-color-border);
   float: left;
   background: var(--vivy-lighter-background);
   display: flex;
@@ -51,7 +51,7 @@
   align-items: center;
   &:hover,
   &.selected {
-    border-color: var(--vivy-primary);
+    border-color: var(--vivy-color-primary);
   }
   img {
     width: 100%;

@@ -1,7 +1,7 @@
 .sidebar {
   background: var(--vivy-background);
   position: absolute;
-  border-right: 1px solid var(--vivy-border);
+  border-right: 1px solid var(--vivy-color-border);
   left: 0;
   top: 31px;
   bottom: 22px;
@@ -11,7 +11,7 @@
 
 .generate-basic {
   padding: 14px 8px;
-  border-bottom: 1px solid var(--vivy-border);
+  border-bottom: 1px solid var(--vivy-color-border);
 }
 
 .prompt,
@@ -22,7 +22,7 @@
     font-size: 12px;
     resize: none;
     width: 100%;
-    color: var(--vivy-foreground);
+    color: var(--vivy-color-text);
     background: var(--vivy-lighter-background);
   }
 }

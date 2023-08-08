@@ -1,5 +1,5 @@
 .luna-setting {
-  color: var(--vivy-foreground);
+  color: var(--vivy-color-text);
   background: var(--vivy-background);
 }
 
@@ -19,26 +19,26 @@
 }
 
 .luna-toolbar {
-  color: var(--vivy-foreground);
+  color: var(--vivy-color-text);
   background: var(--vivy-background);
-  border-bottom-color: var(--vivy-border);
+  border-bottom-color: var(--vivy-color-border);
   .luna-toolbar-item-separator {
-    background: var(--vivy-border);
+    background: var(--vivy-color-border);
   }
   .luna-toolbar-item-select {
     select {
-      color: var(--vivy-foreground);
+      color: var(--vivy-color-text);
       border-color: var(--vivy-lighter-background);
     }
     &:after {
-      border-top-color: var(--vivy-foreground);
+      border-top-color: var(--vivy-color-text);
     }
   }
   .icon {
     display: flex;
     align-items: center;
     &:hover {
-      color: var(--vivy-primary);
+      color: var(--vivy-color-primary);
     }
   }
 }
