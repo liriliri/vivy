@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, app } from 'electron'
 import { resolveUnpack, isMac, getUserDataPath } from './util'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
@@ -58,6 +58,8 @@ export async function start() {
   )
   subprocess.stdout.on('data', (data) => process.stdout.write(data))
   subprocess.stderr.on('data', (data) => process.stderr.write(data))
+
+  app.on('will-quit', () => subprocess.kill())
 }
 
 let win: BrowserWindow | null = null
