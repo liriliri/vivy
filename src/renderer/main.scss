@@ -28,14 +28,15 @@ body {
       color-primary-hover: $color-primary-hover,
       color-primary-active: $color-primary-active,
       color-border: $color-border,
+      color-bg-container: $color-bg-container,
+      color-fill-secondary: $color-fill-secondary,
+      color-white: $color-white,
     )
   );
-  --vivy-background: #f1f3f4;
-  --vivy-darker-background: #eee;
-  --vivy-lighter-background: #fff;
 }
 
 .-theme-with-dark-background {
+  color-scheme: dark;
   @include prefix(
     (
       color-text: $color-text-dark,
@@ -43,11 +44,10 @@ body {
       color-primary-hover: $color-primary-hover-dark,
       color-primary-active: $color-primary-active-dark,
       color-border: $color-border-dark,
+      color-bg-container: $color-bg-container-dark,
+      color-fill-secondary: $color-fill-secondary-dark,
     )
   );
-  --vivy-background: #242424;
-  --vivy-darker-background: #292a2d;
-  --vivy-lighter-background: #3a3a3a;
 }
 
 ::-webkit-scrollbar {

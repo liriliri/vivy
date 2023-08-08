@@ -1,26 +1,61 @@
 .luna-setting {
   color: var(--vivy-color-text);
-  background: var(--vivy-background);
+  background: var(--vivy-color-bg-container);
 }
 
 .luna-setting-item {
   &:hover,
   &.luna-setting-selected {
-    background: var(--vivy-darker-background);
+    background: var(--vivy-color-fill-secondary);
   }
   &.luna-setting-selected:focus {
     outline: none;
   }
 }
 
+.luna-setting-item-select {
+  .luna-setting-select {
+    select {
+      color: var(--vivy-color-text);
+      border-color: var(--vivy-color-border);
+      background: var(--vivy-color-bg-container);
+    }
+    &:after {
+      border-top-color: var(--vivy-color-text);
+    }
+  }
+}
+
+.luna-setting-item-number {
+  input[type='number'] {
+    background: var(--vivy-color-bg-container);
+    border-color: var(--vivy-color-border);
+    color: var(--vivy-color-text);
+  }
+  .luna-setting-range-container {
+    .luna-setting-range-track {
+      .luna-setting-range-track-bar {
+        background: var(--vivy-color-border);
+        .luna-setting-range-track-progress {
+          background: var(--vivy-color-primary);
+        }
+      }
+    }
+    input::-webkit-slider-thumb {
+      border-color: var(--vivy-color-border);
+      background: var(--vivy-color-white);
+    }
+  }
+}
+
 .luna-image-viewer {
   border: none;
-  background: var(--vivy-lighter-background);
+  background: var(--vivy-color-bg-container);
 }
 
 .luna-toolbar {
   color: var(--vivy-color-text);
-  background: var(--vivy-background);
+  background: var(--vivy-color-bg-container);
   border-bottom-color: var(--vivy-color-border);
   .luna-toolbar-item-separator {
     background: var(--vivy-color-border);
@@ -28,7 +63,8 @@
   .luna-toolbar-item-select {
     select {
       color: var(--vivy-color-text);
-      border-color: var(--vivy-lighter-background);
+      background: var(--vivy-color-bg-container);
+      border-color: var(--vivy-color-border);
     }
     &:after {
       border-top-color: var(--vivy-color-text);
@@ -47,11 +83,30 @@
   z-index: 100;
 }
 
-.-theme-with-dark-background {
-  .luna-toolbar {
-    .luna-toolbar-item-select {
-      select {
-        background: var(--vivy-lighter-background);
+.luna-modal-body,
+.luna-modal-input {
+  color: var(--vivy-color-text);
+  background: var(--vivy-color-bg-container);
+}
+
+.luna-modal-input {
+  user-select: text !important;
+  border-color: var(--vivy-color-border);
+}
+
+.luna-modal-button-group {
+  .luna-modal-secondary {
+    border-color: var(--vivy-color-border);
+    color: var(--vivy-color-text);
+    background: var(--vivy-color-bg-container);
+  }
+  .luna-modal-primary {
+    background: var(--vivy-color-primary);
+  }
+  .luna-modal-button {
+    &:active {
+      &::before {
+        background: var(--vivy-color-primary);
       }
     }
   }

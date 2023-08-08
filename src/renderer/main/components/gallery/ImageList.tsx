@@ -97,7 +97,7 @@ export default observer(function () {
         <ToolbarIcon
           icon="zoom-in"
           title={i18n.t('zoomIn')}
-          disabled={store.ui.imageListItemSize > 200}
+          disabled={store.ui.imageListItemSize > 200 || isEmpty(images)}
           onClick={() => {
             const itemSize = Math.round(store.ui.imageListItemSize * 1.1)
             store.setUi('imageListItemSize', itemSize)
@@ -106,7 +106,7 @@ export default observer(function () {
         <ToolbarIcon
           icon="zoom-out"
           title={i18n.t('zoomOut')}
-          disabled={store.ui.imageListItemSize < 50}
+          disabled={store.ui.imageListItemSize < 50 || isEmpty(images)}
           onClick={() => {
             const itemSize = Math.round(store.ui.imageListItemSize * 0.9)
             store.setUi('imageListItemSize', itemSize)

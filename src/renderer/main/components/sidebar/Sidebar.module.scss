@@ -1,5 +1,5 @@
 .sidebar {
-  background: var(--vivy-background);
+  background: var(--vivy-color-bg-container);
   position: absolute;
   border-right: 1px solid var(--vivy-color-border);
   left: 0;
@@ -23,7 +23,7 @@
     resize: none;
     width: 100%;
     color: var(--vivy-color-text);
-    background: var(--vivy-lighter-background);
+    background: var(--vivy-color-bg-container);
   }
 }
 

@@ -1,5 +1,5 @@
 .image-list {
-  background: var(--vivy-background);
+  background: var(--vivy-color-bg-container);
   border-top: 1px solid var(--vivy-color-border);
   position: relative;
   padding-top: 31px;
@@ -18,7 +18,7 @@
 }
 
 .toolbar {
-  background: var(--vivy-background);
+  background: var(--vivy-color-bg-container);
   position: absolute;
   top: 0;
   left: 0;
@@ -45,7 +45,7 @@
 .item {
   border: 1px solid var(--vivy-color-border);
   float: left;
-  background: var(--vivy-lighter-background);
+  background: var(--vivy-color-bg-container);
   display: flex;
   justify-content: center;
   align-items: center;
