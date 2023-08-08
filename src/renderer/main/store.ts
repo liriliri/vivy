@@ -145,6 +145,7 @@ class Store {
   ui = {
     imageListHeight: 181,
     imageListItemSize: 112,
+    sidebarWidth: 400,
   }
   constructor() {
     makeObservable(this, {

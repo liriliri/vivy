@@ -6,7 +6,7 @@
 .luna-setting-item {
   &:hover,
   &.luna-setting-selected {
-    background: var(--vivy-color-fill-secondary);
+    background: none;
   }
   &.luna-setting-selected:focus {
     outline: none;

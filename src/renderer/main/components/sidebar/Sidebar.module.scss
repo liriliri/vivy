@@ -1,12 +1,19 @@
 .sidebar {
+  position: relative;
   background: var(--vivy-color-bg-container);
-  position: absolute;
   border-right: 1px solid var(--vivy-color-border);
-  left: 0;
-  top: 31px;
-  bottom: 22px;
   width: 400px;
-  overflow-y: auto;
+  min-width: 350px;
+  max-width: calc(100vw - 222px);
+}
+
+.resizer {
+  position: absolute;
+  height: 100%;
+  right: -8px;
+  top: 0;
+  cursor: col-resize;
+  z-index: 80;
 }
 
 .generate-basic {

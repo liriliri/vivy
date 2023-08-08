@@ -9,8 +9,13 @@ import Style from './Sidebar.module.scss'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import { i18n } from '../../../lib/util'
+import { useCallback, useRef, useState } from 'react'
 
 export default observer(function () {
+  const sidebarRef = useRef<HTMLDivElement>(null)
+  const [resizerStyle, setResizerStyle] = useState<any>({
+    width: '10px',
+  })
   const { txt2imgOptions } = store
 
   let samplers: any = {}
@@ -24,8 +29,44 @@ export default observer(function () {
     }
   }
 
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    const startX = e.clientX
+    const width = sidebarRef.current!.offsetWidth
+    setResizerStyle({
+      position: 'fixed',
+      width: '100%',
+      height: '100%',
+    })
+
+    const onMouseMove = (e: MouseEvent) => {
+      const deltaX = startX - e.clientX
+      sidebarRef.current!.style.width = `${width - deltaX}px`
+    }
+
+    const onMouseUp = (e: MouseEvent) => {
+      setResizerStyle({
+        width: '10px',
+      })
+      const deltaX = startX - e.clientX
+      store.setUi('sidebarWidth', width - deltaX)
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+  }, [])
+
   return (
-    <div className={Style.sidebar}>
+    <div
+      className={Style.sidebar}
+      ref={sidebarRef}
+      style={{ width: store.ui.sidebarWidth }}
+    >
+      <div
+        className={Style.resizer}
+        style={resizerStyle}
+        onMouseDown={onMouseDown}
+      ></div>
       <div className={Style.generateBasic}>
         <div className={Style.prompt}>
           <textarea
