@@ -16,7 +16,7 @@ export default observer(function () {
     <div className={Style.statusbar}>
       <div
         className={className(Style.item, Style.button)}
-        onClick={() => invokeMain('showLogger')}
+        onClick={() => invokeMain('showTerminal')}
       >
         <span className="icon-terminal"></span>
       </div>

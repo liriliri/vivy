@@ -2,7 +2,7 @@ import { Menu, MenuItemConstructorOptions, app } from 'electron'
 import * as webui from './webui'
 import * as prompt from './prompt'
 import * as model from './model'
-import * as logger from './logger'
+import * as terminal from './terminal'
 import { isMac } from './util'
 
 function getTemplate(): MenuItemConstructorOptions[] {
@@ -48,9 +48,9 @@ function getTemplate(): MenuItemConstructorOptions[] {
         },
       },
       {
-        label: 'Logger',
+        label: 'Terminal',
         click() {
-          logger.showWin()
+          terminal.showWin()
         },
       },
       {

@@ -25,9 +25,9 @@ switch (getUrlParam('page')) {
     App = lazy(() => import('./model/App.js') as Promise<any>)
     document.title = 'Model Manager'
     break
-  case 'logger':
-    App = lazy(() => import('./logger/App.js') as Promise<any>)
-    document.title = 'Logger'
+  case 'terminal':
+    App = lazy(() => import('./terminal/App.js') as Promise<any>)
+    document.title = 'Terminal'
     break
 }
 

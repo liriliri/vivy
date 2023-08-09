@@ -18,7 +18,7 @@ export function showWin() {
   }
 
   win = new BrowserWindow({
-    title: 'Logger',
+    title: 'Terminal',
     width: 960,
     height: 640,
     minWidth: 960,
@@ -42,11 +42,11 @@ export function showWin() {
   })
 
   if (isDev()) {
-    win.loadURL('http://localhost:8080/?page=logger')
+    win.loadURL('http://localhost:8080/?page=terminal')
   } else {
     win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
       query: {
-        page: 'logger',
+        page: 'terminal',
       },
     })
   }

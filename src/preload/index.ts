@@ -3,7 +3,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('main', {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
-  showLogger: () => ipcRenderer.invoke('showLogger'),
+  showTerminal: () => ipcRenderer.invoke('showTerminal'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
   setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
