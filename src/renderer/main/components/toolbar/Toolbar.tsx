@@ -1,4 +1,7 @@
-import LunaToolbar, { LunaToolbarSelect } from 'luna-toolbar/react'
+import LunaToolbar, {
+  LunaToolbarHtml,
+  LunaToolbarSelect,
+} from 'luna-toolbar/react'
 import store from '../../store'
 import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
@@ -6,6 +9,7 @@ import types from 'licia/types'
 import Style from './Toolbar.module.scss'
 import { observer } from 'mobx-react-lite'
 import { i18n } from '../../../lib/util'
+import loadingImg from '../../../assets/img/loading.svg'
 
 export default observer(function () {
   let modelOptions: types.PlainObj<string> = {}
@@ -22,6 +26,14 @@ export default observer(function () {
     }
   }
 
+  const loading = (
+    <LunaToolbarHtml>
+      {store.isReady ? null : (
+        <img className={Style.loading} src={loadingImg} />
+      )}
+    </LunaToolbarHtml>
+  )
+
   return (
     <LunaToolbar
       className={Style.toolbar}
@@ -36,6 +48,7 @@ export default observer(function () {
         options={modelOptions}
         disabled={modelDisabled}
       />
+      {loading}
     </LunaToolbar>
   )
 })

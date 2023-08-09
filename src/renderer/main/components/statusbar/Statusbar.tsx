@@ -18,7 +18,7 @@ export default observer(function () {
         className={className(Style.item, Style.button)}
         onClick={() => invokeMain('showLogger')}
       >
-        {status}
+        <span className="icon-terminal"></span>
       </div>
     </div>
   )
