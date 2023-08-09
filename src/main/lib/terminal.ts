@@ -2,6 +2,14 @@ import path from 'path'
 import isBuffer from 'licia/isBuffer'
 import { isDev } from './util'
 import { BrowserWindow, ipcMain } from 'electron'
+import { getTerminalStore } from './store'
+
+const store = getTerminalStore({
+  bounds: {
+    width: 960,
+    height: 640,
+  },
+})
 
 let win: BrowserWindow | null = null
 
@@ -19,10 +27,9 @@ export function showWin() {
 
   win = new BrowserWindow({
     title: 'Terminal',
-    width: 960,
-    height: 640,
     minWidth: 960,
     minHeight: 640,
+    ...store.get('bounds'),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       webSecurity: false,
@@ -40,6 +47,9 @@ export function showWin() {
     win?.destroy()
     win = null
   })
+  const savePos = () => store.set('bounds', win?.getBounds())
+  win.on('resize', savePos)
+  win.on('moved', savePos)
 
   if (isDev()) {
     win.loadURL('http://localhost:8080/?page=terminal')

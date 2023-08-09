@@ -3,22 +3,13 @@ import { isDev } from './util'
 import { BrowserWindow, ipcMain, app } from 'electron'
 import * as webui from './webui'
 import * as terminal from './terminal'
-import FileStore from 'licia/FileStore'
-import { getUserDataPath } from './util'
-import fs from 'licia/fs'
-import mkdir from 'licia/mkdir'
+import { getMainStore } from './store'
 
-const store = new FileStore(getUserDataPath('data/main.json'), {
+const store = getMainStore({
   bounds: {
     width: 1280,
     height: 850,
   },
-})
-
-fs.exists(getUserDataPath('data')).then((exists) => {
-  if (!exists) {
-    mkdir(getUserDataPath('data'))
-  }
 })
 
 let win: BrowserWindow | null = null
