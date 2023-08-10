@@ -23,5 +23,6 @@
   "zoomOut": "Zoom Out",
   "rotateLeft": "Rotate Left",
   "rotateRight": "Rotate Right",
-  "delete": "Delete"
+  "delete": "Delete",
+  "maximize": "Maximize"
 }

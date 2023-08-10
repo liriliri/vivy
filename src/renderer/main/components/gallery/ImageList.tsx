@@ -76,7 +76,10 @@ export default observer(function () {
 
   return (
     <div
-      className={Style.imageList}
+      className={className({
+        [Style.imageList]: true,
+        'full-mode': store.ui.imageListMaximized,
+      })}
       style={{
         height: store.ui.imageListHeight,
       }}
@@ -126,6 +129,13 @@ export default observer(function () {
           disabled={isEmpty(store.tasks)}
         />
         <LunaToolbarSpace />
+        <ToolbarIcon
+          icon="fullscreen"
+          title={i18n.t('maximize')}
+          onClick={() => {
+            store.setUi('imageListMaximized', !store.ui.imageListMaximized)
+          }}
+        />
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="delete-all"

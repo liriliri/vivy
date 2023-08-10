@@ -13,6 +13,7 @@ import download from 'licia/download'
 import toBool from 'licia/toBool'
 import mime from 'licia/mime'
 import Style from './ImageViewer.module.scss'
+import className from 'licia/className'
 import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../common/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
@@ -54,7 +55,12 @@ export default observer(function () {
   }
 
   return (
-    <div className={Style.imageViewer}>
+    <div
+      className={className({
+        [Style.imageViewer]: true,
+        'full-mode': store.ui.imageViewerMaximized,
+      })}
+    >
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
           icon="save"
@@ -96,6 +102,13 @@ export default observer(function () {
           onClick={() => imageViewerRef.current?.rotate(90)}
         />
         <LunaToolbarSpace />
+        <ToolbarIcon
+          icon="fullscreen"
+          title={i18n.t('maximize')}
+          onClick={() => {
+            store.setUi('imageViewerMaximized', !store.ui.imageViewerMaximized)
+          }}
+        />
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="delete"

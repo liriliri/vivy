@@ -145,6 +145,8 @@ class Store {
   ui = {
     imageListHeight: 181,
     imageListItemSize: 112,
+    imageListMaximized: false,
+    imageViewerMaximized: false,
     sidebarWidth: 400,
   }
   constructor() {
