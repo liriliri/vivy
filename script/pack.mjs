@@ -8,7 +8,16 @@ const config = {
   directories: {
     output: `../release/${pkg.version}`,
   },
-  files: ['main', 'preload', 'renderer', 'webui'],
+  files: [
+    'main',
+    'preload',
+    'renderer',
+    'webui',
+    '!**/*.{js.map,md,MD}',
+    '!**/taming-transformers/{data,assets}',
+    '!**/stable-diffusion-stability-ai/assets',
+    '!**/site-packages/torch/include',
+  ],
   asarUnpack: ['webui/**/*'],
   win: {
     target: [
@@ -16,6 +25,9 @@ const config = {
         target: 'zip',
       },
     ],
+  },
+  mac: {
+    electronLanguages: ['zh_CN', 'en'],
   },
 }
 
