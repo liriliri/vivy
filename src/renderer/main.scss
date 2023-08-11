@@ -8,7 +8,7 @@ body {
   margin: 0;
   overflow: hidden;
   font-size: 14px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--vivy-font-family);
   user-select: none;
   color: var(--vivy-color-text);
   cursor: default;
@@ -23,6 +23,7 @@ body {
 :root {
   @include prefix(
     (
+      font-family: $font-family,
       color-text: $color-text,
       color-primary: $color-primary,
       color-primary-hover: $color-primary-hover,
