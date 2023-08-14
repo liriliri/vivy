@@ -1,3 +1,5 @@
+@import './theme';
+
 .luna-setting {
   color: var(--vivy-color-text);
   background: var(--vivy-color-bg-container);
@@ -80,7 +82,7 @@
 }
 
 .luna-modal {
-  z-index: 100;
+  z-index: $z-index-popup-base;
 }
 
 .luna-modal-body,

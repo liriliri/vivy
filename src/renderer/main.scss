@@ -1,4 +1,4 @@
-@import './theme.scss';
+@import './theme';
 
 * {
   box-sizing: border-box;
@@ -103,5 +103,5 @@ button {
   max-height: none !important;
   min-width: 0;
   min-height: 0;
-  z-index: 1000;
+  z-index: 500;
 }
