@@ -16,7 +16,7 @@ import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../lib/webui'
-import { invokeMain } from '../lib/util'
+import { invokeMain, splitImage } from '../lib/util'
 
 export enum TaskStatus {
   Wait,
@@ -90,6 +90,8 @@ class Task extends Emitter {
     this.emit('complete', this.images)
   }
   async getProgress() {
+    const { batchSize } = this.txt2imgOptions
+
     const result = await webui.getProgress()
     const progress = result.progress
 
@@ -99,6 +101,12 @@ class Task extends Emitter {
 
     if (this.status !== TaskStatus.Complete) {
       this.progressTimer = setTimeout(() => this.getProgress(), 1000)
+      if (result.current_image) {
+        const images = await splitImage(result.current_image, batchSize)
+        for (let i = 0; i < batchSize; i++) {
+          this.images[i].data = images[i]
+        }
+      }
     }
   }
 }

@@ -28,7 +28,12 @@ export default observer(function () {
   each(store.tasks, (task) => {
     each(task.images, (image) => {
       if (image.data) {
-        images.push(Image(image))
+        images.push(
+          <div className={Style.item} key={image.id} style={itemStyle}>
+            {task.progress}%
+            <img src={`data:image/png;base64,${image.data}`} />
+          </div>
+        )
       } else {
         if (task.status === TaskStatus.Wait) {
           images.push(
