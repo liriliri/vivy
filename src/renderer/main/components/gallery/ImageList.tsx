@@ -30,7 +30,7 @@ export default observer(function () {
       if (image.data) {
         images.push(
           <div className={Style.item} key={image.id} style={itemStyle}>
-            {task.progress}%
+            <div className={Style.progress}>{task.progress}%</div>
             <img src={`data:image/png;base64,${image.data}`} />
           </div>
         )
@@ -44,7 +44,7 @@ export default observer(function () {
         } else {
           images.push(
             <div className={Style.item} key={image.id} style={itemStyle}>
-              {task.progress}%
+              <div className={Style.progress}>{task.progress}%</div>
             </div>
           )
         }

@@ -40,6 +40,7 @@ class Task extends Emitter {
   status = TaskStatus.Wait
   images: IImage[] = []
   progress = 0
+  private currentImage: string = ''
   private txt2imgOptions: ITxt2ImgOptions
   private progressTimer?: NodeJS.Timeout
   constructor(txt2imgOptions: ITxt2ImgOptions) {
@@ -92,8 +93,7 @@ class Task extends Emitter {
   async getProgress() {
     const { batchSize } = this.txt2imgOptions
 
-    const result = await webui.getProgress()
-    const progress = result.progress
+    const { current_image, progress } = await webui.getProgress()
 
     runInAction(() => {
       this.progress = Math.round(progress * 100)
@@ -101,8 +101,9 @@ class Task extends Emitter {
 
     if (this.status !== TaskStatus.Complete) {
       this.progressTimer = setTimeout(() => this.getProgress(), 1000)
-      if (result.current_image) {
-        const images = await splitImage(result.current_image, batchSize)
+      if (current_image && current_image !== this.currentImage) {
+        this.currentImage = current_image
+        const images = await splitImage(current_image, batchSize)
         for (let i = 0; i < batchSize; i++) {
           this.images[i].data = images[i]
         }

@@ -31,34 +31,49 @@ switch (navigator.language) {
 }
 
 export async function splitImage(data: string, num: number) {
+  const images: string[] = []
   const image = `data:image/png;base64,${data}`
-  const size = await getImageSize(image)
-  console.log('image size', size)
+  const img = await getImageSize(image)
+  let colNum = 1
+  while (colNum * colNum < num) {
+    colNum++
+  }
+  const rowNum = Math.ceil(num / colNum)
+  let i = 0
+  const width = Math.round(img.width / colNum)
+  const height = Math.round(img.height / rowNum)
+  for (let row = 0; row < rowNum; row++) {
+    for (let col = 0; col < colNum; col++) {
+      if (i < num) {
+        const x = col * width
+        const y = row * height
+        images[i] = getClippedRegion(img, x, y, width, height)
+      }
+      i++
+    }
+  }
+  return images
 }
 
-function getImageSize(image: string) {
+function getImageSize(image: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     loadImg(image, function (err, img) {
       if (err) {
         return reject(err)
       }
 
-      resolve({
-        width: img.width,
-        height: img.height,
-      })
+      resolve(img)
     })
   })
 }
 
 function getClippedRegion(image, x, y, width, height) {
-  let canvas = document.createElement('canvas')
-  let ctx = canvas.getContext('2d')
-
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
   canvas.width = width
   canvas.height = height
 
   ctx!.drawImage(image, x, y, width, height, 0, 0, width, height)
 
-  return canvas
+  return canvas.toDataURL().slice('data:image/png;base64,'.length)
 }
