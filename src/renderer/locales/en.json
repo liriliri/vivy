@@ -24,5 +24,6 @@
   "rotateLeft": "Rotate Left",
   "rotateRight": "Rotate Right",
   "delete": "Delete",
-  "maximize": "Maximize"
+  "maximize": "Maximize",
+  "modelManager": "Model Manager"
 }

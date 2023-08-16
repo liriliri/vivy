@@ -15,8 +15,6 @@ export function showWin() {
     title: 'Model Manager',
     width: 960,
     height: 640,
-    minWidth: 960,
-    minHeight: 640,
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
     webPreferences: {
@@ -28,6 +26,7 @@ export function showWin() {
   })
   win.setMenu(null)
   attachTitlebarToWindow(win)
+  win.setMinimumSize(960, 640)
   win.once('ready-to-show', () => win?.show())
   win.on('close', () => {
     win?.destroy()

@@ -113,3 +113,38 @@
     }
   }
 }
+
+.luna-data-grid {
+  color: var(--vivy-color-text);
+  background: var(--vivy-color-bg-container);
+  border-color: var(--vivy-color-border);
+  &:focus {
+    .luna-data-grid-data-container {
+      .luna-data-grid-node.luna-data-grid-selected {
+        background: var(--vivy-color-primary);
+      }
+    }
+  }
+  th,
+  td {
+    border-color: var(--vivy-color-border);
+  }
+  th {
+    background: var(--darker-background);
+    &.luna-data-grid-sortable {
+      &:hover,
+      &:active {
+        color: var(--select-foreground);
+        background: var(--highlight);
+      }
+    }
+  }
+  .luna-data-grid-data-container {
+    .luna-data-grid-node.luna-data-grid-selected {
+      background: var(--highlight);
+    }
+    tr:nth-child(even) {
+      background: var(--contrast);
+    }
+  }
+}

@@ -24,5 +24,6 @@
   "rotateLeft": "向左旋转",
   "rotateRight": "向右旋转",
   "delete": "删除",
-  "maximize": "最大化"
+  "maximize": "最大化",
+  "modelManager": "模型管理"
 }

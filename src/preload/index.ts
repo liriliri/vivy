@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
 contextBridge.exposeInMainWorld('main', {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
   showTerminal: () => ipcRenderer.invoke('showTerminal'),
+  showModel: () => ipcRenderer.invoke('showModel'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
   setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),

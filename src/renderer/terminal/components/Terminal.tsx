@@ -10,6 +10,7 @@ import replaceAll from 'licia/replaceAll'
 import Style from './Terminal.module.scss'
 import 'xterm/css/xterm.css'
 import { invokeMain, ipcOnEvent } from '../../lib/util'
+import isDarkMode from 'licia/isDarkMode'
 
 export default observer(function () {
   const termRef = useRef<HTMLDivElement>(null)
@@ -19,6 +20,9 @@ export default observer(function () {
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
+      theme: {
+        background: isDarkMode() ? '#141414' : '#ffffff',
+      },
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)

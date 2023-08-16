@@ -28,6 +28,7 @@ export function showWin() {
   })
   win.setMenu(null)
   attachTitlebarToWindow(win)
+  win.setMinimumSize(960, 640)
   win.once('ready-to-show', () => win?.show())
   win.on('close', () => {
     win?.destroy()
