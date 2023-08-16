@@ -1,3 +1,3 @@
 export default function App() {
-  return <div>Prompt Builder</div>
+  return <div></div>
 }

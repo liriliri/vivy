@@ -3,6 +3,7 @@ import * as webui from './lib/webui'
 import * as terminal from './lib/terminal'
 import * as menu from './lib/menu'
 import * as main from './lib/main'
+import { setupTitlebar } from 'custom-electron-titlebar/main'
 
 if (!app.requestSingleInstanceLock()) {
   app.quit()
@@ -12,6 +13,7 @@ if (!app.requestSingleInstanceLock()) {
 app.setName('Vivy')
 
 app.on('ready', () => {
+  setupTitlebar()
   terminal.init()
   webui.start()
   main.showWin()

@@ -3,6 +3,7 @@ import isBuffer from 'licia/isBuffer'
 import { isDev } from './util'
 import { BrowserWindow, ipcMain } from 'electron'
 import { getTerminalStore } from './store'
+import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 
 const store = getTerminalStore({
   bounds: {
@@ -29,6 +30,8 @@ export function showWin() {
     title: 'Terminal',
     minWidth: 960,
     minHeight: 640,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: true,
     ...store.get('bounds'),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
@@ -41,6 +44,7 @@ export function showWin() {
   if (!isDev()) {
     win.setMenu(null)
   }
+  attachTitlebarToWindow(win)
 
   win.once('ready-to-show', () => win?.show())
   win.on('close', () => {

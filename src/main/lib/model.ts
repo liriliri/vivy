@@ -1,6 +1,7 @@
 import path from 'path'
 import { isDev } from './util'
 import { BrowserWindow } from 'electron'
+import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 
 let win: BrowserWindow | null = null
 
@@ -16,6 +17,8 @@ export function showWin() {
     height: 640,
     minWidth: 960,
     minHeight: 640,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: true,
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
       webSecurity: false,
@@ -24,6 +27,7 @@ export function showWin() {
     show: false,
   })
   win.setMenu(null)
+  attachTitlebarToWindow(win)
   win.once('ready-to-show', () => win?.show())
   win.on('close', () => {
     win?.destroy()

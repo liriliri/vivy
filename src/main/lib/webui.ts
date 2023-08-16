@@ -70,7 +70,7 @@ export function showWin() {
     return
   }
   win = new BrowserWindow({
-    title: 'Easy Diffusion',
+    title: 'Stable Diffusion web UI',
     minimizable: false,
     maximizable: false,
     width: 1280,
