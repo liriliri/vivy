@@ -16,7 +16,7 @@ import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../lib/webui'
-import { invokeMain, splitImage } from '../lib/util'
+import { splitImage } from '../lib/util'
 
 export enum TaskStatus {
   Wait,
@@ -227,10 +227,10 @@ class Store {
     }
   }
   async getStore(name: string) {
-    return await invokeMain('getMainStore', name)
+    return await main.getMainStore(name)
   }
   async setStore(name: string, val: any) {
-    await invokeMain('setMainStore', name, isObservable(val) ? toJS(val) : val)
+    await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
   }
   async stop() {
     await this.interrupt()

@@ -25,5 +25,16 @@
   "rotateRight": "Rotate Right",
   "delete": "Delete",
   "maximize": "Maximize",
-  "modelManager": "Model Manager"
+  "modelManager": "Model Manager",
+  "tools": "Tools",
+  "edit": "Edit",
+  "cut": "Cut",
+  "copy": "Copy",
+  "quitVivy": "Quit VIVY",
+  "paste": "Paste",
+  "selectAll": "Select All",
+  "help": "Help",
+  "toggleDevtools": "Toggle Developer Tools",
+  "terminal": "Terminal",
+  "promptBuilder": "Prompt Builder"
 }

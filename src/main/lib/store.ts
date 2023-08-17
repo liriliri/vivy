@@ -36,3 +36,9 @@ export const getModelStore = memoize(function () {
     },
   })
 })
+
+export const getSettingsStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/settings.json'), {
+    enableWebUI: false,
+  })
+})

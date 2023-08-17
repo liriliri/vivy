@@ -25,5 +25,16 @@
   "rotateRight": "向右旋转",
   "delete": "删除",
   "maximize": "最大化",
-  "modelManager": "模型管理"
+  "modelManager": "模型管理",
+  "tools": "工具",
+  "edit": "编辑",
+  "cut": "剪切",
+  "copy": "复制",
+  "quitVivy": "退出 VIVY",
+  "paste": "粘贴",
+  "selectAll": "全选",
+  "help": "帮助",
+  "toggleDevtools": "切换开发人员工具",
+  "terminal": "终端",
+  "promptBuilder": "提示词生成器"
 }

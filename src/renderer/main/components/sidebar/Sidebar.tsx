@@ -8,7 +8,7 @@ import store from '../../store'
 import Style from './Sidebar.module.scss'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
-import { i18n } from '../../../../common/lib/util'
+import { t } from '../../../lib/util'
 import { useCallback, useRef, useState } from 'react'
 
 export default observer(function () {
@@ -25,7 +25,7 @@ export default observer(function () {
     })
   } else {
     samplers = {
-      [i18n.t('loading')]: 'loading',
+      [t('loading')]: 'loading',
     }
   }
 
@@ -70,7 +70,7 @@ export default observer(function () {
       <div className={Style.generateBasic}>
         <div className={Style.prompt}>
           <textarea
-            placeholder={i18n.t('prompt')}
+            placeholder={t('prompt')}
             spellCheck="false"
             value={store.txt2imgOptions.prompt}
             onChange={(e) => {
@@ -80,7 +80,7 @@ export default observer(function () {
         </div>
         <div className={Style.negativePrompt}>
           <textarea
-            placeholder={i18n.t('negativePrompt')}
+            placeholder={t('negativePrompt')}
             spellCheck="false"
             value={store.txt2imgOptions.negativePrompt}
             onChange={(e) => {
@@ -92,20 +92,20 @@ export default observer(function () {
           className={className(Style.generate, 'button')}
           onClick={() => store.createTask()}
         >
-          {i18n.t('generate')}
+          {t('generate')}
         </button>
       </div>
       <LunaSetting onChange={(key, val) => store.setTxt2ImgOptions(key, val)}>
         <LunaSettingSelect
           keyName="sampler"
           value={txt2imgOptions.sampler}
-          title={i18n.t('samplingMethod')}
+          title={t('samplingMethod')}
           options={samplers}
         />
         <LunaSettingNumber
           keyName="steps"
           value={txt2imgOptions.steps}
-          title={i18n.t('samplingSteps')}
+          title={t('samplingSteps')}
           options={{
             min: 1,
             max: 50,
@@ -114,7 +114,7 @@ export default observer(function () {
         <LunaSettingNumber
           keyName="width"
           value={txt2imgOptions.width}
-          title={i18n.t('width')}
+          title={t('width')}
           options={{
             min: 64,
             max: 2048,
@@ -123,7 +123,7 @@ export default observer(function () {
         <LunaSettingNumber
           keyName="height"
           value={txt2imgOptions.height}
-          title={i18n.t('height')}
+          title={t('height')}
           options={{
             min: 64,
             max: 2048,
@@ -132,7 +132,7 @@ export default observer(function () {
         <LunaSettingNumber
           keyName="batchSize"
           value={txt2imgOptions.batchSize}
-          title={i18n.t('batchSize')}
+          title={t('batchSize')}
           options={{
             range: true,
             min: 1,
@@ -142,7 +142,7 @@ export default observer(function () {
         <LunaSettingNumber
           keyName="cfgScale"
           value={txt2imgOptions.cfgScale}
-          title={i18n.t('cfgScale')}
+          title={t('cfgScale')}
           options={{
             range: true,
             min: 1,
@@ -152,7 +152,7 @@ export default observer(function () {
         <LunaSettingNumber
           keyName="seed"
           value={txt2imgOptions.seed}
-          title={i18n.t('seed')}
+          title={t('seed')}
           options={{}}
         />
       </LunaSetting>

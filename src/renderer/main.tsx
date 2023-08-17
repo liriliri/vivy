@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { lazy } from 'react'
-import { isDev } from './lib/util'
+import { getSystemLanguage, i18n, isDev, t } from './lib/util'
 import hotKey from 'licia/hotkey'
 import isDarkMode from 'licia/isDarkMode'
 import getUrlParam from 'licia/getUrlParam'
@@ -13,25 +13,29 @@ import 'luna-data-grid/css'
 import 'luna-modal/css'
 import './luna.scss'
 
-const container: HTMLElement = document.getElementById('app') as HTMLElement
+function renderApp() {
+  const container: HTMLElement = document.getElementById('app') as HTMLElement
 
-let App = lazy(() => import('./main/App.js') as Promise<any>)
-switch (getUrlParam('page')) {
-  case 'prompt':
-    App = lazy(() => import('./prompt/App.js') as Promise<any>)
-    document.title = 'Prompt Builder'
-    break
-  case 'model':
-    App = lazy(() => import('./model/App.js') as Promise<any>)
-    document.title = 'Model Manager'
-    break
-  case 'terminal':
-    App = lazy(() => import('./terminal/App.js') as Promise<any>)
-    document.title = 'Terminal'
-    break
+  let App = lazy(() => import('./main/App.js') as Promise<any>)
+  let title = 'VIVY'
+  switch (getUrlParam('page')) {
+    case 'prompt':
+      App = lazy(() => import('./prompt/App.js') as Promise<any>)
+      title = t('promptBuilder')
+      break
+    case 'model':
+      App = lazy(() => import('./model/App.js') as Promise<any>)
+      title = t('modelManager')
+      break
+    case 'terminal':
+      App = lazy(() => import('./terminal/App.js') as Promise<any>)
+      title = t('terminal')
+      break
+  }
+  preload.setTitle(title)
+
+  ReactDOM.createRoot(container).render(<App />)
 }
-
-ReactDOM.createRoot(container).render(<App />)
 
 if (isDev()) {
   hotKey.on('f5', () => location.reload())
@@ -40,3 +44,13 @@ if (isDev()) {
 if (isDarkMode()) {
   document.body.classList.add('-theme-with-dark-background')
 }
+
+;(async function () {
+  let language = await main.getSettingsStore('language')
+  if (!language) {
+    language = getSystemLanguage()
+    await main.setSettingsStore('language', language)
+  }
+  i18n.locale(language)
+  renderApp()
+})()

@@ -8,7 +8,7 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import store, { IImage, TaskStatus } from '../../store'
 import Style from './ImageList.module.scss'
-import { i18n } from '../../../../common/lib/util'
+import { t } from '../../../lib/util'
 import ToolbarIcon from '../common/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
@@ -98,13 +98,13 @@ export default observer(function () {
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
           icon="open-file"
-          title={i18n.t('openImage')}
+          title={t('openImage')}
           onClick={() => store.openImage()}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="zoom-in"
-          title={i18n.t('zoomIn')}
+          title={t('zoomIn')}
           disabled={store.ui.imageListItemSize > 200 || isEmpty(images)}
           onClick={() => {
             const itemSize = Math.round(store.ui.imageListItemSize * 1.1)
@@ -113,7 +113,7 @@ export default observer(function () {
         />
         <ToolbarIcon
           icon="zoom-out"
-          title={i18n.t('zoomOut')}
+          title={t('zoomOut')}
           disabled={store.ui.imageListItemSize < 50 || isEmpty(images)}
           onClick={() => {
             const itemSize = Math.round(store.ui.imageListItemSize * 0.9)
@@ -123,20 +123,20 @@ export default observer(function () {
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="stop"
-          title={i18n.t('stop')}
+          title={t('stop')}
           onClick={() => store.stop()}
           disabled={isEmpty(store.tasks)}
         />
         <ToolbarIcon
           icon="pause"
-          title={i18n.t('interrupt')}
+          title={t('interrupt')}
           onClick={() => store.interrupt()}
           disabled={isEmpty(store.tasks)}
         />
         <LunaToolbarSpace />
         <ToolbarIcon
           icon="fullscreen"
-          title={i18n.t('maximize')}
+          title={t('maximize')}
           onClick={() => {
             store.setUi('imageListMaximized', !store.ui.imageListMaximized)
           }}
@@ -144,11 +144,9 @@ export default observer(function () {
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="delete-all"
-          title={i18n.t('deleteAllImages')}
+          title={t('deleteAllImages')}
           onClick={async () => {
-            const result = await LunaModal.confirm(
-              i18n.t('deleteAllImagesConfirm')
-            )
+            const result = await LunaModal.confirm(t('deleteAllImagesConfirm'))
             if (result) {
               store.deleteAllImages()
             }
@@ -158,7 +156,7 @@ export default observer(function () {
       </LunaToolbar>
       <div className={Style.body}>
         {isEmpty(images) ? (
-          <div className={Style.noImages}>{i18n.t('noImages')}</div>
+          <div className={Style.noImages}>{t('noImages')}</div>
         ) : (
           images
         )}

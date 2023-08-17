@@ -2,6 +2,20 @@ import path from 'path'
 import contain from 'licia/contain'
 import { app } from 'electron'
 import { fileURLToPath } from 'url'
+import I18n from 'licia/I18n'
+import defaults from 'licia/defaults'
+import types from 'licia/types'
+import enUS from '../../common/locales/en-US.json'
+import zhCN from '../../common/locales/zh-CN.json'
+
+export const i18n = new I18n('en-US', {
+  enUS,
+  zhCN: defaults(zhCN, enUS),
+})
+
+export function t(path: string | string[], data?: types.PlainObj<any>) {
+  return i18n.t(path, data)
+}
 
 export function isDev() {
   return import.meta.env.MODE === 'development'

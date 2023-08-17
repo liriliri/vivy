@@ -9,7 +9,6 @@ import each from 'licia/each'
 import replaceAll from 'licia/replaceAll'
 import Style from './Terminal.module.scss'
 import 'xterm/css/xterm.css'
-import { invokeMain, ipcOnEvent } from '../../lib/util'
 import isDarkMode from 'licia/isDarkMode'
 
 export default observer(function () {
@@ -41,10 +40,10 @@ export default observer(function () {
     fit()
 
     window.addEventListener('resize', fit)
-    invokeMain('getLogs').then((logs: string[]) => {
+    main.getLogs().then((logs: string[]) => {
       each(logs, (log) => write(log))
     })
-    ipcOnEvent('addLog', (event, log) => write(log))
+    main.on('addLog', (event, log) => write(log))
 
     return () => {
       term.dispose()

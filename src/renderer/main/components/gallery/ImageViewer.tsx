@@ -17,7 +17,7 @@ import className from 'licia/className'
 import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../common/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
-import { i18n } from '../../../../common/lib/util'
+import { t } from '../../../lib/util'
 
 export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
@@ -64,47 +64,47 @@ export default observer(function () {
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
           icon="save"
-          title={i18n.t('save')}
+          title={t('save')}
           onClick={save}
           disabled={!toBool(store.selectedImage)}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="info"
-          title={i18n.t('imageInfo')}
+          title={t('imageInfo')}
           onClick={() => setInfoModalVisible(true)}
           disabled={!toBool(store.selectedImage?.info)}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="reset"
-          title={i18n.t('reset')}
+          title={t('reset')}
           onClick={() => imageViewerRef.current?.reset()}
         />
         <ToolbarIcon
           icon="zoom-in"
-          title={i18n.t('zoomIn')}
+          title={t('zoomIn')}
           onClick={() => imageViewerRef.current?.zoom(0.1)}
         />
         <ToolbarIcon
           icon="zoom-out"
-          title={i18n.t('zoomOut')}
+          title={t('zoomOut')}
           onClick={() => imageViewerRef.current?.zoom(-0.1)}
         />
         <ToolbarIcon
           icon="rotate-left"
-          title={i18n.t('rotateLeft')}
+          title={t('rotateLeft')}
           onClick={() => imageViewerRef.current?.rotate(-90)}
         />
         <ToolbarIcon
           icon="rotate-right"
-          title={i18n.t('rotateRight')}
+          title={t('rotateRight')}
           onClick={() => imageViewerRef.current?.rotate(90)}
         />
         <LunaToolbarSpace />
         <ToolbarIcon
           icon="fullscreen"
-          title={i18n.t('maximize')}
+          title={t('maximize')}
           onClick={() => {
             store.setUi('imageViewerMaximized', !store.ui.imageViewerMaximized)
           }}
@@ -112,7 +112,7 @@ export default observer(function () {
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="delete"
-          title={i18n.t('delete')}
+          title={t('delete')}
           onClick={deleteImage}
           disabled={!toBool(store.selectedImage)}
         />
@@ -124,7 +124,7 @@ export default observer(function () {
       ></LunaImageViewer>
       {createPortal(
         <LunaModal
-          title={i18n.t('imageInfo')}
+          title={t('imageInfo')}
           visible={infoModalVisible}
           width={640}
           onClose={() => setInfoModalVisible(false)}

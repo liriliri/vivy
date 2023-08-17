@@ -3,58 +3,63 @@ import * as webui from './webui'
 import * as prompt from './prompt'
 import * as model from './model'
 import * as terminal from './terminal'
-import { isMac } from './util'
+import { isMac, t } from './util'
 
 function getTemplate(): MenuItemConstructorOptions[] {
   const vivy = {
     label: app.name,
-    submenu: [{ role: 'quit' }],
+    submenu: [{ role: 'quit', label: t('quitVivy') }],
   }
 
   const edit = {
-    label: 'Edit',
+    label: t('edit'),
     submenu: [
       {
         role: 'cut',
+        label: t('cut'),
       },
       {
         role: 'copy',
+        label: t('copy'),
       },
       {
         role: 'paste',
+        label: t('paste'),
       },
       {
         role: 'delete',
+        label: t('delete'),
       },
       {
         role: 'selectAll',
+        label: t('selectAll'),
       },
     ],
   }
 
   const tools = {
-    label: 'Tools',
+    label: t('tools'),
     submenu: [
       {
-        label: 'Model Manager',
+        label: t('modelManager'),
         click() {
           model.showWin()
         },
       },
       {
-        label: 'Prompt Builder',
+        label: t('promptBuilder'),
         click() {
           prompt.showWin()
         },
       },
       {
-        label: 'Terminal',
+        label: t('terminal'),
         click() {
           terminal.showWin()
         },
       },
       {
-        label: 'Stable Diffusion Webui',
+        label: 'Stable Diffusion web UI',
         click() {
           webui.showWin()
         },
@@ -64,16 +69,18 @@ function getTemplate(): MenuItemConstructorOptions[] {
 
   const help: any = {
     role: 'help',
+    label: t('help'),
     submenu: [
       {
         role: 'toggledevtools',
+        label: t('toggleDevtools'),
       },
     ],
   }
 
   const template = [tools, help]
   if (isMac()) {
-    template.unshift(edit, vivy)
+    template.unshift(vivy, edit)
   }
   return template
 }

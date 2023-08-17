@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios'
-import { invokeMain } from './util'
 
 type Progress = {
   progress: number
@@ -66,7 +65,7 @@ const api = axios.create({
 })
 
 ;(async () => {
-  const port = await invokeMain('getWebuiPort')
+  const port = await main.getWebuiPort()
   api.defaults.baseURL = `http://127.0.0.1:${port}`
 })()
 

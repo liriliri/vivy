@@ -1,12 +1,25 @@
 import types from 'licia/types'
 import loadImg from 'licia/loadImg'
+import I18n from 'licia/I18n'
+import defaults from 'licia/defaults'
+import enUS from '../../common/locales/en-US.json'
+import zhCN from '../../common/locales/zh-CN.json'
 
-export async function invokeMain(api, ...args) {
-  return await (window as any).main[api](...args)
+export const i18n = new I18n('en-US', {
+  enUS,
+  zhCN: defaults(zhCN, enUS),
+})
+
+export function t(path: string | string[], data?: types.PlainObj<any>) {
+  return i18n.t(path, data)
 }
 
-export function ipcOnEvent(event: string, cb: types.AnyFn) {
-  ;(window as any).preload.ipcOnEvent(event, cb)
+export function getSystemLanguage() {
+  if (navigator.language === 'zh-CN') {
+    return 'zh-CN'
+  }
+
+  return 'en-US'
 }
 
 export function isDev() {
