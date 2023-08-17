@@ -7,12 +7,7 @@ import * as model from './model'
 import { getMainStore } from './store'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 
-const store = getMainStore({
-  bounds: {
-    width: 1280,
-    height: 850,
-  },
-})
+const store = getMainStore()
 
 let win: BrowserWindow | null = null
 

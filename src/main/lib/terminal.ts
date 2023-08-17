@@ -5,12 +5,7 @@ import { BrowserWindow, ipcMain } from 'electron'
 import { getTerminalStore } from './store'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 
-const store = getTerminalStore({
-  bounds: {
-    width: 960,
-    height: 640,
-  },
-})
+const store = getTerminalStore()
 
 let win: BrowserWindow | null = null
 

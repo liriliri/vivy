@@ -51,14 +51,13 @@ export default observer(function () {
         options={modelOptions}
         disabled={modelDisabled}
       />
-      {loading}
-      <LunaToolbarSpace />
       <ToolbarIcon
         icon="model"
         title={i18n.t('modelManager')}
         onClick={() => invokeMain('showModel')}
       />
-      <LunaToolbarSeparator />
+      {loading}
+      <LunaToolbarSpace />
       <ToolbarIcon
         icon="setting"
         title={i18n.t('modelManager')}
