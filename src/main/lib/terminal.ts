@@ -22,7 +22,6 @@ export function showWin() {
   }
 
   win = new BrowserWindow({
-    title: 'Terminal',
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
     ...store.get('bounds'),

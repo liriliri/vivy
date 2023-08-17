@@ -8,7 +8,7 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import store, { IImage, TaskStatus } from '../../store'
 import Style from './ImageList.module.scss'
-import { i18n } from '../../../lib/util'
+import { i18n } from '../../../../common/lib/util'
 import ToolbarIcon from '../common/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'

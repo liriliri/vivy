@@ -12,7 +12,6 @@ export function showWin() {
   }
 
   win = new BrowserWindow({
-    title: 'Prompt Builder',
     width: 960,
     height: 640,
     minWidth: 960,

@@ -24,7 +24,6 @@ export function showWin() {
   }
 
   win = new BrowserWindow({
-    title: 'VIVY',
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
     ...store.get('bounds'),

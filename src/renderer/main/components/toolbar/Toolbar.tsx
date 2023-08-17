@@ -1,7 +1,6 @@
 import LunaToolbar, {
   LunaToolbarHtml,
   LunaToolbarSelect,
-  LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import store from '../../store'
@@ -10,7 +9,8 @@ import isEmpty from 'licia/isEmpty'
 import types from 'licia/types'
 import Style from './Toolbar.module.scss'
 import { observer } from 'mobx-react-lite'
-import { i18n, invokeMain } from '../../../lib/util'
+import { i18n } from '../../../../common/lib/util'
+import { invokeMain } from '../../../lib/util'
 import loadingImg from '../../../assets/img/loading.svg'
 import ToolbarIcon from '../common/ToolbarIcon'
 

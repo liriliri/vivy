@@ -8,7 +8,7 @@ import store from '../../store'
 import Style from './Sidebar.module.scss'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
-import { i18n } from '../../../lib/util'
+import { i18n } from '../../../../common/lib/util'
 import { useCallback, useRef, useState } from 'react'
 
 export default observer(function () {

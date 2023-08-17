@@ -15,7 +15,6 @@ export function showWin() {
   }
 
   win = new BrowserWindow({
-    title: 'Model Manager',
     titleBarStyle: 'hidden',
     titleBarOverlay: true,
     ...store.get('bounds'),

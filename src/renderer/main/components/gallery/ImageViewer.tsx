@@ -17,7 +17,7 @@ import className from 'licia/className'
 import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../common/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
-import { i18n } from '../../../lib/util'
+import { i18n } from '../../../../common/lib/util'
 
 export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
