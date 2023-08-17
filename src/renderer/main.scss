@@ -33,6 +33,8 @@ body {
       color-bg-container: $color-bg-container,
       color-fill-secondary: $color-fill-secondary,
       color-white: $color-white,
+      color-success: $color-success,
+      color-error: $color-error,
     )
   );
 }
@@ -48,6 +50,8 @@ body {
       color-border: $color-border-dark,
       color-bg-container: $color-bg-container-dark,
       color-fill-secondary: $color-fill-secondary-dark,
+      color-success: $color-success-dark,
+      color-error: $color-error-dark,
     )
   );
 }

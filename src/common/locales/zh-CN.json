@@ -36,5 +36,7 @@
   "help": "帮助",
   "toggleDevtools": "切换开发人员工具",
   "terminal": "终端",
-  "promptBuilder": "提示词生成器"
+  "promptBuilder": "提示词生成器",
+  "settings": "设置",
+  "language": "语言"
 }

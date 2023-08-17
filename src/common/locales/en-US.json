@@ -36,5 +36,7 @@
   "help": "Help",
   "toggleDevtools": "Toggle Developer Tools",
   "terminal": "Terminal",
-  "promptBuilder": "Prompt Builder"
+  "promptBuilder": "Prompt Builder",
+  "settings": "Settings",
+  "language": "Language"
 }

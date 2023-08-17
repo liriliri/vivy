@@ -38,12 +38,18 @@
 .prompt {
   textarea {
     height: 100px;
+    &:focus {
+      border: 1px solid var(--vivy-color-success);
+    }
   }
 }
 
 .negative-prompt {
   textarea {
     height: 60px;
+    &:focus {
+      border: 1px solid var(--vivy-color-error);
+    }
   }
 }
 

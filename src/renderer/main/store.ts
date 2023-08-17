@@ -16,7 +16,7 @@ import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../lib/webui'
-import { splitImage } from '../lib/util'
+import { getSystemLanguage, splitImage } from '../lib/util'
 
 export enum TaskStatus {
   Wait,
@@ -158,6 +158,9 @@ class Store {
     imageViewerMaximized: false,
     sidebarWidth: 400,
   }
+  settings = {
+    language: getSystemLanguage(),
+  }
   constructor() {
     makeObservable(this, {
       txt2imgOptions: observable,
@@ -225,12 +228,22 @@ class Store {
     if (ui) {
       extend(this.ui, ui)
     }
+    const language = await this.getSettings('language')
+    if (language) {
+      this.settings.language = language
+    }
   }
   async getStore(name: string) {
     return await main.getMainStore(name)
   }
   async setStore(name: string, val: any) {
     await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
+  }
+  async getSettings(name: string) {
+    return await main.getSettingsStore(name)
+  }
+  async setSettings(name: string, val: any) {
+    await main.setSettingsStore(name, isObservable(val) ? toJS(val) : val)
   }
   async stop() {
     await this.interrupt()
