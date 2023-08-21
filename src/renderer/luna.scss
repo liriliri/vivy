@@ -28,6 +28,21 @@
   }
 }
 
+.luna-setting-item-button {
+  button {
+    color: #fff;
+    background: var(--vivy-color-primary);
+    border: none;
+    &:hover {
+      background: var(--vivy-color-primary-hover);
+    }
+    &:active {
+      background: var(--vivy-color-primary-active);
+      border: none;
+    }
+  }
+}
+
 .luna-setting-item-number {
   input[type='number'] {
     background: var(--vivy-color-bg-container);

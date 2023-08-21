@@ -38,5 +38,9 @@
   "terminal": "Terminal",
   "promptBuilder": "Prompt Builder",
   "settings": "Settings",
-  "language": "Language"
+  "language": "Language",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "restartVivy": "Restart VIVY"
 }

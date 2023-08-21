@@ -17,6 +17,7 @@ import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../lib/webui'
 import { getSystemLanguage, splitImage } from '../lib/util'
+import isDarkMode from 'licia/isDarkMode'
 
 export enum TaskStatus {
   Wait,
@@ -160,6 +161,7 @@ class Store {
   }
   settings = {
     language: getSystemLanguage(),
+    theme: isDarkMode() ? 'dark' : 'light',
   }
   constructor() {
     makeObservable(this, {
@@ -224,13 +226,19 @@ class Store {
     if (txt2imgOptions) {
       extend(this.txt2imgOptions, txt2imgOptions)
     }
+
     const ui = await this.getStore('ui')
     if (ui) {
       extend(this.ui, ui)
     }
-    const language = await this.getSettings('language')
-    if (language) {
-      this.settings.language = language
+
+    await this.loadSetting('language')
+    await this.loadSetting('theme')
+  }
+  async loadSetting(name: string) {
+    const val = await this.getSettings(name)
+    if (val) {
+      this.settings[name] = val
     }
   }
   async getStore(name: string) {

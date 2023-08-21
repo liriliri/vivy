@@ -1,4 +1,4 @@
-import { app, ipcMain } from 'electron'
+import { app, ipcMain, nativeTheme } from 'electron'
 import * as webui from './lib/webui'
 import * as terminal from './lib/terminal'
 import * as menu from './lib/menu'
@@ -22,6 +22,10 @@ app.on('ready', () => {
   const language = store.get('language')
   if (language) {
     i18n.locale(language)
+  }
+  const theme = store.get('theme')
+  if (theme) {
+    nativeTheme.themeSource = theme
   }
 
   setupTitlebar()

@@ -1,7 +1,10 @@
 import LunaModal from 'luna-modal/react'
 import { observer } from 'mobx-react-lite'
 import { createPortal } from 'react-dom'
-import LunaSetting, { LunaSettingSelect } from 'luna-setting/react'
+import LunaSetting, {
+  LunaSettingButton,
+  LunaSettingSelect,
+} from 'luna-setting/react'
 import { t } from '../../../lib/util'
 import store from '../../../main/store'
 import Style from './Settings.module.scss'
@@ -23,6 +26,15 @@ export default observer(function Settings(props: IProps) {
         onChange={(key, val) => store.setSettings(key, val)}
       >
         <LunaSettingSelect
+          keyName="theme"
+          value={store.settings.theme}
+          title={t('theme')}
+          options={{
+            [t('light')]: 'light',
+            [t('dark')]: 'dark',
+          }}
+        />
+        <LunaSettingSelect
           keyName="language"
           value={store.settings.language}
           title={t('language')}
@@ -30,6 +42,10 @@ export default observer(function Settings(props: IProps) {
             English: 'en-US',
             ['中文']: 'zh-CN',
           }}
+        />
+        <LunaSettingButton
+          description={t('restartVivy')}
+          onClick={() => main.relaunch()}
         />
       </LunaSetting>
     </LunaModal>,

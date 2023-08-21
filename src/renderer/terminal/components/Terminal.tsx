@@ -9,19 +9,28 @@ import each from 'licia/each'
 import replaceAll from 'licia/replaceAll'
 import Style from './Terminal.module.scss'
 import 'xterm/css/xterm.css'
-import isDarkMode from 'licia/isDarkMode'
 
 export default observer(function () {
   const termRef = useRef<HTMLDivElement>(null)
+
+  let theme = {
+    background: '#ffffff',
+    foreground: 'rgba(0, 0, 0, 0.88)',
+  }
+
+  if (document.body.classList.contains('-theme-with-dark-background')) {
+    theme = {
+      background: '#141414',
+      foreground: 'rgba(255, 255, 255, 0.85)',
+    }
+  }
 
   useEffect(() => {
     const term = new Terminal({
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
-      theme: {
-        background: isDarkMode() ? '#141414' : '#ffffff',
-      },
+      theme,
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)

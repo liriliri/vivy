@@ -55,4 +55,8 @@ function initIpc() {
   ipcMain.handle('showModel', () => model.showWin())
   ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getMainStore', (_, name) => store.get(name))
+  ipcMain.handle('relaunch', () => {
+    app.relaunch()
+    app.exit()
+  })
 }
