@@ -1,0 +1,41 @@
+.generate-basic {
+  padding: 14px 8px;
+  border-bottom: 1px solid var(--vivy-color-border);
+}
+
+.prompt,
+.negative-prompt {
+  margin-bottom: 8px;
+  textarea {
+    padding: 6px;
+    font-size: 12px;
+    resize: none;
+    width: 100%;
+    font-family: var(--vivy-font-family);
+    color: var(--vivy-color-text);
+    background: var(--vivy-color-bg-container);
+  }
+}
+
+.prompt {
+  textarea {
+    height: 100px;
+    &:focus {
+      border: 1px solid var(--vivy-color-success);
+    }
+  }
+}
+
+.negative-prompt {
+  textarea {
+    height: 60px;
+    &:focus {
+      border: 1px solid var(--vivy-color-error);
+    }
+  }
+}
+
+.generate {
+  width: 100%;
+  padding: 12px 0;
+}
