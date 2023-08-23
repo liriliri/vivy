@@ -5,6 +5,7 @@
 
 .prompt,
 .negative-prompt {
+  border: 1px solid var(--vivy-color-border);
   margin-bottom: 8px;
   textarea {
     padding: 6px;
@@ -14,24 +15,6 @@
     font-family: var(--vivy-font-family);
     color: var(--vivy-color-text);
     background: var(--vivy-color-bg-container);
-  }
-}
-
-.prompt {
-  textarea {
-    height: 100px;
-    &:focus {
-      border: 1px solid var(--vivy-color-success);
-    }
-  }
-}
-
-.negative-prompt {
-  textarea {
-    height: 60px;
-    &:focus {
-      border: 1px solid var(--vivy-color-error);
-    }
   }
 }
 
