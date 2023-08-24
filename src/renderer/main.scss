@@ -27,6 +27,7 @@ body {
       font-family: $font-family,
       color-text: $color-text,
       color-primary: $color-primary,
+      color-primary-bg: $color-primary-bg,
       color-primary-hover: $color-primary-hover,
       color-primary-active: $color-primary-active,
       color-border: $color-border,
@@ -45,6 +46,7 @@ body {
     (
       color-text: $color-text-dark,
       color-primary: $color-primary-dark,
+      color-primary-bg: $color-primary-bg-dark,
       color-primary-hover: $color-primary-hover-dark,
       color-primary-active: $color-primary-active-dark,
       color-border: $color-border-dark,
