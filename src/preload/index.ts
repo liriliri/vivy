@@ -2,6 +2,7 @@ import types from 'licia/types'
 import isDarkMode from 'licia/isDarkMode'
 import { contextBridge, ipcRenderer } from 'electron'
 import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
+import { colorBgContainer, colorBgContainerDark } from '../common/theme'
 
 let titleBar: Titlebar
 
@@ -16,7 +17,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   titleBar = new Titlebar({
     containerOverflow: 'hidden',
     backgroundColor: TitlebarColor.fromHex(
-      theme === 'dark' ? '#141414' : '#ffffff'
+      theme === 'dark' ? colorBgContainerDark : colorBgContainer
     ),
   })
 })

@@ -8,19 +8,20 @@ import { Unicode11Addon } from 'xterm-addon-unicode11'
 import each from 'licia/each'
 import replaceAll from 'licia/replaceAll'
 import Style from './Terminal.module.scss'
+import { colorBgContainer, colorBgContainerDark } from '../../../common/theme'
 import 'xterm/css/xterm.css'
 
 export default observer(function () {
   const termRef = useRef<HTMLDivElement>(null)
 
   let theme = {
-    background: '#ffffff',
+    background: colorBgContainer,
     foreground: 'rgba(0, 0, 0, 0.88)',
   }
 
   if (document.body.classList.contains('-theme-with-dark-background')) {
     theme = {
-      background: '#141414',
+      background: colorBgContainerDark,
       foreground: 'rgba(255, 255, 255, 0.85)',
     }
   }
@@ -30,7 +31,7 @@ export default observer(function () {
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
-      theme,
+      theme: theme,
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)
