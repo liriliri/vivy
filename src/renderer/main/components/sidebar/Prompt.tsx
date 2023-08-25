@@ -2,16 +2,18 @@ import { observer } from 'mobx-react-lite'
 import Style from './Prompt.module.scss'
 import { t } from '../../../lib/util'
 import className from 'licia/className'
+import copy from 'licia/copy'
 import store from '../../store'
 import { Editor, Monaco } from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
 import { useRef, useState } from 'react'
 import { colorBgContainerDark } from '../../../../common/theme'
+import LunaToolbar, { LunaToolbarSpace } from 'luna-toolbar/react'
+import ToolbarIcon from '../common/ToolbarIcon'
 
 export default observer(function () {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
   const negativeEditorRef = useRef<editor.IStandaloneCodeEditor>()
-  const selectedEditorRef = useRef<editor.IStandaloneCodeEditor>()
   const [editorFocus, setEditorFocus] = useState(false)
   const [negativeEditorFocus, setNegativeEditorFocus] = useState(false)
 
@@ -28,7 +30,6 @@ export default observer(function () {
 
   const promptOnMount = (editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor
-    selectedEditorRef.current = editor
     editor.onDidFocusEditorWidget(() => setEditorFocus(true))
     editor.onDidBlurEditorWidget(() => setEditorFocus(false))
   }
@@ -36,12 +37,24 @@ export default observer(function () {
   const negativePromptOnMount = (editor: editor.IStandaloneCodeEditor) => {
     negativeEditorRef.current = editor
     editor.onDidFocusEditorWidget(() => setNegativeEditorFocus(true))
-    editor.onDidBlurEditorWidget(() => {
-      setNegativeEditorFocus(false)
-      if (selectedEditorRef.current === negativeEditorRef.current) {
-        selectedEditorRef.current = editorRef.current
-      }
-    })
+    editor.onDidBlurEditorWidget(() => setNegativeEditorFocus(false))
+  }
+
+  const deletePrompt = () => getSelectedEditor().setValue('')
+
+  const copyPrompt = () => {
+    const editor = getSelectedEditor()
+    let value = editor.getValue()
+    const selection = editor.getSelection()
+    if (selection && !selection.isEmpty()) {
+      value = editor.getModel()!.getValueInRange(selection)
+    }
+    copy(value)
+    editor.focus()
+  }
+
+  const getSelectedEditor = () => {
+    return negativeEditorFocus ? negativeEditorRef.current! : editorRef.current!
   }
 
   const monacoOptions: editor.IStandaloneEditorConstructionOptions = {
@@ -60,6 +73,17 @@ export default observer(function () {
 
   return (
     <div className={Style.generateBasic}>
+      <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
+        <LunaToolbar>
+          <ToolbarIcon icon="copy" title={t('copy')} onClick={copyPrompt} />
+          <LunaToolbarSpace />
+          <ToolbarIcon
+            icon="delete"
+            title={t('delete')}
+            onClick={deletePrompt}
+          />
+        </LunaToolbar>
+      </div>
       <div
         className={className(Style.prompt, {
           [Style.selected]: editorFocus,
@@ -92,6 +116,7 @@ export default observer(function () {
       </div>
       <button
         className={className(Style.generate, 'button')}
+        onMouseDown={(e) => e.preventDefault()}
         onClick={() => store.createTask()}
       >
         {t('generate')}
