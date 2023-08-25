@@ -4,11 +4,13 @@ import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
 import extend from 'licia/extend'
 import isWindows from 'licia/isWindows'
-import childProcess from 'child_process'
+import childProcess, { ChildProcessByStdio } from 'child_process'
+import { Readable } from 'stream'
 
 let port = 7860
 export const getPort = () => port
 
+let subprocess: ChildProcessByStdio<null, Readable, Readable>
 export async function start() {
   const appDir = resolveUnpack('webui/stable-diffusion-webui')
 
@@ -37,7 +39,7 @@ export async function start() {
   }
 
   port = await getFreePort(port, '127.0.0.1')
-  const subprocess = childProcess.spawn(
+  subprocess = childProcess.spawn(
     'python',
     [
       '-u',
@@ -60,6 +62,12 @@ export async function start() {
   subprocess.stderr.on('data', (data) => process.stderr.write(data))
 
   app.on('will-quit', () => subprocess.kill())
+}
+
+export function quit() {
+  if (subprocess) {
+    subprocess.kill()
+  }
 }
 
 let win: BrowserWindow | null = null
