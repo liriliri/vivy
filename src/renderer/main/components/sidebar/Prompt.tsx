@@ -53,6 +53,12 @@ export default observer(function () {
     editor.focus()
   }
 
+  const pastePrompt = async () => {
+    const text = await navigator.clipboard.readText()
+    const editor = getSelectedEditor()
+    editor.setValue(text)
+  }
+
   const getSelectedEditor = () => {
     return negativeEditorFocus ? negativeEditorRef.current! : editorRef.current!
   }
@@ -76,7 +82,7 @@ export default observer(function () {
       <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
         <LunaToolbar>
           <ToolbarIcon icon="copy" title={t('copy')} onClick={copyPrompt} />
-          <LunaToolbarSpace />
+          <ToolbarIcon icon="paste" title={t('paste')} onClick={pastePrompt} />
           <ToolbarIcon
             icon="delete"
             title={t('delete')}
