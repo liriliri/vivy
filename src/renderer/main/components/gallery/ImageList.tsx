@@ -81,8 +81,7 @@ export default observer(function () {
 
   return (
     <div
-      className={className({
-        [Style.imageList]: true,
+      className={className(Style.imageList, {
         'full-mode': store.ui.imageListMaximized,
       })}
       style={{

@@ -7,14 +7,17 @@
 .negative-prompt {
   border: 1px solid var(--vivy-color-border);
   margin-bottom: 8px;
-  textarea {
-    padding: 6px;
-    font-size: 12px;
-    resize: none;
-    width: 100%;
-    font-family: var(--vivy-font-family);
-    color: var(--vivy-color-text);
-    background: var(--vivy-color-bg-container);
+}
+
+.prompt {
+  &.selected {
+    border-color: var(--vivy-color-success);
+  }
+}
+
+.negative-prompt {
+  &.selected {
+    border-color: var(--vivy-color-error);
   }
 }
 

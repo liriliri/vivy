@@ -3,15 +3,19 @@ import Style from './Prompt.module.scss'
 import { t } from '../../../lib/util'
 import className from 'licia/className'
 import store from '../../store'
-import { Editor } from '@monaco-editor/react'
-import { useRef } from 'react'
+import { Editor, Monaco } from '@monaco-editor/react'
+import { editor } from 'monaco-editor'
+import { useRef, useState } from 'react'
 import { colorBgContainerDark } from '../../../../common/theme'
 
 export default observer(function () {
-  const promptMonacoRef = useRef(null)
-  const negativePromptMonacoRef = useRef(null)
+  const editorRef = useRef<editor.IStandaloneCodeEditor>()
+  const negativeEditorRef = useRef<editor.IStandaloneCodeEditor>()
+  const selectedEditorRef = useRef<editor.IStandaloneCodeEditor>()
+  const [editorFocus, setEditorFocus] = useState(false)
+  const [negativeEditorFocus, setNegativeEditorFocus] = useState(false)
 
-  const promptBeforeMount = (monaco) => {
+  const promptBeforeMount = (monaco: Monaco) => {
     monaco.editor.defineTheme('vivy-dark', {
       base: 'vs-dark',
       inherit: true,
@@ -22,15 +26,25 @@ export default observer(function () {
     })
   }
 
-  const promptOnMount = (_, monaco) => {
-    promptMonacoRef.current = monaco
+  const promptOnMount = (editor: editor.IStandaloneCodeEditor) => {
+    editorRef.current = editor
+    selectedEditorRef.current = editor
+    editor.onDidFocusEditorWidget(() => setEditorFocus(true))
+    editor.onDidBlurEditorWidget(() => setEditorFocus(false))
   }
 
-  const negativePromptOnMount = (_, monaco) => {
-    negativePromptMonacoRef.current = monaco
+  const negativePromptOnMount = (editor: editor.IStandaloneCodeEditor) => {
+    negativeEditorRef.current = editor
+    editor.onDidFocusEditorWidget(() => setNegativeEditorFocus(true))
+    editor.onDidBlurEditorWidget(() => {
+      setNegativeEditorFocus(false)
+      if (selectedEditorRef.current === negativeEditorRef.current) {
+        selectedEditorRef.current = editorRef.current
+      }
+    })
   }
 
-  const monacoOptions: any = {
+  const monacoOptions: editor.IStandaloneEditorConstructionOptions = {
     renderLineHighlight: 'none',
     lineNumbers: 'off',
     wordWrap: 'on',
@@ -46,7 +60,11 @@ export default observer(function () {
 
   return (
     <div className={Style.generateBasic}>
-      <div className={Style.prompt}>
+      <div
+        className={className(Style.prompt, {
+          [Style.selected]: editorFocus,
+        })}
+      >
         <Editor
           height={100}
           options={monacoOptions}
@@ -57,7 +75,11 @@ export default observer(function () {
           onMount={promptOnMount}
         />
       </div>
-      <div className={Style.negativePrompt}>
+      <div
+        className={className(Style.negativePrompt, {
+          [Style.selected]: negativeEditorFocus,
+        })}
+      >
         <Editor
           height={60}
           options={monacoOptions}

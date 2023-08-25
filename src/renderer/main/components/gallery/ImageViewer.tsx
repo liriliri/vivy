@@ -56,8 +56,7 @@ export default observer(function () {
 
   return (
     <div
-      className={className({
-        [Style.imageViewer]: true,
+      className={className(Style.imageViewer, {
         'full-mode': store.ui.imageViewerMaximized,
       })}
     >
