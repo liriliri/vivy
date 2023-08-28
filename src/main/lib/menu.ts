@@ -4,6 +4,9 @@ import * as prompt from './prompt'
 import * as model from './model'
 import * as terminal from './terminal'
 import { isMac, t } from './util'
+import { getSettingsStore } from './store'
+
+const settingsStore = getSettingsStore()
 
 function getTemplate(): MenuItemConstructorOptions[] {
   const vivy = {
@@ -58,13 +61,16 @@ function getTemplate(): MenuItemConstructorOptions[] {
           terminal.showWin()
         },
       },
-      {
-        label: 'Stable Diffusion web UI',
-        click() {
-          webui.showWin()
-        },
-      },
     ],
+  }
+
+  if (settingsStore.get('enableWebUI')) {
+    tools.submenu.push({
+      label: 'Stable Diffusion web UI',
+      click() {
+        webui.showWin()
+      },
+    })
   }
 
   const help: any = {

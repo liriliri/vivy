@@ -42,5 +42,6 @@
   "theme": "Theme",
   "light": "Light",
   "dark": "Dark",
-  "restartVivy": "Restart VIVY"
+  "restartVivy": "Restart VIVY",
+  "enableWebUI": "Enable Stable Diffusion web UI"
 }

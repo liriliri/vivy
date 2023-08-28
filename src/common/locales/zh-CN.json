@@ -42,5 +42,6 @@
   "theme": "主题",
   "light": "浅色",
   "dark": "暗色",
-  "restartVivy": "重启 VIVY"
+  "restartVivy": "重启 VIVY",
+  "enableWebUI": "启用 Stable Diffusion web UI"
 }

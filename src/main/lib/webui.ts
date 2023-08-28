@@ -6,6 +6,9 @@ import extend from 'licia/extend'
 import isWindows from 'licia/isWindows'
 import childProcess, { ChildProcessByStdio } from 'child_process'
 import { Readable } from 'stream'
+import { getSettingsStore } from './store'
+
+const settingsStore = getSettingsStore()
 
 let port = 7860
 export const getPort = () => port
@@ -39,25 +42,27 @@ export async function start() {
   }
 
   port = await getFreePort(port, '127.0.0.1')
-  subprocess = childProcess.spawn(
-    'python',
-    [
-      '-u',
-      'launch.py',
-      '--skip-prepare-environment',
-      '--api',
-      '--port',
-      toStr(port),
-      '--ckpt-dir',
-      getUserDataPath('models'),
-    ],
-    {
-      cwd: appDir,
-      windowsHide: true,
-      stdio: ['inherit', 'pipe', 'pipe'],
-      env,
-    }
-  )
+  const args = [
+    '-u',
+    'launch.py',
+    '--skip-prepare-environment',
+    '--api',
+    '--port',
+    toStr(port),
+    '--ckpt-dir',
+    getUserDataPath('models'),
+  ]
+
+  if (!settingsStore.get('enableWebUI')) {
+    args.push('--nowebui')
+  }
+
+  subprocess = childProcess.spawn('python', args, {
+    cwd: appDir,
+    windowsHide: true,
+    stdio: ['inherit', 'pipe', 'pipe'],
+    env,
+  })
   subprocess.stdout.on('data', (data) => process.stdout.write(data))
   subprocess.stderr.on('data', (data) => process.stderr.write(data))
 

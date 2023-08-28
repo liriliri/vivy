@@ -162,6 +162,7 @@ class Store {
   settings = {
     language: getSystemLanguage(),
     theme: isDarkMode() ? 'dark' : 'light',
+    enableWebUI: false,
   }
   constructor() {
     makeObservable(this, {
@@ -234,6 +235,7 @@ class Store {
 
     await this.loadSetting('language')
     await this.loadSetting('theme')
+    await this.loadSetting('enableWebUI')
   }
   async loadSetting(name: string) {
     const val = await this.getSettings(name)
