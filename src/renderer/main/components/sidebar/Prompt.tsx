@@ -88,6 +88,12 @@ export default observer(function () {
             title={t('delete')}
             onClick={deletePrompt}
           />
+          <LunaToolbarSpace />
+          <ToolbarIcon
+            icon="translate"
+            title={t('translate')}
+            onClick={() => {}}
+          />
         </LunaToolbar>
       </div>
       <div
