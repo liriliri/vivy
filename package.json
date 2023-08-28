@@ -16,8 +16,8 @@
     "start": "electron ./dist/main/index.js",
     "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css,json}\" \"*.{ts,json}\" \"script/*.mjs\" --write",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "genIcon": "lsla genIcon --input src/renderer/icon --output src/renderer/icon.css --name vivy-icon && lsla prettier src/renderer/icon.css --write",
-    "genTheme": "lsla genTheme --input src/renderer/theme.json --output src/renderer/theme.scss && lsla prettier src/renderer/theme.scss --write"
+    "genIcon": "lsla genIcon --input src/renderer/icon --output src/renderer/icon.css --name vivy-icon",
+    "genTheme": "lsla genTheme --input src/common/theme.json --output src/renderer/theme.scss && lsla genTheme --input src/common/theme.json --output src/common/theme.ts"
   },
   "repository": {
     "type": "git",

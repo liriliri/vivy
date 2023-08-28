@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef } from 'react'
-import { Terminal } from 'xterm'
+import { Terminal, ITheme } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import { WebglAddon } from 'xterm-addon-webgl'
 import { CanvasAddon } from 'xterm-addon-canvas'
@@ -8,21 +8,27 @@ import { Unicode11Addon } from 'xterm-addon-unicode11'
 import each from 'licia/each'
 import replaceAll from 'licia/replaceAll'
 import Style from './Terminal.module.scss'
-import { colorBgContainer, colorBgContainerDark } from '../../../common/theme'
+import {
+  colorBgContainer,
+  colorBgContainerDark,
+  colorPrimary,
+  colorText,
+  colorTextDark,
+} from '../../../common/theme'
 import 'xterm/css/xterm.css'
 
 export default observer(function () {
   const termRef = useRef<HTMLDivElement>(null)
 
-  let theme = {
+  let theme: ITheme = {
     background: colorBgContainer,
-    foreground: 'rgba(0, 0, 0, 0.88)',
+    foreground: colorText,
   }
 
   if (document.body.classList.contains('-theme-with-dark-background')) {
     theme = {
       background: colorBgContainerDark,
-      foreground: 'rgba(255, 255, 255, 0.85)',
+      foreground: colorTextDark,
     }
   }
 
@@ -31,7 +37,11 @@ export default observer(function () {
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
-      theme: theme,
+      theme: {
+        selectionForeground: '#fff',
+        selectionBackground: colorPrimary,
+        ...theme,
+      },
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)
