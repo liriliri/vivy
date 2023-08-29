@@ -303,9 +303,13 @@ class Store {
   async setOptions(key, val) {
     const { options } = this
     options[key] = val
-    await webui.setOptions({
-      sd_model_checkpoint: options.model,
-    })
+    if (key === 'model') {
+      this.isReady = false
+      this.waitForReady()
+      await webui.setOptions({
+        sd_model_checkpoint: options.model,
+      })
+    }
   }
   async createTask() {
     const image = new Task(clone(this.txt2imgOptions))
