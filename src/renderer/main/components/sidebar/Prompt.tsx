@@ -53,6 +53,12 @@ export default observer(function () {
     editor.focus()
   }
 
+  const translate = async () => {
+    const editor = getSelectedEditor()
+    const value = editor.getValue()
+    editor.setValue(await main.translate(value))
+  }
+
   const pastePrompt = async () => {
     const text = await navigator.clipboard.readText()
     const editor = getSelectedEditor()
@@ -89,11 +95,13 @@ export default observer(function () {
             onClick={deletePrompt}
           />
           <LunaToolbarSpace />
-          <ToolbarIcon
-            icon="translate"
-            title={t('translate')}
-            onClick={() => {}}
-          />
+          {store.settings.language !== 'en-US' ? (
+            <ToolbarIcon
+              icon="translate"
+              title={t('translate')}
+              onClick={translate}
+            />
+          ) : null}
         </LunaToolbar>
       </div>
       <div

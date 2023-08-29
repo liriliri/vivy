@@ -1,8 +1,8 @@
 import { Menu, MenuItemConstructorOptions, app } from 'electron'
-import * as webui from './webui'
-import * as prompt from './prompt'
-import * as model from './model'
-import * as terminal from './terminal'
+import * as webui from '../window/webui'
+import * as prompt from '../window/prompt'
+import * as model from '../window/model'
+import * as terminal from '../window/terminal'
 import { isMac, t } from './util'
 import { getSettingsStore } from './store'
 

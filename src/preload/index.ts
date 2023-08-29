@@ -33,6 +33,7 @@ const mainObj = {
   setSettingsStore: (name, val) => {
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
+  translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
 }

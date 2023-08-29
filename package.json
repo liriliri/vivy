@@ -48,7 +48,7 @@
     "luna-image-viewer": "^0.2.1",
     "luna-modal": "^1.1.1",
     "luna-setting": "^0.9.0",
-    "luna-toolbar": "^0.4.1",
+    "luna-toolbar": "^0.4.2",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^4.0.2",
     "monaco-editor": "^0.41.0",

@@ -1,11 +1,12 @@
 import path from 'path'
-import { isDev } from './util'
+import { isDev } from '../lib/util'
 import { BrowserWindow, ipcMain, app } from 'electron'
 import * as webui from './webui'
 import * as terminal from './terminal'
 import * as model from './model'
-import { getMainStore } from './store'
+import { getMainStore } from '../lib/store'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
+import { bing, Language } from '../lib/translation'
 
 const store = getMainStore()
 
@@ -59,5 +60,8 @@ function initIpc() {
     webui.quit()
     app.relaunch()
     app.exit()
+  })
+  ipcMain.handle('translate', async (_, text) => {
+    return await bing(text, Language.zhCN, Language.enUS)
   })
 }

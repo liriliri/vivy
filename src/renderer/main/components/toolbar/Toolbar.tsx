@@ -40,10 +40,6 @@ export default observer(function () {
     </LunaToolbarHtml>
   )
 
-  const settings = settingsVisible ? (
-    <Settings visible={true} onClose={() => setSettingsVisible(false)} />
-  ) : null
-
   return (
     <>
       <LunaToolbar
@@ -72,7 +68,10 @@ export default observer(function () {
           onClick={() => setSettingsVisible(true)}
         />
       </LunaToolbar>
-      {settings}
+      <Settings
+        visible={settingsVisible}
+        onClose={() => setSettingsVisible(false)}
+      />
     </>
   )
 })

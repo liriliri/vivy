@@ -175,6 +175,7 @@ class Store {
       options: observable,
       selectedImage: observable,
       ui: observable,
+      settings: observable,
       waitForReady: action,
       setTxt2ImgOptions: action,
       setUi: action,

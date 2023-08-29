@@ -1,8 +1,8 @@
 import path from 'path'
 import isBuffer from 'licia/isBuffer'
-import { isDev } from './util'
+import { isDev } from '../lib/util'
 import { BrowserWindow, ipcMain } from 'electron'
-import { getTerminalStore } from './store'
+import { getTerminalStore } from '../lib/store'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 
 const store = getTerminalStore()
