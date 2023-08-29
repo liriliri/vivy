@@ -1,5 +1,5 @@
 import { BrowserWindow, app } from 'electron'
-import { resolveUnpack, isMac, getUserDataPath, createWin } from '../lib/util'
+import { resolveUnpack, isMac, getUserDataPath } from '../lib/util'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
 import extend from 'licia/extend'
@@ -7,6 +7,7 @@ import isWindows from 'licia/isWindows'
 import childProcess, { ChildProcessByStdio } from 'child_process'
 import { Readable } from 'stream'
 import { getSettingsStore } from '../lib/store'
+import createWin from './createWin'
 
 const settingsStore = getSettingsStore()
 

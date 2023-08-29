@@ -1,7 +1,8 @@
 import path from 'path'
-import { createWin, isDev } from '../lib/util'
+import { isDev } from '../lib/util'
 import { BrowserWindow } from 'electron'
 import { getModelStore } from '../lib/store'
+import createWin from './createWin'
 
 const store = getModelStore()
 

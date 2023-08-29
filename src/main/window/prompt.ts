@@ -1,7 +1,7 @@
 import path from 'path'
-import { createWin, isDev } from '../lib/util'
+import { isDev } from '../lib/util'
 import { BrowserWindow } from 'electron'
-import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
+import createWin from './createWin'
 
 let win: BrowserWindow | null = null
 

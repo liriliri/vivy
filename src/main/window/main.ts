@@ -1,11 +1,12 @@
 import path from 'path'
-import { createWin, isDev } from '../lib/util'
+import { isDev } from '../lib/util'
 import { BrowserWindow, ipcMain, app } from 'electron'
 import * as webui from './webui'
 import * as terminal from './terminal'
 import * as model from './model'
 import { getMainStore } from '../lib/store'
 import { bing, Language } from '../lib/translation'
+import createWin from './createWin'
 
 const store = getMainStore()
 
