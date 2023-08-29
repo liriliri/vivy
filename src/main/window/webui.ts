@@ -1,5 +1,5 @@
 import { BrowserWindow, app } from 'electron'
-import { resolveUnpack, isMac, getUserDataPath } from '../lib/util'
+import { resolveUnpack, isMac, getUserDataPath, createWin } from '../lib/util'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
 import extend from 'licia/extend'
@@ -82,18 +82,14 @@ export function showWin() {
     win.focus()
     return
   }
-  win = new BrowserWindow({
-    title: 'Stable Diffusion web UI',
-    minimizable: false,
-    maximizable: false,
+  win = createWin({
+    customTitlebar: false,
     width: 1280,
     height: 850,
     minHeight: 850,
     minWidth: 1280,
-    show: false,
+    preload: false,
   })
-  win.setMenu(null)
-  win.once('ready-to-show', () => win?.show())
   win.on('close', () => {
     win?.destroy()
     win = null

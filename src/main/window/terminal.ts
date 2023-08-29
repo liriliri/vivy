@@ -1,6 +1,6 @@
 import path from 'path'
 import isBuffer from 'licia/isBuffer'
-import { isDev } from '../lib/util'
+import { createWin, isDev } from '../lib/util'
 import { BrowserWindow, ipcMain } from 'electron'
 import { getTerminalStore } from '../lib/store'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
@@ -21,32 +21,17 @@ export function showWin() {
     return
   }
 
-  win = new BrowserWindow({
-    titleBarStyle: 'hidden',
-    titleBarOverlay: true,
+  win = createWin({
+    minWidth: 960,
+    minHeight: 640,
     ...store.get('bounds'),
-    webPreferences: {
-      preload: path.join(__dirname, '../preload/index.js'),
-      webSecurity: false,
-      sandbox: false,
-    },
-    show: false,
-    backgroundColor: '#000',
+    onSavePos: () => store.set('bounds', win?.getBounds()),
   })
-  if (!isDev()) {
-    win.setMenu(null)
-  }
-  attachTitlebarToWindow(win)
-  win.setMinimumSize(960, 640)
 
-  win.once('ready-to-show', () => win?.show())
   win.on('close', () => {
     win?.destroy()
     win = null
   })
-  const savePos = () => store.set('bounds', win?.getBounds())
-  win.on('resize', savePos)
-  win.on('moved', savePos)
 
   if (isDev()) {
     win.loadURL('http://localhost:8080/?page=terminal')

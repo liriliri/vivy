@@ -1,11 +1,10 @@
 import path from 'path'
-import { isDev } from '../lib/util'
+import { createWin, isDev } from '../lib/util'
 import { BrowserWindow, ipcMain, app } from 'electron'
 import * as webui from './webui'
 import * as terminal from './terminal'
 import * as model from './model'
 import { getMainStore } from '../lib/store'
-import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 import { bing, Language } from '../lib/translation'
 
 const store = getMainStore()
@@ -24,24 +23,14 @@ export function showWin() {
     initIpc()
   }
 
-  win = new BrowserWindow({
-    titleBarStyle: 'hidden',
-    titleBarOverlay: true,
+  win = createWin({
+    minWidth: 1280,
+    minHeight: 850,
     ...store.get('bounds'),
-    webPreferences: {
-      preload: path.join(__dirname, '../preload/index.js'),
-      webSecurity: false,
-      sandbox: false,
-    },
-    show: false,
+    onSavePos: () => store.set('bounds', win?.getBounds()),
+    menu: true,
   })
-  attachTitlebarToWindow(win)
-  win.setMinimumSize(1280, 850)
-  win.once('ready-to-show', () => win?.show())
   win.on('close', () => app.quit())
-  const savePos = () => store.set('bounds', win?.getBounds())
-  win.on('resize', savePos)
-  win.on('moved', savePos)
 
   if (isDev()) {
     win.loadURL('http://localhost:8080')

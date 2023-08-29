@@ -1,7 +1,6 @@
 import path from 'path'
-import { isDev } from '../lib/util'
+import { createWin, isDev } from '../lib/util'
 import { BrowserWindow } from 'electron'
-import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 import { getModelStore } from '../lib/store'
 
 const store = getModelStore()
@@ -14,28 +13,16 @@ export function showWin() {
     return
   }
 
-  win = new BrowserWindow({
-    titleBarStyle: 'hidden',
-    titleBarOverlay: true,
+  win = createWin({
+    minWidth: 960,
+    minHeight: 640,
     ...store.get('bounds'),
-    webPreferences: {
-      preload: path.join(__dirname, '../preload/index.js'),
-      webSecurity: false,
-      sandbox: false,
-    },
-    show: false,
+    onSavePos: () => store.set('bounds', win?.getBounds()),
   })
-  win.setMenu(null)
-  attachTitlebarToWindow(win)
-  win.setMinimumSize(960, 640)
-  win.once('ready-to-show', () => win?.show())
   win.on('close', () => {
     win?.destroy()
     win = null
   })
-  const savePos = () => store.set('bounds', win?.getBounds())
-  win.on('resize', savePos)
-  win.on('moved', savePos)
 
   if (isDev()) {
     win.loadURL('http://localhost:8080/?page=model')
