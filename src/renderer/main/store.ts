@@ -28,12 +28,14 @@ export enum TaskStatus {
 interface IImageInfo {
   prompt?: string
   negativePrompt?: string
+  width: number
+  height: number
 }
 
 export interface IImage {
   id: string
   data: string
-  info?: IImageInfo
+  info: IImageInfo
 }
 
 class Task extends Emitter {
@@ -63,6 +65,8 @@ class Task extends Emitter {
         info: {
           prompt: txt2imgOptions.prompt,
           negativePrompt: txt2imgOptions.negativePrompt,
+          width: txt2imgOptions.width,
+          height: txt2imgOptions.height,
         },
       }
     }
@@ -217,6 +221,10 @@ class Store {
         const image = {
           id: uuid(),
           data: await convertBin(buf, 'base64'),
+          info: {
+            width: 0,
+            height: 0,
+          },
         }
         this.selectImage(image)
         this.images.push(this.selectedImage!)

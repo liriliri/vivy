@@ -1,10 +1,12 @@
 .statusbar {
-  background: var(--vivy-color-primary);
+  background: var(--vivy-color-bg-container);
   position: absolute;
+  border-top: 1px solid var(--vivy-color-border);
   height: 22px;
   left: 0;
   right: 0;
   bottom: 0;
+  display: flex;
   font-size: 12px;
   line-height: 22px;
   color: #fff;
