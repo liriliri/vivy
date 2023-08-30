@@ -6,10 +6,11 @@ import extend from 'licia/extend'
 import isWindows from 'licia/isWindows'
 import childProcess, { ChildProcessByStdio } from 'child_process'
 import { Readable } from 'stream'
-import { getSettingsStore } from '../lib/store'
+import { getSettingsStore, getWebUIStore } from '../lib/store'
 import createWin from './createWin'
 
 const settingsStore = getSettingsStore()
+const store = getWebUIStore()
 
 let port = 7860
 export const getPort = () => port
@@ -85,11 +86,11 @@ export function showWin() {
   }
   win = createWin({
     customTitlebar: false,
-    width: 1280,
-    height: 850,
     minHeight: 850,
     minWidth: 1280,
     preload: false,
+    ...store.get('bounds'),
+    onSavePos: () => store.set('bounds', win?.getBounds()),
   })
   win.on('close', () => {
     win?.destroy()

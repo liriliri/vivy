@@ -51,7 +51,7 @@ export default observer(function () {
         <LunaToolbarSelect
           keyName="model"
           value={store.options.model}
-          title="Model"
+          title={t('model')}
           options={modelOptions}
           disabled={modelDisabled}
         />
@@ -64,7 +64,7 @@ export default observer(function () {
         <LunaToolbarSpace />
         <ToolbarIcon
           icon="setting"
-          title={t('modelManager')}
+          title={t('settings')}
           onClick={() => setSettingsVisible(true)}
         />
       </LunaToolbar>

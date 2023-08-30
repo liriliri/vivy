@@ -42,3 +42,12 @@ export const getSettingsStore = memoize(function () {
     enableWebUI: false,
   })
 })
+
+export const getWebUIStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/webui.json'), {
+    bounds: {
+      width: 1280,
+      height: 850,
+    },
+  })
+})
