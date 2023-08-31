@@ -25,6 +25,14 @@
   }
 }
 
+.system-info {
+  display: flex;
+  .cpu,
+  .mem {
+    width: 55px;
+  }
+}
+
 .space {
   flex-grow: 1;
 }

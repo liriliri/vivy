@@ -5,7 +5,7 @@ import * as menu from './lib/menu'
 import * as main from './window/main'
 import { setupTitlebar } from 'custom-electron-titlebar/main'
 import { getSettingsStore } from './lib/store'
-import { i18n } from './lib/util'
+import { getCpuLoad, getMemLoad, i18n } from './lib/util'
 
 const store = getSettingsStore()
 
@@ -19,6 +19,10 @@ app.setName('Vivy')
 app.on('ready', () => {
   ipcMain.handle('setSettingsStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getSettingsStore', (_, name) => store.get(name))
+
+  ipcMain.handle('getCpuLoad', () => getCpuLoad())
+  ipcMain.handle('getMemLoad', () => getMemLoad())
+
   const language = store.get('language')
   if (language) {
     i18n.locale(language)
