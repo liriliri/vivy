@@ -1,18 +1,23 @@
 import Style from './Statusbar.module.scss'
 import { observer } from 'mobx-react-lite'
 import className from 'licia/className'
+import fileSize from 'licia/fileSize'
 import store from '../../store'
 
 export default observer(function () {
   let imageInfo: JSX.Element | null = null
-
   if (store.selectedImage) {
     const { info } = store.selectedImage
     imageInfo = (
       <div className={Style.item}>
-        {info.width} × {info.height}
+        {info.width} × {info.height} {fileSize(info.size)}B
       </div>
     )
+  }
+
+  let imageCount: JSX.Element | null = null
+  if (store.images.length > 0) {
+    imageCount = <div className={Style.item}>{store.images.length}</div>
   }
 
   return (
@@ -24,6 +29,8 @@ export default observer(function () {
         <span className="icon-terminal"></span>
       </div>
       {imageInfo}
+      <div className={Style.space}></div>
+      {imageCount}
     </div>
   )
 })

@@ -51,7 +51,7 @@ export async function splitImage(data: string, num: number) {
   return images
 }
 
-function getImageSize(image: string): Promise<HTMLImageElement> {
+export function getImageSize(image: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     loadImg(image, function (err, img) {
       if (err) {

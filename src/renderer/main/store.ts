@@ -8,6 +8,7 @@ import {
 } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
+import base64 from 'licia/base64'
 import Emitter from 'licia/Emitter'
 import remove from 'licia/remove'
 import map from 'licia/map'
@@ -16,7 +17,7 @@ import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../lib/webui'
-import { getSystemLanguage, splitImage } from '../lib/util'
+import { getSystemLanguage, splitImage, getImageSize } from '../lib/util'
 import isDarkMode from 'licia/isDarkMode'
 
 export enum TaskStatus {
@@ -30,6 +31,7 @@ interface IImageInfo {
   negativePrompt?: string
   width: number
   height: number
+  size: number
 }
 
 export interface IImage {
@@ -67,6 +69,7 @@ class Task extends Emitter {
           negativePrompt: txt2imgOptions.negativePrompt,
           width: txt2imgOptions.width,
           height: txt2imgOptions.height,
+          size: 0,
         },
       }
     }
@@ -91,7 +94,9 @@ class Task extends Emitter {
       clearTimeout(this.progressTimer)
     }
     for (let i = 0; i < txt2imgOptions.batchSize; i++) {
-      this.images[i].data = result.images[i]
+      const image = this.images[i]
+      image.data = result.images[i]
+      image.info.size = base64.decode(image.data).length
     }
     this.emit('complete', this.images)
   }
@@ -218,12 +223,17 @@ class Store {
       const file = fileList[0]
       if (file) {
         const buf = await convertBin.blobToArrBuffer(file)
+        const data = await convertBin(buf, 'base64')
+        const { width, height } = await getImageSize(
+          `data:image/png;base64,${data}`
+        )
         const image = {
           id: uuid(),
-          data: await convertBin(buf, 'base64'),
+          data,
           info: {
-            width: 0,
-            height: 0,
+            width,
+            height,
+            size: base64.decode(data).length,
           },
         }
         this.selectImage(image)
