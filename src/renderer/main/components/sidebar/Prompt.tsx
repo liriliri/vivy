@@ -8,7 +8,10 @@ import { Editor, Monaco } from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
 import { useRef, useState } from 'react'
 import { colorBgContainerDark } from '../../../../common/theme'
-import LunaToolbar, { LunaToolbarSpace } from 'luna-toolbar/react'
+import LunaToolbar, {
+  LunaToolbarSeparator,
+  LunaToolbarSpace,
+} from 'luna-toolbar/react'
 import ToolbarIcon from '../common/ToolbarIcon'
 
 export default observer(function () {
@@ -40,7 +43,7 @@ export default observer(function () {
     editor.onDidBlurEditorWidget(() => setNegativeEditorFocus(false))
   }
 
-  const deletePrompt = () => getSelectedEditor().setValue('')
+  const clearPrompt = () => getSelectedEditor().setValue('')
 
   const copyPrompt = () => {
     const editor = getSelectedEditor()
@@ -89,10 +92,12 @@ export default observer(function () {
         <LunaToolbar>
           <ToolbarIcon icon="copy" title={t('copy')} onClick={copyPrompt} />
           <ToolbarIcon icon="paste" title={t('paste')} onClick={pastePrompt} />
+          <ToolbarIcon icon="eraser" title={t('clear')} onClick={clearPrompt} />
+          <LunaToolbarSeparator />
           <ToolbarIcon
-            icon="delete"
-            title={t('delete')}
-            onClick={deletePrompt}
+            icon="editor"
+            title={t('promptBuilder')}
+            onClick={() => main.showPrompt()}
           />
           <LunaToolbarSpace />
           {store.settings.language !== 'en-US' ? (

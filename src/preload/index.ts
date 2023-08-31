@@ -26,6 +26,7 @@ const mainObj = {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
   showTerminal: () => ipcRenderer.invoke('showTerminal'),
   showModel: () => ipcRenderer.invoke('showModel'),
+  showPrompt: () => ipcRenderer.invoke('showPrompt'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
   setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),

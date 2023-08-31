@@ -4,6 +4,7 @@ import { BrowserWindow, ipcMain, app } from 'electron'
 import * as webui from './webui'
 import * as terminal from './terminal'
 import * as model from './model'
+import * as prompt from './prompt'
 import { getMainStore } from '../lib/store'
 import { bing, Language } from '../lib/translation'
 import createWin from './createWin'
@@ -44,6 +45,7 @@ function initIpc() {
   ipcMain.handle('getWebuiPort', () => webui.getPort())
   ipcMain.handle('showTerminal', () => terminal.showWin())
   ipcMain.handle('showModel', () => model.showWin())
+  ipcMain.handle('showPrompt', () => prompt.showWin())
   ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getMainStore', (_, name) => store.get(name))
   ipcMain.handle('relaunch', () => {

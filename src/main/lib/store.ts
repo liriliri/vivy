@@ -37,6 +37,15 @@ export const getModelStore = memoize(function () {
   })
 })
 
+export const getPromptStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/prompt.json'), {
+    bounds: {
+      width: 960,
+      height: 640,
+    },
+  })
+})
+
 export const getSettingsStore = memoize(function () {
   return new FileStore(getUserDataPath('data/settings.json'), {
     enableWebUI: false,

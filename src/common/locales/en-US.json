@@ -45,5 +45,6 @@
   "restartVivy": "Restart VIVY",
   "enableWebUI": "Enable Stable Diffusion web UI",
   "translate": "Translate",
-  "model": "Model"
+  "model": "Model",
+  "clear": "Clear"
 }

@@ -2,6 +2,9 @@ import path from 'path'
 import { isDev } from '../lib/util'
 import { BrowserWindow } from 'electron'
 import createWin from './createWin'
+import { getPromptStore } from '../lib/store'
+
+const store = getPromptStore()
 
 let win: BrowserWindow | null = null
 
@@ -14,8 +17,8 @@ export function showWin() {
   win = createWin({
     minWidth: 960,
     minHeight: 640,
-    width: 960,
-    height: 640,
+    ...store.get('bounds'),
+    onSavePos: () => store.set('bounds', win?.getBounds()),
   })
   win.on('close', () => {
     win?.destroy()

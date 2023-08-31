@@ -45,5 +45,6 @@
   "restartVivy": "重启 VIVY",
   "enableWebUI": "启用 Stable Diffusion web UI",
   "translate": "翻译",
-  "model": "模型"
+  "model": "模型",
+  "clear": "清除"
 }
