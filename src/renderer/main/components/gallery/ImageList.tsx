@@ -153,7 +153,6 @@ export default observer(function () {
           disabled={isEmpty(store.images)}
         />
       </LunaToolbar>
-      <ProgressBar />
       <div className={Style.body}>
         {isEmpty(images) ? (
           <div className={Style.noImages}>{t('noImages')}</div>
@@ -161,6 +160,7 @@ export default observer(function () {
           images
         )}
       </div>
+      <ProgressBar />
     </div>
   )
 })
