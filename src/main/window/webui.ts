@@ -52,7 +52,7 @@ export async function start() {
     '--port',
     toStr(port),
     '--ckpt-dir',
-    getUserDataPath('models'),
+    settingsStore.get('modelPath'),
   ]
 
   if (!settingsStore.get('enableWebUI')) {

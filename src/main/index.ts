@@ -1,4 +1,4 @@
-import { app, ipcMain, nativeTheme } from 'electron'
+import { app, ipcMain, nativeTheme, dialog, OpenDialogOptions } from 'electron'
 import * as webui from './window/webui'
 import * as terminal from './window/terminal'
 import * as menu from './lib/menu'
@@ -22,6 +22,10 @@ app.on('ready', () => {
 
   ipcMain.handle('getCpuLoad', () => getCpuLoad())
   ipcMain.handle('getMemLoad', () => getMemLoad())
+
+  ipcMain.handle('showOpenDialog', (_, options: OpenDialogOptions = {}) =>
+    dialog.showOpenDialog(options)
+  )
 
   const language = store.get('language')
   if (language) {

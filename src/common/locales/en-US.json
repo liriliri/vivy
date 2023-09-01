@@ -46,5 +46,7 @@
   "enableWebUI": "Enable Stable Diffusion web UI",
   "translate": "Translate",
   "model": "Model",
-  "clear": "Clear"
+  "clear": "Clear",
+  "modelPath": "Model Path",
+  "browse": "Browse"
 }

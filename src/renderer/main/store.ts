@@ -172,6 +172,7 @@ class Store {
     language: getSystemLanguage(),
     theme: isDarkMode() ? 'dark' : 'light',
     enableWebUI: false,
+    modelPath: '',
   }
   constructor() {
     makeObservable(this, {
@@ -193,6 +194,7 @@ class Store {
       deleteAllImages: action,
       deleteImage: action,
       openImage: action,
+      setSetting: action,
     })
     this.load()
 
@@ -255,9 +257,10 @@ class Store {
     await this.loadSetting('language')
     await this.loadSetting('theme')
     await this.loadSetting('enableWebUI')
+    await this.loadSetting('modelPath')
   }
   async loadSetting(name: string) {
-    const val = await this.getSettings(name)
+    const val = await this.getSetting(name)
     if (val) {
       this.settings[name] = val
     }
@@ -268,10 +271,11 @@ class Store {
   async setStore(name: string, val: any) {
     await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
   }
-  async getSettings(name: string) {
+  async getSetting(name: string) {
     return await main.getSettingsStore(name)
   }
-  async setSettings(name: string, val: any) {
+  async setSetting(name: string, val: any) {
+    this.settings[name] = val
     await main.setSettingsStore(name, isObservable(val) ? toJS(val) : val)
   }
   async stop() {

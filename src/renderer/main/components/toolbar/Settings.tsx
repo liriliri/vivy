@@ -9,6 +9,7 @@ import LunaSetting, {
 import { t } from '../../../lib/util'
 import store from '../../../main/store'
 import Style from './Settings.module.scss'
+import SettingPath from '../common/SettingPath'
 
 interface IProps {
   visible: boolean
@@ -24,7 +25,7 @@ export default observer(function Settings(props: IProps) {
     >
       <LunaSetting
         className={Style.settings}
-        onChange={(key, val) => store.setSettings(key, val)}
+        onChange={(key, val) => store.setSetting(key, val)}
       >
         <LunaSettingSelect
           keyName="theme"
@@ -42,6 +43,14 @@ export default observer(function Settings(props: IProps) {
           options={{
             English: 'en-US',
             ['中文']: 'zh-CN',
+          }}
+        />
+        <SettingPath
+          title={t('modelPath')}
+          value={store.settings.modelPath}
+          onChange={(val) => store.setSetting('modelPath', val)}
+          options={{
+            properties: ['openDirectory'],
           }}
         />
         <LunaSettingCheckbox

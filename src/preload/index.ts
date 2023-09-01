@@ -1,6 +1,6 @@
 import types from 'licia/types'
 import isDarkMode from 'licia/isDarkMode'
-import { contextBridge, ipcRenderer } from 'electron'
+import { OpenDialogOptions, contextBridge, ipcRenderer } from 'electron'
 import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
 import { colorBgContainer, colorBgContainerDark } from '../common/theme'
 
@@ -34,6 +34,8 @@ const mainObj = {
   setSettingsStore: (name, val) => {
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
+  showOpenDialog: (options: OpenDialogOptions = {}) =>
+    ipcRenderer.invoke('showOpenDialog', options),
   getCpuLoad: () => ipcRenderer.invoke('getCpuLoad'),
   getMemLoad: () => ipcRenderer.invoke('getMemLoad'),
   translate: (text) => ipcRenderer.invoke('translate', text),

@@ -1,0 +1,20 @@
+.item-path {
+  padding: 10px 0;
+  width: 100%;
+  input {
+    color: var(--vivy-color-text);
+    background: var(--vivy-color-bg-container);
+    border: 1px solid var(--vivy-color-border, transparent);
+    min-width: 300px;
+    border-right: none;
+    padding: 4px 6px;
+    outline: none;
+  }
+  button {
+    height: 25px;
+    line-height: 25px;
+    padding: 0 6px;
+    font-size: 12px;
+    margin: 0;
+  }
+}
