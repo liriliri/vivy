@@ -50,10 +50,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  &:hover,
-  &.selected {
-    border-color: var(--vivy-color-primary);
-  }
   &.selected {
     background: var(--vivy-color-primary-bg);
   }
@@ -64,5 +60,12 @@
   }
   .progress {
     position: absolute;
+  }
+}
+
+.image {
+  &:hover,
+  &.selected {
+    border-color: var(--vivy-color-primary);
   }
 }

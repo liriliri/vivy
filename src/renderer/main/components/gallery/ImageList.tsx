@@ -167,7 +167,7 @@ export default observer(function () {
 function Image(image: IImage) {
   return (
     <div
-      className={className(Style.item, {
+      className={className(Style.item, Style.image, {
         [Style.selected]: image.id === store.selectedImage?.id,
       })}
       key={image.id}
