@@ -12,14 +12,16 @@ import { t } from '../../../lib/util'
 import ToolbarIcon from '../common/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
+import ProgressBar from './ProgressBar'
 
 export default observer(function () {
-  const images: JSX.Element[] = []
   const imageListRef = useRef<HTMLDivElement>(null)
   const [resizerStyle, setResizerStyle] = useState<any>({
     height: '10px',
   })
+
   const itemStyle = getItemStyle()
+  const images: JSX.Element[] = []
 
   each(store.images, (image) => {
     images.push(Image(image))
@@ -27,28 +29,26 @@ export default observer(function () {
 
   each(store.tasks, (task) => {
     each(task.images, (image) => {
+      let content: JSX.Element | null = null
       if (image.data) {
-        images.push(
-          <div className={Style.item} key={image.id} style={itemStyle}>
+        content = (
+          <>
             <div className={Style.progress}>{task.progress}%</div>
             <img src={`data:image/png;base64,${image.data}`} />
-          </div>
+          </>
         )
       } else {
         if (task.status === TaskStatus.Wait) {
-          images.push(
-            <div className={Style.item} key={image.id} style={itemStyle}>
-              <span className="icon-image"></span>
-            </div>
-          )
+          content = <span className="icon-image"></span>
         } else {
-          images.push(
-            <div className={Style.item} key={image.id} style={itemStyle}>
-              <div className={Style.progress}>{task.progress}%</div>
-            </div>
-          )
+          content = <div className={Style.progress}>{task.progress}%</div>
         }
       }
+      images.push(
+        <div className={Style.item} key={image.id} style={itemStyle}>
+          {content}
+        </div>
+      )
     })
   })
 
@@ -153,6 +153,7 @@ export default observer(function () {
           disabled={isEmpty(store.images)}
         />
       </LunaToolbar>
+      <ProgressBar />
       <div className={Style.body}>
         {isEmpty(images) ? (
           <div className={Style.noImages}>{t('noImages')}</div>

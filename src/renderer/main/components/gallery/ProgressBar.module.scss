@@ -1,0 +1,9 @@
+.progress-bar {
+  position: absolute;
+  background: var(--vivy-color-primary);
+  top: 30px;
+  left: 0;
+  height: 3px;
+  pointer-events: none;
+  transition: width 300ms ease-out, opacity 150ms 150ms ease-in;
+}
