@@ -18,8 +18,10 @@ export default observer(function () {
     }
   } else {
     if (store.tasks.length === 0) {
-      setIsGenerating(false)
-      setTasks([])
+      setTimeout(() => {
+        setIsGenerating(false)
+        setTasks([])
+      }, 1000)
     } else {
       const newTasks = unique(concat(tasks, store.tasks))
       if (!isEqual(newTasks, tasks)) {

@@ -12,7 +12,6 @@ import { t } from '../../../lib/util'
 import ToolbarIcon from '../common/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
-import ProgressBar from './ProgressBar'
 
 export default observer(function () {
   const imageListRef = useRef<HTMLDivElement>(null)
@@ -160,7 +159,6 @@ export default observer(function () {
           images
         )}
       </div>
-      <ProgressBar />
     </div>
   )
 })

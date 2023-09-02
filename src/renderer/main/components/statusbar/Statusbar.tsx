@@ -4,6 +4,7 @@ import className from 'licia/className'
 import fileSize from 'licia/fileSize'
 import store from '../../store'
 import { useEffect, useState } from 'react'
+import ProgressBar from './ProgressBar'
 
 export default observer(function () {
   const [cpuLoad, setCpuLoad] = useState(0)
@@ -58,6 +59,7 @@ export default observer(function () {
         <div className={Style.cpu}>CPU {cpuLoad}</div>
         <div className={Style.mem}>MEM {memLoad}</div>
       </div>
+      <ProgressBar />
     </div>
   )
 })
