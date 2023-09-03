@@ -1,10 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import { useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import store from '../../store'
 import LunaImageViewer from 'luna-image-viewer/react'
 import ImageViewer from 'luna-image-viewer'
-import LunaModal from 'luna-modal/react'
 import LunaToolbar, {
   LunaToolbarSeparator,
   LunaToolbarSpace,
@@ -19,6 +17,7 @@ import ToolbarIcon from '../common/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t } from '../../../lib/util'
+import InfoModal from './InfoModal'
 
 export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
@@ -36,18 +35,6 @@ export default observer(function () {
     if (store.selectedImage) {
       store.deleteImage(store.selectedImage)
     }
-  }
-
-  let infoModalContent: JSX.Element | null = null
-
-  if (store.selectedImage?.info) {
-    const info = store.selectedImage.info
-    infoModalContent = (
-      <>
-        <div>{info.prompt}</div>
-        <div>{info.negativePrompt}</div>
-      </>
-    )
   }
 
   let image = store.settings.theme === 'light' ? defaultImage : defaultDarkImage
@@ -122,17 +109,10 @@ export default observer(function () {
         image={image}
         onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
       ></LunaImageViewer>
-      {createPortal(
-        <LunaModal
-          title={t('imageInfo')}
-          visible={infoModalVisible}
-          width={640}
-          onClose={() => setInfoModalVisible(false)}
-        >
-          {infoModalContent}
-        </LunaModal>,
-        document.body
-      )}
+      <InfoModal
+        visible={infoModalVisible}
+        onClose={() => setInfoModalVisible(false)}
+      />
     </div>
   )
 })
