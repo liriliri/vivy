@@ -17,6 +17,7 @@ import className from 'licia/className'
 import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../common/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
+import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t } from '../../../lib/util'
 
 export default observer(function () {
@@ -49,7 +50,7 @@ export default observer(function () {
     )
   }
 
-  let image = defaultImage
+  let image = store.settings.theme === 'light' ? defaultImage : defaultDarkImage
   if (store.selectedImage) {
     image = `data:image/png;base64,${store.selectedImage.data}`
   }
