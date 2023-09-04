@@ -7,20 +7,27 @@ import { colorBgContainer, colorBgContainerDark } from '../common/theme'
 let titleBar: Titlebar
 
 window.addEventListener('DOMContentLoaded', async () => {
-  let theme = await mainObj.getSettingsStore('theme')
+  titleBar = new Titlebar({
+    containerOverflow: 'hidden',
+  })
+  setTheme(await mainObj.getSettingsStore('theme'))
+})
+
+function setTheme(theme?: string) {
   if (!theme) {
     theme = isDarkMode() ? 'dark' : 'light'
   }
   if (theme === 'dark') {
     document.body.classList.add('-theme-with-dark-background')
+  } else {
+    document.body.classList.remove('-theme-with-dark-background')
   }
-  titleBar = new Titlebar({
-    containerOverflow: 'hidden',
-    backgroundColor: TitlebarColor.fromHex(
+  titleBar.updateBackground(
+    TitlebarColor.fromHex(
       theme === 'dark' ? colorBgContainerDark : colorBgContainer
-    ),
-  })
-})
+    )
+  )
+}
 
 const mainObj = {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
@@ -32,6 +39,10 @@ const mainObj = {
   setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
   getSettingsStore: (name) => ipcRenderer.invoke('getSettingsStore', name),
   setSettingsStore: (name, val) => {
+    if (name === 'theme') {
+      setTheme(val)
+    }
+
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
   showOpenDialog: (options: OpenDialogOptions = {}) =>

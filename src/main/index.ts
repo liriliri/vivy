@@ -17,7 +17,12 @@ if (!app.requestSingleInstanceLock()) {
 app.setName('Vivy')
 
 app.on('ready', () => {
-  ipcMain.handle('setSettingsStore', (_, name, val) => store.set(name, val))
+  ipcMain.handle('setSettingsStore', (_, name, val) => {
+    if (name === 'theme') {
+      nativeTheme.themeSource = val
+    }
+    store.set(name, val)
+  })
   ipcMain.handle('getSettingsStore', (_, name) => store.get(name))
 
   ipcMain.handle('getCpuLoad', () => getCpuLoad())
