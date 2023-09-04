@@ -191,6 +191,8 @@ class Store {
       setUi: action,
       createTask: action,
       selectImage: action,
+      selectNextImage: action,
+      selectPrevImage: action,
       deleteAllImages: action,
       deleteImage: action,
       openImage: action,
@@ -202,6 +204,34 @@ class Store {
   }
   selectImage(image?: IImage) {
     this.selectedImage = image
+  }
+  selectPrevImage() {
+    const { selectedImage, images } = this
+
+    if (!selectedImage) {
+      return
+    }
+
+    const idx = images.indexOf(selectedImage)
+    let nextIdx = idx - 1
+    if (nextIdx < 0) {
+      nextIdx = images.length - 1
+    }
+    this.selectImage(images[nextIdx])
+  }
+  selectNextImage() {
+    const { selectedImage, images } = this
+
+    if (!selectedImage) {
+      return
+    }
+
+    const idx = images.indexOf(selectedImage)
+    let nextIdx = idx + 1
+    if (nextIdx >= images.length) {
+      nextIdx = 0
+    }
+    this.selectImage(images[nextIdx])
   }
   deleteImage(image: IImage) {
     const { images, selectedImage } = this
@@ -352,6 +382,9 @@ class Store {
         case TaskStatus.Wait:
           task.on('complete', (images) => {
             this.images.push(...images)
+            if (!this.selectedImage) {
+              this.selectImage(images[0])
+            }
             this.doCreateTask()
           })
           task.run()

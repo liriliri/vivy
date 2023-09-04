@@ -42,6 +42,22 @@ export default observer(function () {
     image = `data:image/png;base64,${store.selectedImage.data}`
   }
 
+  const arrowLeft = (
+    <div className={Style.arrowLeft} onClick={() => store.selectPrevImage()}>
+      <span
+        className={className(Style.iconArrowLeft, 'icon-arrow-left')}
+      ></span>
+    </div>
+  )
+
+  const arrowRight = (
+    <div className={Style.arrowRight} onClick={() => store.selectNextImage()}>
+      <span
+        className={className(Style.iconArrowRight, 'icon-arrow-right')}
+      ></span>
+    </div>
+  )
+
   return (
     <div
       className={className(Style.imageViewer, {
@@ -109,6 +125,8 @@ export default observer(function () {
         image={image}
         onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
       ></LunaImageViewer>
+      {store.selectedImage ? arrowLeft : null}
+      {store.selectedImage ? arrowRight : null}
       <InfoModal
         visible={infoModalVisible}
         onClose={() => setInfoModalVisible(false)}
