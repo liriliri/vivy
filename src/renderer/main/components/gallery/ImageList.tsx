@@ -6,7 +6,9 @@ import LunaToolbar, {
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
-import store, { IImage, TaskStatus } from '../../store'
+import store from '../../store'
+import { IImage } from '../../store/types'
+import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
 import { t } from '../../../lib/util'
 import ToolbarIcon from '../common/ToolbarIcon'

@@ -5,7 +5,6 @@ import { fileURLToPath } from 'url'
 import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
 import types from 'licia/types'
-import si from 'systeminformation'
 import enUS from '../../common/locales/en-US.json'
 import zhCN from '../../common/locales/zh-CN.json'
 
@@ -48,14 +47,4 @@ export function isMac() {
 
 export function getUserDataPath(p: string) {
   return path.resolve(app.getPath('appData'), 'vivy', p)
-}
-
-export async function getCpuLoad() {
-  const load = await si.currentLoad()
-  return load.currentLoad
-}
-
-export async function getMemLoad() {
-  const mem = await si.mem()
-  return (mem.used / mem.total) * 100
 }

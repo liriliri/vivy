@@ -3,9 +3,10 @@ import * as webui from './window/webui'
 import * as terminal from './window/terminal'
 import * as menu from './lib/menu'
 import * as main from './window/main'
+import each from 'licia/each'
 import { setupTitlebar } from 'custom-electron-titlebar/main'
 import { getSettingsStore } from './lib/store'
-import { getCpuLoad, getMemLoad, i18n } from './lib/util'
+import { i18n } from './lib/util'
 
 const store = getSettingsStore()
 
@@ -25,8 +26,24 @@ app.on('ready', () => {
   })
   ipcMain.handle('getSettingsStore', (_, name) => store.get(name))
 
-  ipcMain.handle('getCpuLoad', () => getCpuLoad())
-  ipcMain.handle('getMemLoad', () => getMemLoad())
+  ipcMain.handle('getCpuAndMem', async () => {
+    const metrics = app.getAppMetrics()
+    let cpu = 0
+    let mem = 0
+    each(metrics, (metric) => {
+      cpu += metric.cpu.percentCPUUsage
+      mem += metric.memory.workingSetSize * 1024
+    })
+
+    const webuiCpuAndMem = await webui.getCpuAndMem()
+    cpu += webuiCpuAndMem.cpu
+    mem += webuiCpuAndMem.mem
+
+    return {
+      cpu,
+      mem,
+    }
+  })
 
   ipcMain.handle('showOpenDialog', (_, options: OpenDialogOptions = {}) =>
     dialog.showOpenDialog(options)

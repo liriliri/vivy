@@ -7,20 +7,21 @@ import { useEffect, useState } from 'react'
 import ProgressBar from './ProgressBar'
 
 export default observer(function () {
-  const [cpuLoad, setCpuLoad] = useState(0)
-  const [memLoad, setMemLoad] = useState(0)
+  const [cpuUsage, setCpuUsage] = useState(0)
+  const [memUsage, setMemUsage] = useState(0)
 
   useEffect(() => {
     let timer: NodeJS.Timer | null = null
 
-    async function updateLoad() {
+    async function updateCpuAndMem() {
       timer = null
-      setCpuLoad(Math.round(await main.getCpuLoad()))
-      setMemLoad(Math.round(await main.getMemLoad()))
-      timer = setTimeout(updateLoad, 2000)
+      const { cpu, mem } = await main.getCpuAndMem()
+      setCpuUsage(cpu)
+      setMemUsage(mem)
+      timer = setTimeout(updateCpuAndMem, 2000)
     }
 
-    updateLoad()
+    updateCpuAndMem()
 
     return () => {
       if (timer) {
@@ -56,8 +57,8 @@ export default observer(function () {
       <div className={Style.space}></div>
       {imageCount}
       <div className={className(Style.item, Style.systemInfo)}>
-        <div className={Style.cpu}>CPU {cpuLoad}</div>
-        <div className={Style.mem}>MEM {memLoad}</div>
+        <div className={Style.cpu}>CPU {cpuUsage.toFixed(2)}</div>
+        <div className={Style.mem}>MEM {fileSize(memUsage)}B</div>
       </div>
       <ProgressBar />
     </div>

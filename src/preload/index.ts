@@ -47,8 +47,7 @@ const mainObj = {
   },
   showOpenDialog: (options: OpenDialogOptions = {}) =>
     ipcRenderer.invoke('showOpenDialog', options),
-  getCpuLoad: () => ipcRenderer.invoke('getCpuLoad'),
-  getMemLoad: () => ipcRenderer.invoke('getMemLoad'),
+  getCpuAndMem: () => ipcRenderer.invoke('getCpuAndMem'),
   translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),

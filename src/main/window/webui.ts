@@ -8,6 +8,7 @@ import childProcess, { ChildProcessByStdio } from 'child_process'
 import { Readable } from 'stream'
 import { getSettingsStore, getWebUIStore } from '../lib/store'
 import createWin from './createWin'
+import pidusage from 'pidusage'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -97,4 +98,29 @@ export function showWin() {
     win = null
   })
   win.loadURL(`http://localhost:${getPort()}`)
+}
+
+export function getCpuAndMem(): Promise<{
+  cpu: number
+  mem: number
+}> {
+  return new Promise((resolve, reject) => {
+    if (!subprocess) {
+      return resolve({
+        cpu: 0,
+        mem: 0,
+      })
+    }
+
+    pidusage(subprocess.pid, (err, stats) => {
+      if (err) {
+        return reject(err)
+      }
+
+      resolve({
+        cpu: stats.cpu,
+        mem: stats.memory,
+      })
+    })
+  })
 }

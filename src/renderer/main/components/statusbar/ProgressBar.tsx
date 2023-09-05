@@ -5,7 +5,8 @@ import isEqual from 'licia/isEqual'
 import each from 'licia/each'
 import clone from 'licia/clone'
 import Style from './ProgressBar.module.scss'
-import store, { TaskStatus } from '../../store'
+import store from '../../store'
+import { TaskStatus } from '../../store/task'
 import { useState } from 'react'
 
 export default observer(function () {
