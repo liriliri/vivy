@@ -6,7 +6,7 @@ import * as terminal from './terminal'
 import * as model from './model'
 import * as prompt from './prompt'
 import { getMainStore } from '../lib/store'
-import { bing, Language } from '../lib/translation'
+import { bing, Language } from '../lib/translator'
 import createWin from './createWin'
 
 const store = getMainStore()
