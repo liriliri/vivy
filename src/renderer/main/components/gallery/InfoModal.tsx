@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { createPortal } from 'react-dom'
 import { t } from '../../../lib/util'
 import store from '../../store'
+import Style from './InfoModal.module.scss'
 
 interface IProps {
   visible: boolean
@@ -14,10 +15,23 @@ export default observer(function InfoModal(props: IProps) {
 
   if (store.selectedImage?.info) {
     const info = store.selectedImage.info
+    const prompt = info.prompt ? (
+      <div className={Style.group}>
+        <div className={Style.title}>{t('prompt')}</div>
+        <div className={Style.content}>{info.prompt}</div>
+      </div>
+    ) : null
+    const negativePrompt = info.negativePrompt ? (
+      <div className={Style.group}>
+        <div className={Style.title}>{t('negativePrompt')}</div>
+        <div className={Style.content}>{info.negativePrompt}</div>
+      </div>
+    ) : null
+
     content = (
       <>
-        <div>{info.prompt}</div>
-        <div>{info.negativePrompt}</div>
+        {prompt}
+        {negativePrompt}
       </>
     )
   }
