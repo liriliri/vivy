@@ -58,6 +58,8 @@ export default observer(function () {
     </div>
   )
 
+  const hasArrow = store.selectedImage && store.images.length > 1
+
   return (
     <div
       className={className(Style.imageViewer, {
@@ -125,8 +127,8 @@ export default observer(function () {
         image={image}
         onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
       ></LunaImageViewer>
-      {store.selectedImage ? arrowLeft : null}
-      {store.selectedImage ? arrowRight : null}
+      {hasArrow ? arrowLeft : null}
+      {hasArrow ? arrowRight : null}
       <InfoModal
         visible={infoModalVisible}
         onClose={() => setInfoModalVisible(false)}
