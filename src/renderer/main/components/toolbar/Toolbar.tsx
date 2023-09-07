@@ -11,7 +11,7 @@ import Style from './Toolbar.module.scss'
 import { observer } from 'mobx-react-lite'
 import { t } from '../../../lib/util'
 import loadingImg from '../../../assets/img/loading.svg'
-import ToolbarIcon from '../common/ToolbarIcon'
+import ToolbarIcon from '../../../components/ToolbarIcon'
 import Settings from './Settings'
 import { useState } from 'react'
 

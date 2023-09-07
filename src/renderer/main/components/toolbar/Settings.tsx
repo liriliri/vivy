@@ -9,7 +9,7 @@ import LunaSetting, {
 import { t } from '../../../lib/util'
 import store from '../../../main/store'
 import Style from './Settings.module.scss'
-import SettingPath from '../common/SettingPath'
+import SettingPath from '../../../components/SettingPath'
 
 interface IProps {
   visible: boolean

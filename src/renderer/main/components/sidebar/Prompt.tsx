@@ -12,7 +12,7 @@ import LunaToolbar, {
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
-import ToolbarIcon from '../common/ToolbarIcon'
+import ToolbarIcon from '../../../components/ToolbarIcon'
 
 export default observer(function () {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()

@@ -11,7 +11,7 @@ import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
 import { t } from '../../../lib/util'
-import ToolbarIcon from '../common/ToolbarIcon'
+import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
 
