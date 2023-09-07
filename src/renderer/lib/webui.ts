@@ -47,6 +47,7 @@ type Txt2ImgOptions = {
   sampler_name: string
   width: number
   height: number
+  seed: number
 }
 
 type Sampler = {
@@ -111,7 +112,7 @@ export async function txt2img(
     firstphase_height: 0,
     prompt: options.prompt,
     styles: [],
-    seed: -1,
+    seed: options.seed,
     subseed: -1,
     subseed_strength: 0.0,
     seed_resize_from_h: 0,

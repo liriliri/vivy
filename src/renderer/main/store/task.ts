@@ -59,6 +59,7 @@ export class Task extends Emitter {
       cfg_scale: txt2imgOptions.cfgScale,
       width: txt2imgOptions.width,
       height: txt2imgOptions.height,
+      seed: txt2imgOptions.seed,
     })
     this.progress = 100
     this.status = TaskStatus.Complete

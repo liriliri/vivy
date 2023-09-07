@@ -11,6 +11,7 @@ import 'luna-image-viewer/css'
 import 'luna-data-grid/css'
 import 'luna-modal/css'
 import './luna.scss'
+import { spy } from 'mobx'
 
 function renderApp() {
   const container: HTMLElement = document.getElementById('app') as HTMLElement
@@ -38,6 +39,19 @@ function renderApp() {
 
 if (isDev()) {
   hotKey.on('f5', () => location.reload())
+  spy((event) => {
+    switch (event.type) {
+      case 'action':
+        console.log('mobx action', event.name, ...event.arguments)
+        break
+      case 'add':
+        console.log('mobx add', event.debugObjectName)
+        break
+      case 'update':
+        console.log('mobx update', event.debugObjectName)
+        break
+    }
+  })
 }
 
 ;(async function () {

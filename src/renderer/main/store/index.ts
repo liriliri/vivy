@@ -10,6 +10,7 @@ import clone from 'licia/clone'
 import uuid from 'licia/uuid'
 import startWith from 'licia/startWith'
 import base64 from 'licia/base64'
+import contain from 'licia/contain'
 import remove from 'licia/remove'
 import map from 'licia/map'
 import convertBin from 'licia/convertBin'
@@ -208,25 +209,25 @@ class Store {
       await webui.interrupt()
     }
   }
-  async getOptions() {
+  async fetchOptions() {
     const options = await webui.getOptions()
     this.options = {
       model: options.sd_model_checkpoint,
     }
   }
-  async getSamplers() {
+  async fetchSamplers() {
     const samplers = await webui.getSamplers()
     this.samplers = map(samplers, (sampler) => sampler.name)
   }
-  async getModels() {
+  async fetchModels() {
     const models = await webui.getSdModels()
     this.models = map(models, (model) => model.title)
   }
   async waitForReady() {
     await webui.waitForReady()
-    await this.getOptions()
-    await this.getModels()
-    await this.getSamplers()
+    await this.fetchOptions()
+    await this.fetchModels()
+    await this.fetchSamplers()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
@@ -247,6 +248,24 @@ class Store {
     }
     if (genData.negativePrompt) {
       txt2imgOptions.negativePrompt = genData.negativePrompt
+    }
+    if (genData.sampler && contain(this.samplers, genData.sampler)) {
+      txt2imgOptions.sampler = genData.sampler
+    }
+    if (genData.steps) {
+      txt2imgOptions.steps = genData.steps
+    }
+    if (genData.width) {
+      txt2imgOptions.width = genData.width
+    }
+    if (genData.height) {
+      txt2imgOptions.height = genData.height
+    }
+    if (genData.cfgScale) {
+      txt2imgOptions.cfgScale = genData.cfgScale
+    }
+    if (genData.seed) {
+      txt2imgOptions.seed = genData.seed
     }
     this.setStore('txt2imgOptions', txt2imgOptions)
   }
