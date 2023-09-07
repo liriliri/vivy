@@ -12,7 +12,6 @@ import base64 from 'licia/base64'
 import remove from 'licia/remove'
 import map from 'licia/map'
 import convertBin from 'licia/convertBin'
-import openFile from 'licia/openFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
@@ -20,6 +19,7 @@ import { getSystemLanguage, getImageSize } from '../../lib/util'
 import isDarkMode from 'licia/isDarkMode'
 import { IImage, ITxt2ImgOptions } from './types'
 import { Task, TaskStatus } from './task'
+import fileType from 'licia/fileType'
 
 interface IOptions {
   model: string
@@ -81,7 +81,7 @@ class Store {
       selectPrevImage: action,
       deleteAllImages: action,
       deleteImage: action,
-      openImage: action,
+      addFiles: action,
       setSetting: action,
     })
     this.load()
@@ -134,30 +134,29 @@ class Store {
     this.selectImage()
     this.images = []
   }
-  openImage() {
-    openFile({
-      accept: 'image/png',
-    }).then(async (fileList) => {
-      const file = fileList[0]
-      if (file) {
-        const buf = await convertBin.blobToArrBuffer(file)
-        const data = await convertBin(buf, 'base64')
-        const { width, height } = await getImageSize(
-          `data:image/png;base64,${data}`
-        )
-        const image = {
-          id: uuid(),
-          data,
-          info: {
-            width,
-            height,
-            size: base64.decode(data).length,
-          },
-        }
-        this.selectImage(image)
-        this.images.push(this.selectedImage!)
+  async addFiles(files: FileList) {
+    for (let i = 0, len = files.length; i < len; i++) {
+      const file = files[i]
+      const buf = await convertBin.blobToArrBuffer(file)
+      if (fileType(buf)?.ext !== 'png') {
+        continue
       }
-    })
+      const data = await convertBin(buf, 'base64')
+      const { width, height } = await getImageSize(
+        `data:image/png;base64,${data}`
+      )
+      const image = {
+        id: uuid(),
+        data,
+        info: {
+          width,
+          height,
+          size: base64.decode(data).length,
+        },
+      }
+      this.selectImage(image)
+      this.images.push(this.selectedImage!)
+    }
   }
   async load() {
     const txt2imgOptions = await this.getStore('txt2imgOptions')

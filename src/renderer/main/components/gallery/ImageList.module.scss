@@ -58,6 +58,18 @@
   .progress {
     position: absolute;
   }
+  .mask {
+    position: absolute;
+    opacity: 0.2;
+    background: var(--vivy-color-bg-container);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .image {

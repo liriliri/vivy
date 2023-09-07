@@ -78,7 +78,7 @@ export default observer(function () {
           icon="info"
           title={t('imageInfo')}
           onClick={() => setInfoModalVisible(true)}
-          disabled={!toBool(store.selectedImage?.info)}
+          disabled={!toBool(store.selectedImage?.info.prompt)}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon

@@ -7,6 +7,7 @@ import LunaToolbar, {
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import store from '../../store'
+import openFile from 'licia/openFile'
 import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
@@ -34,8 +35,12 @@ export default observer(function () {
       if (image.data) {
         content = (
           <>
+            <div className={Style.mask}></div>
             <div className={Style.progress}>{task.progress}%</div>
-            <img src={`data:image/png;base64,${image.data}`} />
+            <img
+              src={`data:image/png;base64,${image.data}`}
+              draggable={false}
+            />
           </>
         )
       } else {
@@ -52,6 +57,11 @@ export default observer(function () {
       )
     })
   })
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    store.addFiles(e.dataTransfer.files)
+  }
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     const startY = e.clientY
@@ -99,7 +109,12 @@ export default observer(function () {
         <ToolbarIcon
           icon="open-file"
           title={t('openImage')}
-          onClick={() => store.openImage()}
+          onClick={() => {
+            openFile({
+              accept: 'image/png',
+              multiple: true,
+            }).then(async (fileList) => store.addFiles(fileList as any))
+          }}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
@@ -154,7 +169,11 @@ export default observer(function () {
           disabled={isEmpty(store.images)}
         />
       </LunaToolbar>
-      <div className={Style.body}>
+      <div
+        className={Style.body}
+        onDrop={onDrop}
+        onDragOver={(e) => e.preventDefault()}
+      >
         {isEmpty(images) ? (
           <div className={Style.noImages}>{t('noImages')}</div>
         ) : (
@@ -175,7 +194,7 @@ function Image(image: IImage) {
       style={getItemStyle()}
       onClick={() => store.selectImage(image)}
     >
-      <img src={`data:image/png;base64,${image.data}`} />
+      <img src={`data:image/png;base64,${image.data}`} draggable={false} />
     </div>
   )
 }
