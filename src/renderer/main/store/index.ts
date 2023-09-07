@@ -8,6 +8,7 @@ import {
 } from 'mobx'
 import clone from 'licia/clone'
 import uuid from 'licia/uuid'
+import startWith from 'licia/startWith'
 import base64 from 'licia/base64'
 import remove from 'licia/remove'
 import map from 'licia/map'
@@ -15,7 +16,8 @@ import convertBin from 'licia/convertBin'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
-import { getSystemLanguage, getImageSize } from '../../lib/util'
+import { getSystemLanguage, getImageSize, toDataUrl } from '../../lib/util'
+import { parseImage } from '../../lib/genData'
 import isDarkMode from 'licia/isDarkMode'
 import { IImage, ITxt2ImgOptions } from './types'
 import { Task, TaskStatus } from './task'
@@ -138,20 +140,18 @@ class Store {
     for (let i = 0, len = files.length; i < len; i++) {
       const file = files[i]
       const buf = await convertBin.blobToArrBuffer(file)
-      if (fileType(buf)?.ext !== 'png') {
+      const type = fileType(buf)
+      if (!type || !startWith(type.mime, 'image/')) {
         continue
       }
       const data = await convertBin(buf, 'base64')
-      const { width, height } = await getImageSize(
-        `data:image/png;base64,${data}`
-      )
+      const imageInfo = await parseImage(data, type.mime)
       const image = {
         id: uuid(),
         data,
         info: {
-          width,
-          height,
           size: base64.decode(data).length,
+          ...imageInfo,
         },
       }
       this.selectImage(image)

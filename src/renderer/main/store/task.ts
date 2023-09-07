@@ -3,7 +3,7 @@ import uuid from 'licia/uuid'
 import { IImage, ITxt2ImgOptions } from './types'
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import * as webui from '../../lib/webui'
-import { splitImage } from '../../lib/util'
+import { splitImage, toDataUrl } from '../../lib/util'
 import base64 from 'licia/base64'
 
 export enum TaskStatus {
@@ -85,7 +85,10 @@ export class Task extends Emitter {
       this.progressTimer = setTimeout(() => this.getProgress(), 1000)
       if (current_image && current_image !== this.currentImage) {
         this.currentImage = current_image
-        const images = await splitImage(current_image, batchSize)
+        const images = await splitImage(
+          toDataUrl(current_image, 'image/png'),
+          batchSize
+        )
         for (let i = 0; i < batchSize; i++) {
           this.images[i].data = images[i]
         }

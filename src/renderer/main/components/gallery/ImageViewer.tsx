@@ -16,7 +16,7 @@ import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
-import { t } from '../../../lib/util'
+import { t, toDataUrl } from '../../../lib/util'
 import InfoModal from './InfoModal'
 
 export default observer(function () {
@@ -39,7 +39,7 @@ export default observer(function () {
 
   let image = store.settings.theme === 'light' ? defaultImage : defaultDarkImage
   if (store.selectedImage) {
-    image = `data:image/png;base64,${store.selectedImage.data}`
+    image = toDataUrl(store.selectedImage.data, 'image/png')
   }
 
   const arrowLeft = (

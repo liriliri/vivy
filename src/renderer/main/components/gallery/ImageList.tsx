@@ -11,7 +11,7 @@ import openFile from 'licia/openFile'
 import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
-import { t } from '../../../lib/util'
+import { t, toDataUrl } from '../../../lib/util'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
@@ -37,10 +37,7 @@ export default observer(function () {
           <>
             <div className={Style.mask}></div>
             <div className={Style.progress}>{task.progress}%</div>
-            <img
-              src={`data:image/png;base64,${image.data}`}
-              draggable={false}
-            />
+            <img src={toDataUrl(image.data, 'image/png')} draggable={false} />
           </>
         )
       } else {
@@ -194,7 +191,7 @@ function Image(image: IImage) {
       style={getItemStyle()}
       onClick={() => store.selectImage(image)}
     >
-      <img src={`data:image/png;base64,${image.data}`} draggable={false} />
+      <img src={toDataUrl(image.data, 'image/png')} draggable={false} />
     </div>
   )
 }

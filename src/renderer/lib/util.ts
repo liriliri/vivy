@@ -2,6 +2,7 @@ import types from 'licia/types'
 import loadImg from 'licia/loadImg'
 import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
+import isDataUrl from 'licia/isDataUrl'
 import enUS from '../../common/locales/en-US.json'
 import zhCN from '../../common/locales/zh-CN.json'
 
@@ -26,10 +27,9 @@ export function isDev() {
   return import.meta.env.MODE === 'development'
 }
 
-export async function splitImage(data: string, num: number) {
+export async function splitImage(url: string, num: number) {
   const images: string[] = []
-  const image = `data:image/png;base64,${data}`
-  const img = await getImageSize(image)
+  const img = await getImageSize(url)
   let colNum = 1
   while (colNum * colNum < num) {
     colNum++
@@ -51,9 +51,9 @@ export async function splitImage(data: string, num: number) {
   return images
 }
 
-export function getImageSize(image: string): Promise<HTMLImageElement> {
+export function getImageSize(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
-    loadImg(image, function (err, img) {
+    loadImg(url, function (err, img) {
       if (err) {
         return reject(err)
       }
@@ -72,4 +72,12 @@ function getClippedRegion(image, x, y, width, height) {
   ctx!.drawImage(image, x, y, width, height, 0, 0, width, height)
 
   return canvas.toDataURL().slice('data:image/png;base64,'.length)
+}
+
+export function toDataUrl(data: string, mime: string) {
+  if (isDataUrl(data)) {
+    return data
+  }
+
+  return `data:${mime};base64,${data}`
 }
