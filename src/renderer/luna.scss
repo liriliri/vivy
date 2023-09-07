@@ -1,6 +1,7 @@
 @import './theme';
 
 .luna-setting {
+  font-family: var(--vivy-font-family);
   color: var(--vivy-color-text);
   background: var(--vivy-color-bg-container);
 }
@@ -99,6 +100,7 @@
 }
 
 .luna-modal {
+  font-family: var(--vivy-font-family);
   z-index: $z-index-popup-base;
 }
 

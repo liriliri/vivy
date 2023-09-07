@@ -9,10 +9,12 @@ import { editor } from 'monaco-editor'
 import { useRef, useState } from 'react'
 import { colorBgContainerDark } from '../../../../common/theme'
 import LunaToolbar, {
+  LunaToolbarHtml,
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
+import CopyButton from '../../../components/CopyButton'
 
 export default observer(function () {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
@@ -90,7 +92,9 @@ export default observer(function () {
     <div className={Style.generateBasic}>
       <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
         <LunaToolbar>
-          <ToolbarIcon icon="copy" title={t('copy')} onClick={copyPrompt} />
+          <LunaToolbarHtml>
+            <CopyButton onClick={copyPrompt} />
+          </LunaToolbarHtml>
           <ToolbarIcon icon="paste" title={t('paste')} onClick={pastePrompt} />
           <ToolbarIcon icon="eraser" title={t('clear')} onClick={clearPrompt} />
           <LunaToolbarSeparator />
@@ -99,7 +103,6 @@ export default observer(function () {
             title={t('promptBuilder')}
             onClick={() => main.showPrompt()}
           />
-          <LunaToolbarSpace />
           {store.settings.language !== 'en-US' ? (
             <ToolbarIcon
               icon="translate"

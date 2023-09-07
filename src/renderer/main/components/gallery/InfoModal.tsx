@@ -5,6 +5,7 @@ import { t } from '../../../lib/util'
 import store from '../../store'
 import Style from './InfoModal.module.scss'
 import copy from 'licia/copy'
+import CopyButton from '../../../components/CopyButton'
 
 interface IProps {
   visible: boolean
@@ -19,26 +20,17 @@ export default observer(function InfoModal(props: IProps) {
     const prompt = info.prompt ? (
       <div className={Style.group}>
         <div className={Style.title}>{t('prompt')}</div>
-        <div
-          className={Style.copy}
-          title={t('copy')}
-          onClick={() => copy(info.prompt!)}
-        >
-          <span className="icon-copy"></span>
-        </div>
+        <CopyButton className={Style.copy} onClick={() => copy(info.prompt!)} />
         <div className={Style.content}>{info.prompt}</div>
       </div>
     ) : null
     const negativePrompt = info.negativePrompt ? (
       <div className={Style.group}>
         <div className={Style.title}>{t('negativePrompt')}</div>
-        <div
+        <CopyButton
           className={Style.copy}
-          title={t('copy')}
           onClick={() => copy(info.negativePrompt!)}
-        >
-          <span className="icon-copy"></span>
-        </div>
+        />
         <div className={Style.content}>{info.negativePrompt}</div>
       </div>
     ) : null
