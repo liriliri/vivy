@@ -65,6 +65,6 @@ const preloadObj = {
 contextBridge.exposeInMainWorld('preload', preloadObj)
 
 declare global {
-  var main: typeof mainObj
-  var preload: typeof preloadObj
+  const main: typeof mainObj
+  const preload: typeof preloadObj
 }

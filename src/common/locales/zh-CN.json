@@ -48,5 +48,6 @@
   "model": "模型",
   "clear": "清除",
   "modelPath": "模型位置",
-  "browse": "浏览"
+  "browse": "浏览",
+  "pasteAll": "粘贴全部"
 }

@@ -45,6 +45,20 @@ export default observer(function () {
     editor.onDidBlurEditorWidget(() => setNegativeEditorFocus(false))
   }
 
+  if (editorRef.current) {
+    const editor = editorRef.current
+    if (editor.getValue() !== store.txt2imgOptions.prompt) {
+      editor.setValue(store.txt2imgOptions.prompt)
+    }
+  }
+
+  if (negativeEditorRef.current) {
+    const editor = negativeEditorRef.current
+    if (editor.getValue() !== store.txt2imgOptions.negativePrompt) {
+      editor.setValue(store.txt2imgOptions.negativePrompt)
+    }
+  }
+
   const clearPrompt = () => getSelectedEditor().setValue('')
 
   const copyPrompt = () => {
@@ -68,6 +82,11 @@ export default observer(function () {
     const text = await navigator.clipboard.readText()
     const editor = getSelectedEditor()
     editor.setValue(text)
+  }
+
+  const pasteAll = async () => {
+    const text = await navigator.clipboard.readText()
+    store.parseTxt2ImgOptionsText(text)
   }
 
   const getSelectedEditor = () => {
@@ -110,6 +129,12 @@ export default observer(function () {
               onClick={translate}
             />
           ) : null}
+          <LunaToolbarSpace />
+          <ToolbarIcon
+            icon="down-left"
+            title={t('pasteAll')}
+            onClick={pasteAll}
+          />
         </LunaToolbar>
       </div>
       <div

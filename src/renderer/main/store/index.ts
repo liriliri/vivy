@@ -16,8 +16,8 @@ import convertBin from 'licia/convertBin'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
-import { getSystemLanguage, getImageSize, toDataUrl } from '../../lib/util'
-import { parseImage } from '../../lib/genData'
+import { getSystemLanguage } from '../../lib/util'
+import { parseImage, parseText } from '../../lib/genData'
 import isDarkMode from 'licia/isDarkMode'
 import { IImage, ITxt2ImgOptions } from './types'
 import { Task, TaskStatus } from './task'
@@ -76,6 +76,7 @@ class Store {
       settings: observable,
       waitForReady: action,
       setTxt2ImgOptions: action,
+      parseTxt2ImgOptionsText: action,
       setUi: action,
       createTask: action,
       selectImage: action,
@@ -236,6 +237,18 @@ class Store {
   setTxt2ImgOptions(key, val) {
     this.txt2imgOptions[key] = val
     this.setStore('txt2imgOptions', this.txt2imgOptions)
+  }
+  parseTxt2ImgOptionsText(text: string) {
+    const { txt2imgOptions } = this
+
+    const genData = parseText(text)
+    if (genData.prompt) {
+      txt2imgOptions.prompt = genData.prompt
+    }
+    if (genData.negativePrompt) {
+      txt2imgOptions.negativePrompt = genData.negativePrompt
+    }
+    this.setStore('txt2imgOptions', txt2imgOptions)
   }
   async setOptions(key, val) {
     const { options } = this

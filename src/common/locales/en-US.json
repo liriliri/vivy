@@ -48,5 +48,6 @@
   "model": "Model",
   "clear": "Clear",
   "modelPath": "Model Path",
-  "browse": "Browse"
+  "browse": "Browse",
+  "pasteAll": "Paste All"
 }
