@@ -79,7 +79,7 @@ export default observer(function () {
         height: '10px',
       })
       const deltaY = startY - e.clientY
-      store.setUi('imageListHeight', height + deltaY)
+      store.ui.set('imageListHeight', height + deltaY)
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseup', onMouseUp)
     }
@@ -120,7 +120,7 @@ export default observer(function () {
           disabled={store.ui.imageListItemSize > 200 || isEmpty(images)}
           onClick={() => {
             const itemSize = Math.round(store.ui.imageListItemSize * 1.1)
-            store.setUi('imageListItemSize', itemSize)
+            store.ui.set('imageListItemSize', itemSize)
           }}
         />
         <ToolbarIcon
@@ -129,7 +129,7 @@ export default observer(function () {
           disabled={store.ui.imageListItemSize < 50 || isEmpty(images)}
           onClick={() => {
             const itemSize = Math.round(store.ui.imageListItemSize * 0.9)
-            store.setUi('imageListItemSize', itemSize)
+            store.ui.set('imageListItemSize', itemSize)
           }}
         />
         <LunaToolbarSeparator />
@@ -147,14 +147,6 @@ export default observer(function () {
         />
         <LunaToolbarSpace />
         <ToolbarIcon
-          icon="fullscreen"
-          title={t('maximize')}
-          onClick={() => {
-            store.setUi('imageListMaximized', !store.ui.imageListMaximized)
-          }}
-        />
-        <LunaToolbarSeparator />
-        <ToolbarIcon
           icon="delete-all"
           title={t('deleteAllImages')}
           onClick={async () => {
@@ -164,6 +156,14 @@ export default observer(function () {
             }
           }}
           disabled={isEmpty(store.images)}
+        />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
+          icon={store.ui.imageListMaximized ? 'shrink' : 'fullscreen'}
+          title={t(store.ui.imageListMaximized ? 'restore' : 'maximize')}
+          onClick={() => {
+            store.ui.set('imageListMaximized', !store.ui.imageListMaximized)
+          }}
         />
       </LunaToolbar>
       <div

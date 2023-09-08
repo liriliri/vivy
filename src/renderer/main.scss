@@ -102,12 +102,13 @@ button {
 .full-mode {
   position: fixed !important;
   left: 0;
-  top: 28px;
+  top: 59px;
   width: 100% !important;
-  height: calc(100vh - 50px) !important;
+  height: calc(100vh - 81px) !important;
   max-width: none !important;
   max-height: none !important;
   min-width: 0;
   min-height: 0;
+  border-top: none !important;
   z-index: 500;
 }

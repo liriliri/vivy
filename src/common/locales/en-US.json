@@ -49,5 +49,8 @@
   "clear": "Clear",
   "modelPath": "Model Path",
   "browse": "Browse",
-  "pasteAll": "Paste All"
+  "pasteAll": "Paste All",
+  "restore": "Restore",
+  "hideSidebar": "Hide Sidebar",
+  "showSidebar": "Show Sidebar"
 }

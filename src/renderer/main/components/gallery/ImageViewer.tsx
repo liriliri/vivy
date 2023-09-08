@@ -68,12 +68,17 @@ export default observer(function () {
     >
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
+          icon={store.ui.sidebarCollapsed ? 'sidebar-fill' : 'sidebar'}
+          title={t(store.ui.sidebarCollapsed ? 'showSidebar' : 'hideSidebar')}
+          onClick={() => store.ui.toggle('sidebarCollapsed')}
+        />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
           icon="save"
           title={t('save')}
           onClick={save}
           disabled={!toBool(store.selectedImage)}
         />
-        <LunaToolbarSeparator />
         <ToolbarIcon
           icon="info"
           title={t('imageInfo')}
@@ -108,18 +113,18 @@ export default observer(function () {
         />
         <LunaToolbarSpace />
         <ToolbarIcon
-          icon="fullscreen"
-          title={t('maximize')}
-          onClick={() => {
-            store.setUi('imageViewerMaximized', !store.ui.imageViewerMaximized)
-          }}
-        />
-        <LunaToolbarSeparator />
-        <ToolbarIcon
           icon="delete"
           title={t('delete')}
           onClick={deleteImage}
           disabled={!toBool(store.selectedImage)}
+        />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
+          icon={store.ui.imageViewerMaximized ? 'shrink' : 'fullscreen'}
+          title={t(store.ui.imageViewerMaximized ? 'restore' : 'maximize')}
+          onClick={() => {
+            store.ui.set('imageViewerMaximized', !store.ui.imageViewerMaximized)
+          }}
         />
       </LunaToolbar>
       <LunaImageViewer

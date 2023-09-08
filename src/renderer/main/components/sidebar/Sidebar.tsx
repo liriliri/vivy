@@ -30,7 +30,7 @@ export default observer(function () {
         width: '10px',
       })
       const deltaX = startX - e.clientX
-      store.setUi('sidebarWidth', width - deltaX)
+      store.ui.set('sidebarWidth', width - deltaX)
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('mouseup', onMouseUp)
     }
@@ -42,7 +42,10 @@ export default observer(function () {
     <div
       className={Style.sidebar}
       ref={sidebarRef}
-      style={{ width: store.ui.sidebarWidth }}
+      style={{
+        width: store.ui.sidebarWidth,
+        display: store.ui.sidebarCollapsed ? 'none' : 'block',
+      }}
     >
       <div
         className={Style.resizer}

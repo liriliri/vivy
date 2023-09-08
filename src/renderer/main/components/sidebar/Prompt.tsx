@@ -118,17 +118,16 @@ export default observer(function () {
           <ToolbarIcon icon="eraser" title={t('clear')} onClick={clearPrompt} />
           <LunaToolbarSeparator />
           <ToolbarIcon
+            icon="translate"
+            title={t('translate')}
+            disabled={store.settings.language === 'en-US'}
+            onClick={translate}
+          />
+          <ToolbarIcon
             icon="editor"
             title={t('promptBuilder')}
             onClick={() => main.showPrompt()}
           />
-          {store.settings.language !== 'en-US' ? (
-            <ToolbarIcon
-              icon="translate"
-              title={t('translate')}
-              onClick={translate}
-            />
-          ) : null}
           <LunaToolbarSpace />
           <ToolbarIcon
             icon="down-left"

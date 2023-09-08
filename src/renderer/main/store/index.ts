@@ -23,6 +23,7 @@ import isDarkMode from 'licia/isDarkMode'
 import { IImage, ITxt2ImgOptions } from './types'
 import { Task, TaskStatus } from './task'
 import fileType from 'licia/fileType'
+import { UI } from './ui'
 
 interface IOptions {
   model: string
@@ -50,13 +51,7 @@ class Store {
   images: IImage[] = []
   selectedImage?: IImage
   tasks: Task[] = []
-  ui = {
-    imageListHeight: 181,
-    imageListItemSize: 112,
-    imageListMaximized: false,
-    imageViewerMaximized: false,
-    sidebarWidth: 400,
-  }
+  ui = new UI()
   settings = {
     language: getSystemLanguage(),
     theme: isDarkMode() ? 'dark' : 'light',
@@ -78,7 +73,6 @@ class Store {
       waitForReady: action,
       setTxt2ImgOptions: action,
       parseTxt2ImgOptionsText: action,
-      setUi: action,
       createTask: action,
       selectImage: action,
       selectNextImage: action,
@@ -166,11 +160,6 @@ class Store {
       extend(this.txt2imgOptions, txt2imgOptions)
     }
 
-    const ui = await this.getStore('ui')
-    if (ui) {
-      extend(this.ui, ui)
-    }
-
     await this.loadSetting('language')
     await this.loadSetting('theme')
     await this.loadSetting('enableWebUI')
@@ -230,10 +219,6 @@ class Store {
     await this.fetchSamplers()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
-  }
-  setUi(key, val) {
-    this.ui[key] = val
-    this.setStore('ui', this.ui)
   }
   setTxt2ImgOptions(key, val) {
     this.txt2imgOptions[key] = val

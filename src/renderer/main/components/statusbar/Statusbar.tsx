@@ -2,6 +2,7 @@ import Style from './Statusbar.module.scss'
 import { observer } from 'mobx-react-lite'
 import className from 'licia/className'
 import fileSize from 'licia/fileSize'
+import truncate from 'licia/truncate'
 import store from '../../store'
 import { useEffect, useState } from 'react'
 import ProgressBar from './ProgressBar'
@@ -35,7 +36,8 @@ export default observer(function () {
     const { info } = store.selectedImage
     imageInfo = (
       <div className={Style.item}>
-        {info.width} × {info.height} {fileSize(info.size)}B
+        {info.width} × {info.height} {fileSize(info.size)}B{' '}
+        {info.prompt ? truncate(info.prompt, 100) : ''}
       </div>
     )
   }
