@@ -1,6 +1,7 @@
 export interface IImageInfo {
   prompt?: string
   negativePrompt?: string
+  mime: string
   width: number
   height: number
   size: number

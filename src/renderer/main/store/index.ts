@@ -147,6 +147,7 @@ class Store {
         data,
         info: {
           size: base64.decode(data).length,
+          mime: type.mime,
           ...imageInfo,
         },
       }

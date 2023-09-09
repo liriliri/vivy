@@ -4,6 +4,7 @@ import store from '../../store'
 import LunaImageViewer from 'luna-image-viewer/react'
 import ImageViewer from 'luna-image-viewer'
 import LunaToolbar, {
+  LunaToolbarHtml,
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
@@ -18,12 +19,13 @@ import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t, toDataUrl } from '../../../lib/util'
 import InfoModal from './InfoModal'
+import CopyButton from '../../../components/CopyButton'
 
 export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
   const [infoModalVisible, setInfoModalVisible] = useState(false)
 
-  function save() {
+  const save = () => {
     if (store.selectedImage) {
       const { selectedImage } = store
       const blob = convertBin(selectedImage.data, 'Blob')
@@ -31,9 +33,24 @@ export default observer(function () {
     }
   }
 
-  function deleteImage() {
+  const deleteImage = () => {
     if (store.selectedImage) {
       store.deleteImage(store.selectedImage)
+    }
+  }
+
+  const copyImage = () => {
+    const image = store.selectedImage
+    if (image) {
+      const mime = image.info.mime
+      const buf = convertBin(image.data, 'ArrayBuffer')
+      navigator.clipboard.write([
+        new ClipboardItem({
+          [mime]: new Blob([buf], {
+            type: mime,
+          }),
+        }),
+      ])
     }
   }
 
@@ -79,6 +96,9 @@ export default observer(function () {
           onClick={save}
           disabled={!toBool(store.selectedImage)}
         />
+        <LunaToolbarHtml disabled={!toBool(store.selectedImage)}>
+          <CopyButton onClick={copyImage} />
+        </LunaToolbarHtml>
         <ToolbarIcon
           icon="info"
           title={t('imageInfo')}

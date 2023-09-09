@@ -42,13 +42,13 @@ if (isDev()) {
   spy((event) => {
     switch (event.type) {
       case 'action':
-        console.log('mobx action', event.name, ...event.arguments)
+        // console.log('mobx action', event.name, ...event.arguments)
         break
       case 'add':
-        console.log('mobx add', event.debugObjectName)
+        // console.log('mobx add', event.debugObjectName)
         break
       case 'update':
-        console.log('mobx update', event.debugObjectName)
+        // console.log('mobx update', event.debugObjectName)
         break
     }
   })

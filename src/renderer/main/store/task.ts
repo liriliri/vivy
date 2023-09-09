@@ -37,6 +37,7 @@ export class Task extends Emitter {
         id: uuid(),
         data: '',
         info: {
+          mime: 'image/png',
           prompt: txt2imgOptions.prompt,
           negativePrompt: txt2imgOptions.negativePrompt,
           width: txt2imgOptions.width,
