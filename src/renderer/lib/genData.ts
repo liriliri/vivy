@@ -4,6 +4,11 @@ import map from 'licia/map'
 import toNum from 'licia/toNum'
 import startWith from 'licia/startWith'
 import contain from 'licia/contain'
+import convertBin from 'licia/convertBin'
+import filter from 'licia/filter'
+import extend from 'licia/extend'
+import bytesToStr from 'licia/bytesToStr'
+import extract from 'png-chunks-extract'
 
 interface IGenData {
   negativePrompt?: string
@@ -114,6 +119,30 @@ export async function parseImage(
   const genData: IImageGenData = {
     width,
     height,
+  }
+
+  if (mime !== 'image/png') {
+    return genData
+  }
+
+  const buf = convertBin(data, 'Uint8Array')
+  let chunks = filter(extract(buf), (chunk: any) =>
+    contain(['tEXt', 'iTXt'], chunk.name)
+  )
+  chunks = map(chunks, (chunk) => {
+    if (chunk.name === 'iTXt') {
+      return bytesToStr(chunk.data)
+    }
+
+    return bytesToStr(chunk.data, 'latin1')
+  })
+
+  for (let i = 0, len = chunks.length; i < len; i++) {
+    const chunk = chunks[i]
+    if (startWith(chunk, 'parameters')) {
+      extend(genData, parseText(chunk.slice('parameters'.length)))
+      break
+    }
   }
 
   return genData
