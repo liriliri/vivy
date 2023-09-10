@@ -55,5 +55,6 @@
   "showSidebar": "Show Sidebar",
   "parameter": "Parameter",
   "value": "Value",
-  "copyGenData": "Copy Generation Data"
+  "copyGenData": "Copy Generation Data",
+  "sysInfo": "System Info"
 }

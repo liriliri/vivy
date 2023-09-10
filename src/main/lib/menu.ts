@@ -2,6 +2,7 @@ import { Menu, MenuItemConstructorOptions, app } from 'electron'
 import * as webui from '../window/webui'
 import * as prompt from '../window/prompt'
 import * as model from '../window/model'
+import * as system from '../window/system'
 import * as terminal from '../window/terminal'
 import { isMac, t } from './util'
 import { getSettingsStore } from './store'
@@ -59,6 +60,12 @@ function getTemplate(): MenuItemConstructorOptions[] {
         label: t('terminal'),
         click() {
           terminal.showWin()
+        },
+      },
+      {
+        label: t('sysInfo'),
+        click() {
+          system.showWin()
         },
       },
     ],

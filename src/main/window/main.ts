@@ -5,6 +5,7 @@ import * as webui from './webui'
 import * as terminal from './terminal'
 import * as model from './model'
 import * as prompt from './prompt'
+import * as system from './system'
 import { getMainStore } from '../lib/store'
 import { bing, Language } from '../lib/translator'
 import createWin from './createWin'
@@ -46,6 +47,7 @@ function initIpc() {
   ipcMain.handle('showTerminal', () => terminal.showWin())
   ipcMain.handle('showModel', () => model.showWin())
   ipcMain.handle('showPrompt', () => prompt.showWin())
+  ipcMain.handle('showSystem', () => system.showWin())
   ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getMainStore', (_, name) => store.get(name))
   ipcMain.handle('relaunch', () => {

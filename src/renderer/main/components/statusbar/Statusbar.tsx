@@ -58,7 +58,10 @@ export default observer(function () {
       {imageInfo}
       <div className={Style.space}></div>
       {imageCount}
-      <div className={className(Style.item, Style.systemInfo)}>
+      <div
+        className={className(Style.item, Style.systemInfo, Style.button)}
+        onClick={() => main.showSystem()}
+      >
         <div className={Style.cpu}>CPU {cpuUsage.toFixed(2)}</div>
         <div className={Style.mem}>MEM {fileSize(memUsage)}B</div>
       </div>

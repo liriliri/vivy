@@ -46,6 +46,15 @@ export const getPromptStore = memoize(function () {
   })
 })
 
+export const getSystemStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/system.json'), {
+    bounds: {
+      width: 960,
+      height: 640,
+    },
+  })
+})
+
 export const getSettingsStore = memoize(function () {
   return new FileStore(getUserDataPath('data/settings.json'), {
     enableWebUI: false,

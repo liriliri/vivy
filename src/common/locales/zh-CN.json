@@ -55,5 +55,6 @@
   "showSidebar": "显示侧边栏",
   "parameter": "参数",
   "value": "值",
-  "copyGenData": "复制生成参数"
+  "copyGenData": "复制生成参数",
+  "sysInfo": "系统信息"
 }
