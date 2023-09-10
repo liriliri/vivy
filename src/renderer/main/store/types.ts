@@ -1,10 +1,14 @@
 export interface IImageInfo {
-  prompt?: string
-  negativePrompt?: string
   mime: string
   width: number
   height: number
   size: number
+  prompt?: string
+  negativePrompt?: string
+  steps?: number
+  sampler?: string
+  cfgScale?: number
+  seed?: number
 }
 
 export interface IImage {

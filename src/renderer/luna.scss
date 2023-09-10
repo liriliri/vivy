@@ -160,10 +160,10 @@
   }
   .luna-data-grid-data-container {
     .luna-data-grid-node.luna-data-grid-selected {
-      background: var(--highlight);
+      background: var(--vivy-color-primary);
     }
     tr:nth-child(even) {
-      background: var(--contrast);
+      background: var(--vivy-color-fill-alter);
     }
   }
 }

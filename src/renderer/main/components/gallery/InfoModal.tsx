@@ -5,7 +5,9 @@ import { t } from '../../../lib/util'
 import store from '../../store'
 import Style from './InfoModal.module.scss'
 import copy from 'licia/copy'
+import className from 'licia/className'
 import CopyButton from '../../../components/CopyButton'
+import LunaDataGrid from 'luna-data-grid/react'
 
 interface IProps {
   visible: boolean
@@ -35,10 +37,72 @@ export default observer(function InfoModal(props: IProps) {
       </div>
     ) : null
 
+    const data: any = []
+    const addData = (parameter, value) => data.push({ parameter, value })
+    if (info.sampler) {
+      addData(t('samplingMethod'), info.sampler)
+    }
+    if (info.steps) {
+      addData(t('samplingSteps'), info.steps)
+    }
+    if (info.cfgScale) {
+      addData(t('cfgScale'), info.cfgScale)
+    }
+    if (info.seed) {
+      addData(t('seed'), info.seed)
+    }
+
+    const copyGenData = () => {
+      const text: string[] = []
+      if (info.prompt) {
+        text.push(info.prompt)
+      }
+      if (info.negativePrompt) {
+        text.push(`Negative prompt: ${info.negativePrompt}`)
+      }
+      let parameters: string[] = []
+      if (info.steps) {
+        parameters.push(`Steps: ${info.steps}`)
+      }
+      parameters.push(`Size: ${info.width}x${info.height}`)
+      if (info.seed) {
+        parameters.push(`Seed: ${info.seed}`)
+      }
+      if (info.sampler) {
+        parameters.push(`Sampler: ${info.sampler}`)
+      }
+      if (info.cfgScale) {
+        parameters.push(`CFG scale: ${info.cfgScale}`)
+      }
+      text.push(parameters.join(', '))
+      copy(text.join('\n'))
+    }
+
     content = (
       <>
         {prompt}
         {negativePrompt}
+        <LunaDataGrid
+          columns={[
+            {
+              id: 'parameter',
+              title: t('parameter'),
+            },
+            {
+              id: 'value',
+              title: t('value'),
+            },
+          ]}
+          data={data}
+          minHeight={41}
+        />
+        <button
+          className={className(Style.copyData, 'button')}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={copyGenData}
+        >
+          {t('copyGenData')}
+        </button>
       </>
     )
   }

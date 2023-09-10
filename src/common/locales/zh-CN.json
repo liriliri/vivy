@@ -52,5 +52,8 @@
   "pasteAll": "粘贴全部",
   "restore": "还原",
   "hideSidebar": "隐藏侧边栏",
-  "showSidebar": "显示侧边栏"
+  "showSidebar": "显示侧边栏",
+  "parameter": "参数",
+  "value": "值",
+  "copyGenData": "复制生成参数"
 }

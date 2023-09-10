@@ -43,6 +43,9 @@ export class Task extends Emitter {
           width: txt2imgOptions.width,
           height: txt2imgOptions.height,
           size: 0,
+          sampler: txt2imgOptions.sampler,
+          steps: txt2imgOptions.steps,
+          cfgScale: txt2imgOptions.cfgScale,
         },
       }
     }

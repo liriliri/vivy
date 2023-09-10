@@ -52,5 +52,8 @@
   "pasteAll": "Paste All",
   "restore": "Restore",
   "hideSidebar": "Hide Sidebar",
-  "showSidebar": "Show Sidebar"
+  "showSidebar": "Show Sidebar",
+  "parameter": "Parameter",
+  "value": "Value",
+  "copyGenData": "Copy Generation Data"
 }
