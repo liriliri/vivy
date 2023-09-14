@@ -60,7 +60,7 @@ export default observer(function InfoModal(props: IProps) {
       if (info.negativePrompt) {
         text.push(`Negative prompt: ${info.negativePrompt}`)
       }
-      let parameters: string[] = []
+      const parameters: string[] = []
       if (info.steps) {
         parameters.push(`Steps: ${info.steps}`)
       }

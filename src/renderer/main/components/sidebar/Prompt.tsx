@@ -80,19 +80,7 @@ export default observer(function () {
   const getSelectedEditor = () => {
     return negativeEditorFocus ? negativeEditorRef.current! : editorRef.current!
   }
-
-  const monacoOptions: editor.IStandaloneEditorConstructionOptions = {
-    renderLineHighlight: 'none',
-    lineNumbers: 'off',
-    wordWrap: 'on',
-    glyphMargin: false,
-    folding: false,
-    lineDecorationsWidth: 0,
-    contextmenu: false,
-    lineNumbersMinChars: 2,
-    minimap: { enabled: false },
-  }
-
+  
   const theme = store.settings.theme === 'dark' ? 'vivy-dark' : 'vs'
 
   return (

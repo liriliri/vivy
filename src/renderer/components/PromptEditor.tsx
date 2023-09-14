@@ -1,8 +1,10 @@
-import { Editor } from '@monaco-editor/react'
+import { Editor, loader } from '@monaco-editor/react'
 import { observer } from 'mobx-react-lite'
 import { editor } from 'monaco-editor'
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
+import * as monaco from 'monaco-editor'
 import { colorBgContainerDark } from '../../common/theme'
+
+loader.config({ monaco })
 
 type Monaco = typeof monaco
 type Theme = 'vs-dark' | 'light'
@@ -47,7 +49,7 @@ const tokensProvider: monaco.languages.IMonarchLanguage = {
     { open: '(', close: ')', token: 'delimiter.parenthesis' },
     { open: '<', close: '>', token: 'delimiter.angle' },
   ],
-  number: /[+-]?[\d\.]+/,
+  number: /[+-]?[\d.]+/,
   word: /([a-zA-Z_-]|')+/,
   tokenizer: {
     root: [{ include: '@prompts' }],
