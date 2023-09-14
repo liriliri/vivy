@@ -4,10 +4,8 @@ import { t } from '../../../lib/util'
 import className from 'licia/className'
 import copy from 'licia/copy'
 import store from '../../store'
-import { Editor, Monaco } from '@monaco-editor/react'
 import { editor } from 'monaco-editor'
 import { useRef, useState } from 'react'
-import { colorBgContainerDark } from '../../../../common/theme'
 import LunaToolbar, {
   LunaToolbarHtml,
   LunaToolbarSeparator,
@@ -15,23 +13,13 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import CopyButton from '../../../components/CopyButton'
+import PromptEditor from '../../../components/PromptEditor'
 
 export default observer(function () {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
   const negativeEditorRef = useRef<editor.IStandaloneCodeEditor>()
   const [editorFocus, setEditorFocus] = useState(false)
   const [negativeEditorFocus, setNegativeEditorFocus] = useState(false)
-
-  const promptBeforeMount = (monaco: Monaco) => {
-    monaco.editor.defineTheme('vivy-dark', {
-      base: 'vs-dark',
-      inherit: true,
-      rules: [],
-      colors: {
-        'editor.background': colorBgContainerDark,
-      },
-    })
-  }
 
   const promptOnMount = (editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor
@@ -141,13 +129,11 @@ export default observer(function () {
           [Style.selected]: editorFocus,
         })}
       >
-        <Editor
+        <PromptEditor
           height={100}
-          options={monacoOptions}
           theme={theme}
           defaultValue={store.txt2imgOptions.prompt}
           onChange={(value) => store.setTxt2ImgOptions('prompt', value)}
-          beforeMount={promptBeforeMount}
           onMount={promptOnMount}
         />
       </div>
@@ -156,13 +142,11 @@ export default observer(function () {
           [Style.selected]: negativeEditorFocus,
         })}
       >
-        <Editor
+        <PromptEditor
           height={60}
-          options={monacoOptions}
           theme={theme}
           defaultValue={store.txt2imgOptions.negativePrompt}
           onChange={(value) => store.setTxt2ImgOptions('negativePrompt', value)}
-          beforeMount={promptBeforeMount}
           onMount={negativePromptOnMount}
         />
       </div>
