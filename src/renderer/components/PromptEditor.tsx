@@ -2,7 +2,22 @@ import { Editor, loader } from '@monaco-editor/react'
 import { observer } from 'mobx-react-lite'
 import { editor } from 'monaco-editor'
 import * as monaco from 'monaco-editor'
-import { colorBgContainerDark } from '../../common/theme'
+import {
+  blue10,
+  blue10Dark,
+  blue8,
+  blue8Dark,
+  colorBgContainerDark,
+  colorError,
+  colorErrorDark,
+  fontFamilyCode,
+  green8,
+  green8Dark,
+  purple8,
+  purple8Dark,
+  yellow8,
+  yellow8Dark,
+} from '../../common/theme'
 
 loader.config({ monaco })
 
@@ -31,6 +46,7 @@ const monacoOptions: editor.IStandaloneEditorConstructionOptions = {
   lineDecorationsWidth: 0,
   contextmenu: false,
   lineNumbersMinChars: 2,
+  fontFamily: fontFamilyCode,
   minimap: { enabled: false },
 }
 
@@ -108,10 +124,74 @@ export default observer(function PromptEditor(props: IProps) {
     monaco.editor.defineTheme('vivy-dark', {
       base: 'vs-dark',
       inherit: true,
-      rules: [],
+      rules: [
+        {
+          foreground: blue10Dark,
+          token: 'string',
+        },
+        {
+          foreground: blue8Dark,
+          token: 'number',
+        },
+        {
+          foreground: yellow8Dark,
+          token: 'delimiter.parenthesis',
+        },
+        {
+          foreground: yellow8Dark,
+          token: 'delimiter.angle',
+        },
+        {
+          foreground: purple8Dark,
+          token: 'delimiter.bracket',
+        },
+        {
+          foreground: green8Dark,
+          token: 'keyword',
+        },
+        {
+          foreground: colorErrorDark,
+          token: 'invalid',
+        },
+      ],
       colors: {
         'editor.background': colorBgContainerDark,
       },
+    })
+    monaco.editor.defineTheme('vs', {
+      base: 'vs',
+      inherit: true,
+      rules: [
+        {
+          foreground: blue10,
+          token: 'string',
+        },
+        {
+          foreground: blue8,
+          token: 'number',
+        },
+        {
+          foreground: yellow8,
+          token: 'delimiter.parenthesis',
+        },
+        {
+          foreground: yellow8,
+          token: 'delimiter.angle',
+        },
+        {
+          foreground: purple8,
+          token: 'delimiter.bracket',
+        },
+        {
+          foreground: green8,
+          token: 'keyword',
+        },
+        {
+          foreground: colorError,
+          token: 'invalid',
+        },
+      ],
+      colors: {},
     })
     monaco.languages.register({
       id: 'prompt',
