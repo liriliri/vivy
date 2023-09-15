@@ -21,13 +21,13 @@ export default observer(function () {
   const termRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    function getTheme() {
+    function getTheme(dark = false) {
       let theme: ITheme = {
         background: colorBgContainer,
         foreground: colorText,
       }
 
-      if (document.body.classList.contains('-theme-with-dark-background')) {
+      if (dark) {
         theme = {
           background: colorBgContainerDark,
           foreground: colorTextDark,
@@ -45,7 +45,9 @@ export default observer(function () {
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
-      theme: getTheme(),
+      theme: getTheme(
+        document.body.classList.contains('-theme-with-dark-background')
+      ),
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)
@@ -70,7 +72,7 @@ export default observer(function () {
     main.on('addLog', (event, log) => write(log))
     main.on('changeSettingsStore', (_, name, val) => {
       if (name === 'theme') {
-        term.options.theme = getTheme()
+        term.options.theme = getTheme(val === 'dark')
       }
     })
 
