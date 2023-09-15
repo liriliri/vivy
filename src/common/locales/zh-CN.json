@@ -56,5 +56,6 @@
   "parameter": "参数",
   "value": "值",
   "copyGenData": "复制生成参数",
-  "sysInfo": "系统信息"
+  "sysInfo": "系统信息",
+  "format": "格式化"
 }

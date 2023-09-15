@@ -14,6 +14,7 @@ import LunaToolbar, {
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import CopyButton from '../../../components/CopyButton'
 import PromptEditor from '../../../components/PromptEditor'
+import * as prompt from '../../../lib/prompt'
 
 export default observer(function () {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
@@ -66,6 +67,11 @@ export default observer(function () {
     editor.setValue(await main.translate(value))
   }
 
+  const format = () => {
+    const editor = getSelectedEditor()
+    editor.setValue(prompt.format(editor.getValue()))
+  }
+
   const pastePrompt = async () => {
     const text = await navigator.clipboard.readText()
     const editor = getSelectedEditor()
@@ -93,12 +99,14 @@ export default observer(function () {
           <ToolbarIcon icon="paste" title={t('paste')} onClick={pastePrompt} />
           <ToolbarIcon icon="eraser" title={t('clear')} onClick={clearPrompt} />
           <LunaToolbarSeparator />
+          <ToolbarIcon icon="format" title={t('format')} onClick={format} />
           <ToolbarIcon
             icon="translate"
             title={t('translate')}
             disabled={store.settings.language === 'en-US'}
             onClick={translate}
           />
+          <LunaToolbarSeparator />
           <ToolbarIcon
             icon="editor"
             title={t('promptBuilder')}
