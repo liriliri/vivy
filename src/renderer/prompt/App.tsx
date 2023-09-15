@@ -1,3 +1,9 @@
+import Prompt from './components/Prompt'
+
 export default function App() {
-  return <div></div>
+  return (
+    <>
+      <Prompt />
+    </>
+  )
 }

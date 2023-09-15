@@ -17,13 +17,12 @@ import convertBin from 'licia/convertBin'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
-import { getSystemLanguage } from '../../lib/util'
 import { parseImage, parseText } from '../../lib/genData'
-import isDarkMode from 'licia/isDarkMode'
 import { IImage, ITxt2ImgOptions } from './types'
 import { Task, TaskStatus } from './task'
 import fileType from 'licia/fileType'
 import { UI } from './ui'
+import { Settings } from '../../store/settings'
 
 interface IOptions {
   model: string
@@ -52,12 +51,7 @@ class Store {
   selectedImage?: IImage
   tasks: Task[] = []
   ui = new UI()
-  settings = {
-    language: getSystemLanguage(),
-    theme: isDarkMode() ? 'dark' : 'light',
-    enableWebUI: false,
-    modelPath: '',
-  }
+  settings = new Settings()
   constructor() {
     makeObservable(this, {
       txt2imgOptions: observable,
@@ -80,7 +74,6 @@ class Store {
       deleteAllImages: action,
       deleteImage: action,
       addFiles: action,
-      setSetting: action,
     })
     this.load()
 
@@ -160,30 +153,12 @@ class Store {
     if (txt2imgOptions) {
       extend(this.txt2imgOptions, txt2imgOptions)
     }
-
-    await this.loadSetting('language')
-    await this.loadSetting('theme')
-    await this.loadSetting('enableWebUI')
-    await this.loadSetting('modelPath')
-  }
-  async loadSetting(name: string) {
-    const val = await this.getSetting(name)
-    if (val) {
-      this.settings[name] = val
-    }
   }
   async getStore(name: string) {
     return await main.getMainStore(name)
   }
   async setStore(name: string, val: any) {
     await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
-  }
-  async getSetting(name: string) {
-    return await main.getSettingsStore(name)
-  }
-  async setSetting(name: string, val: any) {
-    this.settings[name] = val
-    await main.setSettingsStore(name, isObservable(val) ? toJS(val) : val)
   }
   async stop() {
     await this.interrupt()

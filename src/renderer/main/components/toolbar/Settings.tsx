@@ -25,7 +25,7 @@ export default observer(function Settings(props: IProps) {
     >
       <LunaSetting
         className={Style.settings}
-        onChange={(key, val) => store.setSetting(key, val)}
+        onChange={(key, val) => store.settings.set(key, val)}
       >
         <LunaSettingSelect
           keyName="theme"
@@ -48,7 +48,7 @@ export default observer(function Settings(props: IProps) {
         <SettingPath
           title={t('modelPath')}
           value={store.settings.modelPath}
-          onChange={(val) => store.setSetting('modelPath', val)}
+          onChange={(val) => store.settings.set('modelPath', val)}
           options={{
             properties: ['openDirectory'],
           }}

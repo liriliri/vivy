@@ -1,0 +1,17 @@
+.container {
+  padding: 14px 8px;
+  padding-top: 45px;
+  border-bottom: 1px solid var(--vivy-color-border);
+}
+
+.toolbar {
+  background: var(--vivy-color-bg-container);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.prompt {
+  border: 1px solid var(--vivy-color-border);
+}
