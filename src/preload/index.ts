@@ -39,13 +39,8 @@ const mainObj = {
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
   setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
   getSettingsStore: (name) => ipcRenderer.invoke('getSettingsStore', name),
-  setSettingsStore: (name, val) => {
-    if (name === 'theme') {
-      setTheme(val)
-    }
-
-    return ipcRenderer.invoke('setSettingsStore', name, val)
-  },
+  setSettingsStore: (name, val) =>
+    ipcRenderer.invoke('setSettingsStore', name, val),
   showOpenDialog: (options: OpenDialogOptions = {}) =>
     ipcRenderer.invoke('showOpenDialog', options),
   getCpuAndMem: () => ipcRenderer.invoke('getCpuAndMem'),
@@ -54,6 +49,12 @@ const mainObj = {
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
 }
 contextBridge.exposeInMainWorld('main', mainObj)
+
+mainObj.on('changeSettingsStore', (_, name, val) => {
+  if (name === 'theme') {
+    setTheme(val)
+  }
+})
 
 const preloadObj = {
   setTitle: (title: string) => {

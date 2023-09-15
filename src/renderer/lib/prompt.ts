@@ -8,7 +8,7 @@ export function format(prompt: string) {
     line = line
       .replace(/\s*([()[\]:<>])\s*/g, ($0, $1) => $1)
       .replace(/\s+/g, ' ')
-      .replace(/\s*,\s*/g, ', ')
+      .replace(/\s*[,，]\s*/g, ', ')
 
     return line
   })

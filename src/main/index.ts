@@ -1,4 +1,11 @@
-import { app, ipcMain, nativeTheme, dialog, OpenDialogOptions } from 'electron'
+import {
+  app,
+  ipcMain,
+  nativeTheme,
+  dialog,
+  OpenDialogOptions,
+  BrowserWindow,
+} from 'electron'
 import * as webui from './window/webui'
 import * as terminal from './window/terminal'
 import * as menu from './lib/menu'
@@ -25,6 +32,11 @@ app.on('ready', () => {
     store.set(name, val)
   })
   ipcMain.handle('getSettingsStore', (_, name) => store.get(name))
+  store.on('change', (name, val) => {
+    each(BrowserWindow.getAllWindows(), (win) => {
+      win.webContents.send('changeSettingsStore', name, val)
+    })
+  })
 
   ipcMain.handle('getCpuAndMem', async () => {
     const metrics = app.getAppMetrics()

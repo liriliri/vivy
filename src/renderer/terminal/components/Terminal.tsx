@@ -20,28 +20,32 @@ import 'xterm/css/xterm.css'
 export default observer(function () {
   const termRef = useRef<HTMLDivElement>(null)
 
-  let theme: ITheme = {
-    background: colorBgContainer,
-    foreground: colorText,
-  }
-
-  if (document.body.classList.contains('-theme-with-dark-background')) {
-    theme = {
-      background: colorBgContainerDark,
-      foreground: colorTextDark,
-    }
-  }
-
   useEffect(() => {
+    function getTheme() {
+      let theme: ITheme = {
+        background: colorBgContainer,
+        foreground: colorText,
+      }
+
+      if (document.body.classList.contains('-theme-with-dark-background')) {
+        theme = {
+          background: colorBgContainerDark,
+          foreground: colorTextDark,
+        }
+      }
+
+      return {
+        selectionForeground: '#fff',
+        selectionBackground: colorPrimary,
+        ...theme,
+      }
+    }
+
     const term = new Terminal({
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
-      theme: {
-        selectionForeground: '#fff',
-        selectionBackground: colorPrimary,
-        ...theme,
-      },
+      theme: getTheme(),
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)
@@ -64,6 +68,11 @@ export default observer(function () {
       each(logs, (log) => write(log))
     })
     main.on('addLog', (event, log) => write(log))
+    main.on('changeSettingsStore', (_, name, val) => {
+      if (name === 'theme') {
+        term.options.theme = getTheme()
+      }
+    })
 
     return () => {
       term.dispose()
