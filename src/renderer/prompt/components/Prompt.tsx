@@ -4,14 +4,16 @@ import store from '../store'
 import Style from './Prompt.module.scss'
 import LunaToolbar, { LunaToolbarHtml } from 'luna-toolbar/react'
 import CopyButton from '../../components/CopyButton'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import copy from 'licia/copy'
+import className from 'licia/className'
 import { editor } from 'monaco-editor'
 import ToolbarIcon from '../../components/ToolbarIcon'
 import { t } from '../../lib/util'
 
 export default observer(function Prompt() {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
+  const [editorFocus, setEditorFocus] = useState(false)
 
   if (editorRef.current) {
     const editor = editorRef.current
@@ -22,6 +24,8 @@ export default observer(function Prompt() {
 
   const promptOnMount = (editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor
+    editor.onDidFocusEditorWidget(() => setEditorFocus(true))
+    editor.onDidBlurEditorWidget(() => setEditorFocus(false))
   }
 
   const copyPrompt = () => {
@@ -55,16 +59,16 @@ export default observer(function Prompt() {
           <ToolbarIcon icon="eraser" title={t('clear')} onClick={clearPrompt} />
         </LunaToolbar>
       </div>
-      <div className={Style.prompt}>
+      <div
+        className={className(Style.prompt, {
+          [Style.selected]: editorFocus,
+        })}
+      >
         <PromptEditor
           height={120}
           theme={theme}
           onMount={promptOnMount}
-          onChange={(value) => {
-            if (value) {
-              store.setPrompt(value)
-            }
-          }}
+          onChange={(value) => store.setPrompt(value || '')}
           defaultValue={store.prompt}
         />
       </div>

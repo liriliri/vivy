@@ -14,4 +14,7 @@
 
 .prompt {
   border: 1px solid var(--vivy-color-border);
+  &.selected {
+    border-color: var(--vivy-color-success);
+  }
 }

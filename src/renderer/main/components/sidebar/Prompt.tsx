@@ -82,6 +82,9 @@ export default observer(function () {
   }
 
   const pasteAll = async () => {
+    if (editorFocus || negativeEditorFocus) {
+      ;(document.activeElement as any).blur()
+    }
     const text = await navigator.clipboard.readText()
     store.parseTxt2ImgOptionsText(text)
   }
@@ -132,7 +135,7 @@ export default observer(function () {
           height={100}
           theme={theme}
           defaultValue={store.txt2imgOptions.prompt}
-          onChange={(value) => store.setTxt2ImgOptions('prompt', value)}
+          onChange={(value) => store.setTxt2ImgOptions('prompt', value || '')}
           onMount={promptOnMount}
         />
       </div>
@@ -145,7 +148,9 @@ export default observer(function () {
           height={60}
           theme={theme}
           defaultValue={store.txt2imgOptions.negativePrompt}
-          onChange={(value) => store.setTxt2ImgOptions('negativePrompt', value)}
+          onChange={(value) => {
+            store.setTxt2ImgOptions('negativePrompt', value || '')
+          }}
           onMount={negativePromptOnMount}
         />
       </div>
