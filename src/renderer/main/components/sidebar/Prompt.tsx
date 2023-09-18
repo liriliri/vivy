@@ -36,7 +36,10 @@ export default observer(function () {
 
   if (editorRef.current) {
     const editor = editorRef.current
-    if (editor.getValue() !== store.txt2imgOptions.prompt) {
+    if (
+      editor.getValue() !== store.txt2imgOptions.prompt &&
+      !editor.hasTextFocus()
+    ) {
       editor.setValue(store.txt2imgOptions.prompt)
     }
   }

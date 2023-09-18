@@ -76,6 +76,7 @@ class Store {
       addFiles: action,
     })
     this.load()
+    this.bindEvent()
 
     this.waitForReady()
   }
@@ -149,13 +150,10 @@ class Store {
     }
   }
   async load() {
-    const txt2imgOptions = await this.getStore('txt2imgOptions')
+    const txt2imgOptions = await main.getMainStore('txt2imgOptions')
     if (txt2imgOptions) {
       extend(this.txt2imgOptions, txt2imgOptions)
     }
-  }
-  async getStore(name: string) {
-    return await main.getMainStore(name)
   }
   async setStore(name: string, val: any) {
     await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
@@ -240,6 +238,17 @@ class Store {
         sd_model_checkpoint: options.model,
       })
     }
+  }
+  bindEvent() {
+    main.on('changeMainStore', (_, name, val) => {
+      if (name === 'txt2imgOptions') {
+        runInAction(() => {
+          if (this.txt2imgOptions.prompt !== val.prompt) {
+            this.txt2imgOptions.prompt = val.prompt
+          }
+        })
+      }
+    })
   }
   async createTask() {
     const image = new Task(clone(this.txt2imgOptions))

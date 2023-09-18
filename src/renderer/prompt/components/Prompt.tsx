@@ -13,6 +13,13 @@ import { t } from '../../lib/util'
 export default observer(function Prompt() {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
 
+  if (editorRef.current) {
+    const editor = editorRef.current
+    if (editor.getValue() !== store.prompt && !editor.hasTextFocus()) {
+      editor.setValue(store.prompt)
+    }
+  }
+
   const promptOnMount = (editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor
   }
@@ -49,7 +56,17 @@ export default observer(function Prompt() {
         </LunaToolbar>
       </div>
       <div className={Style.prompt}>
-        <PromptEditor height={120} theme={theme} onMount={promptOnMount} />
+        <PromptEditor
+          height={120}
+          theme={theme}
+          onMount={promptOnMount}
+          onChange={(value) => {
+            if (value) {
+              store.setPrompt(value)
+            }
+          }}
+          defaultValue={store.prompt}
+        />
       </div>
     </div>
   )

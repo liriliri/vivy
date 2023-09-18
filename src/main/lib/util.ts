@@ -1,10 +1,11 @@
 import path from 'path'
 import contain from 'licia/contain'
-import { app } from 'electron'
+import { BrowserWindow, app } from 'electron'
 import { fileURLToPath } from 'url'
 import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
 import types from 'licia/types'
+import each from 'licia/each'
 import enUS from '../../common/locales/en-US.json'
 import zhCN from '../../common/locales/zh-CN.json'
 
@@ -47,4 +48,10 @@ export function isMac() {
 
 export function getUserDataPath(p: string) {
   return path.resolve(app.getPath('appData'), 'vivy', p)
+}
+
+export function sendAll(channel: string, ...args: any[]) {
+  each(BrowserWindow.getAllWindows(), (win) =>
+    win.webContents.send(channel, ...args)
+  )
 }

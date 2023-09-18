@@ -1,5 +1,5 @@
 import path from 'path'
-import { isDev } from '../lib/util'
+import { isDev, sendAll } from '../lib/util'
 import {
   BrowserWindow,
   ipcMain,
@@ -60,6 +60,7 @@ function initIpc() {
   ipcMain.handle('showSystem', () => system.showWin())
   ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getMainStore', (_, name) => store.get(name))
+  store.on('change', (name, val) => sendAll('changeMainStore', name, val))
   ipcMain.handle('relaunch', () => {
     webui.quit()
     app.relaunch()
@@ -76,11 +77,9 @@ function initIpc() {
     settingsStore.set(name, val)
   })
   ipcMain.handle('getSettingsStore', (_, name) => settingsStore.get(name))
-  settingsStore.on('change', (name, val) => {
-    each(BrowserWindow.getAllWindows(), (win) => {
-      win.webContents.send('changeSettingsStore', name, val)
-    })
-  })
+  settingsStore.on('change', (name, val) =>
+    sendAll('changeSettingsStore', name, val)
+  )
 
   ipcMain.handle('getCpuAndMem', async () => {
     const metrics = app.getAppMetrics()

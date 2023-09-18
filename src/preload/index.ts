@@ -3,6 +3,7 @@ import isDarkMode from 'licia/isDarkMode'
 import { OpenDialogOptions, contextBridge, ipcRenderer } from 'electron'
 import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
 import { colorBgContainer, colorBgContainerDark } from '../common/theme'
+import debounce from 'licia/debounce'
 
 let titleBar: Titlebar
 
@@ -37,7 +38,10 @@ const mainObj = {
   showSystem: () => ipcRenderer.invoke('showSystem'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
-  setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
+  setMainStore: debounce(
+    (name, val) => ipcRenderer.invoke('setMainStore', name, val),
+    500
+  ),
   getSettingsStore: (name) => ipcRenderer.invoke('getSettingsStore', name),
   setSettingsStore: (name, val) =>
     ipcRenderer.invoke('setSettingsStore', name, val),
