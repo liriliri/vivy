@@ -3,6 +3,11 @@ import loadImg from 'licia/loadImg'
 import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
 import isDataUrl from 'licia/isDataUrl'
+import words from '../assets/COCA.txt?raw'
+import each from 'licia/each'
+import map from 'licia/map'
+import trim from 'licia/trim'
+import startWith from 'licia/startWith'
 import enUS from '../../common/locales/en-US.json'
 import zhCN from '../../common/locales/zh-CN.json'
 
@@ -80,4 +85,42 @@ export function toDataUrl(data: string, mime: string) {
   }
 
   return `data:${mime};base64,${data}`
+}
+
+const lines = words.split('\n')
+const dict = {}
+each(lines, (line) => {
+  line = trim(line)
+  if (!line) {
+    return
+  }
+  const arr = dict[line[0]] || []
+  arr.push(line)
+  dict[line[0]] = arr
+})
+
+export function getSuggestions(str: string, maxCount = 5) {
+  const c = str[0]
+  const arr = dict[c]
+  if (!arr) {
+    return []
+  }
+
+  const result: Array<string[]> = []
+  for (let i = 0, len = arr.length; i < len; i++) {
+    const word = arr[i]
+    if (startWith(word, str)) {
+      result.push(word.split(' '))
+      if (result.length >= maxCount) {
+        break
+      }
+    } else if (result.length > 0) {
+      break
+    }
+  }
+
+  return map(
+    result.sort((a, b) => +b[1] - +a[1]),
+    (w) => w[0]
+  )
 }

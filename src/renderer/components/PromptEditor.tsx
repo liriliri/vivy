@@ -2,6 +2,8 @@ import { Editor, loader } from '@monaco-editor/react'
 import { observer } from 'mobx-react-lite'
 import { editor } from 'monaco-editor'
 import * as monaco from 'monaco-editor'
+import map from 'licia/map'
+import { getSuggestions } from '../lib/util'
 import {
   blue10,
   blue10Dark,
@@ -119,86 +121,114 @@ const tokensProvider: monaco.languages.IMonarchLanguage = {
   },
 }
 
-export default observer(function PromptEditor(props: IProps) {
-  const beforeMount = (monaco: Monaco) => {
-    monaco.editor.defineTheme('vivy-dark', {
-      base: 'vs-dark',
-      inherit: true,
-      rules: [
-        {
-          foreground: blue10Dark,
-          token: 'string',
-        },
-        {
-          foreground: blue8Dark,
-          token: 'number',
-        },
-        {
-          foreground: yellow8Dark,
-          token: 'delimiter.parenthesis',
-        },
-        {
-          foreground: yellow8Dark,
-          token: 'delimiter.angle',
-        },
-        {
-          foreground: purple8Dark,
-          token: 'delimiter.bracket',
-        },
-        {
-          foreground: green8Dark,
-          token: 'keyword',
-        },
-        {
-          foreground: colorErrorDark,
-          token: 'invalid',
-        },
-      ],
-      colors: {
-        'editor.background': colorBgContainerDark,
-      },
-    })
-    monaco.editor.defineTheme('vs', {
-      base: 'vs',
-      inherit: true,
-      rules: [
-        {
-          foreground: blue10,
-          token: 'string',
-        },
-        {
-          foreground: blue8,
-          token: 'number',
-        },
-        {
-          foreground: yellow8,
-          token: 'delimiter.parenthesis',
-        },
-        {
-          foreground: yellow8,
-          token: 'delimiter.angle',
-        },
-        {
-          foreground: purple8,
-          token: 'delimiter.bracket',
-        },
-        {
-          foreground: green8,
-          token: 'keyword',
-        },
-        {
-          foreground: colorError,
-          token: 'invalid',
-        },
-      ],
-      colors: {},
-    })
-    monaco.languages.register({
-      id: 'prompt',
-    })
-    monaco.languages.setMonarchTokensProvider('prompt', tokensProvider)
-  }
+monaco.editor.defineTheme('vivy-dark', {
+  base: 'vs-dark',
+  inherit: true,
+  rules: [
+    {
+      foreground: blue10Dark,
+      token: 'string',
+    },
+    {
+      foreground: blue8Dark,
+      token: 'number',
+    },
+    {
+      foreground: yellow8Dark,
+      token: 'delimiter.parenthesis',
+    },
+    {
+      foreground: yellow8Dark,
+      token: 'delimiter.angle',
+    },
+    {
+      foreground: purple8Dark,
+      token: 'delimiter.bracket',
+    },
+    {
+      foreground: green8Dark,
+      token: 'keyword',
+    },
+    {
+      foreground: colorErrorDark,
+      token: 'invalid',
+    },
+  ],
+  colors: {
+    'editor.background': colorBgContainerDark,
+  },
+})
+monaco.editor.defineTheme('vs', {
+  base: 'vs',
+  inherit: true,
+  rules: [
+    {
+      foreground: blue10,
+      token: 'string',
+    },
+    {
+      foreground: blue8,
+      token: 'number',
+    },
+    {
+      foreground: yellow8,
+      token: 'delimiter.parenthesis',
+    },
+    {
+      foreground: yellow8,
+      token: 'delimiter.angle',
+    },
+    {
+      foreground: purple8,
+      token: 'delimiter.bracket',
+    },
+    {
+      foreground: green8,
+      token: 'keyword',
+    },
+    {
+      foreground: colorError,
+      token: 'invalid',
+    },
+  ],
+  colors: {},
+})
 
+monaco.languages.register({
+  id: 'prompt',
+})
+
+monaco.languages.setMonarchTokensProvider('prompt', tokensProvider)
+
+monaco.languages.registerCompletionItemProvider('prompt', {
+  triggerCharacters: map(
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    (c) => c
+  ),
+  provideCompletionItems: function (model, position) {
+    const word = model.getWordUntilPosition(position)
+    const range = {
+      startLineNumber: position.lineNumber,
+      endLineNumber: position.lineNumber,
+      startColumn: word.startColumn,
+      endColumn: word.endColumn,
+    }
+
+    const suggestions = map(getSuggestions(word.word, 5), (suggestion, idx) => {
+      return {
+        range,
+        label: suggestion,
+        kind: monaco.languages.CompletionItemKind.Text,
+        insertText: suggestion,
+        sortText: 'abcde'[idx],
+      }
+    })
+
+    return { suggestions: suggestions }
+  },
+})
+
+export default observer(function PromptEditor(props: IProps) {
   return (
     <Editor
       options={monacoOptions}
@@ -208,7 +238,6 @@ export default observer(function PromptEditor(props: IProps) {
       theme={props.theme}
       defaultLanguage="prompt"
       onChange={props.onChange}
-      beforeMount={beforeMount}
     />
   )
 })
