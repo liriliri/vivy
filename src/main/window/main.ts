@@ -1,16 +1,26 @@
 import path from 'path'
 import { isDev } from '../lib/util'
-import { BrowserWindow, ipcMain, app } from 'electron'
+import {
+  BrowserWindow,
+  ipcMain,
+  app,
+  nativeTheme,
+  OpenDialogOptions,
+  dialog,
+} from 'electron'
 import * as webui from './webui'
 import * as terminal from './terminal'
 import * as model from './model'
 import * as prompt from './prompt'
 import * as system from './system'
-import { getMainStore } from '../lib/store'
+import each from 'licia/each'
+import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, Language } from '../lib/translator'
 import createWin from './createWin'
+import { i18n } from '../lib/util'
 
 const store = getMainStore()
+const settingsStore = getSettingsStore()
 
 let win: BrowserWindow | null = null
 
@@ -58,4 +68,49 @@ function initIpc() {
   ipcMain.handle('translate', async (_, text) => {
     return await bing(text, Language.zhCN, Language.enUS)
   })
+
+  ipcMain.handle('setSettingsStore', (_, name, val) => {
+    if (name === 'theme') {
+      nativeTheme.themeSource = val
+    }
+    settingsStore.set(name, val)
+  })
+  ipcMain.handle('getSettingsStore', (_, name) => settingsStore.get(name))
+  settingsStore.on('change', (name, val) => {
+    each(BrowserWindow.getAllWindows(), (win) => {
+      win.webContents.send('changeSettingsStore', name, val)
+    })
+  })
+
+  ipcMain.handle('getCpuAndMem', async () => {
+    const metrics = app.getAppMetrics()
+    let cpu = 0
+    let mem = 0
+    each(metrics, (metric) => {
+      cpu += metric.cpu.percentCPUUsage
+      mem += metric.memory.workingSetSize * 1024
+    })
+
+    const webuiCpuAndMem = await webui.getCpuAndMem()
+    cpu += webuiCpuAndMem.cpu
+    mem += webuiCpuAndMem.mem
+
+    return {
+      cpu,
+      mem,
+    }
+  })
+
+  ipcMain.handle('showOpenDialog', (_, options: OpenDialogOptions = {}) =>
+    dialog.showOpenDialog(options)
+  )
+
+  const language = store.get('language')
+  if (language) {
+    i18n.locale(language)
+  }
+  const theme = store.get('theme')
+  if (theme) {
+    nativeTheme.themeSource = theme
+  }
 }
