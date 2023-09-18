@@ -15,39 +15,19 @@ import {
   colorText,
   colorTextDark,
 } from '../../../common/theme'
+import store from '../store'
 import 'xterm/css/xterm.css'
 
 export default observer(function () {
-  const termRef = useRef<HTMLDivElement>(null)
+  const terminalRef = useRef<HTMLDivElement>(null)
+  const termRef = useRef<Terminal>()
 
   useEffect(() => {
-    function getTheme(dark = false) {
-      let theme: ITheme = {
-        background: colorBgContainer,
-        foreground: colorText,
-      }
-
-      if (dark) {
-        theme = {
-          background: colorBgContainerDark,
-          foreground: colorTextDark,
-        }
-      }
-
-      return {
-        selectionForeground: '#fff',
-        selectionBackground: colorPrimary,
-        ...theme,
-      }
-    }
-
     const term = new Terminal({
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
-      theme: getTheme(
-        document.body.classList.contains('-theme-with-dark-background')
-      ),
+      theme: getTheme(store.settings.theme === 'dark'),
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)
@@ -58,7 +38,7 @@ export default observer(function () {
     } catch (e) {
       term.loadAddon(new CanvasAddon())
     }
-    term.open(termRef.current!)
+    term.open(terminalRef.current!)
     const write = (log: string) => {
       term.write(replaceAll(log, '\n', '\r\n'))
     }
@@ -70,11 +50,8 @@ export default observer(function () {
       each(logs, (log) => write(log))
     })
     main.on('addLog', (event, log) => write(log))
-    main.on('changeSettingsStore', (_, name, val) => {
-      if (name === 'theme') {
-        term.options.theme = getTheme(val === 'dark')
-      }
-    })
+
+    termRef.current = term
 
     return () => {
       term.dispose()
@@ -82,9 +59,34 @@ export default observer(function () {
     }
   }, [])
 
+  const theme = getTheme(store.settings.theme === 'dark')
+  if (termRef.current) {
+    termRef.current.options.theme = theme
+  }
+
   return (
     <div className={Style.terminalContainer}>
-      <div className={Style.terminal} ref={termRef} />
+      <div className={Style.terminal} ref={terminalRef} />
     </div>
   )
 })
+
+function getTheme(dark = false) {
+  let theme: ITheme = {
+    background: colorBgContainer,
+    foreground: colorText,
+  }
+
+  if (dark) {
+    theme = {
+      background: colorBgContainerDark,
+      foreground: colorTextDark,
+    }
+  }
+
+  return {
+    selectionForeground: '#fff',
+    selectionBackground: colorPrimary,
+    ...theme,
+  }
+}

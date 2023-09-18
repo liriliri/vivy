@@ -17,6 +17,7 @@ export class Settings {
     })
 
     this.load()
+    this.bindEvent()
   }
   async load() {
     const names = ['language', 'theme', 'enableWebUI', 'modelPath']
@@ -31,5 +32,12 @@ export class Settings {
   async set(name: string, val: any) {
     this[name] = val
     await main.setSettingsStore(name, val)
+  }
+  private bindEvent() {
+    main.on('changeSettingsStore', (_, name, val) => {
+      if (name === 'theme') {
+        this.theme = val
+      }
+    })
   }
 }
