@@ -1,11 +1,19 @@
 import { observer } from 'mobx-react-lite'
-import PromptEditor from '../../components/PromptEditor'
+import PromptEditor, {
+  copyPrompt,
+  pastePrompt,
+  clearPrompt,
+  formatPrompt,
+  translatePrompt,
+} from '../../components/PromptEditor'
 import store from '../store'
 import Style from './Prompt.module.scss'
-import LunaToolbar, { LunaToolbarHtml } from 'luna-toolbar/react'
+import LunaToolbar, {
+  LunaToolbarHtml,
+  LunaToolbarSeparator,
+} from 'luna-toolbar/react'
 import CopyButton from '../../components/CopyButton'
 import { useRef, useState } from 'react'
-import copy from 'licia/copy'
 import className from 'licia/className'
 import { editor } from 'monaco-editor'
 import ToolbarIcon from '../../components/ToolbarIcon'
@@ -28,24 +36,6 @@ export default observer(function Prompt() {
     editor.onDidBlurEditorWidget(() => setEditorFocus(false))
   }
 
-  const copyPrompt = () => {
-    const editor = editorRef.current!
-    let value = editor.getValue()
-    const selection = editor.getSelection()
-    if (selection && !selection.isEmpty()) {
-      value = editor.getModel()!.getValueInRange(selection)
-    }
-    copy(value)
-    editor.focus()
-  }
-
-  const pastePrompt = async () => {
-    const text = await navigator.clipboard.readText()
-    editorRef.current!.setValue(text)
-  }
-
-  const clearPrompt = () => editorRef.current!.setValue('')
-
   const theme = store.settings.theme === 'dark' ? 'vivy-dark' : 'vs'
 
   return (
@@ -53,10 +43,30 @@ export default observer(function Prompt() {
       <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
         <LunaToolbar>
           <LunaToolbarHtml>
-            <CopyButton onClick={copyPrompt} />
+            <CopyButton onClick={() => copyPrompt(editorRef.current!)} />
           </LunaToolbarHtml>
-          <ToolbarIcon icon="paste" title={t('paste')} onClick={pastePrompt} />
-          <ToolbarIcon icon="eraser" title={t('clear')} onClick={clearPrompt} />
+          <ToolbarIcon
+            icon="paste"
+            title={t('paste')}
+            onClick={() => pastePrompt(editorRef.current!)}
+          />
+          <ToolbarIcon
+            icon="eraser"
+            title={t('clear')}
+            onClick={() => clearPrompt(editorRef.current!)}
+          />
+          <LunaToolbarSeparator />
+          <ToolbarIcon
+            icon="format"
+            title={t('format')}
+            onClick={() => formatPrompt(editorRef.current!)}
+          />
+          <ToolbarIcon
+            icon="translate"
+            title={t('translate')}
+            disabled={store.settings.language === 'en-US'}
+            onClick={() => translatePrompt(editorRef.current!)}
+          />
         </LunaToolbar>
       </div>
       <div

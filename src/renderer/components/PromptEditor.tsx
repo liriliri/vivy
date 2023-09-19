@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { editor } from 'monaco-editor'
 import * as monaco from 'monaco-editor'
 import map from 'licia/map'
+import copy from 'licia/copy'
 import { getSuggestions } from '../lib/util'
 import {
   blue10,
@@ -20,6 +21,7 @@ import {
   yellow8,
   yellow8Dark,
 } from '../../common/theme'
+import * as prompt from '../lib/prompt'
 
 loader.config({ monaco })
 
@@ -241,3 +243,60 @@ export default observer(function PromptEditor(props: IProps) {
     />
   )
 })
+
+export const copyPrompt = (editor: editor.IStandaloneCodeEditor) => {
+  const value = getSelectionValue(editor)
+  copy(value)
+  editor.focus()
+}
+
+export const pastePrompt = async (editor: editor.IStandaloneCodeEditor) => {
+  const text = await navigator.clipboard.readText()
+  setSelectionValue(editor, text, 'paste')
+}
+
+export const clearPrompt = (editor: editor.IStandaloneCodeEditor) => {
+  setSelectionValue(editor, '', 'clear')
+}
+
+export const formatPrompt = (editor: editor.IStandaloneCodeEditor) => {
+  const value = getSelectionValue(editor)
+  setSelectionValue(editor, prompt.format(value), 'format')
+}
+
+export const translatePrompt = async (editor: editor.IStandaloneCodeEditor) => {
+  const value = getSelectionValue(editor)
+  setSelectionValue(editor, await main.translate(value), 'translate')
+}
+
+function getSelectionValue(editor: editor.IStandaloneCodeEditor) {
+  const selection = editor.getSelection()
+  if (selection && !selection.isEmpty()) {
+    return editor.getModel()!.getValueInRange(selection)
+  }
+  return editor.getValue()
+}
+
+function setSelectionValue(
+  editor: editor.IStandaloneCodeEditor,
+  text: string,
+  source = 'unknown'
+) {
+  const selection = editor.getSelection()
+  if (selection && !selection.isEmpty()) {
+    editor.executeEdits(source, [
+      {
+        range: selection,
+        text,
+      },
+    ])
+  } else {
+    editor.executeEdits(source, [
+      {
+        range: editor.getModel()!.getFullModelRange()!,
+        text,
+      },
+    ])
+  }
+  editor.focus()
+}

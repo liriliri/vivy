@@ -2,7 +2,6 @@ import { observer } from 'mobx-react-lite'
 import Style from './Prompt.module.scss'
 import { t } from '../../../lib/util'
 import className from 'licia/className'
-import copy from 'licia/copy'
 import store from '../../store'
 import { editor } from 'monaco-editor'
 import { useRef, useState } from 'react'
@@ -13,8 +12,13 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import CopyButton from '../../../components/CopyButton'
-import PromptEditor from '../../../components/PromptEditor'
-import * as prompt from '../../../lib/prompt'
+import PromptEditor, {
+  copyPrompt,
+  pastePrompt,
+  clearPrompt,
+  formatPrompt,
+  translatePrompt,
+} from '../../../components/PromptEditor'
 
 export default observer(function () {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
@@ -51,36 +55,6 @@ export default observer(function () {
     }
   }
 
-  const clearPrompt = () => getSelectedEditor().setValue('')
-
-  const copyPrompt = () => {
-    const editor = getSelectedEditor()
-    let value = editor.getValue()
-    const selection = editor.getSelection()
-    if (selection && !selection.isEmpty()) {
-      value = editor.getModel()!.getValueInRange(selection)
-    }
-    copy(value)
-    editor.focus()
-  }
-
-  const translate = async () => {
-    const editor = getSelectedEditor()
-    const value = editor.getValue()
-    editor.setValue(await main.translate(value))
-  }
-
-  const format = () => {
-    const editor = getSelectedEditor()
-    editor.setValue(prompt.format(editor.getValue()))
-  }
-
-  const pastePrompt = async () => {
-    const text = await navigator.clipboard.readText()
-    const editor = getSelectedEditor()
-    editor.setValue(text)
-  }
-
   const pasteAll = async () => {
     if (editorFocus || negativeEditorFocus) {
       ;(document.activeElement as any).blur()
@@ -100,17 +74,29 @@ export default observer(function () {
       <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
         <LunaToolbar>
           <LunaToolbarHtml>
-            <CopyButton onClick={copyPrompt} />
+            <CopyButton onClick={() => copyPrompt(getSelectedEditor())} />
           </LunaToolbarHtml>
-          <ToolbarIcon icon="paste" title={t('paste')} onClick={pastePrompt} />
-          <ToolbarIcon icon="eraser" title={t('clear')} onClick={clearPrompt} />
+          <ToolbarIcon
+            icon="paste"
+            title={t('paste')}
+            onClick={() => pastePrompt(getSelectedEditor())}
+          />
+          <ToolbarIcon
+            icon="eraser"
+            title={t('clear')}
+            onClick={() => clearPrompt(getSelectedEditor())}
+          />
           <LunaToolbarSeparator />
-          <ToolbarIcon icon="format" title={t('format')} onClick={format} />
+          <ToolbarIcon
+            icon="format"
+            title={t('format')}
+            onClick={() => formatPrompt(getSelectedEditor())}
+          />
           <ToolbarIcon
             icon="translate"
             title={t('translate')}
             disabled={store.settings.language === 'en-US'}
-            onClick={translate}
+            onClick={() => translatePrompt(getSelectedEditor())}
           />
           <LunaToolbarSeparator />
           <ToolbarIcon
