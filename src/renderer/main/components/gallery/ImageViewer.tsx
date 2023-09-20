@@ -85,12 +85,6 @@ export default observer(function () {
     >
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
-          icon={store.ui.sidebarCollapsed ? 'sidebar-fill' : 'sidebar'}
-          title={t(store.ui.sidebarCollapsed ? 'showSidebar' : 'hideSidebar')}
-          onClick={() => store.ui.toggle('sidebarCollapsed')}
-        />
-        <LunaToolbarSeparator />
-        <ToolbarIcon
           icon="save"
           title={t('save')}
           onClick={save}

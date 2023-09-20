@@ -1,6 +1,7 @@
 import LunaToolbar, {
   LunaToolbarHtml,
   LunaToolbarSelect,
+  LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import store from '../../store'
@@ -62,6 +63,12 @@ export default observer(function () {
         />
         {loading}
         <LunaToolbarSpace />
+        <ToolbarIcon
+          icon={store.ui.sidebarCollapsed ? 'sidebar' : 'sidebar-fill'}
+          title={t(store.ui.sidebarCollapsed ? 'showSidebar' : 'hideSidebar')}
+          onClick={() => store.ui.toggle('sidebarCollapsed')}
+        />
+        <LunaToolbarSeparator />
         <ToolbarIcon
           icon="setting"
           title={t('settings')}
