@@ -3,13 +3,19 @@ import loadImg from 'licia/loadImg'
 import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
 import isDataUrl from 'licia/isDataUrl'
-import words from '../assets/COCA.txt?raw'
+import suggestions from '../assets/suggestions.txt?raw'
 import each from 'licia/each'
 import map from 'licia/map'
 import trim from 'licia/trim'
 import startWith from 'licia/startWith'
 import enUS from '../../common/locales/en-US.json'
 import zhCN from '../../common/locales/zh-CN.json'
+import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
+
+each(suggestionsZhCN.split('\n'), (line) => {
+  const [key, translation] = line.split(',')
+  zhCN[key] = translation
+})
 
 export const i18n = new I18n('en-US', {
   'en-US': enUS,
@@ -87,21 +93,21 @@ export function toDataUrl(data: string, mime: string) {
   return `data:${mime};base64,${data}`
 }
 
-const lines = words.split('\n')
-const dict = {}
-each(lines, (line) => {
+const suggestionLines = suggestions.split('\n')
+const suggestionDict = {}
+each(suggestionLines, (line) => {
   line = trim(line)
   if (!line) {
     return
   }
-  const arr = dict[line[0]] || []
+  const arr = suggestionDict[line[0]] || []
   arr.push(line)
-  dict[line[0]] = arr
+  suggestionDict[line[0]] = arr
 })
 
 export function getSuggestions(str: string, maxCount = 5) {
   const c = str[0]
-  const arr = dict[c]
+  const arr = suggestionDict[c]
   if (!arr) {
     return []
   }
@@ -110,7 +116,7 @@ export function getSuggestions(str: string, maxCount = 5) {
   for (let i = 0, len = arr.length; i < len; i++) {
     const word = arr[i]
     if (startWith(word, str)) {
-      result.push(word.split(' '))
+      result.push(word.split(','))
       if (result.length >= maxCount) {
         break
       }

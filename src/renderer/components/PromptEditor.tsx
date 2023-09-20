@@ -22,6 +22,7 @@ import {
   yellow8Dark,
 } from '../../common/theme'
 import * as prompt from '../lib/prompt'
+import { t } from '../lib/util'
 
 loader.config({ monaco })
 
@@ -204,7 +205,7 @@ monaco.languages.setMonarchTokensProvider('prompt', tokensProvider)
 
 monaco.languages.registerCompletionItemProvider('prompt', {
   triggerCharacters: map(
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
     (c) => c
   ),
   provideCompletionItems: function (model, position) {
@@ -222,6 +223,7 @@ monaco.languages.registerCompletionItemProvider('prompt', {
         label: suggestion,
         kind: monaco.languages.CompletionItemKind.Text,
         insertText: suggestion,
+        detail: t(suggestion),
         sortText: 'abcde'[idx],
       }
     })
