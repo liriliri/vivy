@@ -6,6 +6,7 @@ import truncate from 'licia/truncate'
 import store from '../../store'
 import { useEffect, useState } from 'react'
 import ProgressBar from './ProgressBar'
+import { t } from '../../../lib/util'
 
 export default observer(function () {
   const [cpuUsage, setCpuUsage] = useState(0)
@@ -42,9 +43,22 @@ export default observer(function () {
     )
   }
 
+  let taskCount: JSX.Element | null = null
+  if (store.tasks.length > 0) {
+    taskCount = (
+      <div className={Style.item}>
+        {t('task')}: {store.tasks.length}
+      </div>
+    )
+  }
+
   let imageCount: JSX.Element | null = null
   if (store.images.length > 0) {
-    imageCount = <div className={Style.item}>{store.images.length}</div>
+    imageCount = (
+      <div className={Style.item}>
+        {t('image')}: {store.images.length}
+      </div>
+    )
   }
 
   return (
@@ -57,6 +71,7 @@ export default observer(function () {
       </div>
       {imageInfo}
       <div className={Style.space}></div>
+      {taskCount}
       {imageCount}
       <div
         className={className(Style.item, Style.systemInfo, Style.button)}
