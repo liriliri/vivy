@@ -14,7 +14,7 @@ import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 
 each(suggestionsZhCN.split('\n'), (line) => {
   const [key, translation] = line.split(',')
-  zhCN[key] = translation
+  zhCN[`suggestion-${key}`] = translation
 })
 
 export const i18n = new I18n('en-US', {

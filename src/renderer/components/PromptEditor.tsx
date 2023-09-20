@@ -223,7 +223,7 @@ monaco.languages.registerCompletionItemProvider('prompt', {
         label: suggestion,
         kind: monaco.languages.CompletionItemKind.Text,
         insertText: suggestion,
-        detail: t(suggestion),
+        detail: t(`suggestion-${suggestion}`),
         sortText: 'abcde'[idx],
       }
     })
