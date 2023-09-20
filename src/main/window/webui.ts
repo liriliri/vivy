@@ -9,6 +9,7 @@ import { Readable } from 'stream'
 import { getSettingsStore, getWebUIStore } from '../lib/store'
 import createWin from './createWin'
 import pidusage from 'pidusage'
+import os from 'os'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -100,6 +101,8 @@ export function showWin() {
   win.loadURL(`http://localhost:${getPort()}`)
 }
 
+const cpuCount = os.cpus().length
+
 export function getCpuAndMem(): Promise<{
   cpu: number
   mem: number
@@ -118,7 +121,7 @@ export function getCpuAndMem(): Promise<{
       }
 
       resolve({
-        cpu: stats.cpu,
+        cpu: stats.cpu / cpuCount,
         mem: stats.memory,
       })
     })
