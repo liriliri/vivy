@@ -1,12 +1,9 @@
-import LunaSetting, {
-  LunaSettingNumber,
-  LunaSettingSelect,
-} from 'luna-setting/react'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import { observer } from 'mobx-react-lite'
 import { t } from '../../../lib/util'
 import store from '../../store'
+import { Select, Row, Number } from '../../../components/setting'
 
 export default observer(function () {
   const { txt2imgOptions } = store
@@ -23,66 +20,63 @@ export default observer(function () {
   }
 
   return (
-    <LunaSetting onChange={(key, val) => store.setTxt2ImgOptions(key, val)}>
-      <LunaSettingSelect
-        keyName="sampler"
-        value={txt2imgOptions.sampler}
-        title={t('samplingMethod')}
-        options={samplers}
-      />
-      <LunaSettingNumber
-        keyName="steps"
-        value={txt2imgOptions.steps}
-        title={t('samplingSteps')}
-        options={{
-          min: 1,
-          max: 50,
-        }}
-      />
-      <LunaSettingNumber
-        keyName="width"
-        value={txt2imgOptions.width}
-        title={t('width')}
-        options={{
-          min: 64,
-          max: 2048,
-        }}
-      />
-      <LunaSettingNumber
-        keyName="height"
-        value={txt2imgOptions.height}
-        title={t('height')}
-        options={{
-          min: 64,
-          max: 2048,
-        }}
-      />
-      <LunaSettingNumber
-        keyName="batchSize"
-        value={txt2imgOptions.batchSize}
-        title={t('batchSize')}
-        options={{
-          range: true,
-          min: 1,
-          max: 8,
-        }}
-      />
-      <LunaSettingNumber
-        keyName="cfgScale"
-        value={txt2imgOptions.cfgScale}
-        title={t('cfgScale')}
-        options={{
-          range: true,
-          min: 1,
-          max: 30,
-        }}
-      />
-      <LunaSettingNumber
-        keyName="seed"
-        value={txt2imgOptions.seed}
-        title={t('seed')}
-        options={{}}
-      />
-    </LunaSetting>
+    <>
+      <Row>
+        <Select
+          value={txt2imgOptions.sampler}
+          title={t('samplingMethod')}
+          options={samplers}
+          onChange={(val) => store.setTxt2ImgOptions('sampler', val)}
+        />
+        <Number
+          value={txt2imgOptions.steps}
+          title={t('samplingSteps')}
+          min={1}
+          max={50}
+          onChange={(val) => store.setTxt2ImgOptions('steps', val)}
+        />
+      </Row>
+      <Row>
+        <Number
+          value={txt2imgOptions.width}
+          title={t('width')}
+          min={64}
+          max={2048}
+          onChange={(val) => store.setTxt2ImgOptions('width', val)}
+        />
+        <Number
+          value={txt2imgOptions.height}
+          title={t('height')}
+          min={64}
+          max={2048}
+          onChange={(val) => store.setTxt2ImgOptions('height', val)}
+        />
+      </Row>
+      <Row>
+        <Number
+          value={txt2imgOptions.batchSize}
+          title={t('batchSize')}
+          min={1}
+          max={8}
+          range={true}
+          onChange={(val) => store.setTxt2ImgOptions('batchSize', val)}
+        />
+        <Number
+          value={txt2imgOptions.cfgScale}
+          title={t('cfgScale')}
+          min={1}
+          max={30}
+          range={true}
+          onChange={(val) => store.setTxt2ImgOptions('cfgScale', val)}
+        />
+      </Row>
+      <Row>
+        <Number
+          value={txt2imgOptions.seed}
+          title={t('seed')}
+          onChange={(val) => store.setTxt2ImgOptions('seed', val)}
+        />
+      </Row>
+    </>
   )
 })
