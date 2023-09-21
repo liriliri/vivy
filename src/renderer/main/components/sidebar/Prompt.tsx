@@ -143,7 +143,7 @@ export default observer(function () {
       <button
         className={className(Style.generate, 'button')}
         onMouseDown={(e) => e.preventDefault()}
-        onClick={() => store.createTask()}
+        onClick={() => store.createTxt2ImgTask()}
       >
         {t('generate')}
       </button>

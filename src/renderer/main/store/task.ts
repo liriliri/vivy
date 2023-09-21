@@ -1,6 +1,6 @@
 import Emitter from 'licia/Emitter'
 import uuid from 'licia/uuid'
-import { IImage, ITxt2ImgOptions } from './types'
+import { IImage, ITxt2ImgOptions, IUpscaleImgOptions } from './types'
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import * as webui from '../../lib/webui'
 import { splitImage, toDataUrl } from '../../lib/util'
@@ -14,9 +14,22 @@ export enum TaskStatus {
 
 export class Task extends Emitter {
   id = uuid()
-  status = TaskStatus.Wait
   images: IImage[] = []
   progress = 0
+  status = TaskStatus.Wait
+  constructor() {
+    super()
+
+    makeObservable(this, {
+      images: observable,
+      progress: observable,
+      status: observable,
+    })
+  }
+  run() {}
+}
+
+export class Txt2ImgTask extends Task {
   private currentImage: string = ''
   private txt2imgOptions: ITxt2ImgOptions
   private progressTimer?: NodeJS.Timeout
@@ -24,9 +37,6 @@ export class Task extends Emitter {
     super()
 
     makeObservable(this, {
-      images: observable,
-      progress: observable,
-      status: observable,
       getProgress: action,
       run: action,
     })
@@ -98,6 +108,62 @@ export class Task extends Emitter {
           this.images[i].data = images[i]
         }
       }
+    }
+  }
+}
+
+export class UpscaleImgTask extends Task {
+  private upscaleImgOptions: IUpscaleImgOptions
+  private progressTimer?: NodeJS.Timeout
+  constructor(upscaleImgOptions: IUpscaleImgOptions) {
+    super()
+
+    makeObservable(this, {
+      getProgress: action,
+      run: action,
+    })
+
+    this.upscaleImgOptions = upscaleImgOptions
+
+    this.images.push({
+      id: uuid(),
+      data: '',
+      info: {
+        mime: 'image/png',
+        width: upscaleImgOptions.width,
+        height: upscaleImgOptions.height,
+        size: 0,
+      },
+    })
+  }
+  async run() {
+    const { upscaleImgOptions } = this
+    this.status = TaskStatus.Generating
+    this.getProgress()
+    const result = await webui.extraSingle({
+      image: upscaleImgOptions.image,
+      upscaling_resize_w: upscaleImgOptions.width,
+      upscaling_resize_h: upscaleImgOptions.height,
+    })
+    this.progress = 100
+    this.status = TaskStatus.Complete
+    if (this.progressTimer) {
+      clearTimeout(this.progressTimer)
+    }
+    const image = this.images[0]
+    image.data = result.images[0]
+    image.info.size = base64.decode(image.data).length
+    this.emit('complete', this.images)
+  }
+  async getProgress() {
+    const { progress } = await webui.getProgress()
+
+    runInAction(() => {
+      this.progress = Math.round(progress * 100)
+    })
+
+    if (this.status !== TaskStatus.Complete) {
+      this.progressTimer = setTimeout(() => this.getProgress(), 1000)
     }
   }
 }

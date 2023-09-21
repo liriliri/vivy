@@ -29,3 +29,9 @@ export interface ITxt2ImgOptions {
   model: string
   cfgScale: number
 }
+
+export interface IUpscaleImgOptions {
+  image: string
+  width: number
+  height: number
+}

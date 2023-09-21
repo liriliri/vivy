@@ -50,6 +50,12 @@ type Txt2ImgOptions = {
   seed: number
 }
 
+type ExtraSingleOptions = {
+  image: string
+  upscaling_resize_w: number
+  upscaling_resize_h: number
+}
+
 type Sampler = {
   name: string
   aliases: string[]
@@ -142,6 +148,30 @@ export async function txt2img(
     sampler_name: options.sampler_name,
     use_deprecated_controlnet: false,
   })
+  return new StableDiffusionResult(response)
+}
+
+export async function extraSingle(
+  options: ExtraSingleOptions
+): Promise<StableDiffusionResult> {
+  const response = await api.post<ApiRawResponse>(
+    '/sdapi/v1/extra-single-image',
+    {
+      image: options.image,
+      resize_mode: 0,
+      show_extras_results: true,
+      gfpgan_visibility: 0,
+      codeformer_weight: 0,
+      upscaling_resize: 2,
+      upscaling_resize_w: options.upscaling_resize_w,
+      upscaling_resize_h: options.upscaling_resize_h,
+      upscaling_resize_crop: true,
+      upscaler_1: 'R-ESRGAN 4x+',
+      upscaler_2: 'None',
+      extras_upscaler_2_visibility: 0,
+      upscale_first: false,
+    }
+  )
   return new StableDiffusionResult(response)
 }
 

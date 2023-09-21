@@ -19,11 +19,13 @@ import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t, toDataUrl } from '../../../lib/util'
 import InfoModal from './InfoModal'
+import UpscaleModal from './UpscaleModal'
 import CopyButton from '../../../components/CopyButton'
 
 export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
   const [infoModalVisible, setInfoModalVisible] = useState(false)
+  const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
 
   const save = () => {
     if (store.selectedImage) {
@@ -131,7 +133,7 @@ export default observer(function () {
           icon="resize-image"
           title={t('upscale')}
           disabled={!hasSelectedImage}
-          onClick={() => {}}
+          onClick={() => setUpscaleModalVisible(true)}
         />
         <LunaToolbarSpace />
         <ToolbarIcon
@@ -159,6 +161,10 @@ export default observer(function () {
       <InfoModal
         visible={infoModalVisible}
         onClose={() => setInfoModalVisible(false)}
+      />
+      <UpscaleModal
+        visible={upscaleModalVisible}
+        onClose={() => setUpscaleModalVisible(false)}
       />
     </div>
   )

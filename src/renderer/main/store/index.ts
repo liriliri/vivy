@@ -18,8 +18,8 @@ import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
 import { parseImage, parseText } from '../../lib/genData'
-import { IImage, ITxt2ImgOptions } from './types'
-import { Task, TaskStatus } from './task'
+import { IImage, ITxt2ImgOptions, IUpscaleImgOptions } from './types'
+import { Task, TaskStatus, Txt2ImgTask, UpscaleImgTask } from './task'
 import fileType from 'licia/fileType'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
@@ -67,7 +67,7 @@ class Store {
       waitForReady: action,
       setTxt2ImgOptions: action,
       parseTxt2ImgOptionsText: action,
-      createTask: action,
+      createTxt2ImgTask: action,
       selectImage: action,
       selectNextImage: action,
       selectPrevImage: action,
@@ -250,9 +250,14 @@ class Store {
       }
     })
   }
-  async createTask() {
-    const image = new Task(clone(this.txt2imgOptions))
-    this.tasks.push(image)
+  async createTxt2ImgTask() {
+    const task = new Txt2ImgTask(clone(this.txt2imgOptions))
+    this.tasks.push(task)
+    this.doCreateTask()
+  }
+  async createUpscaleImgTask(options: IUpscaleImgOptions) {
+    const task = new UpscaleImgTask(options)
+    this.tasks.push(task)
     this.doCreateTask()
   }
   doCreateTask() {

@@ -5,8 +5,16 @@ import types from 'licia/types'
 import map from 'licia/map'
 import toNum from 'licia/toNum'
 
-export function Row(props: PropsWithChildren) {
-  return <div className={Style.row}>{props.children}</div>
+interface IRowProps {
+  className?: string
+}
+
+export function Row(props: PropsWithChildren<IRowProps>) {
+  return (
+    <div className={className(Style.row, props.className)}>
+      {props.children}
+    </div>
+  )
 }
 
 interface ISelectProps {
@@ -24,7 +32,11 @@ export function Select(props: ISelectProps) {
   }
 
   const options = map(props.options, (val, key) => {
-    return <option value={val}>{key}</option>
+    return (
+      <option key={val} value={val}>
+        {key}
+      </option>
+    )
   })
 
   return (
