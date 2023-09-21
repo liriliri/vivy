@@ -59,5 +59,6 @@
   "sysInfo": "系统信息",
   "format": "格式化",
   "image": "图片",
-  "task": "任务"
+  "task": "任务",
+  "upscale": "高清化"
 }

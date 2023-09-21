@@ -76,6 +76,7 @@ export default observer(function () {
   )
 
   const hasArrow = store.selectedImage && store.images.length > 1
+  const hasSelectedImage = toBool(store.selectedImage)
 
   return (
     <div
@@ -88,9 +89,9 @@ export default observer(function () {
           icon="save"
           title={t('save')}
           onClick={save}
-          disabled={!toBool(store.selectedImage)}
+          disabled={!hasSelectedImage}
         />
-        <LunaToolbarHtml disabled={!toBool(store.selectedImage)}>
+        <LunaToolbarHtml disabled={!hasSelectedImage}>
           <CopyButton onClick={copyImage} />
         </LunaToolbarHtml>
         <ToolbarIcon
@@ -125,12 +126,19 @@ export default observer(function () {
           title={t('rotateRight')}
           onClick={() => imageViewerRef.current?.rotate(90)}
         />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
+          icon="resize-image"
+          title={t('upscale')}
+          disabled={!hasSelectedImage}
+          onClick={() => {}}
+        />
         <LunaToolbarSpace />
         <ToolbarIcon
           icon="delete"
           title={t('delete')}
           onClick={deleteImage}
-          disabled={!toBool(store.selectedImage)}
+          disabled={!hasSelectedImage}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
