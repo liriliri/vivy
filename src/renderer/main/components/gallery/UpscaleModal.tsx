@@ -32,7 +32,7 @@ export default observer(function UpscaleModal(props: IProps) {
     <LunaModal
       title={t('upscale')}
       visible={props.visible}
-      width={350}
+      width={500}
       onClose={props.onClose}
     >
       <Row className={Style.row}>

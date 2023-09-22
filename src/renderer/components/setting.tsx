@@ -1,9 +1,10 @@
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useState } from 'react'
 import className from 'licia/className'
 import Style from './setting.module.scss'
 import types from 'licia/types'
 import map from 'licia/map'
 import toNum from 'licia/toNum'
+import toStr from 'licia/toStr'
 
 interface IRowProps {
   className?: string
@@ -63,8 +64,10 @@ interface INumberProps {
 }
 
 export function Number(props: INumberProps) {
+  const [value, setValue] = useState(toStr(props.value))
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (props.onChange) {
+      setValue(e.target.value)
       props.onChange(toNum(e.target.value))
     }
   }
@@ -74,7 +77,7 @@ export function Number(props: INumberProps) {
   let input = (
     <input
       type={props.range ? 'range' : 'number'}
-      value={props.value}
+      value={value !== '' ? props.value : value}
       onChange={onChange}
       min={min}
       max={max}
