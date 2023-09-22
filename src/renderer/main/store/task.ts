@@ -146,6 +146,8 @@ export class UpscaleImgTask extends Task {
       image: upscaleImgOptions.image,
       upscaling_resize_w: upscaleImgOptions.width,
       upscaling_resize_h: upscaleImgOptions.height,
+      upscaler1: upscaleImgOptions.upscaler1,
+      upscaler2: upscaleImgOptions.upscaler2,
     })
     this.progress = 100
     this.status = TaskStatus.Complete

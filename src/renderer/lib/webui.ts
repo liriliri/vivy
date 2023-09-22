@@ -54,12 +54,22 @@ type ExtraSingleOptions = {
   image: string
   upscaling_resize_w: number
   upscaling_resize_h: number
+  upscaler1: string
+  upscaler2: string
 }
 
 type Sampler = {
   name: string
   aliases: string[]
   options: Record<string, unknown>
+}
+
+type Upscaler = {
+  name: string
+  model_name: string
+  model_path: string
+  model_url: string
+  scale: number
 }
 
 type AxiosApiRawResponse = AxiosResponse<ApiRawResponse>
@@ -166,8 +176,8 @@ export async function extraSingle(
       upscaling_resize_w: options.upscaling_resize_w,
       upscaling_resize_h: options.upscaling_resize_h,
       upscaling_resize_crop: true,
-      upscaler_1: 'R-ESRGAN 4x+',
-      upscaler_2: 'None',
+      upscaler_1: options.upscaler1,
+      upscaler_2: options.upscaler2,
       extras_upscaler_2_visibility: 0,
       upscale_first: false,
     }
@@ -222,6 +232,11 @@ export async function setOptions(options: Options) {
 
 export async function getSamplers(): Promise<Sampler[]> {
   const response = await api.get<Sampler[]>('/sdapi/v1/samplers')
+  return response.data
+}
+
+export async function getUpscalers(): Promise<Upscaler[]> {
+  const response = await api.get<Upscaler[]>('/sdapi/v1/upscalers')
   return response.data
 }
 

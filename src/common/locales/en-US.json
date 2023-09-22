@@ -60,5 +60,6 @@
   "format": "Format",
   "image": "Image",
   "task": "Task",
-  "upscale": "Upscale"
+  "upscale": "Upscale",
+  "upscaler": "Upscaler"
 }

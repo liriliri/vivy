@@ -48,6 +48,7 @@ class Store {
   models: string[] = []
   samplers: string[] = []
   images: IImage[] = []
+  upscalers: string[] = []
   selectedImage?: IImage
   tasks: Task[] = []
   ui = new UI()
@@ -59,6 +60,7 @@ class Store {
       tasks: observable,
       models: observable,
       samplers: observable,
+      upscalers: observable,
       images: observable,
       options: observable,
       selectedImage: observable,
@@ -158,6 +160,10 @@ class Store {
     if (samplers) {
       this.samplers = samplers
     }
+    const upscalers = await main.getMainStore('upscalers')
+    if (upscalers) {
+      this.upscalers = upscalers
+    }
   }
   async setStore(name: string, val: any) {
     await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
@@ -187,6 +193,11 @@ class Store {
     this.samplers = map(samplers, (sampler) => sampler.name)
     this.setStore('samplers', this.samplers)
   }
+  async fetchUpscalers() {
+    const upscalers = await webui.getUpscalers()
+    this.upscalers = map(upscalers, (upscaler) => upscaler.name)
+    this.setStore('upscalers', this.upscalers)
+  }
   async fetchModels() {
     const models = await webui.getSdModels()
     this.models = map(models, (model) => model.title)
@@ -196,6 +207,7 @@ class Store {
     await this.fetchOptions()
     await this.fetchModels()
     await this.fetchSamplers()
+    await this.fetchUpscalers()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }

@@ -34,4 +34,6 @@ export interface IUpscaleImgOptions {
   image: string
   width: number
   height: number
+  upscaler1: string
+  upscaler2: string
 }
