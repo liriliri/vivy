@@ -17,6 +17,7 @@ import each from 'licia/each'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, Language } from '../lib/translator'
 import createWin from './createWin'
+import isBuffer from 'licia/isBuffer'
 import { i18n } from '../lib/util'
 
 const store = getMainStore()
@@ -53,6 +54,7 @@ export function showWin() {
 }
 
 function initIpc() {
+  ipcMain.handle('getLogs', () => logs)
   ipcMain.handle('getWebuiPort', () => webui.getPort())
   ipcMain.handle('showTerminal', () => terminal.showWin())
   ipcMain.handle('showModel', () => model.showWin())
@@ -111,5 +113,34 @@ function initIpc() {
   const theme = store.get('theme')
   if (theme) {
     nativeTheme.themeSource = theme
+  }
+}
+
+const logs: string[] = []
+
+export function init() {
+  const stdoutWrite = process.stdout.write
+  const stderrWrite = process.stderr.write
+
+  process.stdout.write = function (...args) {
+    addLog(args[0])
+
+    return stdoutWrite.apply(process.stdout, args as any)
+  }
+
+  process.stderr.write = function (...args) {
+    addLog(args[0])
+
+    return stderrWrite.apply(process.stderr, args as any)
+  }
+
+  function addLog(data: string | Buffer) {
+    if (isBuffer(data)) {
+      data = data.toString('utf8')
+    }
+    logs.push(data as string)
+    if (win) {
+      win.webContents.send('addLog', data)
+    }
   }
 }

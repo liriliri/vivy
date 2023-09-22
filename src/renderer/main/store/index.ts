@@ -154,6 +154,10 @@ class Store {
     if (txt2imgOptions) {
       extend(this.txt2imgOptions, txt2imgOptions)
     }
+    const samplers = await main.getMainStore('samplers')
+    if (samplers) {
+      this.samplers = samplers
+    }
   }
   async setStore(name: string, val: any) {
     await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
@@ -181,6 +185,7 @@ class Store {
   async fetchSamplers() {
     const samplers = await webui.getSamplers()
     this.samplers = map(samplers, (sampler) => sampler.name)
+    this.setStore('samplers', this.samplers)
   }
   async fetchModels() {
     const models = await webui.getSdModels()

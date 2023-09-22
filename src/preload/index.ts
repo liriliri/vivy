@@ -51,6 +51,7 @@ const mainObj = {
   translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
+  off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
 }
 contextBridge.exposeInMainWorld('main', mainObj)
 

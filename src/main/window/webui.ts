@@ -9,6 +9,7 @@ import { Readable } from 'stream'
 import { getSettingsStore, getWebUIStore } from '../lib/store'
 import createWin from './createWin'
 import pidusage from 'pidusage'
+import path from 'path'
 import os from 'os'
 
 const settingsStore = getSettingsStore()
@@ -56,6 +57,13 @@ export async function start() {
     '--ckpt-dir',
     settingsStore.get('modelPath'),
   ]
+
+  const modelPath = settingsStore.get('modelPath')
+  const getDir = (p) => path.join(modelPath, p)
+  args.push('--ckpt-dir', getDir('Stable-diffusion'))
+  args.push('--lora-dir', getDir('Lora'))
+  args.push('--realesrgan-models-path', getDir('RealESRGAN'))
+  args.push('--scunet-models-path', getDir('ScuNET'))
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')

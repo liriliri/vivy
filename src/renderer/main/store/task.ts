@@ -5,6 +5,9 @@ import { action, makeObservable, observable, runInAction } from 'mobx'
 import * as webui from '../../lib/webui'
 import { splitImage, toDataUrl } from '../../lib/util'
 import base64 from 'licia/base64'
+import trim from 'licia/trim'
+import startWith from 'licia/startWith'
+import toNum from 'licia/toNum'
 
 export enum TaskStatus {
   Wait,
@@ -114,7 +117,6 @@ export class Txt2ImgTask extends Task {
 
 export class UpscaleImgTask extends Task {
   private upscaleImgOptions: IUpscaleImgOptions
-  private progressTimer?: NodeJS.Timeout
   constructor(upscaleImgOptions: IUpscaleImgOptions) {
     super()
 
@@ -139,7 +141,7 @@ export class UpscaleImgTask extends Task {
   async run() {
     const { upscaleImgOptions } = this
     this.status = TaskStatus.Generating
-    this.getProgress()
+    main.on('addLog', this.getProgress)
     const result = await webui.extraSingle({
       image: upscaleImgOptions.image,
       upscaling_resize_w: upscaleImgOptions.width,
@@ -147,23 +149,21 @@ export class UpscaleImgTask extends Task {
     })
     this.progress = 100
     this.status = TaskStatus.Complete
-    if (this.progressTimer) {
-      clearTimeout(this.progressTimer)
-    }
+    main.off('addLog', this.getProgress)
     const image = this.images[0]
     image.data = result.images[0]
     image.info.size = base64.decode(image.data).length
     this.emit('complete', this.images)
   }
-  async getProgress() {
-    const { progress } = await webui.getProgress()
+  getProgress = (event, log) => {
+    log = trim(log)
+    if (!startWith(log, 'Tile')) {
+      return
+    }
+    const [current, total] = log.slice(5).split('/')
 
     runInAction(() => {
-      this.progress = Math.round(progress * 100)
+      this.progress = Math.round((toNum(current) / toNum(total)) * 100)
     })
-
-    if (this.status !== TaskStatus.Complete) {
-      this.progressTimer = setTimeout(() => this.getProgress(), 1000)
-    }
   }
 }
