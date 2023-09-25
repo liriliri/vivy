@@ -12,6 +12,7 @@ import 'luna-data-grid/css'
 import 'luna-modal/css'
 import './luna.scss'
 import { spy } from 'mobx'
+import LunaModal from 'luna-modal'
 
 function renderApp() {
   const container: HTMLElement = document.getElementById('app') as HTMLElement
@@ -65,5 +66,6 @@ if (isDev()) {
     await main.setSettingsStore('language', language)
   }
   i18n.locale(language)
+  LunaModal.i18n.locale(language)
   renderApp()
 })()
