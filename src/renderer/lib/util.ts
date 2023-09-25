@@ -8,8 +8,8 @@ import each from 'licia/each'
 import map from 'licia/map'
 import trim from 'licia/trim'
 import startWith from 'licia/startWith'
-import enUS from '../../common/locales/en-US.json'
-import zhCN from '../../common/locales/zh-CN.json'
+import enUS from '../../common/langs/en-US.json'
+import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 
 each(suggestionsZhCN.split('\n'), (line) => {

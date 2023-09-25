@@ -6,8 +6,8 @@ import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
 import types from 'licia/types'
 import each from 'licia/each'
-import enUS from '../../common/locales/en-US.json'
-import zhCN from '../../common/locales/zh-CN.json'
+import enUS from '../../common/langs/en-US.json'
+import zhCN from '../../common/langs/zh-CN.json'
 
 export const i18n = new I18n('en-US', {
   'en-US': enUS,
