@@ -139,8 +139,6 @@ export function init() {
       data = data.toString('utf8')
     }
     logs.push(data as string)
-    if (win) {
-      win.webContents.send('addLog', data)
-    }
+    sendAll('addLog', data)
   }
 }

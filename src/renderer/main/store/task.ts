@@ -117,6 +117,7 @@ export class Txt2ImgTask extends Task {
 
 export class UpscaleImgTask extends Task {
   private upscaleImgOptions: IUpscaleImgOptions
+  private upscalerNum = 0
   constructor(upscaleImgOptions: IUpscaleImgOptions) {
     super()
 
@@ -126,6 +127,16 @@ export class UpscaleImgTask extends Task {
     })
 
     this.upscaleImgOptions = upscaleImgOptions
+
+    if (upscaleImgOptions.upscaler1 !== 'None') {
+      this.upscalerNum++
+    }
+    if (
+      upscaleImgOptions.upscaler2 !== 'None' &&
+      upscaleImgOptions.upscaler2Visibility > 0
+    ) {
+      this.upscalerNum++
+    }
 
     this.images.push({
       id: uuid(),
@@ -148,6 +159,7 @@ export class UpscaleImgTask extends Task {
       upscaling_resize_h: upscaleImgOptions.height,
       upscaler1: upscaleImgOptions.upscaler1,
       upscaler2: upscaleImgOptions.upscaler2,
+      extras_upscaler_2_visibility: upscaleImgOptions.upscaler2Visibility,
     })
     this.progress = 100
     this.status = TaskStatus.Complete
@@ -159,13 +171,24 @@ export class UpscaleImgTask extends Task {
   }
   getProgress = (event, log) => {
     log = trim(log)
-    if (!startWith(log, 'Tile')) {
-      return
+    let current = ''
+    let total = ''
+    if (startWith(log, 'Tile')) {
+      ;[current, total] = log.slice(5).split('/')
+    } else if (startWith(log, 'ScuNET tiles')) {
+      ;[current, total] = trim(log.match(/ \d+\/\d+ /)[0]).split('/')
     }
-    const [current, total] = log.slice(5).split('/')
-
-    runInAction(() => {
-      this.progress = Math.round((toNum(current) / toNum(total)) * 100)
-    })
+    if (current) {
+      runInAction(() => {
+        const progress = Math.round((toNum(current) / toNum(total)) * 100)
+        if (this.upscalerNum === 2) {
+          this.progress = Math.round(
+            (this.progress >= 50 ? 50 : 0) + progress * 0.5
+          )
+        } else {
+          this.progress = progress
+        }
+      })
+    }
   }
 }

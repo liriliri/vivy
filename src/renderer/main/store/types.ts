@@ -36,4 +36,5 @@ export interface IUpscaleImgOptions {
   height: number
   upscaler1: string
   upscaler2: string
+  upscaler2Visibility: number
 }

@@ -61,5 +61,6 @@
   "image": "图片",
   "task": "任务",
   "upscale": "高清化",
-  "upscaler": "放大算法"
+  "upscaler": "放大算法",
+  "upscaler2Visibility": "放大算法 2 可见度"
 }

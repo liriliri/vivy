@@ -56,6 +56,7 @@ type ExtraSingleOptions = {
   upscaling_resize_h: number
   upscaler1: string
   upscaler2: string
+  extras_upscaler_2_visibility: number
 }
 
 type Sampler = {
@@ -178,7 +179,7 @@ export async function extraSingle(
       upscaling_resize_crop: true,
       upscaler_1: options.upscaler1,
       upscaler_2: options.upscaler2,
-      extras_upscaler_2_visibility: 0,
+      extras_upscaler_2_visibility: options.extras_upscaler_2_visibility || 0,
       upscale_first: false,
     }
   )

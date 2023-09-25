@@ -20,6 +20,7 @@ export default observer(function UpscaleModal(props: IProps) {
   const [height, setHeight] = useState(512)
   const [upscaler1, setUpscaler1] = useState('None')
   const [upscaler2, setUpscaler2] = useState('None')
+  const [upscaler2Visibility, setUpscaler2Visibility] = useState(0.7)
 
   let upscalers: any = {}
   if (!isEmpty(store.upscalers)) {
@@ -39,6 +40,7 @@ export default observer(function UpscaleModal(props: IProps) {
       height,
       upscaler1,
       upscaler2,
+      upscaler2Visibility,
     })
     if (props.onClose) {
       props.onClose()
@@ -75,11 +77,22 @@ export default observer(function UpscaleModal(props: IProps) {
           options={upscalers}
           onChange={(val) => setUpscaler1(val)}
         />
+      </Row>
+      <Row className={Style.row}>
         <Select
           value={upscaler2}
           title={t('upscaler') + ' 2'}
           options={upscalers}
           onChange={(val) => setUpscaler2(val)}
+        />
+        <Number
+          value={upscaler2Visibility}
+          title={t('upscaler2Visibility')}
+          min={0}
+          max={1}
+          step={0.01}
+          range={true}
+          onChange={(val) => setUpscaler2Visibility(val)}
         />
       </Row>
       <button className={className(Style.generate, 'button')} onClick={onClick}>

@@ -60,6 +60,7 @@ interface INumberProps {
   onChange: (val: number) => void
   min?: number
   max?: number
+  step?: number
   range?: boolean
 }
 
@@ -74,6 +75,7 @@ export function Number(props: INumberProps) {
 
   const max = props.max || Infinity
   const min = props.min || 0
+  const step = props.step || 1
   let input = (
     <input
       type={props.range ? 'range' : 'number'}
@@ -81,6 +83,7 @@ export function Number(props: INumberProps) {
       onChange={onChange}
       min={min}
       max={max}
+      step={step}
     />
   )
 
