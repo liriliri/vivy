@@ -83,10 +83,12 @@ export class Txt2ImgTask extends Task {
     if (this.progressTimer) {
       clearTimeout(this.progressTimer)
     }
+    const info = JSON.parse(result.info)
     for (let i = 0; i < txt2imgOptions.batchSize; i++) {
       const image = this.images[i]
       image.data = result.images[i]
       image.info.size = base64.decode(image.data).length
+      image.info.seed = info.all_seeds[i]
     }
     this.emit('complete', this.images)
   }
