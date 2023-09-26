@@ -20,6 +20,7 @@ interface IWinOptions {
   x?: number
   y?: number
   onSavePos?: types.AnyFn
+  resizable?: boolean
 }
 
 export default function createWin(opts: IWinOptions) {
@@ -32,6 +33,7 @@ export default function createWin(opts: IWinOptions) {
     height: 850,
     onSavePos: noop,
     menu: false,
+    resizable: true,
   })
   const winOptions = opts as Required<IWinOptions>
 
@@ -41,6 +43,7 @@ export default function createWin(opts: IWinOptions) {
     width: winOptions.width,
     height: winOptions.height,
     show: false,
+    resizable: winOptions.resizable,
   }
   const theme = settingsStore.get('theme')
   if (theme) {
