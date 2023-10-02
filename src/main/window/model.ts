@@ -15,8 +15,8 @@ export function showWin() {
   }
 
   win = createWin({
-    minWidth: 960,
-    minHeight: 640,
+    minWidth: 640,
+    minHeight: 480,
     ...store.get('bounds'),
     onSavePos: () => store.set('bounds', win?.getBounds()),
   })

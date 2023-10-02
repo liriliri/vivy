@@ -2,6 +2,7 @@ import LunaDataGrid from 'luna-data-grid/react'
 import { useEffect, useState } from 'react'
 import Style from './ModelList.module.scss'
 import { observer } from 'mobx-react-lite'
+import { t } from '../../lib/util'
 
 export default observer(function ModelList() {
   const [height, setHeight] = useState(window.innerHeight - 30)
@@ -20,20 +21,16 @@ export default observer(function ModelList() {
 
   const columns = [
     {
-      id: 'modelName',
-      title: 'Model Name',
-    },
-    {
-      id: 'hash',
-      title: 'File Hash',
+      id: 'name',
+      title: t('fileName'),
     },
     {
       id: 'size',
-      title: 'File Size',
+      title: t('fileSize'),
     },
     {
-      id: 'action',
-      title: 'Action',
+      id: 'created',
+      title: t('createdDate'),
     },
   ]
 

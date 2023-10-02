@@ -31,8 +31,8 @@ export const getTerminalStore = memoize(function () {
 export const getModelStore = memoize(function () {
   return new FileStore(getUserDataPath('data/model.json'), {
     bounds: {
-      width: 960,
-      height: 640,
+      width: 640,
+      height: 480,
     },
   })
 })

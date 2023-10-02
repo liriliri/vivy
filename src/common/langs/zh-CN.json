@@ -62,5 +62,8 @@
   "task": "任务",
   "upscale": "高清化",
   "upscaler": "放大算法",
-  "upscaler2Visibility": "放大算法 2 可见度"
+  "upscaler2Visibility": "放大算法 2 可见度",
+  "fileName": "文件名",
+  "fileSize": "文件大小",
+  "createdDate": "创建日期"
 }

@@ -62,5 +62,8 @@
   "task": "Task",
   "upscale": "Upscale",
   "upscaler": "Upscaler",
-  "upscaler2Visibility": "Upscaler 2 Visibility"
+  "upscaler2Visibility": "Upscaler 2 Visibility",
+  "fileName": "File Name",
+  "fileSize": "File Size",
+  "createdDate": "Created Date"
 }
