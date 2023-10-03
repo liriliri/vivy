@@ -72,8 +72,13 @@ export default function createWin(opts: IWinOptions) {
   if (!winOptions.menu) {
     win.setMenu(null)
   }
-  win.on('resize', winOptions.onSavePos)
-  win.on('moved', winOptions.onSavePos)
+  const onSavePos = () => {
+    if (!win.isMaximized()) {
+      winOptions.onSavePos()
+    }
+  }
+  win.on('resize', onSavePos)
+  win.on('moved', onSavePos)
   win.once('ready-to-show', () => win.show())
   if (winOptions.customTitlebar) {
     attachTitlebarToWindow(win)
