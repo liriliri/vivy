@@ -23,11 +23,11 @@ function setTheme(theme?: string) {
   } else {
     document.body.classList.remove('-theme-with-dark-background')
   }
-  titleBar.updateBackground(
-    TitlebarColor.fromHex(
-      theme === 'dark' ? colorBgContainerDark : colorBgContainer
-    )
+  const backgroundColor = TitlebarColor.fromHex(
+    theme === 'dark' ? colorBgContainerDark : colorBgContainer
   )
+  ;(titleBar as any).currentOptions.menuBarBackgroundColor = backgroundColor
+  titleBar.updateBackground(backgroundColor)
 }
 
 const mainObj = {

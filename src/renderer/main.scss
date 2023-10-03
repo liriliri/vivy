@@ -114,3 +114,26 @@ button {
   border-top: none !important;
   z-index: 500;
 }
+
+.cet-titlebar {
+  .cet-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .cet-menubar {
+    .cet-menubar-menu-button {
+      padding: 0;
+      .cet-menubar-menu-title {
+        padding: 0 8px;
+      }
+    }
+    .cet-menubar-menu-container {
+      border-radius: 0;
+    }
+    .cet-action-menu-item {
+      margin: 0;
+      border-radius: 0;
+    }
+  }
+}

@@ -94,7 +94,10 @@ function getTemplate(): MenuItemConstructorOptions[] {
   const template = [tools, help]
   if (isMac()) {
     template.unshift(vivy, edit)
+  } else {
+    template.push(vivy)
   }
+
   return template
 }
 

@@ -106,11 +106,11 @@ function initIpc() {
     dialog.showOpenDialog(options)
   )
 
-  const language = store.get('language')
+  const language = settingsStore.get('language')
   if (language) {
     i18n.locale(language)
   }
-  const theme = store.get('theme')
+  const theme = settingsStore.get('theme')
   if (theme) {
     nativeTheme.themeSource = theme
   }
