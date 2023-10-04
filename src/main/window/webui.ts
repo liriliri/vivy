@@ -7,6 +7,8 @@ import isWindows from 'licia/isWindows'
 import childProcess, { ChildProcessByStdio } from 'child_process'
 import { Readable } from 'stream'
 import { getSettingsStore, getWebUIStore } from '../lib/store'
+import * as model from '../lib/model'
+import { ModelType } from '../../common/types'
 import createWin from './createWin'
 import pidusage from 'pidusage'
 import path from 'path'
@@ -54,16 +56,12 @@ export async function start() {
     '--api',
     '--port',
     toStr(port),
-    '--ckpt-dir',
-    settingsStore.get('modelPath'),
   ]
 
-  const modelPath = settingsStore.get('modelPath')
-  const getDir = (p) => path.join(modelPath, p)
-  args.push('--ckpt-dir', getDir('Stable-diffusion'))
-  args.push('--lora-dir', getDir('Lora'))
-  args.push('--realesrgan-models-path', getDir('RealESRGAN'))
-  args.push('--scunet-models-path', getDir('ScuNET'))
+  args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
+  args.push('--lora-dir', model.getDir(ModelType.Lora))
+  args.push('--realesrgan-models-path', model.getDir(ModelType.RealESRGAN))
+  args.push('--scunet-models-path', model.getDir(ModelType.ScuNET))
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')

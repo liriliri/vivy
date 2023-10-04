@@ -32,6 +32,11 @@ export function getWin() {
 let isIpcInit = false
 
 export function showWin() {
+  if (win) {
+    win.focus()
+    return
+  }
+
   if (!isIpcInit) {
     isIpcInit = true
     initIpc()

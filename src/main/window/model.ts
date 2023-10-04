@@ -1,17 +1,26 @@
 import path from 'path'
 import { isDev } from '../lib/util'
-import { BrowserWindow } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import { getModelStore } from '../lib/store'
 import createWin from './createWin'
+import { ModelType } from '../../common/types'
+import * as model from '../lib/model'
 
 const store = getModelStore()
 
 let win: BrowserWindow | null = null
 
+let isIpcInit = false
+
 export function showWin() {
   if (win) {
     win.focus()
     return
+  }
+
+  if (!isIpcInit) {
+    isIpcInit = true
+    initIpc()
   }
 
   win = createWin({
@@ -34,4 +43,8 @@ export function showWin() {
       },
     })
   }
+}
+
+function initIpc() {
+  ipcMain.handle('getModels', (_, type: ModelType) => model.getModels(type))
 }

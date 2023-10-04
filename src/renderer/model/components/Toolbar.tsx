@@ -1,17 +1,27 @@
-import LunaToolbar from 'luna-toolbar'
-import { useEffect, useRef } from 'react'
+import LunaToolbar, { LunaToolbarSelect } from 'luna-toolbar/react'
 import Style from './Toolbar.module.scss'
+import store from '../store'
+import { ModelType } from '../../../common/types'
 
 export default function Toolbar() {
-  const toolbarRef = useRef<HTMLDivElement>(null)
+  const onChange = (key, val) => {
+    if (key === 'type') {
+      store.selectType(val)
+    }
+  }
 
-  useEffect(() => {
-    const toolbar = new LunaToolbar(toolbarRef.current as HTMLDivElement)
-    toolbar.appendSelect('type', 'Stable-diffusion', {
-      'Stable Diffusion': 'Stable-diffusion',
-    })
-    return () => toolbar.destroy()
-  }, [])
-
-  return <div className={Style.toolbar} ref={toolbarRef}></div>
+  return (
+    <LunaToolbar className={Style.toolbar} onChange={onChange}>
+      <LunaToolbarSelect
+        keyName="type"
+        value={store.type}
+        options={{
+          'Stable Diffusion': ModelType.StableDiffusion,
+          Lora: ModelType.Lora,
+          RealESRGAN: ModelType.RealESRGAN,
+          ScuNET: ModelType.ScuNET,
+        }}
+      />
+    </LunaToolbar>
+  )
 }

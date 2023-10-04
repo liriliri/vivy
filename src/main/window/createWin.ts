@@ -73,7 +73,7 @@ export default function createWin(opts: IWinOptions) {
     win.setMenu(null)
   }
   const onSavePos = () => {
-    if (!win.isMaximized()) {
+    if (!win.isMaximized() && !win.isFullScreen()) {
       winOptions.onSavePos()
     }
   }

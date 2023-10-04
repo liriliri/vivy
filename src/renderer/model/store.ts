@@ -1,31 +1,22 @@
 import { makeObservable, observable } from 'mobx'
-import map from 'licia/map'
-import * as webui from '../lib/webui'
-
-interface IModel {
-  modelName: string
-}
+import { ModelType, IModel } from '../../common/types'
 
 class Store {
+  type = ModelType.StableDiffusion
   models: IModel[] = []
   constructor() {
     makeObservable(this, {
+      type: observable,
       models: observable,
     })
-
-    this.waitForReady()
+    this.refresh()
   }
-  async waitForReady() {
-    await webui.waitForReady()
-    await this.getModels()
+  selectType(type: ModelType) {
+    this.type = type
+    this.refresh()
   }
-  async getModels() {
-    const models = await webui.getSdModels()
-    this.models = map(models, (model) => {
-      return {
-        modelName: model.model_name,
-      }
-    })
+  async refresh() {
+    this.models = await main.getModels(this.type)
   }
 }
 

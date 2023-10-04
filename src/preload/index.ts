@@ -4,6 +4,7 @@ import { OpenDialogOptions, contextBridge, ipcRenderer } from 'electron'
 import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
 import { colorBgContainer, colorBgContainerDark } from '../common/theme'
 import debounce from 'licia/debounce'
+import { ModelType } from '../common/types'
 
 let titleBar: Titlebar
 
@@ -50,6 +51,7 @@ const mainObj = {
   getCpuAndMem: () => ipcRenderer.invoke('getCpuAndMem'),
   translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),
+  getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
 }

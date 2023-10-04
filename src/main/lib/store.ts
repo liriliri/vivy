@@ -1,12 +1,11 @@
-import fs from 'licia/fs'
-import mkdir from 'licia/mkdir'
+import fs from 'fs-extra'
 import memoize from 'licia/memoize'
 import { getUserDataPath } from './util'
 import FileStore from 'licia/FileStore'
 
-fs.exists(getUserDataPath('data')).then((exists) => {
+fs.exists(getUserDataPath('data'), function (exists) {
   if (!exists) {
-    mkdir(getUserDataPath('data'))
+    fs.mkdirp(getUserDataPath('data'))
   }
 })
 
