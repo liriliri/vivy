@@ -1,4 +1,4 @@
-import { Menu, MenuItemConstructorOptions, app } from 'electron'
+import { Menu, MenuItemConstructorOptions, app, shell } from 'electron'
 import * as webui from '../window/webui'
 import * as prompt from '../window/prompt'
 import * as model from '../window/model'
@@ -97,6 +97,15 @@ function getTemplate(): MenuItemConstructorOptions[] {
     role: 'help',
     label: t('help'),
     submenu: [
+      {
+        label: t('reportIssue'),
+        click() {
+          shell.openExternal('https://github.com/liriliri/vivy-docs/issues')
+        },
+      },
+      {
+        type: 'separator',
+      },
       {
         role: 'toggledevtools',
         label: t('toggleDevtools'),
