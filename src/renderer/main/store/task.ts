@@ -98,7 +98,10 @@ export class Txt2ImgTask extends Task {
     const { current_image, progress } = await webui.getProgress()
 
     runInAction(() => {
-      this.progress = Math.round(progress * 100)
+      const newProgress = Math.round(progress * 100)
+      if (newProgress > this.progress) {
+        this.progress = newProgress
+      }
     })
 
     if (this.status !== TaskStatus.Complete) {
