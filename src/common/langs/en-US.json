@@ -65,5 +65,7 @@
   "upscaler2Visibility": "Upscaler 2 Visibility",
   "fileName": "File Name",
   "fileSize": "File Size",
-  "createdDate": "Created Date"
+  "createdDate": "Created Date",
+  "aboutVivy": "About VIVY",
+  "version": "Version"
 }

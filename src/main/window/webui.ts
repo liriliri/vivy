@@ -11,7 +11,6 @@ import * as model from '../lib/model'
 import { ModelType } from '../../common/types'
 import createWin from './createWin'
 import pidusage from 'pidusage'
-import path from 'path'
 import os from 'os'
 
 const settingsStore = getSettingsStore()

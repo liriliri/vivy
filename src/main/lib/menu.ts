@@ -4,15 +4,28 @@ import * as prompt from '../window/prompt'
 import * as model from '../window/model'
 import * as system from '../window/system'
 import * as terminal from '../window/terminal'
+import * as main from '../window/main'
 import { isMac, t } from './util'
+import upperCase from 'licia/upperCase'
 import { getSettingsStore } from './store'
 
 const settingsStore = getSettingsStore()
 
 function getTemplate(): MenuItemConstructorOptions[] {
   const vivy = {
-    label: app.name,
-    submenu: [{ role: 'quit', label: t('quitVivy') }],
+    label: upperCase(app.name),
+    submenu: [
+      {
+        label: t('aboutVivy'),
+        click() {
+          main.getWin()!.webContents.send('showAbout')
+        },
+      },
+      {
+        type: 'separator',
+      },
+      { role: 'quit', label: t('quitVivy') },
+    ],
   }
 
   const edit = {
