@@ -47,4 +47,5 @@ export function showWin() {
 
 function initIpc() {
   ipcMain.handle('getModels', (_, type: ModelType) => model.getModels(type))
+  ipcMain.handle('openModelDir', (_, type: ModelType) => model.openDir(type))
 }

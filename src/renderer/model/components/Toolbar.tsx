@@ -1,7 +1,12 @@
-import LunaToolbar, { LunaToolbarSelect } from 'luna-toolbar/react'
+import LunaToolbar, {
+  LunaToolbarSelect,
+  LunaToolbarSpace,
+} from 'luna-toolbar/react'
 import Style from './Toolbar.module.scss'
 import store from '../store'
 import { ModelType } from '../../../common/types'
+import { t } from '../../lib/util'
+import ToolbarIcon from '../../components/ToolbarIcon'
 
 export default function Toolbar() {
   const onChange = (key, val) => {
@@ -20,6 +25,14 @@ export default function Toolbar() {
           Lora: ModelType.Lora,
           RealESRGAN: ModelType.RealESRGAN,
           ScuNET: ModelType.ScuNET,
+        }}
+      />
+      <LunaToolbarSpace />
+      <ToolbarIcon
+        icon="open-file"
+        title={t('openDir')}
+        onClick={() => {
+          main.openModelDir(store.type)
         }}
       />
     </LunaToolbar>

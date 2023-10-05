@@ -52,6 +52,7 @@ const mainObj = {
   translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),
   getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),
+  openModelDir: (type: ModelType) => ipcRenderer.invoke('openModelDir', type),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
 }

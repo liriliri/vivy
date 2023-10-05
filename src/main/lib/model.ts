@@ -5,6 +5,7 @@ import filter from 'licia/filter'
 import splitPath from 'licia/splitPath'
 import contain from 'licia/contain'
 import { IModel, ModelType } from '../../common/types'
+import { shell } from 'electron'
 
 const settingsStore = getSettingsStore()
 
@@ -59,4 +60,8 @@ export async function getModels(type: ModelType) {
   }
 
   return models
+}
+
+export function openDir(type: ModelType) {
+  shell.openPath(getDir(type))
 }
