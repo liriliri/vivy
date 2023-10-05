@@ -68,5 +68,8 @@
   "createdDate": "创建日期",
   "aboutVivy": "关于 VIVY",
   "version": "版本",
-  "reportIssue": "报告问题"
+  "reportIssue": "报告问题",
+  "hideVivy": "隐藏 VIVY",
+  "hideOthers": "隐藏其他",
+  "showAll": "显示全部"
 }

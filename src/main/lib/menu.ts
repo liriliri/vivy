@@ -12,6 +12,26 @@ import { getSettingsStore } from './store'
 const settingsStore = getSettingsStore()
 
 function getTemplate(): MenuItemConstructorOptions[] {
+  const hideMenu = isMac()
+    ? [
+        {
+          type: 'separator',
+        },
+        {
+          label: t('hideVivy'),
+          role: 'hide',
+        },
+        {
+          label: t('hideOthers'),
+          role: 'hideothers',
+        },
+        {
+          label: t('showAll'),
+          role: 'unhide',
+        },
+      ]
+    : []
+
   const vivy = {
     label: upperCase(app.name),
     submenu: [
@@ -21,6 +41,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
           main.getWin()!.webContents.send('showAbout')
         },
       },
+      ...hideMenu,
       {
         type: 'separator',
       },
