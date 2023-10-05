@@ -45,7 +45,12 @@ function getTemplate(): MenuItemConstructorOptions[] {
       {
         type: 'separator',
       },
-      { role: 'quit', label: t('quitVivy') },
+      {
+        label: t('quitVivy'),
+        click() {
+          main.getWin()!.close()
+        },
+      },
     ],
   }
 

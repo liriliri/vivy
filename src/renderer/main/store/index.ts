@@ -7,6 +7,7 @@ import {
   toJS,
 } from 'mobx'
 import clone from 'licia/clone'
+import some from 'licia/some'
 import uuid from 'licia/uuid'
 import startWith from 'licia/startWith'
 import base64 from 'licia/base64'
@@ -23,6 +24,8 @@ import { Task, TaskStatus, Txt2ImgTask, UpscaleImgTask } from './task'
 import fileType from 'licia/fileType'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
+import LunaModal from 'luna-modal'
+import { t } from '../../lib/util'
 
 interface IOptions {
   model: string
@@ -141,6 +144,7 @@ class Store {
       const image = {
         id: uuid(),
         data,
+        save: true,
         info: {
           size: base64.decode(data).length,
           mime: type.mime,
@@ -264,6 +268,24 @@ class Store {
             this.txt2imgOptions.prompt = val.prompt
           }
         })
+      }
+    })
+    main.on('closeMain', async () => {
+      if (this.tasks.length > 0) {
+        const result = await LunaModal.confirm(t('quitTaskConfirm'))
+        if (result) {
+          main.quitApp()
+        }
+      } else {
+        const imagesNotSaved = some(this.images, (image) => !image.save)
+        if (imagesNotSaved) {
+          const result = await LunaModal.confirm(t('quitImageConfirm'))
+          if (result) {
+            main.quitApp()
+          }
+        } else {
+          main.quitApp()
+        }
       }
     })
   }

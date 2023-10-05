@@ -72,5 +72,7 @@
   "hideVivy": "隐藏 VIVY",
   "hideOthers": "隐藏其他",
   "showAll": "显示全部",
-  "openDir": "打开目录"
+  "openDir": "打开目录",
+  "quitTaskConfirm": "任务执行中，确定要离开吗？",
+  "quitImageConfirm": "图片未保存，确定要离开吗？"
 }

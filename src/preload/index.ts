@@ -53,6 +53,7 @@ const mainObj = {
   relaunch: () => ipcRenderer.invoke('relaunch'),
   getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),
   openModelDir: (type: ModelType) => ipcRenderer.invoke('openModelDir', type),
+  quitApp: () => ipcRenderer.invoke('quitApp'),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
 }

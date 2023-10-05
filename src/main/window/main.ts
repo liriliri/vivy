@@ -30,6 +30,7 @@ export function getWin() {
 }
 
 let isIpcInit = false
+let quitApp = false
 
 export function showWin() {
   if (win) {
@@ -49,7 +50,12 @@ export function showWin() {
     onSavePos: () => store.set('bounds', win?.getBounds()),
     menu: true,
   })
-  win.on('close', () => app.quit())
+  win.on('close', (e) => {
+    if (!quitApp) {
+      e.preventDefault()
+      win?.webContents.send('closeMain')
+    }
+  })
 
   if (isDev()) {
     win.loadURL('http://localhost:8080')
@@ -59,6 +65,10 @@ export function showWin() {
 }
 
 function initIpc() {
+  ipcMain.handle('quitApp', () => {
+    quitApp = true
+    app.quit()
+  })
   ipcMain.handle('getLogs', () => logs)
   ipcMain.handle('getWebuiPort', () => webui.getPort())
   ipcMain.handle('showTerminal', () => terminal.showWin())

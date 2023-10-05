@@ -72,5 +72,7 @@
   "hideVivy": "Hide VIVY",
   "hideOthers": "Hide Others",
   "showAll": "Show All",
-  "openDir": "Open Directory"
+  "openDir": "Open Directory",
+  "quitTaskConfirm": "Tasks are running, are you sure you want to leave?",
+  "quitImageConfirm": "Images are not saved, are you sure you want to leave?"
 }

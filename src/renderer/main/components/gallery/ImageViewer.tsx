@@ -30,6 +30,7 @@ export default observer(function () {
   const save = () => {
     if (store.selectedImage) {
       const { selectedImage } = store
+      selectedImage.save = true
       const blob = convertBin(selectedImage.data, 'Blob')
       download(blob, `image-${selectedImage.id}.png`, mime('png'))
     }

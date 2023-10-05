@@ -49,6 +49,7 @@ export class Txt2ImgTask extends Task {
       this.images[i] = {
         id: uuid(),
         data: '',
+        save: false,
         info: {
           mime: 'image/png',
           prompt: txt2imgOptions.prompt,
@@ -146,6 +147,7 @@ export class UpscaleImgTask extends Task {
     this.images.push({
       id: uuid(),
       data: '',
+      save: false,
       info: {
         mime: 'image/png',
         width: upscaleImgOptions.width,

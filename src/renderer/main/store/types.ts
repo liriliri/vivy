@@ -14,6 +14,7 @@ export interface IImageInfo {
 export interface IImage {
   id: string
   data: string
+  save: boolean
   info: IImageInfo
 }
 
