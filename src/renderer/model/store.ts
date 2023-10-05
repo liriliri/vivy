@@ -9,14 +9,19 @@ class Store {
       type: observable,
       models: observable,
     })
+
+    this.bindEvent()
     this.refresh()
   }
   selectType(type: ModelType) {
     this.type = type
     this.refresh()
   }
-  async refresh() {
+  refresh = async () => {
     this.models = await main.getModels(this.type)
+  }
+  private bindEvent() {
+    main.on('refreshModel', this.refresh)
   }
 }
 

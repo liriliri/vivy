@@ -27,7 +27,7 @@ export default defineConfig(async ({}) => {
       port: 8080,
     },
     define: {
-      VERSION: JSON.stringify(pkg.version),
+      VIVY_VERSION: JSON.stringify(pkg.version),
     },
   }
 })

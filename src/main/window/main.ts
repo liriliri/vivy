@@ -11,6 +11,8 @@ import {
 import * as webui from './webui'
 import * as terminal from './terminal'
 import * as model from './model'
+import { getDir as getModelDir } from '../lib/model'
+import { ModelType } from '../../common/types'
 import * as prompt from './prompt'
 import * as system from './system'
 import each from 'licia/each'
@@ -19,6 +21,9 @@ import { bing, Language } from '../lib/translator'
 import createWin from './createWin'
 import isBuffer from 'licia/isBuffer'
 import { i18n } from '../lib/util'
+import chokidar from 'chokidar'
+import debounce from 'licia/debounce'
+import startWith from 'licia/startWith'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -129,6 +134,17 @@ function initIpc() {
   if (theme) {
     nativeTheme.themeSource = theme
   }
+
+  chokidar.watch(settingsStore.get('modelPath')).on(
+    'all',
+    debounce((event, path) => {
+      if (startWith(path, getModelDir(ModelType.StableDiffusion))) {
+        sendAll('refreshModel', ModelType.StableDiffusion)
+      } else if (startWith(path, getModelDir(ModelType.Lora))) {
+        sendAll('refreshModel', ModelType.Lora)
+      }
+    }, 1000)
+  )
 }
 
 const logs: string[] = []

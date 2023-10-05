@@ -39,7 +39,7 @@ export default function App() {
             <img className={Style.icon} src={icon} />
             <div>VIVY</div>
             <div>
-              {t('version')} {VERSION}
+              {t('version')} {VIVY_VERSION}
             </div>
           </div>
         </LunaModal>,

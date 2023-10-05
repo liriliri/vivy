@@ -15,7 +15,7 @@ export default defineConfig({
       formats: ['cjs'],
     },
     rollupOptions: {
-      external: builtins,
+      external: ['chokidar', ...builtins],
     },
   },
   resolve: {

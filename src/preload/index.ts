@@ -78,5 +78,5 @@ contextBridge.exposeInMainWorld('preload', preloadObj)
 declare global {
   const main: typeof mainObj
   const preload: typeof preloadObj
-  const VERSION: string
+  const VIVY_VERSION: string
 }
