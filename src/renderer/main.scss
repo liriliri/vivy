@@ -37,6 +37,8 @@ body {
       color-success: $color-success,
       color-error: $color-error,
       color-fill-alter: $color-fill-alter,
+      box-shadow: $box-shadow,
+      color-bg-text-hover: $color-bg-text-hover,
     )
   );
 }
@@ -56,6 +58,8 @@ body {
       color-success: $color-success-dark,
       color-error: $color-error-dark,
       color-fill-alter: $color-fill-alter-dark,
+      box-shadow: $box-shadow-dark,
+      color-bg-text-hover: $color-bg-text-hover-dark,
     )
   );
 }
@@ -122,6 +126,9 @@ button {
     transform: translateX(-50%);
   }
   .cet-menubar {
+    .cet-menu-item-icon {
+      width: 0;
+    }
     .cet-menubar-menu-button {
       padding: 0;
       .cet-menubar-menu-title {
@@ -130,6 +137,7 @@ button {
     }
     .cet-menubar-menu-container {
       border-radius: 0;
+      box-shadow: var(--vivy-box-shadow);
     }
     .cet-action-menu-item {
       margin: 0;
