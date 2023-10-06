@@ -74,5 +74,7 @@
   "showAll": "Show All",
   "openDir": "Open Directory",
   "quitTaskConfirm": "Tasks are running, are you sure you want to leave?",
-  "quitImageConfirm": "Images are not saved, are you sure you want to leave?"
+  "quitImageConfirm": "Images are not saved, are you sure you want to leave?",
+  "empty": "Empty",
+  "noModelsAlert": "No checkpoints are found, at least one checkpoint needs to be added"
 }

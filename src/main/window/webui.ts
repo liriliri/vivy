@@ -55,6 +55,7 @@ export async function start() {
     '--api',
     '--port',
     toStr(port),
+    '--no-download-sd-model',
   ]
 
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))

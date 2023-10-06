@@ -27,6 +27,7 @@ import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
 import { t } from '../../lib/util'
 import { ModelType } from '../../../common/types'
+import isEmpty from 'licia/isEmpty'
 
 interface IOptions {
   model: string
@@ -300,6 +301,9 @@ class Store {
     })
   }
   async createTxt2ImgTask() {
+    if (!(await this.checkModel())) {
+      return
+    }
     const task = new Txt2ImgTask(clone(this.txt2imgOptions))
     this.tasks.push(task)
     this.doCreateTask()
@@ -309,7 +313,17 @@ class Store {
     this.tasks.push(task)
     this.doCreateTask()
   }
-  doCreateTask() {
+  private async checkModel() {
+    if (!this.isReady) {
+      return false
+    } else if (isEmpty(this.models)) {
+      await LunaModal.alert(t('noModelsAlert'))
+      return false
+    }
+
+    return true
+  }
+  private doCreateTask() {
     if (!this.isReady) {
       return
     }

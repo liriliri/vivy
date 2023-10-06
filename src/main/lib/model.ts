@@ -43,7 +43,7 @@ export function getFileExt(type: ModelType) {
 
 export async function getModels(type: ModelType) {
   const dir = getDir(type)
-  let files = await glob(`${dir}**/**`)
+  let files = await glob(`${dir}/**/**`)
   const exts = getFileExt(type)
   files = filter(files, (file) => {
     const { ext } = splitPath(file)

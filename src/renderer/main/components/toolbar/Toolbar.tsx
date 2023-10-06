@@ -28,8 +28,14 @@ export default observer(function () {
     })
   } else {
     modelDisabled = true
-    modelOptions = {
-      [t('loading')]: 'loading',
+    if (store.isReady) {
+      modelOptions = {
+        [t('empty')]: 'empty',
+      }
+    } else {
+      modelOptions = {
+        [t('loading')]: 'loading',
+      }
     }
   }
 
