@@ -24,6 +24,8 @@ import { i18n } from '../lib/util'
 import chokidar from 'chokidar'
 import debounce from 'licia/debounce'
 import startWith from 'licia/startWith'
+import isWindows from 'licia/isWindows'
+import contain from 'licia/contain'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -168,6 +170,9 @@ export function init() {
   function addLog(data: string | Buffer) {
     if (isBuffer(data)) {
       data = data.toString('utf8')
+    }
+    if (isWindows && contain(data, '|')) {
+      data = (data as string).replace(/\ufffd/g, '█')
     }
     logs.push(data as string)
     sendAll('addLog', data)
