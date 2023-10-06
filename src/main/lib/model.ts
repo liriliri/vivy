@@ -6,6 +6,7 @@ import splitPath from 'licia/splitPath'
 import contain from 'licia/contain'
 import { IModel, ModelType } from '../../common/types'
 import { shell } from 'electron'
+import { glob } from 'glob'
 
 const settingsStore = getSettingsStore()
 
@@ -42,7 +43,7 @@ export function getFileExt(type: ModelType) {
 
 export async function getModels(type: ModelType) {
   const dir = getDir(type)
-  let files = await fs.readdir(dir)
+  let files = await glob(`${dir}**/**`)
   const exts = getFileExt(type)
   files = filter(files, (file) => {
     const { ext } = splitPath(file)
@@ -53,7 +54,7 @@ export async function getModels(type: ModelType) {
     const file = files[i]
     const stat = await fs.stat(path.resolve(dir, file))
     models.push({
-      name: file,
+      name: file.slice(dir.length + 1),
       size: stat.size,
       createdDate: stat.birthtime.getTime(),
     })
