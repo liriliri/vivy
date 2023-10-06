@@ -119,6 +119,12 @@ button {
   z-index: 500;
 }
 
+.hide-cet-menubar {
+  .cet-menubar {
+    display: none;
+  }
+}
+
 .cet-titlebar {
   .cet-title {
     position: absolute;

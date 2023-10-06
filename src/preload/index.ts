@@ -5,6 +5,8 @@ import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
 import { colorBgContainer, colorBgContainerDark } from '../common/theme'
 import debounce from 'licia/debounce'
 import { ModelType } from '../common/types'
+import getUrlParam from 'licia/getUrlParam'
+import detectOs from 'licia/detectOs'
 
 let titleBar: Titlebar
 
@@ -12,6 +14,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   titleBar = new Titlebar({
     containerOverflow: 'hidden',
   })
+  if (getUrlParam('page') && detectOs() !== 'os x') {
+    document.body.classList.add('hide-cet-menubar')
+  }
   setTheme(await mainObj.getSettingsStore('theme'))
 })
 
