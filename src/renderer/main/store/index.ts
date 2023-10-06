@@ -26,6 +26,7 @@ import { UI } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
 import { t } from '../../lib/util'
+import { ModelType } from '../../../common/types'
 
 interface IOptions {
   model: string
@@ -270,6 +271,7 @@ class Store {
         })
       }
     })
+
     main.on('closeMain', async () => {
       if (this.tasks.length > 0) {
         const result = await LunaModal.confirm(t('quitTaskConfirm'))
@@ -286,6 +288,14 @@ class Store {
         } else {
           main.quitApp()
         }
+      }
+    })
+
+    main.on('refreshModel', async (_, type: ModelType) => {
+      if (type === ModelType.StableDiffusion) {
+        this.isReady = false
+        this.waitForReady()
+        await webui.refreshCheckpoints()
       }
     })
   }

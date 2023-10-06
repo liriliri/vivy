@@ -244,3 +244,7 @@ export async function getUpscalers(): Promise<Upscaler[]> {
 export async function interrupt() {
   await api.post('/sdapi/v1/interrupt')
 }
+
+export async function refreshCheckpoints() {
+  await api.post('/sdapi/v1/refresh-checkpoints')
+}
