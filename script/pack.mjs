@@ -14,9 +14,12 @@ const config = {
     'renderer',
     'webui',
     '!**/*.{js.map,md,MD}',
+    '!**/mamba',
     '!**/taming-transformers/{data,assets}',
     '!**/stable-diffusion-stability-ai/assets',
+    '!**/site-packages/**/__pycache__',
     '!**/site-packages/torch/include',
+    '!**/site-packages/torch/lib/*.lib',
   ],
   asarUnpack: ['webui/**/*'],
   win: {
