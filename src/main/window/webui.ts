@@ -51,11 +51,16 @@ export async function start() {
   const args = [
     '-u',
     'launch.py',
-    '--skip-prepare-environment',
     '--api',
     '--port',
     toStr(port),
     '--no-download-sd-model',
+    '--skip-prepare-environment',
+    '--skip-install',
+    '--skip-python-version-check',
+    '--skip-torch-cuda-test',
+    '--skip-version-check',
+    '--no-hashing',
   ]
 
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
