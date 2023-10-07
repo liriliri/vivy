@@ -3,6 +3,7 @@ export enum ModelType {
   Lora = 'Lora',
   RealESRGAN = 'RealESRGAN',
   ScuNET = 'ScuNET',
+  Embedding = 'Embedding',
 }
 
 export interface IModel {

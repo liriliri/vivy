@@ -25,6 +25,7 @@ export default function Toolbar() {
           Lora: ModelType.Lora,
           RealESRGAN: ModelType.RealESRGAN,
           ScuNET: ModelType.ScuNET,
+          Embedding: ModelType.Embedding,
         }}
       />
       <LunaToolbarSpace />

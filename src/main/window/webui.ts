@@ -62,6 +62,7 @@ export async function start() {
   args.push('--lora-dir', model.getDir(ModelType.Lora))
   args.push('--realesrgan-models-path', model.getDir(ModelType.RealESRGAN))
   args.push('--scunet-models-path', model.getDir(ModelType.ScuNET))
+  args.push('--embeddings-dir', model.getDir(ModelType.Embedding))
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')

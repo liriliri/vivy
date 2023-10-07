@@ -23,6 +23,7 @@ ensureDir(ModelType.StableDiffusion)
 ensureDir(ModelType.Lora)
 ensureDir(ModelType.RealESRGAN)
 ensureDir(ModelType.ScuNET)
+ensureDir(ModelType.Embedding)
 
 export function getDir(type: ModelType) {
   const modelPath = settingsStore.get('modelPath')
@@ -31,10 +32,11 @@ export function getDir(type: ModelType) {
 }
 
 const fileExts = {
-  [ModelType.StableDiffusion]: ['.safetensors'],
-  [ModelType.RealESRGAN]: [],
-  [ModelType.Lora]: [],
-  [ModelType.ScuNET]: [],
+  [ModelType.StableDiffusion]: ['.safetensors', '.ckpt'],
+  [ModelType.RealESRGAN]: ['.pth'],
+  [ModelType.Lora]: ['.safetensors'],
+  [ModelType.ScuNET]: ['.pth'],
+  [ModelType.Embedding]: ['.safetensors'],
 }
 
 export function getFileExt(type: ModelType) {
