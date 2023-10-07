@@ -209,7 +209,9 @@ class Store {
     this.models = map(models, (model) => model.title)
   }
   async waitForReady() {
-    await webui.waitForReady()
+    if (isEmpty(this.tasks)) {
+      await webui.waitForReady()
+    }
     await this.fetchOptions()
     await this.fetchModels()
     await this.fetchSamplers()
@@ -318,6 +320,7 @@ class Store {
       return false
     } else if (isEmpty(this.models)) {
       await LunaModal.alert(t('noModelsAlert'))
+      main.showModel()
       return false
     }
 
