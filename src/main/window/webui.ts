@@ -34,6 +34,7 @@ export async function start() {
 
   const env = {
     PATH,
+    GIT_PYTHON_REFRESH: 'quiet',
   }
 
   if (isMac()) {
