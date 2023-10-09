@@ -8,9 +8,11 @@ import each from 'licia/each'
 import map from 'licia/map'
 import trim from 'licia/trim'
 import startWith from 'licia/startWith'
+import h from 'licia/h'
 import enUS from '../../common/langs/en-US.json'
 import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
+import LunaNotification, { INotifyOptions } from 'luna-notification'
 
 each(suggestionsZhCN.split('\n'), (line) => {
   const [key, translation] = line.split(',')
@@ -129,4 +131,21 @@ export function getSuggestions(str: string, maxCount = 5) {
     result.sort((a, b) => +b[1] - +a[1]),
     (w) => w[0]
   )
+}
+
+let notification: LunaNotification | null = null
+
+export function notify(content: string, options?: INotifyOptions) {
+  if (!notification) {
+    const div = h('div')
+    document.body.appendChild(div)
+    notification = new LunaNotification(div, {
+      position: {
+        x: 'center',
+        y: 'top',
+      },
+    })
+  }
+
+  notification.notify(content, options)
 }

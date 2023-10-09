@@ -1,12 +1,13 @@
 import LunaModal from 'luna-modal/react'
 import { observer } from 'mobx-react-lite'
 import { createPortal } from 'react-dom'
+import contain from 'licia/contain'
 import LunaSetting, {
   LunaSettingButton,
   LunaSettingSelect,
   LunaSettingCheckbox,
 } from 'luna-setting/react'
-import { t } from '../../../lib/util'
+import { notify, t } from '../../../lib/util'
 import store from '../../../main/store'
 import Style from './Settings.module.scss'
 import SettingPath from '../../../components/SettingPath'
@@ -17,16 +18,20 @@ interface IProps {
 }
 
 export default observer(function Settings(props: IProps) {
+  const onChange = (key, val) => {
+    if (contain(['language', 'modelPath', 'enableWebUI'], key)) {
+      notify(t('requireReload'))
+    }
+    store.settings.set(key, val)
+  }
+
   return createPortal(
     <LunaModal
       title={t('settings')}
       visible={props.visible}
       onClose={props.onClose}
     >
-      <LunaSetting
-        className={Style.settings}
-        onChange={(key, val) => store.settings.set(key, val)}
-      >
+      <LunaSetting className={Style.settings} onChange={onChange}>
         <LunaSettingSelect
           keyName="theme"
           value={store.settings.theme}

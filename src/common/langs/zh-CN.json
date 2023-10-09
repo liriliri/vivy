@@ -76,5 +76,6 @@
   "quitTaskConfirm": "任务执行中，确定要离开吗？",
   "quitImageConfirm": "图片未保存，确定要离开吗？",
   "empty": "空",
-  "noModelsAlert": "未检查到任何模型，至少需要添加一个模型"
+  "noModelsAlert": "未检查到任何模型，至少需要添加一个模型",
+  "requireReload": "需要重新启动"
 }

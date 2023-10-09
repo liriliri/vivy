@@ -50,6 +50,7 @@
     "luna-data-grid": "^0.5.0",
     "luna-image-viewer": "^0.2.1",
     "luna-modal": "^1.2.1",
+    "luna-notification": "^0.1.6",
     "luna-performance-monitor": "^0.4.1",
     "luna-setting": "^0.9.4",
     "luna-toolbar": "^0.4.3",

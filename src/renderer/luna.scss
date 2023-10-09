@@ -172,3 +172,18 @@
   background: var(--vivy-color-bg-container) !important;
   box-shadow: none !important;
 }
+
+.luna-notification {
+  padding-top: 40px;
+  z-index: $z-index-popup-base;
+}
+
+.luna-notification-item {
+  font-family: var(--vivy-font-family);
+  border-radius: 4px;
+  color: var(--vivy-color-text);
+  background: var(--vivy-color-bg-container);
+  box-shadow: var(--vivy-box-shadow);
+  padding: 5px 10px;
+  border: 1px solid var(--vivy-color-border);
+}
