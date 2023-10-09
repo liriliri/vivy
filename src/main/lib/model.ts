@@ -36,7 +36,7 @@ const fileExts = {
   [ModelType.RealESRGAN]: ['.pth'],
   [ModelType.Lora]: ['.safetensors'],
   [ModelType.ScuNET]: ['.pth'],
-  [ModelType.Embedding]: ['.safetensors'],
+  [ModelType.Embedding]: ['.safetensors', '.pt'],
 }
 
 export function getFileExt(type: ModelType) {

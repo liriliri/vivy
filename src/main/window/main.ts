@@ -140,10 +140,16 @@ function initIpc() {
   chokidar.watch(settingsStore.get('modelPath')).on(
     'all',
     debounce((event, path) => {
+      let type: ModelType | null = null
       if (startWith(path, getModelDir(ModelType.StableDiffusion))) {
-        sendAll('refreshModel', ModelType.StableDiffusion)
+        type = ModelType.StableDiffusion
       } else if (startWith(path, getModelDir(ModelType.Lora))) {
-        sendAll('refreshModel', ModelType.Lora)
+        type = ModelType.Lora
+      } else if (startWith(path, getModelDir(ModelType.Embedding))) {
+        type = ModelType.Embedding
+      }
+      if (type) {
+        sendAll('refreshModel', type)
       }
     }, 1000)
   )
