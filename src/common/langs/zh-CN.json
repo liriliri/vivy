@@ -77,5 +77,10 @@
   "quitImageConfirm": "图片未保存，确定要离开吗？",
   "empty": "空",
   "noModelsAlert": "未检查到任何模型，至少需要添加一个模型",
-  "requireReload": "需要重新启动"
+  "requireReload": "需要重新启动",
+  "translation": "翻译",
+  "translationService": "翻译服务",
+  "appearance": "外观",
+  "bing": "必应",
+  "google": "谷歌"
 }

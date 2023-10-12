@@ -5,6 +5,7 @@ import isDarkMode from 'licia/isDarkMode'
 export class Settings {
   language = getSystemLanguage()
   theme = isDarkMode() ? 'dark' : 'light'
+  translator = 'bing'
   enableWebUI = false
   modelPath = ''
   constructor() {

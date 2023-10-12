@@ -17,7 +17,7 @@ import * as prompt from './prompt'
 import * as system from './system'
 import each from 'licia/each'
 import { getMainStore, getSettingsStore } from '../lib/store'
-import { bing, Language } from '../lib/translator'
+import { bing, google, Language } from '../lib/translator'
 import createWin from './createWin'
 import isBuffer from 'licia/isBuffer'
 import { i18n } from '../lib/util'
@@ -91,7 +91,21 @@ function initIpc() {
     app.exit()
   })
   ipcMain.handle('translate', async (_, text) => {
-    return await bing(text, Language.zhCN, Language.enUS)
+    let translator: typeof bing | null = null
+    switch (settingsStore.get('translator')) {
+      case 'bing':
+        translator = bing
+        break
+      case 'google':
+        translator = google
+        break
+    }
+
+    if (translator) {
+      return await translator(text, Language.zhCN, Language.enUS)
+    }
+
+    return text
   })
 
   ipcMain.handle('setSettingsStore', (_, name, val) => {

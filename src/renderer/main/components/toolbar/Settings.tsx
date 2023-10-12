@@ -6,6 +6,8 @@ import LunaSetting, {
   LunaSettingButton,
   LunaSettingSelect,
   LunaSettingCheckbox,
+  LunaSettingTitle,
+  LunaSettingSeparator,
 } from 'luna-setting/react'
 import { notify, t } from '../../../lib/util'
 import store from '../../../main/store'
@@ -32,6 +34,7 @@ export default observer(function Settings(props: IProps) {
       onClose={props.onClose}
     >
       <LunaSetting className={Style.settings} onChange={onChange}>
+        <LunaSettingTitle title={t('appearance')} />
         <LunaSettingSelect
           keyName="theme"
           value={store.settings.theme}
@@ -50,6 +53,8 @@ export default observer(function Settings(props: IProps) {
             ['中文']: 'zh-CN',
           }}
         />
+        <LunaSettingSeparator />
+        <LunaSettingTitle title="Stable Diffusion" />
         <SettingPath
           title={t('modelPath')}
           value={store.settings.modelPath}
@@ -63,6 +68,18 @@ export default observer(function Settings(props: IProps) {
           value={store.settings.enableWebUI}
           description={t('enableWebUI')}
         />
+        <LunaSettingSeparator />
+        <LunaSettingTitle title={t('translation')} />
+        <LunaSettingSelect
+          keyName="translator"
+          value={store.settings.translator}
+          title={t('translationService')}
+          options={{
+            [t('bing')]: 'bing',
+            [t('google')]: 'google',
+          }}
+        />
+        <LunaSettingSeparator />
         <LunaSettingButton
           description={t('restartVivy')}
           onClick={() => main.relaunch()}

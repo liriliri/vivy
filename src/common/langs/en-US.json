@@ -77,5 +77,10 @@
   "quitImageConfirm": "Images are not saved, are you sure you want to leave?",
   "empty": "Empty",
   "noModelsAlert": "No checkpoints are found, at least one checkpoint needs to be added",
-  "requireReload": "Requires reload"
+  "requireReload": "Requires reload",
+  "translation": "Translation",
+  "translationService": "Translation Service",
+  "appearance": "Appearance",
+  "bing": "Bing",
+  "google": "Google"
 }
