@@ -10,6 +10,7 @@ import extend from 'licia/extend'
 import bytesToStr from 'licia/bytesToStr'
 import extract from 'png-chunks-extract'
 import { ExifImage } from 'exif'
+import 'setimmediate'
 
 interface IGenData {
   negativePrompt?: string
@@ -143,7 +144,7 @@ export async function parseImage(
       }
     }
   } else if (mime === 'image/jpeg') {
-    const buf = convertBin(data, 'Buffer')
+    const buf = convertBin(data, 'buffer')
     const exif = await readExif(buf)
     console.log(exif)
   }
