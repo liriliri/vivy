@@ -3,22 +3,13 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs-extra'
 import { fileURLToPath } from 'url'
 import path from 'path'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineConfig(async ({}) => {
   const __dirname = path.dirname(fileURLToPath(import.meta.url))
   const pkg = await fs.readJSON(path.resolve(__dirname, 'package.json'))
   return {
     base: '',
-    plugins: [
-      react(),
-      nodePolyfills({
-        include: ['buffer'],
-        globals: {
-          Buffer: true,
-        },
-      }),
-    ],
+    plugins: [react()],
     build: {
       outDir: 'dist/renderer',
       rollupOptions: {

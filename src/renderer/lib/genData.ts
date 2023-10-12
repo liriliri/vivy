@@ -8,9 +8,8 @@ import convertBin from 'licia/convertBin'
 import filter from 'licia/filter'
 import extend from 'licia/extend'
 import bytesToStr from 'licia/bytesToStr'
+import safeGet from 'licia/safeGet'
 import extract from 'png-chunks-extract'
-import { ExifImage } from 'exif'
-import 'setimmediate'
 
 interface IGenData {
   negativePrompt?: string
@@ -144,22 +143,15 @@ export async function parseImage(
       }
     }
   } else if (mime === 'image/jpeg') {
-    const buf = convertBin(data, 'buffer')
-    const exif = await readExif(buf)
-    console.log(exif)
+    const exif = await main.readExif(data)
+    const userComment = safeGet(exif, 'exif.UserComment')
+    if (userComment) {
+      extend(
+        genData,
+        parseText(bytesToStr(userComment, 'latin1').slice('UNICODE'.length))
+      )
+    }
   }
 
   return genData
-}
-
-function readExif(buf: Buffer) {
-  return new Promise((resolve, reject) => {
-    new ExifImage({ image: buf }, function (error, exifData) {
-      if (error) {
-        return reject(error)
-      }
-
-      resolve(exifData)
-    })
-  })
 }
