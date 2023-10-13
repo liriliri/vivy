@@ -189,9 +189,9 @@ export async function parseImage(
       }
     }
   } else if (mime === 'image/jpeg') {
-    const { userComment } = await exifr.parse(buf, ['UserComment'])
-    if (userComment) {
-      extend(genData, parseText(bytesToStr(userComment)))
+    const exif = await exifr.parse(buf, ['UserComment'])
+    if (exif && exif.userComment) {
+      extend(genData, parseText(bytesToStr(exif.userComment)))
     }
   }
 

@@ -21,6 +21,7 @@ export default observer(function () {
   const [resizerStyle, setResizerStyle] = useState<any>({
     height: '10px',
   })
+  const [dropHighlight, setDropHighlight] = useState(false)
 
   const itemStyle = getItemStyle()
   const images: JSX.Element[] = []
@@ -57,6 +58,7 @@ export default observer(function () {
 
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault()
+    setDropHighlight(false)
     store.addFiles(e.dataTransfer.files)
   }
 
@@ -167,9 +169,15 @@ export default observer(function () {
         />
       </LunaToolbar>
       <div
-        className={Style.body}
+        className={className(Style.body, {
+          [Style.highlight]: dropHighlight,
+        })}
         onDrop={onDrop}
-        onDragOver={(e) => e.preventDefault()}
+        onDragLeave={() => setDropHighlight(false)}
+        onDragOver={(e) => {
+          e.preventDefault()
+          setDropHighlight(true)
+        }}
       >
         {isEmpty(images) ? (
           <div className={Style.noImages}>{t('noImages')}</div>
