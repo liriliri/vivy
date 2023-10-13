@@ -1,5 +1,5 @@
 import path from 'path'
-import { isDev, readExif, sendAll } from '../lib/util'
+import { isDev, sendAll } from '../lib/util'
 import {
   BrowserWindow,
   ipcMain,
@@ -76,7 +76,6 @@ function initIpc() {
     quitApp = true
     app.quit()
   })
-  ipcMain.handle('readExif', (_, data: string) => readExif(data))
   ipcMain.handle('getLogs', () => logs)
   ipcMain.handle('getWebuiPort', () => webui.getPort())
   ipcMain.handle('showTerminal', () => terminal.showWin())

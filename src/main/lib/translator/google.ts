@@ -18,7 +18,7 @@ export async function google(text, from: string, to: string) {
   })
 
   let result = ''
-  for (let r of data[0]) {
+  for (const r of data[0]) {
     if (r[0]) {
       result += r[0]
     }

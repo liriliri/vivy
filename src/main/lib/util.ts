@@ -6,10 +6,8 @@ import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
 import types from 'licia/types'
 import each from 'licia/each'
-import { ExifImage } from 'exif'
 import enUS from '../../common/langs/en-US.json'
 import zhCN from '../../common/langs/zh-CN.json'
-import convertBin from 'licia/convertBin'
 
 export const i18n = new I18n('en-US', {
   'en-US': enUS,
@@ -56,18 +54,4 @@ export function sendAll(channel: string, ...args: any[]) {
   each(BrowserWindow.getAllWindows(), (win) =>
     win.webContents.send(channel, ...args)
   )
-}
-
-export function readExif(data: string) {
-  const buf = convertBin(data, 'Buffer')
-
-  return new Promise((resolve, reject) => {
-    new ExifImage({ image: buf }, function (error, exifData) {
-      if (error) {
-        return reject(error)
-      }
-
-      resolve(exifData)
-    })
-  })
 }

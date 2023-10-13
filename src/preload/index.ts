@@ -59,7 +59,6 @@ const mainObj = {
   getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),
   openModelDir: (type: ModelType) => ipcRenderer.invoke('openModelDir', type),
   quitApp: () => ipcRenderer.invoke('quitApp'),
-  readExif: (data: string) => ipcRenderer.invoke('readExif', data),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
 }

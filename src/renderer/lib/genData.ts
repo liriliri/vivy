@@ -8,8 +8,9 @@ import convertBin from 'licia/convertBin'
 import filter from 'licia/filter'
 import extend from 'licia/extend'
 import bytesToStr from 'licia/bytesToStr'
-import safeGet from 'licia/safeGet'
 import extract from 'png-chunks-extract'
+import replaceAll from 'licia/replaceAll'
+import exifr from 'exifr'
 
 interface IGenData {
   negativePrompt?: string
@@ -35,6 +36,10 @@ interface IImageGenData extends IGenData {
 const regParam = /\s*([\w ]+):\s*("(?:\\.|[^\\"])+"|[^,]*)(?:,|$)/g
 
 export function parseText(text: string): IClipboardGenData {
+  return parseA1111(text)
+}
+
+export function parseA1111(text: string): IClipboardGenData {
   text = trim(text)
   let prompt = ''
   let negativePrompt = ''
@@ -122,8 +127,8 @@ export async function parseImage(
     height,
   }
 
+  const buf = convertBin(data, 'Uint8Array')
   if (mime === 'image/png') {
-    const buf = convertBin(data, 'Uint8Array')
     let chunks = filter(extract(buf), (chunk: any) =>
       contain(['tEXt', 'iTXt'], chunk.name)
     )
@@ -143,12 +148,15 @@ export async function parseImage(
       }
     }
   } else if (mime === 'image/jpeg') {
-    const exif = await main.readExif(data)
-    const userComment = safeGet(exif, 'exif.UserComment')
+    const { userComment } = await exifr.parse(buf, ['UserComment'])
     if (userComment) {
       extend(
         genData,
-        parseText(bytesToStr(userComment, 'latin1').slice('UNICODE'.length))
+        parseText(
+          replaceAll(bytesToStr(userComment), '\u0000', '').slice(
+            'UNICODE'.length
+          )
+        )
       )
     }
   }
