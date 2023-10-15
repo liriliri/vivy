@@ -75,7 +75,7 @@ export default observer(function Prompt() {
         })}
       >
         <PromptEditor
-          height={120}
+          height={200}
           theme={theme}
           onMount={promptOnMount}
           onChange={(value) => store.setPrompt(value || '')}

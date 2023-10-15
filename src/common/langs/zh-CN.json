@@ -82,5 +82,6 @@
   "translationService": "翻译服务",
   "appearance": "外观",
   "bing": "必应",
-  "google": "谷歌"
+  "google": "谷歌",
+  "translateErr": "翻译失败"
 }

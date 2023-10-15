@@ -82,5 +82,6 @@
   "translationService": "Translation Service",
   "appearance": "Appearance",
   "bing": "Bing",
-  "google": "Google"
+  "google": "Google",
+  "translateErr": "Failed to translate"
 }

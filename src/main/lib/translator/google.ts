@@ -15,6 +15,7 @@ export async function google(text, from: string, to: string) {
       kc: '7',
       q: text,
     },
+    timeout: 4000,
   })
 
   let result = ''

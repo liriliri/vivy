@@ -4,7 +4,7 @@ import { editor } from 'monaco-editor'
 import * as monaco from 'monaco-editor'
 import map from 'licia/map'
 import copy from 'licia/copy'
-import { getSuggestions } from '../lib/util'
+import { getSuggestions, notify } from '../lib/util'
 import {
   blue10,
   blue10Dark,
@@ -268,7 +268,11 @@ export const formatPrompt = (editor: editor.IStandaloneCodeEditor) => {
 
 export const translatePrompt = async (editor: editor.IStandaloneCodeEditor) => {
   const value = getSelectionValue(editor)
-  setSelectionValue(editor, await main.translate(value), 'translate')
+  try {
+    setSelectionValue(editor, await main.translate(value), 'translate')
+  } catch (e) {
+    notify(t('translateErr'))
+  }
 }
 
 function getSelectionValue(editor: editor.IStandaloneCodeEditor) {

@@ -5,6 +5,7 @@ export async function bing(text, from: string, to: string) {
     headers: {
       'User-Agent': ua,
     },
+    timeout: 1000,
   })
 
   const { data } = await axios.post(url, [{ Text: text }], {
@@ -27,6 +28,7 @@ export async function bing(text, from: string, to: string) {
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'User-Agent': ua,
     },
+    timeout: 4000,
     params: {
       from: language[from],
       to: language[to],
