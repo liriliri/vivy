@@ -164,6 +164,7 @@
   }
   .luna-data-grid-data-container {
     .luna-data-grid-node.luna-data-grid-selected {
+      color: #fff;
       background: var(--vivy-color-primary);
     }
     tr:nth-child(even) {
