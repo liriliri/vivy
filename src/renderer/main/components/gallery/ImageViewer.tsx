@@ -10,7 +10,6 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import download from 'licia/download'
 import toBool from 'licia/toBool'
-import mime from 'licia/mime'
 import Style from './ImageViewer.module.scss'
 import className from 'licia/className'
 import convertBin from 'licia/convertBin'
@@ -21,6 +20,9 @@ import { t, toDataUrl } from '../../../lib/util'
 import InfoModal from './InfoModal'
 import UpscaleModal from './UpscaleModal'
 import CopyButton from '../../../components/CopyButton'
+import { IImage } from '../../../main/store/types'
+import slugify from 'licia/slugify'
+import truncate from 'licia/truncate'
 
 export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
@@ -32,7 +34,7 @@ export default observer(function () {
       const { selectedImage } = store
       selectedImage.save = true
       const blob = convertBin(selectedImage.data, 'Blob')
-      download(blob, `image-${selectedImage.id}.png`, mime('png'))
+      download(blob, getImageName(selectedImage), selectedImage.info.mime)
     }
   }
 
@@ -170,3 +172,17 @@ export default observer(function () {
     </div>
   )
 })
+
+export function getImageName(image: IImage) {
+  const ext = image.info.mime === 'image/jpeg' ? '.jpg' : '.png'
+
+  if (image.info.prompt && image.info.seed) {
+    const name = truncate(image.info.prompt, 100, {
+      ellipsis: '',
+      separator: ',',
+    })
+    return `${slugify(name)}-${image.info.seed}${ext}`
+  }
+
+  return `${image.id}${ext}`
+}
