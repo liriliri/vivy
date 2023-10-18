@@ -83,5 +83,6 @@
   "appearance": "Appearance",
   "bing": "Bing",
   "google": "Google",
-  "translateErr": "Failed to translate"
+  "translateErr": "Failed to translate",
+  "deleteModelConfirm": "Are you sure you want to delete {{name}}?"
 }

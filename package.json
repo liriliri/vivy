@@ -50,7 +50,7 @@
     "fs-extra": "^11.1.1",
     "glob": "^10.3.10",
     "licia": "^1.38.2",
-    "luna-data-grid": "^0.5.0",
+    "luna-data-grid": "^0.6.0",
     "luna-image-viewer": "^0.2.1",
     "luna-modal": "^1.2.1",
     "luna-notification": "^0.1.6",

@@ -83,5 +83,6 @@
   "appearance": "外观",
   "bing": "必应",
   "google": "谷歌",
-  "translateErr": "翻译失败"
+  "translateErr": "翻译失败",
+  "deleteModelConfirm": "确定要删除 {{name}} 吗？"
 }

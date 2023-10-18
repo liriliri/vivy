@@ -56,6 +56,8 @@ export default observer(function ModelList() {
     <LunaDataGrid
       className={Style.modelList}
       data={data}
+      onSelect={(node) => store.selectModel(node.data.name as string)}
+      onDeselect={() => store.selectModel()}
       columns={columns}
       minHeight={height}
       maxHeight={height}

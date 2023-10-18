@@ -68,3 +68,8 @@ export async function getModels(type: ModelType) {
 export function openDir(type: ModelType) {
   shell.openPath(getDir(type))
 }
+
+export async function deleteModel(type: ModelType, name: string) {
+  const dir = getDir(type)
+  await fs.unlink(path.resolve(dir, name))
+}

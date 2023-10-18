@@ -58,6 +58,9 @@ const mainObj = {
   relaunch: () => ipcRenderer.invoke('relaunch'),
   getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),
   openModelDir: (type: ModelType) => ipcRenderer.invoke('openModelDir', type),
+  deleteModel: (type: ModelType, name: string) => {
+    return ipcRenderer.invoke('deleteModel', type, name)
+  },
   quitApp: () => ipcRenderer.invoke('quitApp'),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),

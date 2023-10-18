@@ -1,24 +1,31 @@
-import { makeObservable, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { ModelType, IModel } from '../../common/types'
 
 class Store {
-  type = ModelType.StableDiffusion
+  selectedType = ModelType.StableDiffusion
   models: IModel[] = []
+  selectedModel?: string
   constructor() {
     makeObservable(this, {
-      type: observable,
+      selectedType: observable,
       models: observable,
+      selectedModel: observable,
+      selectModel: action,
+      selectType: action,
     })
 
     this.bindEvent()
     this.refresh()
   }
   selectType(type: ModelType) {
-    this.type = type
+    this.selectedType = type
     this.refresh()
   }
+  selectModel(model?: string) {
+    this.selectedModel = model
+  }
   refresh = async () => {
-    this.models = await main.getModels(this.type)
+    this.models = await main.getModels(this.selectedType)
   }
   private bindEvent() {
     main.on('refreshModel', this.refresh)
