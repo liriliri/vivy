@@ -92,7 +92,7 @@ function parseA1111(text: string): ISDGenData {
     matches.push(match)
   }
 
-  if (matches.length < 3) {
+  if (matches.length < 2) {
     if (lastLine) {
       lines.push(lastLine)
       lastLine = ''

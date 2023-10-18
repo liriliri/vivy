@@ -13,8 +13,11 @@ export function format(prompt: string) {
       .replace(/\s*([()[\]:<>])\s*/g, ($0, $1) => $1)
       .replace(/\s+/g, ' ')
       .replace(/\s*[,，]\s*/g, ', ')
+      .replace(/([)\]>])([([<])/g, ($0, $1, $2) => `${$1}, ${$2}`)
+      .replace(/(\w)([([<])/g, ($0, $1, $2) => `${$1} ${$2}`)
+      .replace(/([)\]>])(\w)/g, ($0, $1, $2) => `${$1} ${$2}`)
 
-    return line
+    return trim(line, ', ')
   })
 
   return lines.join('\n')
