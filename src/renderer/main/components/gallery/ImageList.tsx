@@ -119,7 +119,7 @@ export default observer(function () {
         <ToolbarIcon
           icon="zoom-in"
           title={t('zoomIn')}
-          disabled={store.ui.imageListItemSize > 200 || isEmpty(images)}
+          disabled={store.ui.imageListItemSize > 250 || isEmpty(images)}
           onClick={() => {
             const itemSize = Math.round(store.ui.imageListItemSize * 1.1)
             store.ui.set('imageListItemSize', itemSize)
@@ -206,14 +206,17 @@ function Image(image: IImage) {
 
 function getItemStyle() {
   const { imageListItemSize: itemSize } = store.ui
-  let padding = 4
+  let padding = 6
   let margin = 8
   let borderRadius = 4
 
   if (itemSize < 100) {
-    padding = 2
+    padding = 3
     margin = 4
     borderRadius = 2
+  } else if (itemSize > 200) {
+    padding = 12
+    margin = 16
   }
 
   return {

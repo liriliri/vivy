@@ -40,6 +40,7 @@ body {
       color-fill-alter: $color-fill-alter,
       box-shadow: $box-shadow,
       color-bg-text-hover: $color-bg-text-hover,
+      color-fill-tertiary: $color-fill-tertiary,
     )
   );
 }
@@ -62,6 +63,7 @@ body {
       color-fill-alter: $color-fill-alter-dark,
       box-shadow: $box-shadow-dark,
       color-bg-text-hover: $color-bg-text-hover-dark,
+      color-fill-tertiary: $color-fill-tertiary-dark,
     )
   );
 }
