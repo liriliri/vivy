@@ -1,0 +1,10 @@
+{
+  "image": {
+    "quality": ["highres"],
+    "artStyle": ["realistic", "photorealistic"]
+  },
+  "camera": {},
+  "character": {},
+  "appearance": {},
+  "clothing": {}
+}

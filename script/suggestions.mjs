@@ -28,6 +28,29 @@ async function processCoca() {
   suggestions = concat(suggestions, lines)
 }
 
+async function processCustom() {
+  const data = await fs.readFile(
+    path.resolve(__dirname, 'suggestions/custom.csv'),
+    'utf8'
+  )
+  const lines = data.split('\n')
+  const tags = []
+  each(lines, (line, idx) => {
+    line = trim(line)
+    if (!line) {
+      return
+    }
+    let [tag, zh] = line.split(',')
+    tag = trim(tag)
+    zh = trim(zh)
+    tags.push(tag)
+    weights[tag] = 10000 + idx
+    zhCN[tag] = zh
+  })
+
+  suggestions = suggestions.concat(suggestions, tags)
+}
+
 // https://github.com/DominikDoom/a1111-sd-webui-tagcomplete/discussions/23
 async function processDanbooru() {
   const data = await fs.readFile(
@@ -53,6 +76,7 @@ async function processDanbooru() {
 }
 
 await processCoca()
+await processCustom()
 await processDanbooru()
 
 suggestions = unique(suggestions)

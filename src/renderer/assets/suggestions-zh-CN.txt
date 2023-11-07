@@ -1,3 +1,4 @@
+highres,高分辨率
 1girl,1个女性
 solo,单独人物
 long_hair,长发

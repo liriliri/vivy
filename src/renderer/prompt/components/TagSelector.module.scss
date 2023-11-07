@@ -1,0 +1,39 @@
+.container {
+  flex: 1;
+  position: relative;
+  padding-top: 30px;
+}
+
+.tab {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.tags {
+  padding: 14px 8px;
+}
+
+.tag {
+  padding: 4px 10px;
+  background: var(--vivy-color-fill-tertiary);
+  display: inline-block;
+  margin-top: 8px;
+  margin-right: 4px;
+  border-radius: 4px;
+  &:hover {
+    background: var(--vivy-color-fill-secondary);
+  }
+  &.selected {
+    background: var(--vivy-color-primary);
+    color: #fff;
+  }
+}
+
+.category {
+  margin-bottom: 14px;
+}
+
+.category-title {
+  border-bottom: 1px solid var(--vivy-color-border);
+}

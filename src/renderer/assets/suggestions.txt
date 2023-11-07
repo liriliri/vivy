@@ -15982,6 +15982,7 @@ highleg_springsuit,43602
 highleg_swimsuit,21437
 highlight,14606
 highly,18874
+highres,10000
 highway,30888
 hiiragi_kagami_(cosplay),43605
 hiiragi_yuzu_(cosplay),40871

@@ -84,5 +84,10 @@
   "bing": "Bing",
   "google": "Google",
   "translateErr": "Failed to translate",
-  "deleteModelConfirm": "Are you sure you want to delete {{name}}?"
+  "deleteModelConfirm": "Are you sure you want to delete {{name}}?",
+  "character": "Character",
+  "camera": "Camera",
+  "clothing": "Clothing",
+  "quality": "Quality",
+  "artStyle": "Art Style"
 }

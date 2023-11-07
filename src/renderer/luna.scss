@@ -192,3 +192,23 @@
   padding: 5px 10px;
   border: 1px solid var(--vivy-color-border);
 }
+
+.luna-tab {
+  color: var(--vivy-color-text);
+  background: var(--vivy-color-bg-container);
+}
+
+.luna-tab-tabs-container {
+  border-color: var(--vivy-color-border);
+}
+
+.luna-tab-item {
+  &.luna-tab-selected,
+  &:hover {
+    background: var(--vivy-color-fill-tertiary);
+  }
+}
+
+.luna-tab-slider {
+  background: var(--vivy-color-primary);
+}

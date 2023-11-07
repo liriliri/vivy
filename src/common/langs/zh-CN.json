@@ -84,5 +84,10 @@
   "bing": "必应",
   "google": "谷歌",
   "translateErr": "翻译失败",
-  "deleteModelConfirm": "确定要删除 {{name}} 吗？"
+  "deleteModelConfirm": "确定要删除 {{name}} 吗？",
+  "character": "角色",
+  "camera": "镜头",
+  "clothing": "服饰",
+  "quality": "画质",
+  "artStyle": "艺术风格"
 }

@@ -1,14 +1,22 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import { Settings } from '../store/settings'
+import tags from '../assets/tags.json'
+import keys from 'licia/keys'
+import * as prompt from '../lib/prompt'
 
 class Store {
   settings = new Settings()
   prompt = ''
+  categories = keys(tags)
+  selectedCategory = 'image'
+  selectedCategoryTags = tags['image']
   constructor() {
     makeObservable(this, {
       settings: observable,
       prompt: observable,
       setPrompt: observable,
+      selectedCategory: observable,
+      selectedCategoryTags: observable,
       load: action,
     })
 
@@ -28,6 +36,13 @@ class Store {
       txt2imgOptions.prompt = prompt
     }
     await main.setMainStore('txt2imgOptions', txt2imgOptions)
+  }
+  toggleTag(tag: string) {
+    this.setPrompt(prompt.toggleTag(this.prompt, tag))
+  }
+  selectCategory(category: string) {
+    this.selectedCategory = category
+    this.selectedCategoryTags = tags[category]
   }
   bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
