@@ -85,9 +85,22 @@
   "google": "Google",
   "translateErr": "Failed to translate",
   "deleteModelConfirm": "Are you sure you want to delete {{name}}?",
+
   "character": "Character",
   "camera": "Camera",
   "clothing": "Clothing",
   "quality": "Quality",
-  "artStyle": "Art Style"
+  "artStyle": "Art Style",
+  "face": "Face",
+  "hair": "Hair",
+  "body": "Body",
+  "object": "Object",
+  "color": "color",
+  "hairStyle": "Hair Style",
+  "bangs": "Bangs",
+  "eyes": "Eyes",
+  "breasts": "Breasts",
+  "skin": "Skin",
+  "identity": "Identity",
+  "dress": "Dress"
 }

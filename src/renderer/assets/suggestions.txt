@@ -476,6 +476,7 @@ absurdity,7473
 absurdly,2566
 absurdly_fat_mons,40418
 absurdly_long_hair,21487
+absurdres,10001
 abundance,14707
 abundant,13884
 abundantly,3537
@@ -3389,7 +3390,7 @@ best,10342
 best-known,10446
 best-seller,11725
 best-selling,12524
-best_quality,10003
+best_quality,10004
 bestiality,22338
 bestow,10554
 bet,15734
@@ -21013,7 +21014,7 @@ master_sword,25475
 mastercard,43387
 masterful,4576
 mastermind,3567
-masterpiece,10002
+masterpiece,10003
 mastery,12469
 masturbate,1925
 masturbating_while_watching,42692
@@ -37389,7 +37390,7 @@ wallet,26288
 wallet_chain,39323
 walleye,4839
 wallow,4686
-wallpaper,10001
+wallpaper,10002
 wallpaper_(object),27113
 wallwalking,40563
 walnut,37655

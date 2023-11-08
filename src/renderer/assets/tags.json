@@ -1,10 +1,68 @@
 {
   "image": {
     "quality": ["highres", "wallpaper", "masterpiece", "best_quality"],
-    "artStyle": ["realistic", "photorealistic"]
+    "artStyle": [
+      "realistic",
+      "photorealistic",
+      "sketch",
+      "flat_color",
+      "abstract"
+    ]
   },
-  "camera": {},
-  "character": {},
-  "appearance": {},
-  "clothing": {}
+  "character": {
+    "object": ["1girl", "1boy", "2girls", "2boys"],
+    "identity": ["queen", "knight", "maid", "idol"]
+  },
+  "face": {
+    "eyes": [
+      "red_eyes",
+      "blue_eyes",
+      "black_eyes",
+      "tears",
+      "heterochromia",
+      "star-shaped_pupils"
+    ]
+  },
+  "hair": {
+    "color": [
+      "red_hair",
+      "blonde_hair",
+      "blue_hair",
+      "green_hair",
+      "pink_hair",
+      "purple_hair",
+      "white_hair",
+      "black_hair"
+    ],
+    "hairStyle": [
+      "short_hair",
+      "long_hair",
+      "very_long_hair",
+      "ahoge",
+      "huge_ahoge",
+      "ponytail",
+      "twintails"
+    ],
+    "bangs": [
+      "blunt_bangs",
+      "parted_bangs",
+      "hair_between_eyes",
+      "hair_over_one_eye"
+    ]
+  },
+  "body": {
+    "breasts": ["small_breasts", "medium_breasts", "large_breasts"],
+    "skin": ["shiny_skin"]
+  },
+  "clothing": {
+    "dress": [
+      "dress",
+      "white_dress",
+      "black_dress",
+      "short_dress",
+      "wedding_dress",
+      "china_dress"
+    ]
+  },
+  "camera": {}
 }

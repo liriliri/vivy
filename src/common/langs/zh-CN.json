@@ -85,9 +85,22 @@
   "google": "谷歌",
   "translateErr": "翻译失败",
   "deleteModelConfirm": "确定要删除 {{name}} 吗？",
+
   "character": "角色",
   "camera": "镜头",
-  "clothing": "服饰",
+  "clothing": "衣装",
   "quality": "画质",
-  "artStyle": "艺术风格"
+  "artStyle": "艺术风格",
+  "face": "面部",
+  "hair": "头发",
+  "body": "身体",
+  "object": "对象",
+  "color": "颜色",
+  "hairStyle": "发型",
+  "bangs": "刘海",
+  "eyes": "眼睛",
+  "breasts": "胸部",
+  "skin": "皮肤",
+  "identity": "身份",
+  "dress": "裙子"
 }
