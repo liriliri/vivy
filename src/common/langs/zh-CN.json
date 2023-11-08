@@ -106,5 +106,7 @@
   "angle": "角度",
   "environment": "环境",
   "scene": "场景",
-  "negative": "反向"
+  "negative": "反向",
+  "background": "背景",
+  "age": "年龄"
 }

@@ -106,5 +106,7 @@
   "angle": "Angle",
   "environment": "Environment",
   "scene": "Scene",
-  "negative": "Negative"
+  "negative": "Negative",
+  "background": "Background",
+  "age": "Age"
 }

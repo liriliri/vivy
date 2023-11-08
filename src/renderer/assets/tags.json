@@ -12,12 +12,21 @@
       "photorealistic",
       "sketch",
       "flat_color",
-      "abstract"
+      "abstract",
+      "pixel_art",
+      "monochrome"
+    ],
+    "background": [
+      "gradient_background",
+      "floral_background",
+      "starry_background",
+      "firework_background"
     ]
   },
   "character": {
-    "object": ["1girl", "1boy", "2girls", "2boys"],
-    "identity": ["queen", "knight", "maid", "idol"]
+    "object": ["1girl", "1boy", "2girls", "2boys", "loli", "shota", "old_man", "old_woman"],
+    "age": ["toddler", "teenage"],
+    "identity": ["queen", "knight", "maid", "idol", "nun", "nurse", "office_lady", "race_queen", "teacher"]
   },
   "face": {
     "eyes": [
