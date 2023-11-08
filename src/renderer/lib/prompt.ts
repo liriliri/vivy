@@ -3,6 +3,7 @@ import trim from 'licia/trim'
 import remove from 'licia/remove'
 import contain from 'licia/contain'
 import rtrim from 'licia/rtrim'
+import isEmpty from 'licia/isEmpty'
 
 export function format(prompt: string) {
   const lines = map(prompt.split('\n'), (line) => {
@@ -27,7 +28,8 @@ export function format(prompt: string) {
 }
 
 export function addTag(prompt: string, tag: string) {
-  return rtrim(prompt, ', ') + ', ' + tag
+  prompt = rtrim(prompt, ', ')
+  return prompt + (isEmpty(prompt) ? '' : ', ') + tag
 }
 
 export function rmTag(prompt: string, tag: string) {

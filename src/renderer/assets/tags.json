@@ -1,6 +1,6 @@
 {
   "image": {
-    "quality": ["highres"],
+    "quality": ["highres", "wallpaper", "masterpiece", "best_quality"],
     "artStyle": ["realistic", "photorealistic"]
   },
   "camera": {},

@@ -1,4 +1,7 @@
 highres,高分辨率
+wallpaper,壁纸
+masterpiece,杰作
+best_quality,最好的质量
 1girl,1个女性
 solo,单独人物
 long_hair,长发

@@ -3389,6 +3389,7 @@ best,10342
 best-known,10446
 best-seller,11725
 best-selling,12524
+best_quality,10003
 bestiality,22338
 bestow,10554
 bet,15734
@@ -21012,7 +21013,7 @@ master_sword,25475
 mastercard,43387
 masterful,4576
 mastermind,3567
-masterpiece,12378
+masterpiece,10002
 mastery,12469
 masturbate,1925
 masturbating_while_watching,42692
@@ -37388,7 +37389,7 @@ wallet,26288
 wallet_chain,39323
 walleye,4839
 wallow,4686
-wallpaper,10184
+wallpaper,10001
 wallpaper_(object),27113
 wallwalking,40563
 walnut,37655
