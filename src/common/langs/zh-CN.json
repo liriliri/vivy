@@ -102,5 +102,9 @@
   "breasts": "胸部",
   "skin": "皮肤",
   "identity": "身份",
-  "dress": "裙子"
+  "dress": "裙子",
+  "angle": "角度",
+  "environment": "环境",
+  "scene": "场景",
+  "negative": "反向"
 }

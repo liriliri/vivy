@@ -102,5 +102,9 @@
   "breasts": "Breasts",
   "skin": "Skin",
   "identity": "Identity",
-  "dress": "Dress"
+  "dress": "Dress",
+  "angle": "Angle",
+  "environment": "Environment",
+  "scene": "Scene",
+  "negative": "Negative"
 }

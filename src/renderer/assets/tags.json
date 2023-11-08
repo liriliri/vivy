@@ -1,6 +1,12 @@
 {
   "image": {
-    "quality": ["highres", "wallpaper", "masterpiece", "best_quality"],
+    "quality": [
+      "highres",
+      "absurdres",
+      "wallpaper",
+      "masterpiece",
+      "best_quality"
+    ],
     "artStyle": [
       "realistic",
       "photorealistic",
@@ -64,5 +70,10 @@
       "china_dress"
     ]
   },
-  "camera": {}
+  "camera": {
+    "angle": ["from_above"]
+  },
+  "environment": {},
+  "scene": {},
+  "negative": {}
 }
