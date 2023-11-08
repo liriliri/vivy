@@ -44,15 +44,16 @@ const mainObj = {
   showSystem: () => ipcRenderer.invoke('showSystem'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
-  setMainStore: debounce(
-    (name, val) => ipcRenderer.invoke('setMainStore', name, val),
-    500
-  ),
+  setMainStore: debounce((name, val) => {
+    return ipcRenderer.invoke('setMainStore', name, val)
+  }, 500),
   getSettingsStore: (name) => ipcRenderer.invoke('getSettingsStore', name),
-  setSettingsStore: (name, val) =>
-    ipcRenderer.invoke('setSettingsStore', name, val),
-  showOpenDialog: (options: OpenDialogOptions = {}) =>
-    ipcRenderer.invoke('showOpenDialog', options),
+  setSettingsStore: (name, val) => {
+    return ipcRenderer.invoke('setSettingsStore', name, val)
+  },
+  showOpenDialog: (options: OpenDialogOptions = {}) => {
+    return ipcRenderer.invoke('showOpenDialog', options)
+  },
   getCpuAndMem: () => ipcRenderer.invoke('getCpuAndMem'),
   translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),

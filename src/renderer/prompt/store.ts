@@ -3,10 +3,12 @@ import { Settings } from '../store/settings'
 import tags from '../assets/tags.json'
 import keys from 'licia/keys'
 import * as prompt from '../lib/prompt'
+import { editor } from 'monaco-editor'
 
 class Store {
   settings = new Settings()
   prompt = ''
+  editor?: editor.IStandaloneCodeEditor
   categories = keys(tags)
   selectedCategory = 'image'
   selectedCategoryTags = tags['image']
@@ -38,7 +40,14 @@ class Store {
     await main.setMainStore('txt2imgOptions', txt2imgOptions)
   }
   toggleTag(tag: string) {
-    this.setPrompt(prompt.toggleTag(this.prompt, tag))
+    const { editor } = this
+    const value = prompt.toggleTag(this.prompt, tag)
+    if (editor) {
+      if (!editor.hasTextFocus()) {
+        editor.focus()
+      }
+      editor.setValue(value)
+    }
   }
   selectCategory(category: string) {
     this.selectedCategory = category

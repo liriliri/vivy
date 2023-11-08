@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import Style from './TagSelector.module.scss'
 import LunaTab, { LunaTabItem } from 'luna-tab/react'
 import map from 'licia/map'
+import debounce from 'licia/debounce'
 import { t } from '../../lib/util'
 import className from 'licia/className'
 import store from '../store'
@@ -31,7 +32,7 @@ export default observer(function TagSelector() {
                 [Style.selected]: prompt.hasTag(store.prompt, tag),
               })}
               key={tag}
-              onClick={() => store.toggleTag(tag)}
+              onClick={debounce(() => store.toggleTag(tag), 500)}
               title={translation ? tag : ''}
             >
               {translation || tag}
@@ -43,7 +44,7 @@ export default observer(function TagSelector() {
   })
 
   return (
-    <div className={Style.container}>
+    <div className={Style.container} onMouseDown={(e) => e.preventDefault()}>
       <LunaTab
         className={Style.tab}
         height={30}

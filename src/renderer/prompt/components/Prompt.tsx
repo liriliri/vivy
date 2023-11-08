@@ -32,6 +32,7 @@ export default observer(function Prompt() {
 
   const promptOnMount = (editor: editor.IStandaloneCodeEditor) => {
     editorRef.current = editor
+    store.editor = editor
     editor.onDidFocusEditorWidget(() => setEditorFocus(true))
     editor.onDidBlurEditorWidget(() => setEditorFocus(false))
   }
