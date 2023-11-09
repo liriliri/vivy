@@ -24,6 +24,7 @@ export default defineConfig(async ({}) => {
       },
     },
     server: {
+      hmr: false,
       port: 8080,
     },
     define: {

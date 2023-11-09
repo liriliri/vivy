@@ -11,10 +11,15 @@
       "realistic",
       "photorealistic",
       "sketch",
+      "pencil",
       "flat_color",
       "abstract",
       "pixel_art",
-      "monochrome"
+      "monochrome",
+      "cyberpunk",
+      "1980s_(style)",
+      "magazine_cover",
+      "comic"
     ],
     "background": [
       "gradient_background",
@@ -24,9 +29,41 @@
     ]
   },
   "character": {
-    "object": ["1girl", "1boy", "2girls", "2boys", "loli", "shota", "old_man", "old_woman"],
+    "object": [
+      "1girl",
+      "1boy",
+      "2girls",
+      "2boys",
+      "loli",
+      "shota",
+      "old_man",
+      "old_woman"
+    ],
     "age": ["toddler", "teenage"],
-    "identity": ["queen", "knight", "maid", "idol", "nun", "nurse", "office_lady", "race_queen", "teacher"]
+    "identity": [
+      "queen",
+      "miko",
+      "knight",
+      "maid",
+      "idol",
+      "nun",
+      "nurse",
+      "doctor",
+      "office_lady",
+      "race_queen",
+      "teacher",
+      "magician",
+      "magical_girl",
+      "scientist",
+      "flight_attendant",
+      "waitress",
+      "police",
+      "soldier",
+      "cheerleader",
+      "priest",
+      "demon",
+      "elf"
+    ]
   },
   "face": {
     "eyes": [
@@ -56,7 +93,10 @@
       "ahoge",
       "huge_ahoge",
       "ponytail",
-      "twintails"
+      "twintails",
+      "hair_bun",
+      "hime_cut",
+      "curly_hair"
     ],
     "bangs": [
       "blunt_bangs",
