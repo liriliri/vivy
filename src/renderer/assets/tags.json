@@ -22,6 +22,7 @@
       "comic"
     ],
     "background": [
+      "simple_background",
       "gradient_background",
       "floral_background",
       "starry_background",
@@ -84,30 +85,43 @@
       "pink_hair",
       "purple_hair",
       "white_hair",
-      "black_hair"
+      "black_hair",
+      "streaked_hair"
     ],
     "hairStyle": [
       "short_hair",
+      "medium_hair",
       "long_hair",
       "very_long_hair",
+      "floating_hair",
       "ahoge",
       "huge_ahoge",
       "ponytail",
       "twintails",
       "hair_bun",
       "hime_cut",
-      "curly_hair"
+      "curly_hair",
+      "single_braid",
+      "drill_hair",
+      "twin_drills",
+      "bob_cut",
+      "spiked_hair",
+      "messy_hair",
+      "straight_hair"
     ],
     "bangs": [
       "blunt_bangs",
       "parted_bangs",
+      "swept_bangs",
+      "asymmetrical_bangs",
       "hair_between_eyes",
       "hair_over_one_eye"
     ]
   },
   "body": {
+    "figure": ["skinny", "plump", "tall", "petite", "chibi", "muscular"],
     "breasts": ["small_breasts", "medium_breasts", "large_breasts"],
-    "skin": ["shiny_skin"]
+    "skin": ["dark_skin", "shiny_skin", "white_skin", "tan"]
   },
   "clothing": {
     "dress": [
@@ -122,7 +136,9 @@
   "camera": {
     "angle": ["from_above"]
   },
-  "environment": {},
+  "environment": {
+    "season": ["spring_(season)", "summer", "autumn", "winter"]
+  },
   "scene": {},
   "negative": {}
 }

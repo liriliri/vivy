@@ -50,6 +50,10 @@ export function hasTag(prompt: string, tag: string) {
   if (!contain(prompt, tag)) {
     return false
   }
+  if (/[^\w]/.test(tag)) {
+    return true
+  }
+
   const reg = new RegExp(`\\b${tag}\\b`)
   return reg.test(prompt)
 }

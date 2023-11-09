@@ -108,5 +108,7 @@
   "scene": "Scene",
   "negative": "Negative",
   "background": "Background",
-  "age": "Age"
+  "age": "Age",
+  "figure": "Figure",
+  "season": "Season"
 }

@@ -32,7 +32,7 @@ export default observer(function TagSelector() {
                 [Style.selected]: prompt.hasTag(store.prompt, tag),
               })}
               key={tag}
-              onClick={debounce(() => store.toggleTag(tag), 500)}
+              onClick={() => toggleTag(tag)}
               title={translation ? tag : ''}
             >
               {translation || tag}
@@ -56,3 +56,5 @@ export default observer(function TagSelector() {
     </div>
   )
 })
+
+const toggleTag = debounce((tag) => store.toggleTag(tag), 100)

@@ -3,11 +3,13 @@ import { Settings } from '../store/settings'
 import tags from '../assets/tags.json'
 import keys from 'licia/keys'
 import * as prompt from '../lib/prompt'
+import now from 'licia/now'
 import { editor } from 'monaco-editor'
 
 class Store {
   settings = new Settings()
   prompt = ''
+  setPromptTime = now()
   editor?: editor.IStandaloneCodeEditor
   categories = keys(tags)
   selectedCategory = 'image'
@@ -33,6 +35,7 @@ class Store {
   }
   async setPrompt(prompt: string) {
     this.prompt = prompt
+    this.setPromptTime = now()
     const txt2imgOptions = await main.getMainStore('txt2imgOptions')
     if (txt2imgOptions) {
       txt2imgOptions.prompt = prompt
@@ -57,6 +60,9 @@ class Store {
     main.on('changeMainStore', (_, name, val) => {
       if (name === 'txt2imgOptions') {
         runInAction(() => {
+          if (now() - this.setPromptTime < 500) {
+            return
+          }
           if (this.prompt !== val.prompt) {
             this.prompt = val.prompt
           }
