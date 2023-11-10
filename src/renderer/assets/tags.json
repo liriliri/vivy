@@ -19,7 +19,8 @@
       "cyberpunk",
       "1980s_(style)",
       "magazine_cover",
-      "comic"
+      "comic",
+      "anime_coloring"
     ],
     "background": [
       "simple_background",
@@ -63,7 +64,9 @@
       "cheerleader",
       "priest",
       "demon",
-      "elf"
+      "elf",
+      "warrior",
+      "assassin"
     ]
   },
   "face": {
@@ -128,17 +131,31 @@
       "dress",
       "white_dress",
       "black_dress",
+      "long_dress",
       "short_dress",
+      "sleeveless_dress",
+      "strapless_dress",
       "wedding_dress",
-      "china_dress"
+      "china_dress",
+      "armored_dress",
+      "sailor_dress"
     ]
   },
-  "camera": {
-    "angle": ["from_above"]
+  "photography": {
+    "camera": [
+      "panorama",
+      "wide_shot",
+      "close-up",
+      "full_body",
+      "upper_body",
+      "portrait"
+    ],
+    "angle": ["from_above", "from_below", "from_side", "from_behind"]
   },
   "environment": {
     "season": ["spring_(season)", "summer", "autumn", "winter"]
   },
-  "scene": {},
-  "negative": {}
+  "scene": {
+    "indoor": ["bedroom", "bathroom", "classroom", "stage"]
+  }
 }

@@ -55,7 +55,7 @@ monochrome,0,单色画
 tail,0,尾巴
 jacket,0,夹克
 swimsuit,0,泳装
-full_body,0,全身|画出了全身
+full_body,0,全身
 closed_eyes,0,闭上的眼睛
 hair_ribbon,0,发绳
 yellow_eyes,0,黄色的眼睛
@@ -686,7 +686,7 @@ dog_ears,0,狗耳朵
 star_(sky),0,星星(天空中的)
 peaked_cap,0,类似警帽的帽子
 demon_tail,0,恶魔尾巴
-portrait,0,半身像
+portrait,0,肖像
 armband,0,腕标
 scenery,0,风景
 convenient_censoring,0,简单巧妙的打码
@@ -4057,7 +4057,7 @@ tusks,0,象牙
 crotch_rub,0,摩擦裆部
 wind_chime,0,风铃
 shuriken,0,手里剑
-teenage,0,青少年|青少年化
+teenage,0,青少年
 sketchbook,0,素描本
 ribbon-trimmed_skirt,0,缎带饰边短裙
 winged_hat,0,有翼的帽子

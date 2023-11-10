@@ -106,9 +106,10 @@
   "angle": "Angle",
   "environment": "Environment",
   "scene": "Scene",
-  "negative": "Negative",
   "background": "Background",
   "age": "Age",
   "figure": "Figure",
-  "season": "Season"
+  "season": "Season",
+  "photography": "Photography",
+  "indoor": "Indoor"
 }

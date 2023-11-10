@@ -106,9 +106,10 @@
   "angle": "角度",
   "environment": "环境",
   "scene": "场景",
-  "negative": "反向",
   "background": "背景",
   "age": "年龄",
   "figure": "身材",
-  "season": "季节"
+  "season": "季节",
+  "photography": "摄影",
+  "indoor": "室内"
 }
