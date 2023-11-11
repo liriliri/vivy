@@ -112,5 +112,11 @@
   "season": "Season",
   "photography": "Photography",
   "indoor": "Indoor",
-  "outdoor": "Outdoor"
+  "outdoor": "Outdoor",
+  "expression": "Expression",
+  "sportswear": "Sportswear",
+  "swimwear": "Swimwear",
+  "action": "Action",
+  "item": "Item",
+  "weapon": "Weapon"
 }

@@ -9,7 +9,7 @@ long_hair,长发
 breasts,乳房
 looking_at_viewer,看向阅图者
 blush,脸红
-smile,微笑|笑容
+smile,微笑
 short_hair,短发
 open_mouth,张嘴的
 bangs,刘海
@@ -1339,7 +1339,7 @@ goatee,山羊胡
 black_bodysuit,黑色紧身衣
 holding_clothes,拿着衣服
 highleg_panties,高开衩的内裤
-floral_background,花朵点缀的背景|有花香的感觉
+floral_background,花朵点缀的背景
 angel,天使
 chinese_text,中文
 muscular_female,肌肉发达的女性

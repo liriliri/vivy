@@ -112,5 +112,11 @@
   "season": "季节",
   "photography": "摄影",
   "indoor": "室内",
-  "outdoor": "室外"
+  "outdoor": "室外",
+  "expression": "表情",
+  "sportswear": "运动服",
+  "swimwear": "泳衣",
+  "action": "动作",
+  "item": "物品",
+  "weapon": "武器"
 }

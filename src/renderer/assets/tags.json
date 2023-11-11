@@ -16,6 +16,7 @@
       "abstract",
       "pixel_art",
       "monochrome",
+      "fantasy",
       "cyberpunk",
       "1980s_(style)",
       "magazine_cover",
@@ -29,6 +30,17 @@
       "starry_background",
       "firework_background"
     ]
+  },
+  "photography": {
+    "camera": [
+      "panorama",
+      "wide_shot",
+      "close-up",
+      "full_body",
+      "upper_body",
+      "portrait"
+    ],
+    "angle": ["from_above", "from_below", "from_side", "from_behind"]
   },
   "character": {
     "object": [
@@ -78,6 +90,16 @@
       "tears",
       "heterochromia",
       "star-shaped_pupils"
+    ],
+    "expression": [
+      "smile",
+      "smug",
+      "evil_smile",
+      "sad",
+      "crying",
+      "despair",
+      "angry",
+      "shy"
     ]
   },
   "hair": {
@@ -101,6 +123,8 @@
       "ahoge",
       "huge_ahoge",
       "ponytail",
+      "high_ponytail",
+      "low_ponytail",
       "twintails",
       "hair_bun",
       "hime_cut",
@@ -140,24 +164,27 @@
       "china_dress",
       "armored_dress",
       "sailor_dress"
+    ],
+    "sportswear": ["gym_uniform", "tennis_uniform", "baseball_uniform"],
+    "swimwear": [
+      "swimsuit",
+      "school_swimsuit",
+      "one-piece_swimsuit",
+      "bikini",
+      "string_bikini",
+      "bikini_skirt",
+      "frilled_bikini"
     ]
   },
-  "photography": {
-    "camera": [
-      "panorama",
-      "wide_shot",
-      "close-up",
-      "full_body",
-      "upper_body",
-      "portrait"
-    ],
-    "angle": ["from_above", "from_below", "from_side", "from_behind"]
-  },
+  "action": {},
   "environment": {
     "season": ["spring_(season)", "summer", "autumn", "winter"]
   },
   "scene": {
-    "indoor": ["bedroom", "bathroom", "classroom", "stage"],
-    "outdoor": ["zoo"]
+    "indoor": ["bedroom", "bathroom", "classroom", "stage", "dojo"],
+    "outdoor": ["zoo", "beach"]
+  },
+  "item": {
+    "weapon": ["sword", "wooden_sword", "wand", "gun"]
   }
 }
