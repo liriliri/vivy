@@ -151,6 +151,7 @@
   },
   "body": {
     "figure": ["skinny", "plump", "tall", "petite", "chibi", "muscular"],
+    "ear": ["animal_ears", "cat_ears", "rabbit_ears", "fox_ears"],
     "breasts": ["small_breasts", "medium_breasts", "large_breasts"],
     "skin": ["dark_skin", "shiny_skin", "white_skin", "tan"]
   },
@@ -185,7 +186,18 @@
     "posture": ["standing", "sitting", "lying", "kneeling"]
   },
   "environment": {
-    "season": ["spring_(season)", "summer", "autumn", "winter"]
+    "season": ["spring_(season)", "summer", "autumn", "winter"],
+    "weather": ["rain", "snowing", "cloudy_sky"],
+    "nature": [
+      "ocean",
+      "beach",
+      "forest",
+      "tree",
+      "desert",
+      "grass",
+      "flower_field",
+      "rainbow"
+    ]
   },
   "scene": {
     "indoor": [
@@ -197,7 +209,7 @@
       "museum",
       "library"
     ],
-    "outdoor": ["zoo", "beach", "stadium", "pool"]
+    "outdoor": ["zoo", "stadium", "pool"]
   },
   "item": {
     "weapon": ["sword", "wooden_sword", "wand", "gun"]

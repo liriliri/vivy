@@ -122,5 +122,8 @@
   "posture": "姿势",
   "effect": "特效",
   "uniform": "制服",
-  "style": "风格"
+  "style": "风格",
+  "ear": "耳朵",
+  "weather": "天气",
+  "nature": "自然"
 }

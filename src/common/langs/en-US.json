@@ -122,5 +122,8 @@
   "posture": "Posture",
   "effect": "Effect",
   "uniform": "Uniform",
-  "style": "Style"
+  "style": "Style",
+  "ear": "Ear",
+  "weather": "Weather",
+  "nature": "Nature"
 }
