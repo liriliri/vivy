@@ -118,5 +118,7 @@
   "swimwear": "Swimwear",
   "action": "Action",
   "item": "Item",
-  "weapon": "Weapon"
+  "weapon": "Weapon",
+  "posture": "Posture",
+  "effect": "Effect"
 }

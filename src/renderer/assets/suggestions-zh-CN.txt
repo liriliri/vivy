@@ -357,7 +357,7 @@ fruit,水果
 underboob,下乳|南半球
 detached_collar,假领
 headband,扎头巾(名词)
-depth_of_field,景深(画法)
+depth_of_field,景深
 night,夜
 sleeveless_dress,无袖连衣裙
 buttons,纽扣

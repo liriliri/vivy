@@ -40,7 +40,8 @@
       "upper_body",
       "portrait"
     ],
-    "angle": ["from_above", "from_below", "from_side", "from_behind"]
+    "angle": ["from_above", "from_below", "from_side", "from_behind"],
+    "effect": ["lens_flare", "depth_of_field", "motion_blur"]
   },
   "character": {
     "object": [
@@ -89,7 +90,9 @@
       "black_eyes",
       "tears",
       "heterochromia",
-      "star-shaped_pupils"
+      "star-shaped_pupils",
+      "looking_at_viewer",
+      "looking_to_the_side"
     ],
     "expression": [
       "smile",
@@ -176,13 +179,15 @@
       "frilled_bikini"
     ]
   },
-  "action": {},
+  "action": {
+    "posture": ["standing", "sitting", "lying", "kneeling"]
+  },
   "environment": {
     "season": ["spring_(season)", "summer", "autumn", "winter"]
   },
   "scene": {
-    "indoor": ["bedroom", "bathroom", "classroom", "stage", "dojo"],
-    "outdoor": ["zoo", "beach"]
+    "indoor": ["bedroom", "bathroom", "classroom", "stage", "dojo", "museum", "library"],
+    "outdoor": ["zoo", "beach", "stadium", "pool"]
   },
   "item": {
     "weapon": ["sword", "wooden_sword", "wand", "gun"]

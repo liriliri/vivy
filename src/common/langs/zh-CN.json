@@ -118,5 +118,7 @@
   "swimwear": "泳衣",
   "action": "动作",
   "item": "物品",
-  "weapon": "武器"
+  "weapon": "武器",
+  "posture": "姿势",
+  "effect": "特效"
 }
