@@ -2,6 +2,7 @@
   flex: 1;
   position: relative;
   padding-top: 30px;
+  overflow: hidden;
 }
 
 .tab {
@@ -12,6 +13,8 @@
 
 .tags {
   padding: 14px 8px;
+  overflow: auto;
+  height: 100%;
 }
 
 .tag {

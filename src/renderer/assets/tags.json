@@ -155,6 +155,7 @@
     "skin": ["dark_skin", "shiny_skin", "white_skin", "tan"]
   },
   "clothing": {
+    "style": ["hanfu", "kimono", "lolita_fashion"],
     "dress": [
       "dress",
       "white_dress",
@@ -177,7 +178,8 @@
       "string_bikini",
       "bikini_skirt",
       "frilled_bikini"
-    ]
+    ],
+    "uniform": ["school_uniform", "labcoat", "police_uniform"]
   },
   "action": {
     "posture": ["standing", "sitting", "lying", "kneeling"]
@@ -186,7 +188,15 @@
     "season": ["spring_(season)", "summer", "autumn", "winter"]
   },
   "scene": {
-    "indoor": ["bedroom", "bathroom", "classroom", "stage", "dojo", "museum", "library"],
+    "indoor": [
+      "bedroom",
+      "bathroom",
+      "classroom",
+      "stage",
+      "dojo",
+      "museum",
+      "library"
+    ],
     "outdoor": ["zoo", "beach", "stadium", "pool"]
   },
   "item": {

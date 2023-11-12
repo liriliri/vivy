@@ -120,5 +120,7 @@
   "item": "物品",
   "weapon": "武器",
   "posture": "姿势",
-  "effect": "特效"
+  "effect": "特效",
+  "uniform": "制服",
+  "style": "风格"
 }

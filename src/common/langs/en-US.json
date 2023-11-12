@@ -120,5 +120,7 @@
   "item": "Item",
   "weapon": "Weapon",
   "posture": "Posture",
-  "effect": "Effect"
+  "effect": "Effect",
+  "uniform": "Uniform",
+  "style": "Style"
 }
