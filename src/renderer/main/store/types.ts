@@ -18,16 +18,13 @@ export interface IImage {
   info: IImageInfo
 }
 
-export interface ITxt2ImgOptions {
-  prompt: string
-  negativePrompt: string
+export interface IGenOptions {
   sampler: string
   seed: number
   width: number
   height: number
   steps: number
   batchSize: number
-  model: string
   cfgScale: number
 }
 

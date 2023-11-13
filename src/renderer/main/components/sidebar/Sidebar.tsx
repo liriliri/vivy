@@ -2,8 +2,10 @@ import { observer } from 'mobx-react-lite'
 import store from '../../store'
 import Style from './Sidebar.module.scss'
 import { useCallback, useRef, useState } from 'react'
-import Txt2ImgOptions from './Txt2ImgOptions'
+import GenOptions from './GenOptions'
 import Prompt from './Prompt'
+import { Row } from '../../../components/setting'
+import InitImage from './InitImage'
 
 export default observer(function () {
   const sidebarRef = useRef<HTMLDivElement>(null)
@@ -53,7 +55,10 @@ export default observer(function () {
         onMouseDown={onMouseDown}
       ></div>
       <Prompt />
-      <Txt2ImgOptions />
+      <Row>
+        <InitImage />
+      </Row>
+      <GenOptions />
     </div>
   )
 })

@@ -1,0 +1,17 @@
+.init-image {
+  text-align: center;
+  padding: 12px;
+  width: 100%;
+  cursor: pointer;
+  background: var(--vivy-color-fill-tertiary);
+  &:hover {
+    background: var(--vivy-color-fill-secondary);
+  }
+}
+
+.image-viewer {
+  width: 100%;
+  height: 150px;
+  border: 1px solid var(--vivy-color-border);
+  background: var(--vivy-color-fill-tertiary);
+}

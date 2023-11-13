@@ -19,8 +19,8 @@ import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
 import { parseImage, parseText } from '../../lib/genData'
-import { IImage, ITxt2ImgOptions, IUpscaleImgOptions } from './types'
-import { Task, TaskStatus, Txt2ImgTask, UpscaleImgTask } from './task'
+import { IImage, IGenOptions, IUpscaleImgOptions } from './types'
+import { Task, TaskStatus, GenTask, UpscaleImgTask } from './task'
 import fileType from 'licia/fileType'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
@@ -33,11 +33,13 @@ interface IOptions {
   model: string
 }
 
+interface IInitImage {
+  data: string
+  mime: string
+}
+
 class Store {
-  txt2imgOptions: ITxt2ImgOptions = {
-    prompt: '',
-    negativePrompt: '',
-    model: '',
+  genOptions: IGenOptions = {
     sampler: 'Euler a',
     steps: 20,
     seed: -1,
@@ -49,6 +51,9 @@ class Store {
   options: IOptions = {
     model: '',
   }
+  prompt = ''
+  negativePrompt = ''
+  initImage?: IInitImage
   isReady = false
   models: string[] = []
   samplers: string[] = []
@@ -60,7 +65,10 @@ class Store {
   settings = new Settings()
   constructor() {
     makeObservable(this, {
-      txt2imgOptions: observable,
+      prompt: observable,
+      negativePrompt: observable,
+      initImage: observable,
+      genOptions: observable,
       isReady: observable,
       tasks: observable,
       models: observable,
@@ -72,9 +80,9 @@ class Store {
       ui: observable,
       settings: observable,
       waitForReady: action,
-      setTxt2ImgOptions: action,
-      parseTxt2ImgOptionsText: action,
-      createTxt2ImgTask: action,
+      setGenOptions: action,
+      parseGenOptionsText: action,
+      createGenTask: action,
       selectImage: action,
       selectNextImage: action,
       selectPrevImage: action,
@@ -158,9 +166,11 @@ class Store {
     }
   }
   async load() {
-    const txt2imgOptions = await main.getMainStore('txt2imgOptions')
-    if (txt2imgOptions) {
-      extend(this.txt2imgOptions, txt2imgOptions)
+    this.prompt = (await main.getMainStore('prompt')) || ''
+    this.negativePrompt = (await main.getMainStore('negativePrompt')) || ''
+    const genOptions = await main.getMainStore('genOptions')
+    if (genOptions) {
+      extend(this.genOptions, genOptions)
     }
     const samplers = await main.getMainStore('samplers')
     if (samplers) {
@@ -219,39 +229,47 @@ class Store {
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
-  setTxt2ImgOptions(key, val) {
-    this.txt2imgOptions[key] = val
-    this.setStore('txt2imgOptions', this.txt2imgOptions)
+  setPrompt(prompt: string) {
+    this.prompt = prompt
+    this.setStore('prompt', prompt)
   }
-  parseTxt2ImgOptionsText(text: string) {
-    const { txt2imgOptions } = this
+  setNegativePrompt(negativePrompt: string) {
+    this.negativePrompt = negativePrompt
+    this.setStore('negativePrompt', negativePrompt)
+  }
+  setGenOptions(key, val) {
+    this.genOptions[key] = val
+    this.setStore('genOptions', this.genOptions)
+  }
+  parseGenOptionsText(text: string) {
+    const { genOptions } = this
 
     const genData = parseText(text)
     if (genData.prompt) {
-      txt2imgOptions.prompt = genData.prompt
+      this.prompt = genData.prompt
     }
     if (genData.negativePrompt) {
-      txt2imgOptions.negativePrompt = genData.negativePrompt
+      this.negativePrompt = genData.negativePrompt
     }
     if (genData.sampler && contain(this.samplers, genData.sampler)) {
-      txt2imgOptions.sampler = genData.sampler
+      genOptions.sampler = genData.sampler
     }
     if (genData.steps) {
-      txt2imgOptions.steps = genData.steps
+      genOptions.steps = genData.steps
     }
     if (genData.width) {
-      txt2imgOptions.width = genData.width
+      genOptions.width = genData.width
     }
     if (genData.height) {
-      txt2imgOptions.height = genData.height
+      genOptions.height = genData.height
     }
     if (genData.cfgScale) {
-      txt2imgOptions.cfgScale = genData.cfgScale
+      genOptions.cfgScale = genData.cfgScale
     }
     if (genData.seed) {
-      txt2imgOptions.seed = genData.seed
+      genOptions.seed = genData.seed
     }
-    this.setStore('txt2imgOptions', txt2imgOptions)
+    this.setStore('genOptions', genOptions)
   }
   async setOptions(key, val) {
     const { options } = this
@@ -266,10 +284,10 @@ class Store {
   }
   bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
-      if (name === 'txt2imgOptions') {
+      if (name === 'prompt') {
         runInAction(() => {
-          if (this.txt2imgOptions.prompt !== val.prompt) {
-            this.txt2imgOptions.prompt = val.prompt
+          if (this.prompt !== val) {
+            this.prompt = val
           }
         })
       }
@@ -302,11 +320,15 @@ class Store {
       }
     })
   }
-  async createTxt2ImgTask() {
+  async createGenTask() {
     if (!(await this.checkModel())) {
       return
     }
-    const task = new Txt2ImgTask(clone(this.txt2imgOptions))
+    const task = new GenTask(
+      this.prompt,
+      this.negativePrompt,
+      clone(this.genOptions)
+    )
     this.tasks.push(task)
     this.doCreateTask()
   }
@@ -314,6 +336,12 @@ class Store {
     const task = new UpscaleImgTask(options)
     this.tasks.push(task)
     this.doCreateTask()
+  }
+  async setInitImage(data: string) {
+    this.initImage = {
+      data,
+      mime: 'image/png',
+    }
   }
   private async checkModel() {
     if (!this.isReady) {

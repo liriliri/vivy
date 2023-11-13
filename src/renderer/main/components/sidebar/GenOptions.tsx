@@ -6,7 +6,7 @@ import store from '../../store'
 import { Select, Row, Number } from '../../../components/setting'
 
 export default observer(function () {
-  const { txt2imgOptions } = store
+  const { genOptions } = store
 
   let samplers: any = {}
   if (!isEmpty(store.samplers)) {
@@ -23,58 +23,58 @@ export default observer(function () {
     <>
       <Row>
         <Select
-          value={txt2imgOptions.sampler}
+          value={genOptions.sampler}
           title={t('samplingMethod')}
           options={samplers}
-          onChange={(val) => store.setTxt2ImgOptions('sampler', val)}
+          onChange={(val) => store.setGenOptions('sampler', val)}
         />
         <Number
-          value={txt2imgOptions.steps}
+          value={genOptions.steps}
           title={t('samplingSteps')}
           min={1}
           max={50}
-          onChange={(val) => store.setTxt2ImgOptions('steps', val)}
+          onChange={(val) => store.setGenOptions('steps', val)}
         />
       </Row>
       <Row>
         <Number
-          value={txt2imgOptions.width}
+          value={genOptions.width}
           title={t('width')}
           min={64}
           max={2048}
-          onChange={(val) => store.setTxt2ImgOptions('width', val)}
+          onChange={(val) => store.setGenOptions('width', val)}
         />
         <Number
-          value={txt2imgOptions.height}
+          value={genOptions.height}
           title={t('height')}
           min={64}
           max={2048}
-          onChange={(val) => store.setTxt2ImgOptions('height', val)}
+          onChange={(val) => store.setGenOptions('height', val)}
         />
       </Row>
       <Row>
         <Number
-          value={txt2imgOptions.batchSize}
+          value={genOptions.batchSize}
           title={t('batchSize')}
           min={1}
           max={8}
           range={true}
-          onChange={(val) => store.setTxt2ImgOptions('batchSize', val)}
+          onChange={(val) => store.setGenOptions('batchSize', val)}
         />
         <Number
-          value={txt2imgOptions.cfgScale}
+          value={genOptions.cfgScale}
           title={t('cfgScale')}
           min={1}
           max={30}
           range={true}
-          onChange={(val) => store.setTxt2ImgOptions('cfgScale', val)}
+          onChange={(val) => store.setGenOptions('cfgScale', val)}
         />
       </Row>
       <Row>
         <Number
-          value={txt2imgOptions.seed}
+          value={genOptions.seed}
           title={t('seed')}
-          onChange={(val) => store.setTxt2ImgOptions('seed', val)}
+          onChange={(val) => store.setGenOptions('seed', val)}
         />
       </Row>
     </>

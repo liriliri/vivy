@@ -1,6 +1,6 @@
 import Emitter from 'licia/Emitter'
 import uuid from 'licia/uuid'
-import { IImage, ITxt2ImgOptions, IUpscaleImgOptions } from './types'
+import { IImage, IGenOptions, IUpscaleImgOptions } from './types'
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import * as webui from '../../lib/webui'
 import { splitImage, toDataUrl } from '../../lib/util'
@@ -32,11 +32,13 @@ export class Task extends Emitter {
   run() {}
 }
 
-export class Txt2ImgTask extends Task {
+export class GenTask extends Task {
   private currentImage: string = ''
-  private txt2imgOptions: ITxt2ImgOptions
+  private genOptions: IGenOptions
   private progressTimer?: NodeJS.Timeout
-  constructor(txt2imgOptions: ITxt2ImgOptions) {
+  private prompt: string
+  private negativePrompt: string
+  constructor(prompt, negativePrompt, genOptions: IGenOptions) {
     super()
 
     makeObservable(this, {
@@ -44,40 +46,42 @@ export class Txt2ImgTask extends Task {
       run: action,
     })
 
-    this.txt2imgOptions = txt2imgOptions
-    for (let i = 0; i < txt2imgOptions.batchSize; i++) {
+    this.prompt = prompt
+    this.negativePrompt = negativePrompt
+    this.genOptions = genOptions
+    for (let i = 0; i < genOptions.batchSize; i++) {
       this.images[i] = {
         id: uuid(),
         data: '',
         save: false,
         info: {
           mime: 'image/png',
-          prompt: txt2imgOptions.prompt,
-          negativePrompt: txt2imgOptions.negativePrompt,
-          width: txt2imgOptions.width,
-          height: txt2imgOptions.height,
+          prompt,
+          negativePrompt,
+          width: genOptions.width,
+          height: genOptions.height,
           size: 0,
-          sampler: txt2imgOptions.sampler,
-          steps: txt2imgOptions.steps,
-          cfgScale: txt2imgOptions.cfgScale,
+          sampler: genOptions.sampler,
+          steps: genOptions.steps,
+          cfgScale: genOptions.cfgScale,
         },
       }
     }
   }
   async run() {
-    const { txt2imgOptions } = this
+    const { genOptions, prompt, negativePrompt } = this
     this.status = TaskStatus.Generating
     this.getProgress()
     const result = await webui.txt2img({
-      prompt: txt2imgOptions.prompt,
-      negative_prompt: txt2imgOptions.negativePrompt,
-      batch_size: txt2imgOptions.batchSize,
-      steps: txt2imgOptions.steps,
-      sampler_name: txt2imgOptions.sampler,
-      cfg_scale: txt2imgOptions.cfgScale,
-      width: txt2imgOptions.width,
-      height: txt2imgOptions.height,
-      seed: txt2imgOptions.seed,
+      prompt,
+      negative_prompt: negativePrompt,
+      batch_size: genOptions.batchSize,
+      steps: genOptions.steps,
+      sampler_name: genOptions.sampler,
+      cfg_scale: genOptions.cfgScale,
+      width: genOptions.width,
+      height: genOptions.height,
+      seed: genOptions.seed,
     })
     this.progress = 100
     this.status = TaskStatus.Complete
@@ -85,7 +89,7 @@ export class Txt2ImgTask extends Task {
       clearTimeout(this.progressTimer)
     }
     const info = JSON.parse(result.info)
-    for (let i = 0; i < txt2imgOptions.batchSize; i++) {
+    for (let i = 0; i < genOptions.batchSize; i++) {
       const image = this.images[i]
       image.data = result.images[i]
       image.info.size = base64.decode(image.data).length
@@ -94,7 +98,7 @@ export class Txt2ImgTask extends Task {
     this.emit('complete', this.images)
   }
   async getProgress() {
-    const { batchSize } = this.txt2imgOptions
+    const { batchSize } = this.genOptions
 
     const { current_image, progress } = await webui.getProgress()
 

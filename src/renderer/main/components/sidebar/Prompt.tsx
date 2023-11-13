@@ -40,18 +40,15 @@ export default observer(function () {
 
   if (editorRef.current) {
     const editor = editorRef.current
-    if (
-      editor.getValue() !== store.txt2imgOptions.prompt &&
-      !editor.hasTextFocus()
-    ) {
-      editor.setValue(store.txt2imgOptions.prompt)
+    if (editor.getValue() !== store.prompt && !editor.hasTextFocus()) {
+      editor.setValue(store.prompt)
     }
   }
 
   if (negativeEditorRef.current) {
     const editor = negativeEditorRef.current
-    if (editor.getValue() !== store.txt2imgOptions.negativePrompt) {
-      editor.setValue(store.txt2imgOptions.negativePrompt)
+    if (editor.getValue() !== store.negativePrompt) {
+      editor.setValue(store.negativePrompt)
     }
   }
 
@@ -60,7 +57,7 @@ export default observer(function () {
       ;(document.activeElement as any).blur()
     }
     const text = await navigator.clipboard.readText()
-    store.parseTxt2ImgOptionsText(text)
+    store.parseGenOptionsText(text)
   }
 
   const getSelectedEditor = () => {
@@ -120,8 +117,8 @@ export default observer(function () {
         <PromptEditor
           height={100}
           theme={theme}
-          defaultValue={store.txt2imgOptions.prompt}
-          onChange={(value) => store.setTxt2ImgOptions('prompt', value || '')}
+          defaultValue={store.prompt}
+          onChange={(value) => store.setPrompt(value || '')}
           onMount={promptOnMount}
         />
       </div>
@@ -133,9 +130,9 @@ export default observer(function () {
         <PromptEditor
           height={60}
           theme={theme}
-          defaultValue={store.txt2imgOptions.negativePrompt}
+          defaultValue={store.negativePrompt}
           onChange={(value) => {
-            store.setTxt2ImgOptions('negativePrompt', value || '')
+            store.setNegativePrompt(value || '')
           }}
           onMount={negativePromptOnMount}
         />
@@ -143,7 +140,7 @@ export default observer(function () {
       <button
         className={className(Style.generate, 'button')}
         onMouseDown={(e) => e.preventDefault()}
-        onClick={() => store.createTxt2ImgTask()}
+        onClick={() => store.createGenTask()}
       >
         {t('generate')}
       </button>

@@ -28,19 +28,12 @@ class Store {
     this.bindEvent()
   }
   async load() {
-    const txt2imgOptions = await main.getMainStore('txt2imgOptions')
-    if (txt2imgOptions) {
-      this.prompt = txt2imgOptions.prompt
-    }
+    this.prompt = (await main.getMainStore('prompt')) || ''
   }
   async setPrompt(prompt: string) {
     this.prompt = prompt
     this.setPromptTime = now()
-    const txt2imgOptions = await main.getMainStore('txt2imgOptions')
-    if (txt2imgOptions) {
-      txt2imgOptions.prompt = prompt
-    }
-    await main.setMainStore('txt2imgOptions', txt2imgOptions)
+    await main.setMainStore('prompt', prompt)
   }
   toggleTag(tag: string) {
     const { editor } = this
@@ -58,7 +51,7 @@ class Store {
   }
   bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
-      if (name === 'txt2imgOptions') {
+      if (name === 'genOptions') {
         runInAction(() => {
           if (now() - this.setPromptTime < 500) {
             return
