@@ -15,6 +15,7 @@ import contain from 'licia/contain'
 import remove from 'licia/remove'
 import map from 'licia/map'
 import convertBin from 'licia/convertBin'
+import isFile from 'licia/isFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
@@ -53,7 +54,7 @@ class Store {
   }
   prompt = ''
   negativePrompt = ''
-  initImage?: IInitImage
+  initImage: IInitImage | null = null
   isReady = false
   models: string[] = []
   samplers: string[] = []
@@ -89,6 +90,8 @@ class Store {
       deleteAllImages: action,
       deleteImage: action,
       addFiles: action,
+      setInitImage: action,
+      deleteInitImage: action,
     })
     this.load()
     this.bindEvent()
@@ -168,6 +171,7 @@ class Store {
   async load() {
     this.prompt = (await main.getMainStore('prompt')) || ''
     this.negativePrompt = (await main.getMainStore('negativePrompt')) || ''
+    this.initImage = (await main.getMainStore('initImage')) || null
     const genOptions = await main.getMainStore('genOptions')
     if (genOptions) {
       extend(this.genOptions, genOptions)
@@ -327,6 +331,7 @@ class Store {
     const task = new GenTask(
       this.prompt,
       this.negativePrompt,
+      this.initImage ? this.initImage.data : null,
       clone(this.genOptions)
     )
     this.tasks.push(task)
@@ -337,11 +342,32 @@ class Store {
     this.tasks.push(task)
     this.doCreateTask()
   }
-  async setInitImage(data: string) {
+  async setInitImage(data: string | Blob, mime = '') {
+    if (isFile(data)) {
+      const buf = await convertBin.blobToArrBuffer(data)
+      if (!mime) {
+        const type = fileType(buf)
+        if (type) {
+          mime = type.mime
+        }
+      }
+
+      data = await convertBin(buf, 'base64')
+    }
+
+    if (!startWith(mime, 'image/')) {
+      return
+    }
+
     this.initImage = {
-      data,
+      data: data as string,
       mime: 'image/png',
     }
+    this.setStore('initImage', this.initImage)
+  }
+  deleteInitImage() {
+    this.initImage = null
+    this.setStore('initImage', null)
   }
   private async checkModel() {
     if (!this.isReady) {

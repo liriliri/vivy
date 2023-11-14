@@ -1,6 +1,7 @@
 {
   "noImages": "空列表",
   "openImage": "打开图片",
+  "setImage": "设置图片",
   "interrupt": "中止当前任务",
   "stop": "停止所有任务",
   "deleteAllImages": "删除所有图片",

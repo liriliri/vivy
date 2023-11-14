@@ -50,6 +50,19 @@ type Txt2ImgOptions = {
   seed: number
 }
 
+type Img2ImgOptions = {
+  prompt: string
+  negative_prompt: string
+  init_images: string[]
+  batch_size: number
+  steps: number
+  cfg_scale: number
+  sampler_name: string
+  width: number
+  height: number
+  seed: number
+}
+
 type ExtraSingleOptions = {
   image: string
   upscaling_resize_w: number
@@ -87,7 +100,7 @@ const api = axios.create({
   api.defaults.baseURL = `http://127.0.0.1:${port}`
 })()
 
-class StableDiffusionResult {
+export class StableDiffusionResult {
   images: string[] = []
   info: any
   parameters: any
@@ -157,6 +170,58 @@ export async function txt2img(
     send_images: true,
     save_images: false,
     sampler_name: options.sampler_name,
+    use_deprecated_controlnet: false,
+  })
+  return new StableDiffusionResult(response)
+}
+
+export async function img2img(
+  options: Img2ImgOptions
+): Promise<StableDiffusionResult> {
+  const response = await api.post<ApiRawResponse>('/sdapi/v1/img2img', {
+    init_images: options.init_images,
+    resize_mode: 0,
+    denoising_strength: 0.75,
+    image_cfg_scale: 1.5,
+    mask: null,
+    mask_blur: 4,
+    inpainting_fill: 0,
+    inpaint_full_res: true,
+    inpaint_full_res_padding: 0,
+    inpainting_mask_invert: 0,
+    initial_noise_multiplier: 1,
+    prompt: options.prompt,
+    styles: [],
+    seed: options.seed,
+    subseed: -1,
+    subseed_strength: 0,
+    seed_resize_from_h: 0,
+    seed_resize_from_w: 0,
+    sampler_name: options.sampler_name,
+    batch_size: options.batch_size ?? 1,
+    n_iter: 1,
+    steps: options.steps,
+    cfg_scale: options.cfg_scale,
+    width: options.width,
+    height: options.height,
+    restore_faces: false,
+    tiling: false,
+    do_not_save_samples: false,
+    do_not_save_grid: false,
+    negative_prompt: options.negative_prompt,
+    eta: 1.0,
+    s_churn: 0,
+    s_tmax: 0,
+    s_tmin: 0,
+    s_noise: 1,
+    override_settings: {},
+    override_settings_restore_afterwards: true,
+    script_args: [],
+    include_init_images: false,
+    script_name: null,
+    send_images: true,
+    save_images: false,
+    alwayson_scripts: {},
     use_deprecated_controlnet: false,
   })
   return new StableDiffusionResult(response)

@@ -1,4 +1,4 @@
-.init-image {
+.empty {
   text-align: center;
   padding: 12px;
   width: 100%;
@@ -9,9 +9,24 @@
   }
 }
 
+.toolbar {
+  background: var(--vivy-color-bg-container);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+}
+
+.init-image {
+  position: relative;
+  padding-top: 30px;
+  width: 100%;
+  border: 1px solid var(--vivy-color-border);
+}
+
 .image-viewer {
   width: 100%;
   height: 150px;
-  border: 1px solid var(--vivy-color-border);
-  background: var(--vivy-color-fill-tertiary);
+  overflow: hidden;
 }

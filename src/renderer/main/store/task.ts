@@ -38,7 +38,13 @@ export class GenTask extends Task {
   private progressTimer?: NodeJS.Timeout
   private prompt: string
   private negativePrompt: string
-  constructor(prompt, negativePrompt, genOptions: IGenOptions) {
+  private initImage: string | null
+  constructor(
+    prompt,
+    negativePrompt,
+    initImage: string | null,
+    genOptions: IGenOptions
+  ) {
     super()
 
     makeObservable(this, {
@@ -49,6 +55,7 @@ export class GenTask extends Task {
     this.prompt = prompt
     this.negativePrompt = negativePrompt
     this.genOptions = genOptions
+    this.initImage = initImage
     for (let i = 0; i < genOptions.batchSize; i++) {
       this.images[i] = {
         id: uuid(),
@@ -72,17 +79,33 @@ export class GenTask extends Task {
     const { genOptions, prompt, negativePrompt } = this
     this.status = TaskStatus.Generating
     this.getProgress()
-    const result = await webui.txt2img({
-      prompt,
-      negative_prompt: negativePrompt,
-      batch_size: genOptions.batchSize,
-      steps: genOptions.steps,
-      sampler_name: genOptions.sampler,
-      cfg_scale: genOptions.cfgScale,
-      width: genOptions.width,
-      height: genOptions.height,
-      seed: genOptions.seed,
-    })
+    let result: webui.StableDiffusionResult
+    if (this.initImage) {
+      result = await webui.img2img({
+        prompt,
+        negative_prompt: negativePrompt,
+        init_images: [this.initImage],
+        batch_size: genOptions.batchSize,
+        steps: genOptions.steps,
+        sampler_name: genOptions.sampler,
+        cfg_scale: genOptions.cfgScale,
+        width: genOptions.width,
+        height: genOptions.height,
+        seed: genOptions.seed,
+      })
+    } else {
+      result = await webui.txt2img({
+        prompt,
+        negative_prompt: negativePrompt,
+        batch_size: genOptions.batchSize,
+        steps: genOptions.steps,
+        sampler_name: genOptions.sampler,
+        cfg_scale: genOptions.cfgScale,
+        width: genOptions.width,
+        height: genOptions.height,
+        seed: genOptions.seed,
+      })
+    }
     this.progress = 100
     this.status = TaskStatus.Complete
     if (this.progressTimer) {
