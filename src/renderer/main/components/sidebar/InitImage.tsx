@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import Style from './InitImage.module.scss'
 import openFile from 'licia/openFile'
 import store from '../../store'
+import className from 'licia/className'
 import ImageViewer from 'luna-image-viewer'
 import { toDataUrl, t } from '../../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
@@ -10,10 +11,11 @@ import LunaToolbar, {
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
+  const [dropHighlight, setDropHighlight] = useState(false)
 
   const openInitImage = () => {
     openFile({
@@ -26,9 +28,30 @@ export default observer(function InitImage() {
     })
   }
 
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    setDropHighlight(false)
+    store.setInitImage(e.dataTransfer.files[0])
+  }
+
+  const onDragLeave = () => setDropHighlight(false)
+
+  const onDragOver = (e) => {
+    e.preventDefault()
+    setDropHighlight(true)
+  }
+
   if (!store.initImage) {
     return (
-      <div className={Style.empty} onClick={openInitImage}>
+      <div
+        className={className(Style.empty, {
+          [Style.highlight]: dropHighlight,
+        })}
+        onClick={openInitImage}
+        onDrop={onDrop}
+        onDragLeave={onDragLeave}
+        onDragOver={onDragOver}
+      >
         {t('setImage')}
       </div>
     )
@@ -54,11 +77,19 @@ export default observer(function InitImage() {
             onClick={() => store.deleteInitImage()}
           />
         </LunaToolbar>
-        <LunaImageViewer
-          className={Style.imageViewer}
-          image={toDataUrl(store.initImage.data, store.initImage.mime)}
-          onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
-        ></LunaImageViewer>
+        <div
+          className={className(Style.imageViewer, {
+            [Style.highlight]: dropHighlight,
+          })}
+          onDrop={onDrop}
+          onDragLeave={onDragLeave}
+          onDragOver={onDragOver}
+        >
+          <LunaImageViewer
+            image={toDataUrl(store.initImage.data, store.initImage.mime)}
+            onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
+          ></LunaImageViewer>
+        </div>
       </div>
     )
   }
