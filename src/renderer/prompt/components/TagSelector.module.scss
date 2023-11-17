@@ -5,10 +5,42 @@
   overflow: hidden;
 }
 
-.tab {
+.tab-container {
+  display: flex;
   position: absolute;
+  width: 100%;
   left: 0;
   top: 0;
+}
+
+.tab {
+  flex: 1;
+}
+
+.search {
+  padding: 3px 8px;
+  border-bottom: 1px solid var(--vivy-color-border);
+  input {
+    width: 200px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    color: var(--vivy-color-text);
+    appearance: none;
+    border: 1px solid var(--vivy-color-border);
+    outline: none;
+    padding: 2px 8px;
+    border-radius: 0;
+    font-size: 14px;
+    padding-right: 20px;
+    background: var(--vivy-color-bg-container);
+  }
+  :global(.icon) {
+    position: absolute;
+    right: 12px;
+    top: 7px;
+    span {
+      font-size: 14px;
+    }
+  }
 }
 
 .tags {

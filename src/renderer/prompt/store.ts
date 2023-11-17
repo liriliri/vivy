@@ -14,6 +14,7 @@ class Store {
   categories = keys(tags)
   selectedCategory = 'image'
   selectedCategoryTags = tags['image']
+  keyword = ''
   constructor() {
     makeObservable(this, {
       settings: observable,
@@ -21,6 +22,8 @@ class Store {
       setPrompt: observable,
       selectedCategory: observable,
       selectedCategoryTags: observable,
+      keyword: observable,
+      search: action,
       load: action,
     })
 
@@ -35,6 +38,9 @@ class Store {
     this.setPromptTime = now()
     await main.setMainStore('prompt', prompt)
   }
+  search(keyword: string) {
+    this.keyword = keyword
+  }
   toggleTag(tag: string) {
     const { editor } = this
     const value = prompt.toggleTag(this.prompt, tag)
@@ -48,6 +54,7 @@ class Store {
   selectCategory(category: string) {
     this.selectedCategory = category
     this.selectedCategoryTags = tags[category]
+    this.search('')
   }
   bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
