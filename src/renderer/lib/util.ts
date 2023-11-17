@@ -9,6 +9,7 @@ import map from 'licia/map'
 import trim from 'licia/trim'
 import startWith from 'licia/startWith'
 import h from 'licia/h'
+import contain from 'licia/contain'
 import enUS from '../../common/langs/en-US.json'
 import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
@@ -148,4 +149,8 @@ export function notify(content: string, options?: INotifyOptions) {
   }
 
   notification.notify(content, options)
+}
+
+export function isFileDrop(e: React.DragEvent) {
+  return contain(e.dataTransfer.types, 'Files')
 }

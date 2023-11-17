@@ -11,7 +11,7 @@ import openFile from 'licia/openFile'
 import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
-import { t, toDataUrl } from '../../../lib/util'
+import { t, toDataUrl, isFileDrop } from '../../../lib/util'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
@@ -175,6 +175,9 @@ export default observer(function () {
         onDrop={onDrop}
         onDragLeave={() => setDropHighlight(false)}
         onDragOver={(e) => {
+          if (!isFileDrop(e)) {
+            return
+          }
           e.preventDefault()
           setDropHighlight(true)
         }}
@@ -190,16 +193,36 @@ export default observer(function () {
 })
 
 function Image(image: IImage) {
+  const dataUrl = toDataUrl(image.data, 'image/png')
+  const itemStyle = getItemStyle()
+
+  const img = new window.Image()
+  img.src = dataUrl
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  canvas.width = itemStyle.width - itemStyle.padding * 2
+  canvas.height = img.height * (canvas.width / img.width)
+  ctx!.drawImage(img, 0, 0, canvas.width, canvas.height)
+  const dragImg = new window.Image()
+  dragImg.src = canvas.toDataURL()
+
   return (
     <div
       className={className(Style.item, Style.image, {
         [Style.selected]: image.id === store.selectedImage?.id,
       })}
       key={image.id}
-      style={getItemStyle()}
+      style={itemStyle}
+      onDragStart={(e) => {
+        e.dataTransfer.setDragImage(
+          dragImg,
+          Math.round(canvas.width / 2),
+          Math.round(canvas.height / 2)
+        )
+      }}
       onClick={() => store.selectImage(image)}
     >
-      <img src={toDataUrl(image.data, 'image/png')} draggable={false} />
+      <img src={dataUrl} draggable={true} />
     </div>
   )
 }

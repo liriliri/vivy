@@ -4,7 +4,7 @@ import openFile from 'licia/openFile'
 import store from '../../store'
 import className from 'licia/className'
 import ImageViewer from 'luna-image-viewer'
-import { toDataUrl, t } from '../../../lib/util'
+import { toDataUrl, t, isFileDrop } from '../../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
   LunaToolbarSeparator,
@@ -12,6 +12,8 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useRef, useState } from 'react'
+import isDataUrl from 'licia/isDataUrl'
+import startWith from 'licia/startWith'
 
 export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
@@ -31,7 +33,16 @@ export default observer(function InitImage() {
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault()
     setDropHighlight(false)
-    store.setInitImage(e.dataTransfer.files[0])
+    if (isFileDrop(e)) {
+      store.setInitImage(e.dataTransfer.files[0])
+    } else {
+      const data = e.dataTransfer.getData('URL')
+      if (isDataUrl(data) && startWith(data, 'data:image/')) {
+        const mime = data.slice(5, data.indexOf(';'))
+        const imgData = data.slice(data.indexOf(',') + 1)
+        store.setInitImage(imgData, mime)
+      }
+    }
   }
 
   const onDragLeave = () => setDropHighlight(false)
