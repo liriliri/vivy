@@ -9,6 +9,7 @@ import className from 'licia/className'
 import store from '../store'
 import * as prompt from '../../lib/prompt'
 import { useRef } from 'react'
+import isEmpty from 'licia/isEmpty'
 
 export default observer(function TagSelector() {
   const tabRef = useRef<Tab>()
@@ -24,29 +25,19 @@ export default observer(function TagSelector() {
     )
   })
 
-  let tags: JSX.Element[] = []
+  let tags: JSX.Element[] | JSX.Element = []
   if (store.keyword) {
-    tags = []
+    if (isEmpty(store.searchTags)) {
+      tags = <div className={Style.noTags}>{t('noTags')}</div>
+    } else {
+      tags = <div className={Style.category}>{map(store.searchTags, Tag)}</div>
+    }
   } else {
     tags = map(store.selectedCategoryTags, (tags, subCategory) => {
       return (
         <div className={Style.category} key={subCategory}>
           <div className={Style.categoryTitle}>{t(subCategory)}</div>
-          {map(tags, (tag) => {
-            const translation = t(`suggestion-${tag}`)
-            return (
-              <span
-                className={className(Style.tag, {
-                  [Style.selected]: prompt.hasTag(store.prompt, tag),
-                })}
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                title={translation ? tag : ''}
-              >
-                {translation || tag}
-              </span>
-            )
-          })}
+          {map(tags, Tag)}
         </div>
       )
     })
@@ -91,5 +82,21 @@ export default observer(function TagSelector() {
     </div>
   )
 })
+
+function Tag(tag: string) {
+  const translation = t(`suggestion-${tag}`)
+  return (
+    <span
+      className={className(Style.tag, {
+        [Style.selected]: prompt.hasTag(store.prompt, tag),
+      })}
+      key={tag}
+      onClick={() => toggleTag(tag)}
+      title={translation ? tag : ''}
+    >
+      {translation || tag}
+    </span>
+  )
+}
 
 const toggleTag = debounce((tag) => store.toggleTag(tag), 100)

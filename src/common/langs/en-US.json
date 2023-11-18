@@ -86,6 +86,7 @@
   "google": "Google",
   "translateErr": "Failed to translate",
   "deleteModelConfirm": "Are you sure you want to delete {{name}}?",
+  "noTags": "No Tags",
 
   "character": "Character",
   "camera": "Camera",

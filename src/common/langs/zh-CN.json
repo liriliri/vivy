@@ -86,6 +86,7 @@
   "google": "谷歌",
   "translateErr": "翻译失败",
   "deleteModelConfirm": "确定要删除 {{name}} 吗？",
+  "noTags": "空列表",
 
   "character": "角色",
   "camera": "镜头",

@@ -15,7 +15,9 @@ import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 import LunaNotification, { INotifyOptions } from 'luna-notification'
 
-each(suggestionsZhCN.split('\n'), (line) => {
+const suggestionsZhCNLines = suggestionsZhCN.split('\n')
+
+each(suggestionsZhCNLines, (line) => {
   const [key, translation] = line.split(',')
   zhCN[`suggestion-${key}`] = translation
 })
@@ -132,6 +134,22 @@ export function getSuggestions(str: string, maxCount = 5) {
     result.sort((a, b) => +b[1] - +a[1]),
     (w) => w[0]
   )
+}
+
+export function searchTags(str: string, maxCount = 100) {
+  const tags: string[] = []
+
+  for (let i = 0, len = suggestionsZhCNLines.length; i < len; i++) {
+    const line = suggestionsZhCNLines[i]
+    if (contain(line, str)) {
+      tags.push(line.split(',')[0])
+    }
+    if (tags.length >= maxCount) {
+      break
+    }
+  }
+
+  return tags
 }
 
 let notification: LunaNotification | null = null

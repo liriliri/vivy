@@ -5,6 +5,7 @@ import keys from 'licia/keys'
 import * as prompt from '../lib/prompt'
 import now from 'licia/now'
 import { editor } from 'monaco-editor'
+import { searchTags } from '../lib/util'
 
 class Store {
   settings = new Settings()
@@ -15,10 +16,12 @@ class Store {
   selectedCategory = 'image'
   selectedCategoryTags = tags['image']
   keyword = ''
+  searchTags: string[] = []
   constructor() {
     makeObservable(this, {
       settings: observable,
       prompt: observable,
+      searchTags: observable,
       setPrompt: observable,
       selectedCategory: observable,
       selectedCategoryTags: observable,
@@ -40,6 +43,11 @@ class Store {
   }
   search(keyword: string) {
     this.keyword = keyword
+    if (keyword) {
+      this.searchTags = searchTags(keyword)
+    } else {
+      this.searchTags = []
+    }
   }
   toggleTag(tag: string) {
     const { editor } = this
