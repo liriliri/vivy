@@ -1,3 +1,8 @@
+## v0.3.0 (20 Nov 2023)
+
+* feat: image to image
+* feat: prompt builder tag select and search
+
 ## v0.2.0 (15 Oct 2023)
 
 * feat: support google translate
