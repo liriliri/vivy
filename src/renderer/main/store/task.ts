@@ -82,6 +82,7 @@ export class GenTask extends Task {
     let result: webui.StableDiffusionResult
     if (this.initImage) {
       result = await webui.img2img({
+        denoising_strength: genOptions.denoisingStrength,
         prompt,
         negative_prompt: negativePrompt,
         init_images: [this.initImage],

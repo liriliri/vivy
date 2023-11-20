@@ -51,6 +51,7 @@ type Txt2ImgOptions = {
 }
 
 type Img2ImgOptions = {
+  denoising_strength: number
   prompt: string
   negative_prompt: string
   init_images: string[]
@@ -181,7 +182,7 @@ export async function img2img(
   const response = await api.post<ApiRawResponse>('/sdapi/v1/img2img', {
     init_images: options.init_images,
     resize_mode: 0,
-    denoising_strength: 0.75,
+    denoising_strength: options.denoising_strength,
     image_cfg_scale: 1.5,
     mask: null,
     mask_blur: 4,

@@ -69,7 +69,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
   height: 10px;
 }
 ::-webkit-scrollbar-track {
@@ -81,13 +81,13 @@ body {
   background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: var(--vivy-color-fill-tertiary);
   background-clip: padding-box;
   border: solid transparent;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--vivy-color-fill-secondary);
 }
 
 textarea {

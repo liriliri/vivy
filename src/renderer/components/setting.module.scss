@@ -67,6 +67,7 @@
 }
 
 .item-number {
+  position: relative;
   input[type='number'] {
     @include input();
     padding: 2px;
@@ -75,6 +76,11 @@
   .control {
     height: 20px;
   }
+  .range-value {
+    position: absolute;
+    right: 0;
+    top: 2px;
+  }
   .range-container {
     flex: 2;
     position: relative;
@@ -82,7 +88,7 @@
     .range-track {
       height: 4px;
       width: 100%;
-      padding: 0 10px;
+      padding: 0;
       position: absolute;
       left: 0;
       top: 4px;

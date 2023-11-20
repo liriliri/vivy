@@ -90,7 +90,7 @@ export function Number(props: INumberProps) {
   if (props.range) {
     input = (
       <div className={Style.control}>
-        {min}
+        <span className={Style.rangeValue}>{`${props.value}/${max}`}</span>
         <div className={Style.rangeContainer}>
           <div className={Style.rangeTrack}>
             <div className={Style.rangeTrackBar}>
@@ -102,7 +102,6 @@ export function Number(props: INumberProps) {
           </div>
           {input}
         </div>
-        {`${props.value}/${max}`}
       </div>
     )
   } else {

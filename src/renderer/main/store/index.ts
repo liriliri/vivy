@@ -48,6 +48,7 @@ class Store {
     height: 512,
     batchSize: 2,
     cfgScale: 7,
+    denoisingStrength: 0.7,
   }
   options: IOptions = {
     model: '',

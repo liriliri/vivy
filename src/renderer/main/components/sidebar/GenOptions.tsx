@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite'
 import { t } from '../../../lib/util'
 import store from '../../store'
 import { Select, Row, Number } from '../../../components/setting'
+import Style from './GenOptions.module.scss'
+import InitImage from './InitImage'
 
 export default observer(function () {
   const { genOptions } = store
@@ -19,8 +21,31 @@ export default observer(function () {
     }
   }
 
+  let img2imgOptions: JSX.Element | null = null
+  if (store.initImage) {
+    img2imgOptions = (
+      <>
+        <Row>
+          <Number
+            value={genOptions.denoisingStrength}
+            title={t('denoisingStrength')}
+            min={0}
+            max={1}
+            step={0.01}
+            range={true}
+            onChange={(val) => store.setGenOptions('denoisingStrength', val)}
+          />
+        </Row>
+      </>
+    )
+  }
+
   return (
-    <>
+    <div className={Style.genOptions}>
+      <Row>
+        <InitImage />
+      </Row>
+      {img2imgOptions}
       <Row>
         <Select
           value={genOptions.sampler}
@@ -77,6 +102,6 @@ export default observer(function () {
           onChange={(val) => store.setGenOptions('seed', val)}
         />
       </Row>
-    </>
+    </div>
   )
 })

@@ -5,6 +5,7 @@
   width: 400px;
   min-width: 350px;
   max-width: calc(100vw - 350px);
+  flex-direction: column;
 }
 
 .resizer {

@@ -87,6 +87,7 @@
   "translateErr": "Failed to translate",
   "deleteModelConfirm": "Are you sure you want to delete {{name}}?",
   "noTags": "No Tags",
+  "denoisingStrength": "Denoising Strength",
 
   "character": "Character",
   "camera": "Camera",

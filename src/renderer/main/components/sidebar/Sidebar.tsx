@@ -4,8 +4,6 @@ import Style from './Sidebar.module.scss'
 import { useCallback, useRef, useState } from 'react'
 import GenOptions from './GenOptions'
 import Prompt from './Prompt'
-import { Row } from '../../../components/setting'
-import InitImage from './InitImage'
 
 export default observer(function () {
   const sidebarRef = useRef<HTMLDivElement>(null)
@@ -46,7 +44,7 @@ export default observer(function () {
       ref={sidebarRef}
       style={{
         width: store.ui.sidebarWidth,
-        display: store.ui.sidebarCollapsed ? 'none' : 'block',
+        display: store.ui.sidebarCollapsed ? 'none' : 'flex',
       }}
     >
       <div
@@ -55,9 +53,6 @@ export default observer(function () {
         onMouseDown={onMouseDown}
       ></div>
       <Prompt />
-      <Row>
-        <InitImage />
-      </Row>
       <GenOptions />
     </div>
   )
