@@ -66,13 +66,13 @@ class Store {
   }
   bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
-      if (name === 'genOptions') {
+      if (name === 'prompt') {
         runInAction(() => {
           if (now() - this.setPromptTime < 500) {
             return
           }
-          if (this.prompt !== val.prompt) {
-            this.prompt = val.prompt
+          if (this.prompt !== val) {
+            this.prompt = val
           }
         })
       }
