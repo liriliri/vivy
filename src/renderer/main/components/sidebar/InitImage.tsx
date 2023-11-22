@@ -3,6 +3,7 @@ import Style from './InitImage.module.scss'
 import openFile from 'licia/openFile'
 import store from '../../store'
 import className from 'licia/className'
+import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
 import { toDataUrl, t, isFileDrop } from '../../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
@@ -12,9 +13,11 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useRef, useState } from 'react'
+import ImageInfoModal from '../common/ImageInfoModal'
 
 export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
+  const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
 
   const openInitImage = () => {
@@ -74,6 +77,12 @@ export default observer(function InitImage() {
             title={t('openImage')}
             onClick={openInitImage}
           />
+          <ToolbarIcon
+            icon="info"
+            title={t('imageInfo')}
+            onClick={() => setImageInfoModalVisible(true)}
+            disabled={!toBool(store.initImage?.info.prompt)}
+          />
           <LunaToolbarSeparator />
           <ToolbarIcon
             icon="reset"
@@ -100,6 +109,11 @@ export default observer(function InitImage() {
             onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
           ></LunaImageViewer>
         </div>
+        <ImageInfoModal
+          visible={imageInfoModalVisible}
+          image={store.initImage}
+          onClose={() => setImageInfoModalVisible(false)}
+        />
       </div>
     )
   }

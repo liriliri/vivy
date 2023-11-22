@@ -17,7 +17,7 @@ import ToolbarIcon from '../../../components/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t, toDataUrl } from '../../../lib/util'
-import InfoModal from './InfoModal'
+import ImageInfoModal from '../common/ImageInfoModal'
 import UpscaleModal from './UpscaleModal'
 import CopyButton from '../../../components/CopyButton'
 import { IImage } from '../../../main/store/types'
@@ -26,7 +26,7 @@ import truncate from 'licia/truncate'
 
 export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
-  const [infoModalVisible, setInfoModalVisible] = useState(false)
+  const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
 
   const save = () => {
@@ -102,7 +102,7 @@ export default observer(function () {
         <ToolbarIcon
           icon="info"
           title={t('imageInfo')}
-          onClick={() => setInfoModalVisible(true)}
+          onClick={() => setImageInfoModalVisible(true)}
           disabled={!toBool(store.selectedImage?.info.prompt)}
         />
         <LunaToolbarSeparator />
@@ -161,10 +161,13 @@ export default observer(function () {
       ></LunaImageViewer>
       {hasArrow ? arrowLeft : null}
       {hasArrow ? arrowRight : null}
-      <InfoModal
-        visible={infoModalVisible}
-        onClose={() => setInfoModalVisible(false)}
-      />
+      {store.selectedImage ? (
+        <ImageInfoModal
+          visible={imageInfoModalVisible}
+          image={store.selectedImage}
+          onClose={() => setImageInfoModalVisible(false)}
+        />
+      ) : null}
       <UpscaleModal
         visible={upscaleModalVisible}
         onClose={() => setUpscaleModalVisible(false)}
