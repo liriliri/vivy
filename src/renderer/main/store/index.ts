@@ -34,11 +34,6 @@ interface IOptions {
   model: string
 }
 
-interface IInitImage {
-  data: string
-  mime: string
-}
-
 class Store {
   genOptions: IGenOptions = {
     sampler: 'Euler a',
@@ -55,7 +50,7 @@ class Store {
   }
   prompt = ''
   negativePrompt = ''
-  initImage: IInitImage | null = null
+  initImage: IImage | null = null
   isReady = false
   models: string[] = []
   samplers: string[] = []
@@ -141,6 +136,16 @@ class Store {
     }
     remove(images, (item: IImage) => item === image)
   }
+  getImage(id: string) {
+    const { images } = this
+
+    for (let i = 0, len = images.length; i < len; i++) {
+      const image = images[i]
+      if (image.id === id) {
+        return image
+      }
+    }
+  }
   deleteAllImages() {
     this.selectImage()
     this.images = []
@@ -172,7 +177,10 @@ class Store {
   async load() {
     this.prompt = (await main.getMainStore('prompt')) || ''
     this.negativePrompt = (await main.getMainStore('negativePrompt')) || ''
-    this.initImage = (await main.getMainStore('initImage')) || null
+    const initImage = await main.getMainStore('initImage')
+    if (initImage && initImage.info) {
+      this.initImage = initImage
+    }
     const genOptions = await main.getMainStore('genOptions')
     if (genOptions) {
       extend(this.genOptions, genOptions)
@@ -343,7 +351,7 @@ class Store {
     this.tasks.push(task)
     this.doCreateTask()
   }
-  async setInitImage(data: string | Blob, mime = '') {
+  async setInitImage(data: IImage | Blob, mime = '') {
     if (isFile(data)) {
       const buf = await convertBin.blobToArrBuffer(data)
       if (!mime) {
@@ -353,17 +361,26 @@ class Store {
         }
       }
 
-      data = await convertBin(buf, 'base64')
+      if (!startWith(mime, 'image/')) {
+        return
+      }
+
+      const base64Data = await convertBin(buf, 'base64')
+      const imageInfo = await parseImage(base64Data, mime)
+      this.initImage = {
+        id: uuid(),
+        data: base64Data,
+        save: true,
+        info: {
+          size: buf.byteLength,
+          mime,
+          ...imageInfo,
+        },
+      }
+    } else {
+      this.initImage = data as IImage
     }
 
-    if (!startWith(mime, 'image/')) {
-      return
-    }
-
-    this.initImage = {
-      data: data as string,
-      mime: 'image/png',
-    }
     this.setStore('initImage', this.initImage)
   }
   deleteInitImage() {

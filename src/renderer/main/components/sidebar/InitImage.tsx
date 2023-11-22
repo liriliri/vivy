@@ -12,8 +12,6 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useRef, useState } from 'react'
-import isDataUrl from 'licia/isDataUrl'
-import startWith from 'licia/startWith'
 
 export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
@@ -36,11 +34,12 @@ export default observer(function InitImage() {
     if (isFileDrop(e)) {
       store.setInitImage(e.dataTransfer.files[0])
     } else {
-      const data = e.dataTransfer.getData('URL')
-      if (isDataUrl(data) && startWith(data, 'data:image/')) {
-        const mime = data.slice(5, data.indexOf(';'))
-        const imgData = data.slice(data.indexOf(',') + 1)
-        store.setInitImage(imgData, mime)
+      const id = e.dataTransfer.getData('imageId')
+      if (id) {
+        const image = store.getImage(id)
+        if (image) {
+          store.setInitImage(image)
+        }
       }
     }
   }
@@ -97,7 +96,7 @@ export default observer(function InitImage() {
           onDragOver={onDragOver}
         >
           <LunaImageViewer
-            image={toDataUrl(store.initImage.data, store.initImage.mime)}
+            image={toDataUrl(store.initImage.data, store.initImage.info.mime)}
             onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
           ></LunaImageViewer>
         </div>

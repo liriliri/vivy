@@ -214,6 +214,7 @@ function Image(image: IImage) {
       key={image.id}
       style={itemStyle}
       onDragStart={(e) => {
+        e.dataTransfer.setData('imageId', image.id)
         e.dataTransfer.setDragImage(
           dragImg,
           Math.round(canvas.width / 2),
