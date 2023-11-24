@@ -8,6 +8,7 @@ import className from 'licia/className'
 import CopyButton from '../../../components/CopyButton'
 import LunaDataGrid from 'luna-data-grid/react'
 import { IImage } from '../../store/types'
+import { useState } from 'react'
 
 interface IProps {
   visible: boolean
@@ -16,6 +17,8 @@ interface IProps {
 }
 
 export default observer(function ImageInfoModal(props: IProps) {
+  const [showSuccess, setShowSuccess] = useState(false)
+
   const info = props.image.info
   const prompt = info.prompt ? (
     <div className={Style.group}>
@@ -74,6 +77,8 @@ export default observer(function ImageInfoModal(props: IProps) {
     }
     text.push(parameters.join(', '))
     copy(text.join('\n'))
+    setShowSuccess(true)
+    setTimeout(() => setShowSuccess(false), 1000)
   }
 
   const content = (
@@ -94,13 +99,17 @@ export default observer(function ImageInfoModal(props: IProps) {
         data={data}
         minHeight={41}
       />
-      <button
-        className={className(Style.copyData, 'button')}
+      <div
+        className={className(
+          Style.copyData,
+          'button',
+          showSuccess ? 'success' : 'primary'
+        )}
         onMouseDown={(e) => e.preventDefault()}
         onClick={copyGenData}
       >
-        {t('copyGenData')}
-      </button>
+        {t(showSuccess ? 'copied' : 'copyGenData')}
+      </div>
     </>
   )
 

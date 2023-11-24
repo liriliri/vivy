@@ -57,7 +57,7 @@ export default observer(function InitImage() {
   if (!store.initImage) {
     return (
       <div
-        className={className(Style.empty, {
+        className={className(Style.empty, 'button', {
           [Style.highlight]: dropHighlight,
         })}
         onClick={openInitImage}

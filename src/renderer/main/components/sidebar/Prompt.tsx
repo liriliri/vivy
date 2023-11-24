@@ -137,13 +137,13 @@ export default observer(function () {
           onMount={negativePromptOnMount}
         />
       </div>
-      <button
-        className={className(Style.generate, 'button')}
+      <div
+        className={className(Style.generate, 'button', 'primary')}
         onMouseDown={(e) => e.preventDefault()}
         onClick={() => store.createGenTask()}
       >
         {t('generate')}
-      </button>
+      </div>
     </div>
   )
 })

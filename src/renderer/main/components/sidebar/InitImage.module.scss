@@ -1,12 +1,6 @@
 .empty {
-  text-align: center;
   padding: 12px;
   width: 100%;
-  cursor: pointer;
-  background: var(--vivy-color-fill-tertiary);
-  &:hover {
-    background: var(--vivy-color-fill-secondary);
-  }
   &.highlight {
     background: var(--vivy-color-primary-bg);
   }

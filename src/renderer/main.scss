@@ -41,6 +41,8 @@ body {
       box-shadow: $box-shadow,
       color-bg-text-hover: $color-bg-text-hover,
       color-fill-tertiary: $color-fill-tertiary,
+      color-success-hover: $color-success-hover,
+      color-success-active: $color-success-active,
     )
   );
 }
@@ -64,6 +66,8 @@ body {
       box-shadow: $box-shadow-dark,
       color-bg-text-hover: $color-bg-text-hover-dark,
       color-fill-tertiary: $color-fill-tertiary-dark,
+      color-success-hover: $color-success-hover-dark,
+      color-success-active: $color-success-active-dark,
     )
   );
 }
@@ -96,16 +100,33 @@ textarea {
   border-radius: 4px;
 }
 
-button {
-  background: var(--vivy-color-primary);
+.button {
   border: none;
-  color: #fff;
+  text-align: center;
   padding: 6px;
+  background: var(--vivy-color-fill-tertiary);
   &:hover {
-    background: var(--vivy-color-primary-hover);
+    background: var(--vivy-color-fill-secondary);
   }
-  &:active {
-    background: var(--vivy-color-primary-active);
+  &.primary {
+    color: #fff;
+    background: var(--vivy-color-primary);
+    &:hover {
+      background: var(--vivy-color-primary-hover);
+    }
+    &:active {
+      background: var(--vivy-color-primary-active);
+    }
+  }
+  &.success {
+    color: #fff;
+    background: var(--vivy-color-success);
+    &:hover {
+      background: var(--vivy-color-success-hover);
+    }
+    &:active {
+      background: var(--vivy-color-success-active);
+    }
   }
 }
 
