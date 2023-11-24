@@ -11,6 +11,7 @@ import Style from './Prompt.module.scss'
 import LunaToolbar, {
   LunaToolbarHtml,
   LunaToolbarSeparator,
+  LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import CopyButton from '../../components/CopyButton'
 import { useRef, useState } from 'react'
@@ -67,6 +68,12 @@ export default observer(function Prompt() {
             title={t('translate')}
             disabled={store.settings.language === 'en-US'}
             onClick={() => translatePrompt(editorRef.current!)}
+          />
+          <LunaToolbarSpace />
+          <ToolbarIcon
+            icon="dice"
+            title={t('randomPrompt')}
+            onClick={() => store.random()}
           />
         </LunaToolbar>
       </div>

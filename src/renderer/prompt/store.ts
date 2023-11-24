@@ -4,6 +4,10 @@ import tags from '../assets/tags.json'
 import keys from 'licia/keys'
 import * as prompt from '../lib/prompt'
 import now from 'licia/now'
+import each from 'licia/each'
+import shuffle from 'licia/shuffle'
+import random from 'licia/random'
+import randomItem from 'licia/randomItem'
 import { editor } from 'monaco-editor'
 import { searchTags } from '../lib/util'
 
@@ -41,6 +45,25 @@ class Store {
     this.setPromptTime = now()
     await main.setMainStore('prompt', prompt)
   }
+  async random() {
+    const result: string[] = []
+
+    let subCategories: Array<string[]> = []
+    each(tags, (category) => {
+      each(category, (subCategory) => {
+        subCategories.push(subCategory)
+      })
+    })
+    const qualityCategory = subCategories.shift() as string[]
+    subCategories = shuffle(subCategories)
+    subCategories.unshift(qualityCategory)
+    for (let i = 0, len = random(5, subCategories.length); i < len; i++) {
+      const subCategory = subCategories[i]
+      result.push(randomItem(subCategory))
+    }
+
+    this.setEditorValue(result.join(', '))
+  }
   search(keyword: string) {
     this.keyword = keyword
     if (keyword) {
@@ -50,21 +73,14 @@ class Store {
     }
   }
   toggleTag(tag: string) {
-    const { editor } = this
-    const value = prompt.toggleTag(this.prompt, tag)
-    if (editor) {
-      if (!editor.hasTextFocus()) {
-        editor.focus()
-      }
-      editor.setValue(value)
-    }
+    this.setEditorValue(prompt.toggleTag(this.prompt, tag))
   }
   selectCategory(category: string) {
     this.selectedCategory = category
     this.selectedCategoryTags = tags[category]
     this.search('')
   }
-  bindEvent() {
+  private bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
       if (name === 'prompt') {
         runInAction(() => {
@@ -77,6 +93,15 @@ class Store {
         })
       }
     })
+  }
+  private setEditorValue(value: string) {
+    const { editor } = this
+    if (editor) {
+      if (!editor.hasTextFocus()) {
+        editor.focus()
+      }
+      editor.setValue(value)
+    }
   }
 }
 

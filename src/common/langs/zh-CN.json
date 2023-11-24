@@ -88,6 +88,7 @@
   "deleteModelConfirm": "确定要删除 {{name}} 吗？",
   "noTags": "空列表",
   "denoisingStrength": "重绘幅度",
+  "randomPrompt": "随机提示词",
 
   "character": "角色",
   "camera": "镜头",
