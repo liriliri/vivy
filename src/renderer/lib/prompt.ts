@@ -1,4 +1,5 @@
 import map from 'licia/map'
+import each from 'licia/each'
 import trim from 'licia/trim'
 import remove from 'licia/remove'
 import contain from 'licia/contain'
@@ -28,18 +29,66 @@ export function format(prompt: string) {
 }
 
 export function addTag(prompt: string, tag: string) {
-  prompt = rtrim(prompt, ', ')
+  prompt = rtrim(prompt, ', \n')
   return prompt + (isEmpty(prompt) ? '' : ', ') + tag
 }
 
-export function rmTag(prompt: string, tag: string) {
-  const lines = map(prompt.split('\n'), (line) => {
+export function split(prompt: string) {
+  const lines = prompt.split('\n')
+  const result: Array<string[]> = []
+  each(lines, (line) => {
+    const lineTags: string[] = []
     const tags = line.split(',')
-    remove(tags, (t) => hasTag(t, tag))
-    return tags.join(',')
+    let tag = ''
+    for (let i = 0, len = tags.length; i < len; i++) {
+      const t = tags[i]
+      tag += tag ? `,${t}` : t
+      if (isValidTag(tag)) {
+        lineTags.push(tag)
+        tag = ''
+      }
+    }
+    result.push(lineTags)
   })
+  return result
+}
 
-  return lines.join('\n')
+export function join(lines: Array<string[]>) {
+  return map(lines, (line) => line.join(',')).join('\n')
+}
+
+function isValidTag(tag: string) {
+  const brackets = {
+    '(': 0,
+    '[': 0,
+    '<': 0,
+  }
+  function check(c, left, right) {
+    if (c === left) {
+      brackets[left]++
+    } else if (c === right) {
+      brackets[left]--
+    }
+  }
+  for (let i = 0, len = tag.length; i < len; i++) {
+    const c = tag[i]
+    check(c, '(', ')')
+    check(c, '[', ']')
+    check(c, '<', '>')
+  }
+
+  let sum = 0
+  each(brackets, (count) => (sum += count))
+
+  return sum === 0
+}
+
+export function rmTag(prompt: string, tag: string) {
+  const lines = split(prompt)
+  each(lines, (tags) => {
+    remove(tags, (t) => hasTag(t, tag))
+  })
+  return join(lines)
 }
 
 export function toggleTag(prompt: string, tag: string) {
