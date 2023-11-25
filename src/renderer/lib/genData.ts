@@ -22,13 +22,13 @@ interface IGenData {
   model?: string
 }
 
-interface ISDGenData extends IGenData {
+export interface ISDGenData extends IGenData {
   prompt: string
   width?: number
   height?: number
 }
 
-interface IImageGenData extends IGenData {
+export interface IImageGenData extends IGenData {
   prompt?: string
   width: number
   height: number

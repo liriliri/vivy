@@ -110,7 +110,7 @@ export default observer(function () {
           title={t('openImage')}
           onClick={() => {
             openFile({
-              accept: 'image/png',
+              accept: 'image/png,image/jpeg',
               multiple: true,
             }).then(async (fileList) => store.addFiles(fileList as any))
           }}

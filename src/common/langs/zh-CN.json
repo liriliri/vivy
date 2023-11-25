@@ -90,6 +90,8 @@
   "denoisingStrength": "重绘幅度",
   "randomPrompt": "随机提示词",
   "copied": "已复制",
+  "import": "导入",
+  "importErr": "导入失败",
 
   "character": "角色",
   "camera": "镜头",

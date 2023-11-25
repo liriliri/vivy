@@ -19,7 +19,7 @@ import isFile from 'licia/isFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import * as webui from '../../lib/webui'
-import { parseImage, parseText } from '../../lib/genData'
+import { ISDGenData, IImageGenData, parseImage } from '../../lib/genData'
 import { IImage, IGenOptions, IUpscaleImgOptions } from './types'
 import { Task, TaskStatus, GenTask, UpscaleImgTask } from './task'
 import fileType from 'licia/fileType'
@@ -77,8 +77,8 @@ class Store {
       ui: observable,
       settings: observable,
       waitForReady: action,
+      setGenOption: action,
       setGenOptions: action,
-      parseGenOptionsText: action,
       createGenTask: action,
       selectImage: action,
       selectNextImage: action,
@@ -158,7 +158,7 @@ class Store {
       if (!type || !startWith(type.mime, 'image/')) {
         continue
       }
-      const data = await convertBin(buf, 'base64')
+      const data = convertBin(buf, 'base64')
       const imageInfo = await parseImage(data, type.mime)
       const image = {
         id: uuid(),
@@ -250,14 +250,13 @@ class Store {
     this.negativePrompt = negativePrompt
     this.setStore('negativePrompt', negativePrompt)
   }
-  setGenOptions(key, val) {
+  setGenOption(key, val) {
     this.genOptions[key] = val
     this.setStore('genOptions', this.genOptions)
   }
-  parseGenOptionsText(text: string) {
+  setGenOptions(genData: ISDGenData | IImageGenData) {
     const { genOptions } = this
 
-    const genData = parseText(text)
     if (genData.prompt) {
       this.prompt = genData.prompt
     }

@@ -33,7 +33,7 @@ export default observer(function () {
             max={1}
             step={0.01}
             range={true}
-            onChange={(val) => store.setGenOptions('denoisingStrength', val)}
+            onChange={(val) => store.setGenOption('denoisingStrength', val)}
           />
         </Row>
       </>
@@ -51,14 +51,14 @@ export default observer(function () {
           value={genOptions.sampler}
           title={t('samplingMethod')}
           options={samplers}
-          onChange={(val) => store.setGenOptions('sampler', val)}
+          onChange={(val) => store.setGenOption('sampler', val)}
         />
         <Number
           value={genOptions.steps}
           title={t('samplingSteps')}
           min={1}
           max={50}
-          onChange={(val) => store.setGenOptions('steps', val)}
+          onChange={(val) => store.setGenOption('steps', val)}
         />
       </Row>
       <Row>
@@ -67,14 +67,14 @@ export default observer(function () {
           title={t('width')}
           min={64}
           max={2048}
-          onChange={(val) => store.setGenOptions('width', val)}
+          onChange={(val) => store.setGenOption('width', val)}
         />
         <Number
           value={genOptions.height}
           title={t('height')}
           min={64}
           max={2048}
-          onChange={(val) => store.setGenOptions('height', val)}
+          onChange={(val) => store.setGenOption('height', val)}
         />
       </Row>
       <Row>
@@ -84,7 +84,7 @@ export default observer(function () {
           min={1}
           max={8}
           range={true}
-          onChange={(val) => store.setGenOptions('batchSize', val)}
+          onChange={(val) => store.setGenOption('batchSize', val)}
         />
         <Number
           value={genOptions.cfgScale}
@@ -92,14 +92,14 @@ export default observer(function () {
           min={1}
           max={30}
           range={true}
-          onChange={(val) => store.setGenOptions('cfgScale', val)}
+          onChange={(val) => store.setGenOption('cfgScale', val)}
         />
       </Row>
       <Row>
         <Number
           value={genOptions.seed}
           title={t('seed')}
-          onChange={(val) => store.setGenOptions('seed', val)}
+          onChange={(val) => store.setGenOption('seed', val)}
         />
       </Row>
     </div>

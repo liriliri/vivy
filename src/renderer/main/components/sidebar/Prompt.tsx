@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import Style from './Prompt.module.scss'
-import { t } from '../../../lib/util'
+import { notify, t } from '../../../lib/util'
 import className from 'licia/className'
 import store from '../../store'
 import { editor } from 'monaco-editor'
@@ -19,6 +19,11 @@ import PromptEditor, {
   formatPrompt,
   translatePrompt,
 } from '../../../components/PromptEditor'
+import openFile from 'licia/openFile'
+import convertBin from 'licia/convertBin'
+import bytesToStr from 'licia/bytesToStr'
+import { parseImage, parseText } from '../../../lib/genData'
+import startWith from 'licia/startWith'
 
 export default observer(function () {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()
@@ -52,12 +57,42 @@ export default observer(function () {
     }
   }
 
+  const importAll = () => {
+    openFile({
+      accept: 'image/png,image/jpeg,text/plain',
+    }).then(async (fileList) => {
+      const file = fileList[0]
+      if (file) {
+        if (editorFocus || negativeEditorFocus) {
+          ;(document.activeElement as any).blur()
+        }
+        const buf = await convertBin.blobToArrBuffer(file)
+        if (file.type === 'text/plain') {
+          const text = bytesToStr(convertBin(buf, 'Uint8Array'))
+          store.setGenOptions(parseText(text))
+        } else if (startWith(file.type, 'image')) {
+          const imageInfo = await parseImage(
+            convertBin(buf, 'base64'),
+            file.type
+          )
+          if (imageInfo.prompt) {
+            store.setGenOptions(imageInfo)
+          } else {
+            notify(t('importErr'))
+          }
+        } else {
+          notify(t('importErr'))
+        }
+      }
+    })
+  }
+
   const pasteAll = async () => {
     if (editorFocus || negativeEditorFocus) {
       ;(document.activeElement as any).blur()
     }
     const text = await navigator.clipboard.readText()
-    store.parseGenOptionsText(text)
+    store.setGenOptions(parseText(text))
   }
 
   const getSelectedEditor = () => {
@@ -102,6 +137,12 @@ export default observer(function () {
             onClick={() => main.showPrompt()}
           />
           <LunaToolbarSpace />
+          <ToolbarIcon
+            icon="open-file"
+            title={t('import')}
+            onClick={importAll}
+          />
+          <LunaToolbarSeparator />
           <ToolbarIcon
             icon="down-left"
             title={t('pasteAll')}

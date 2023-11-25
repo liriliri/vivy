@@ -90,6 +90,8 @@
   "denoisingStrength": "Denoising Strength",
   "randomPrompt": "Random Prompt",
   "copied": "Copied",
+  "import": "Import",
+  "importErr": "Failed to import",
 
   "character": "Character",
   "camera": "Camera",

@@ -22,7 +22,7 @@ export default observer(function InitImage() {
 
   const openInitImage = () => {
     openFile({
-      accept: 'image/png',
+      accept: 'image/png,image/jpeg',
     }).then(async (fileList) => {
       const file = fileList[0]
       if (file) {
