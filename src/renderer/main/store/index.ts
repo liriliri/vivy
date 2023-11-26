@@ -76,6 +76,7 @@ class Store {
       selectedImage: observable,
       ui: observable,
       settings: observable,
+      load: action,
       waitForReady: action,
       setGenOption: action,
       setGenOptions: action,
@@ -175,23 +176,29 @@ class Store {
     }
   }
   async load() {
-    this.prompt = (await main.getMainStore('prompt')) || ''
-    this.negativePrompt = (await main.getMainStore('negativePrompt')) || ''
+    const prompt = (await main.getMainStore('prompt')) || ''
+    const negativePrompt = (await main.getMainStore('negativePrompt')) || ''
+    runInAction(async () => {
+      this.prompt = prompt
+      this.negativePrompt = negativePrompt
+    })
     const initImage = await main.getMainStore('initImage')
     if (initImage && initImage.info) {
       this.initImage = initImage
     }
     const genOptions = await main.getMainStore('genOptions')
     if (genOptions) {
-      extend(this.genOptions, genOptions)
+      runInAction(() => {
+        extend(this.genOptions, genOptions)
+      })
     }
     const samplers = await main.getMainStore('samplers')
     if (samplers) {
-      this.samplers = samplers
+      runInAction(() => (this.samplers = samplers))
     }
     const upscalers = await main.getMainStore('upscalers')
     if (upscalers) {
-      this.upscalers = upscalers
+      runInAction(() => (this.upscalers = upscalers))
     }
   }
   async setStore(name: string, val: any) {
@@ -213,13 +220,17 @@ class Store {
   }
   async fetchOptions() {
     const options = await webui.getOptions()
-    this.options = {
-      model: options.sd_model_checkpoint,
-    }
+    runInAction(() => {
+      this.options = {
+        model: options.sd_model_checkpoint,
+      }
+    })
   }
   async fetchSamplers() {
     const samplers = await webui.getSamplers()
-    this.samplers = map(samplers, (sampler) => sampler.name)
+    runInAction(() => {
+      this.samplers = map(samplers, (sampler) => sampler.name)
+    })
     this.setStore('samplers', this.samplers)
   }
   async fetchUpscalers() {
@@ -229,7 +240,9 @@ class Store {
   }
   async fetchModels() {
     const models = await webui.getSdModels()
-    this.models = map(models, (model) => model.title)
+    runInAction(() => {
+      this.models = map(models, (model) => model.title)
+    })
   }
   async waitForReady() {
     if (isEmpty(this.tasks)) {
@@ -242,26 +255,32 @@ class Store {
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
-  setPrompt(prompt: string) {
+  async setPrompt(prompt: string) {
+    if (this.prompt === prompt) {
+      return
+    }
     this.prompt = prompt
-    this.setStore('prompt', prompt)
+    await this.setStore('prompt', prompt)
   }
-  setNegativePrompt(negativePrompt: string) {
+  async setNegativePrompt(negativePrompt: string) {
+    if (this.negativePrompt === negativePrompt) {
+      return
+    }
     this.negativePrompt = negativePrompt
-    this.setStore('negativePrompt', negativePrompt)
+    await this.setStore('negativePrompt', negativePrompt)
   }
   setGenOption(key, val) {
     this.genOptions[key] = val
     this.setStore('genOptions', this.genOptions)
   }
-  setGenOptions(genData: ISDGenData | IImageGenData) {
+  async setGenOptions(genData: ISDGenData | IImageGenData) {
     const { genOptions } = this
 
     if (genData.prompt) {
-      this.prompt = genData.prompt
+      await this.setPrompt(genData.prompt)
     }
     if (genData.negativePrompt) {
-      this.negativePrompt = genData.negativePrompt
+      await this.setNegativePrompt(genData.negativePrompt)
     }
     if (genData.sampler && contain(this.samplers, genData.sampler)) {
       genOptions.sampler = genData.sampler
@@ -281,7 +300,7 @@ class Store {
     if (genData.seed) {
       genOptions.seed = genData.seed
     }
-    this.setStore('genOptions', genOptions)
+    await this.setStore('genOptions', genOptions)
   }
   async setOptions(key, val) {
     const { options } = this

@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx'
+import { action, makeObservable, observable, runInAction } from 'mobx'
 import { getSystemLanguage } from '../lib/util'
 import isDarkMode from 'licia/isDarkMode'
 
@@ -15,6 +15,7 @@ export class Settings {
       enableWebUI: observable,
       modelPath: observable,
       set: action,
+      load: action,
     })
 
     this.load()
@@ -26,7 +27,7 @@ export class Settings {
       const name = names[i]
       const val = await main.getSettingsStore(name)
       if (val) {
-        this[name] = val
+        runInAction(() => (this[name] = val))
       }
     }
   }

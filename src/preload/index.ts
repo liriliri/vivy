@@ -3,7 +3,6 @@ import isDarkMode from 'licia/isDarkMode'
 import { OpenDialogOptions, contextBridge, ipcRenderer } from 'electron'
 import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
 import { colorBgContainer, colorBgContainerDark } from '../common/theme'
-import debounce from 'licia/debounce'
 import { ModelType } from '../common/types'
 import getUrlParam from 'licia/getUrlParam'
 import detectOs from 'licia/detectOs'
@@ -44,9 +43,7 @@ const mainObj = {
   showSystem: () => ipcRenderer.invoke('showSystem'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
-  setMainStore: debounce((name, val) => {
-    return ipcRenderer.invoke('setMainStore', name, val)
-  }, 500),
+  setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
   getSettingsStore: (name) => ipcRenderer.invoke('getSettingsStore', name),
   setSettingsStore: (name, val) => {
     return ipcRenderer.invoke('setSettingsStore', name, val)
