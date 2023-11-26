@@ -31,7 +31,9 @@ export default function (props: IProps) {
         <div className="luna-setting-description"></div>
         <div className="luna-setting-control">
           <input value={props.value} spellCheck={false} onChange={onChange} />
-          <button onClick={browse}>{t('browse')}</button>
+          <div className="button primary" onClick={browse}>
+            {t('browse')}
+          </div>
         </div>
       </div>
     </LunaSettingHtml>

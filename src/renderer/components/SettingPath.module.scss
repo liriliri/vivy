@@ -9,8 +9,9 @@
     border-right: none;
     padding: 4px 6px;
     outline: none;
+    height: 25px;
   }
-  button {
+  :global(.button) {
     height: 25px;
     line-height: 25px;
     padding: 0 14px;
