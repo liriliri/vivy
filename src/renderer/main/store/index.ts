@@ -30,6 +30,7 @@ import { t } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import swap from 'licia/swap'
+import hotkey from 'licia/hotkey'
 
 interface IOptions {
   model: string
@@ -101,7 +102,7 @@ class Store {
   selectImage(image?: IImage) {
     this.selectedImage = image
   }
-  selectPrevImage() {
+  selectPrevImage = () => {
     const { selectedImage, images } = this
 
     if (!selectedImage) {
@@ -115,7 +116,7 @@ class Store {
     }
     this.selectImage(images[nextIdx])
   }
-  selectNextImage() {
+  selectNextImage = () => {
     const { selectedImage, images } = this
 
     if (!selectedImage) {
@@ -379,6 +380,14 @@ class Store {
         this.isReady = false
         this.waitForReady()
         await webui.refreshCheckpoints()
+      }
+    })
+
+    hotkey.on('left', this.selectPrevImage)
+    hotkey.on('right', this.selectNextImage)
+    hotkey.on('delete', () => {
+      if (this.selectedImage) {
+        this.deleteImage(this.selectedImage)
       }
     })
   }
