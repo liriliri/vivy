@@ -29,6 +29,7 @@ import LunaModal from 'luna-modal'
 import { t } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
+import swap from 'licia/swap'
 
 interface IOptions {
   model: string
@@ -84,6 +85,8 @@ class Store {
       selectImage: action,
       selectNextImage: action,
       selectPrevImage: action,
+      moveImageLeft: action,
+      moveImageRight: action,
       deleteAllImages: action,
       deleteImage: action,
       addFiles: action,
@@ -125,6 +128,34 @@ class Store {
       nextIdx = 0
     }
     this.selectImage(images[nextIdx])
+  }
+  moveImageLeft() {
+    const { selectedImage, images } = this
+
+    if (!selectedImage) {
+      return
+    }
+
+    const idx = images.indexOf(selectedImage)
+    if (idx === 0) {
+      return
+    }
+
+    swap(images, idx - 1, idx)
+  }
+  moveImageRight() {
+    const { selectedImage, images } = this
+
+    if (!selectedImage) {
+      return
+    }
+
+    const idx = images.indexOf(selectedImage)
+    if (idx === images.length - 1) {
+      return
+    }
+
+    swap(images, idx, idx + 1)
   }
   deleteImage(image: IImage) {
     const { images, selectedImage } = this

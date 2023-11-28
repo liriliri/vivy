@@ -15,6 +15,7 @@ import { t, toDataUrl, isFileDrop } from '../../../lib/util'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
+import last from 'licia/last'
 
 export default observer(function () {
   const imageListRef = useRef<HTMLDivElement>(null)
@@ -133,6 +134,21 @@ export default observer(function () {
             const itemSize = Math.round(store.ui.imageListItemSize * 0.9)
             store.ui.set('imageListItemSize', itemSize)
           }}
+        />
+        <LunaToolbarSeparator />
+        <ToolbarIcon
+          icon="left"
+          title={t('moveLeft')}
+          onClick={() => store.moveImageLeft()}
+          disabled={isEmpty(images) || store.selectedImage === store.images[0]}
+        />
+        <ToolbarIcon
+          icon="right"
+          title={t('moveRight')}
+          onClick={() => store.moveImageRight()}
+          disabled={
+            isEmpty(images) || store.selectedImage === last(store.images)
+          }
         />
         <LunaToolbarSeparator />
         <ToolbarIcon

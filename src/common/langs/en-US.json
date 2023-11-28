@@ -92,6 +92,8 @@
   "copied": "Copied",
   "import": "Import",
   "importErr": "Failed to import",
+  "moveLeft": "Move Left",
+  "moveRight": "Move Right",
 
   "character": "Character",
   "camera": "Camera",
