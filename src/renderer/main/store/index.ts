@@ -31,6 +31,7 @@ import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import swap from 'licia/swap'
 import hotkey from 'licia/hotkey'
+import ric from 'licia/ric'
 
 interface IOptions {
   model: string
@@ -192,7 +193,6 @@ class Store {
         continue
       }
       const data = convertBin(buf, 'base64')
-      const imageInfo = await parseImage(data, type.mime)
       const image = {
         id: uuid(),
         data,
@@ -200,11 +200,17 @@ class Store {
         info: {
           size: base64.decode(data).length,
           mime: type.mime,
-          ...imageInfo,
+          width: 0,
+          height: 0,
         },
       }
+      ric(async () => {
+        const imageInfo = await parseImage(data, type.mime)
+        const img = this.getImage(image.id)
+        runInAction(() => extend(img!.info, imageInfo))
+      })
       this.selectImage(image)
-      this.images.push(this.selectedImage!)
+      runInAction(() => this.images.push(this.selectedImage!))
     }
   }
   async load() {
@@ -267,7 +273,9 @@ class Store {
   }
   async fetchUpscalers() {
     const upscalers = await webui.getUpscalers()
-    this.upscalers = map(upscalers, (upscaler) => upscaler.name)
+    runInAction(() => {
+      this.upscalers = map(upscalers, (upscaler) => upscaler.name)
+    })
     this.setStore('upscalers', this.upscalers)
   }
   async fetchModels() {

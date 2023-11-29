@@ -28,7 +28,7 @@ export default observer(function () {
   const images: JSX.Element[] = []
 
   each(store.images, (image) => {
-    images.push(Image(image))
+    images.push(<Image key={image.id} image={image} />)
   })
 
   each(store.tasks, (task) => {
@@ -208,19 +208,16 @@ export default observer(function () {
   )
 })
 
-function Image(image: IImage) {
+const canvas = document.createElement('canvas')
+const ctx = canvas.getContext('2d')!
+
+function Image(props: { image: IImage }) {
+  const { image } = props
   const dataUrl = toDataUrl(image.data, 'image/png')
   const itemStyle = getItemStyle()
+  const imgRef = useRef<HTMLImageElement>(null)
 
-  const img = new window.Image()
-  img.src = dataUrl
-  const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d')
-  canvas.width = itemStyle.width - itemStyle.padding * 2
-  canvas.height = img.height * (canvas.width / img.width)
-  ctx!.drawImage(img, 0, 0, canvas.width, canvas.height)
   const dragImg = new window.Image()
-  dragImg.src = canvas.toDataURL()
 
   return (
     <div
@@ -229,17 +226,35 @@ function Image(image: IImage) {
       })}
       key={image.id}
       style={itemStyle}
+      draggable={true}
+      onMouseDown={() => {
+        if (dragImg.src || !imgRef.current) {
+          return
+        }
+        const img = imgRef.current
+        if (img.naturalWidth > img.naturalHeight) {
+          canvas.width = itemStyle.width - itemStyle.padding * 2
+          canvas.height = img.naturalHeight * (canvas.width / img.naturalWidth)
+        } else {
+          canvas.height = itemStyle.width - itemStyle.padding * 2
+          canvas.width = img.naturalWidth * (canvas.height / img.naturalHeight)
+        }
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+        dragImg.src = canvas.toDataURL()
+      }}
       onDragStart={(e) => {
         e.dataTransfer.setData('imageId', image.id)
-        e.dataTransfer.setDragImage(
-          dragImg,
-          Math.round(canvas.width / 2),
-          Math.round(canvas.height / 2)
-        )
+        if (dragImg.src) {
+          e.dataTransfer.setDragImage(
+            dragImg,
+            Math.round(canvas.width / 2),
+            Math.round(canvas.height / 2)
+          )
+        }
       }}
       onClick={() => store.selectImage(image)}
     >
-      <img src={dataUrl} draggable={true} />
+      <img ref={imgRef} src={dataUrl} draggable={false} />
     </div>
   )
 }
