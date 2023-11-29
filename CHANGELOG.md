@@ -1,3 +1,13 @@
+## v0.4.0 (29 Nov 2023)
+
+* feat: read init image info
+* feat: init image zoom
+* feat: random prompt
+* feat: import parameters
+* feat: move images
+* feat: hotkey for image navigation and delete
+* feat: update stable diffusion webui
+
 ## v0.3.0 (20 Nov 2023)
 
 * feat: image to image
