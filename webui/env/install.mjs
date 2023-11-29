@@ -5,4 +5,4 @@ import { exportPath } from './util.mjs'
 await installPackages(['python=3.10.6'])
 exportPath()
 
-await $`python -m pip config set global.index-url https://pypi.mirrors.ustc.edu.cn/simple`
+await $`python -m pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/`
