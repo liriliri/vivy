@@ -39,6 +39,10 @@ function renderApp() {
       App = lazy(() => import('./system/App.js') as Promise<any>)
       title = t('sysInfo')
       break
+    case 'download':
+      App = lazy(() => import('./download/App.js') as Promise<any>)
+      title = t('downloadManager')
+      break
   }
   preload.setTitle(title)
 

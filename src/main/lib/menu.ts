@@ -2,6 +2,7 @@ import { Menu, MenuItemConstructorOptions, app, shell } from 'electron'
 import * as webui from '../window/webui'
 import * as prompt from '../window/prompt'
 import * as model from '../window/model'
+import * as download from '../window/download'
 import * as system from '../window/system'
 import * as terminal from '../window/terminal'
 import * as main from '../window/main'
@@ -93,6 +94,12 @@ function getTemplate(): MenuItemConstructorOptions[] {
         label: t('promptBuilder'),
         click() {
           prompt.showWin()
+        },
+      },
+      {
+        label: t('downloadManager'),
+        click() {
+          download.showWin()
         },
       },
       {

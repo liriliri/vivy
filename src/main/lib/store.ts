@@ -36,6 +36,15 @@ export const getModelStore = memoize(function () {
   })
 })
 
+export const getDownloadStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/download.json'), {
+    bounds: {
+      width: 640,
+      height: 480,
+    },
+  })
+})
+
 export const getPromptStore = memoize(function () {
   return new FileStore(getUserDataPath('data/prompt.json'), {
     bounds: {
