@@ -106,6 +106,7 @@ textarea {
   border: none;
   text-align: center;
   padding: 6px;
+  border-radius: var(--vivy-border-radius-s-m);
   background: var(--vivy-color-fill-tertiary);
   &:hover {
     background: var(--vivy-color-fill-secondary);
