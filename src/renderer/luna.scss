@@ -94,13 +94,6 @@
       border-top-color: var(--vivy-color-text);
     }
   }
-  .icon {
-    display: flex;
-    align-items: center;
-    &:hover {
-      color: var(--vivy-color-primary);
-    }
-  }
 }
 
 .luna-modal {

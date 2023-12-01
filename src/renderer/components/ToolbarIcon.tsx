@@ -13,7 +13,7 @@ interface IProps {
 export default function (props: PropsWithChildren<IProps>) {
   return (
     <LunaToolbarHtml toolbar={props.toolbar} disabled={props.disabled}>
-      <div className="icon" onClick={props.onClick}>
+      <div className="icon toolbar-icon" onClick={props.onClick}>
         <span className={`icon-${props.icon}`} title={props.title || ''}></span>
       </div>
     </LunaToolbarHtml>

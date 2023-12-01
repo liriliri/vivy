@@ -97,7 +97,7 @@ export default observer(function () {
           disabled={!hasSelectedImage}
         />
         <LunaToolbarHtml disabled={!hasSelectedImage}>
-          <CopyButton onClick={copyImage} />
+          <CopyButton className="toolbar-icon" onClick={copyImage} />
         </LunaToolbarHtml>
         <ToolbarIcon
           icon="info"

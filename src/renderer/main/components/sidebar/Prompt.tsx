@@ -106,7 +106,10 @@ export default observer(function () {
       <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
         <LunaToolbar>
           <LunaToolbarHtml>
-            <CopyButton onClick={() => copyPrompt(getSelectedEditor())} />
+            <CopyButton
+              className="toolbar-icon"
+              onClick={() => copyPrompt(getSelectedEditor())}
+            />
           </LunaToolbarHtml>
           <ToolbarIcon
             icon="paste"
