@@ -43,6 +43,8 @@ body {
       color-fill-tertiary: $color-fill-tertiary,
       color-success-hover: $color-success-hover,
       color-success-active: $color-success-active,
+      border-radius-x-s: #{$border-radius-x-s}px,
+      border-radius-s-m: #{$border-radius-s-m}px,
     )
   );
 }
@@ -165,7 +167,7 @@ textarea {
   &:hover {
     span {
       background: var(--vivy-color-fill-secondary);
-      border-radius: 2px;
+      border-radius: var(--vivy-border-radius-x-s);
     }
   }
 }

@@ -65,7 +65,7 @@
   display: inline-block;
   margin-top: 8px;
   margin-right: 4px;
-  border-radius: 4px;
+  border-radius: var(--vivy-border-radius-s-m);
   &:hover {
     background: var(--vivy-color-fill-secondary);
   }
