@@ -15,6 +15,7 @@ import { getDir as getModelDir } from '../lib/model'
 import { ModelType } from '../../common/types'
 import * as prompt from './prompt'
 import * as system from './system'
+import * as download from './download'
 import each from 'licia/each'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
@@ -79,6 +80,7 @@ function initIpc() {
   ipcMain.handle('getLogs', () => logs)
   ipcMain.handle('getWebuiPort', () => webui.getPort())
   ipcMain.handle('showTerminal', () => terminal.showWin())
+  ipcMain.handle('showDownload', () => download.showWin())
   ipcMain.handle('showModel', () => model.showWin())
   ipcMain.handle('showPrompt', () => prompt.showWin())
   ipcMain.handle('showSystem', () => system.showWin())

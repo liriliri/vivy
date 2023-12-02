@@ -38,6 +38,7 @@ function setTheme(theme?: string) {
 const mainObj = {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
   showTerminal: () => ipcRenderer.invoke('showTerminal'),
+  showDownload: () => ipcRenderer.invoke('showDownload'),
   showModel: () => ipcRenderer.invoke('showModel'),
   showPrompt: () => ipcRenderer.invoke('showPrompt'),
   showSystem: () => ipcRenderer.invoke('showSystem'),

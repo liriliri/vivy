@@ -65,9 +65,17 @@ export default observer(function () {
     <div className={Style.statusbar}>
       <div
         className={className(Style.item, Style.button)}
+        title={t('terminal')}
         onClick={() => main.showTerminal()}
       >
         <span className="icon-terminal"></span>
+      </div>
+      <div
+        className={className(Style.item, Style.button)}
+        title={t('downloadManager')}
+        onClick={() => main.showDownload()}
+      >
+        <span className="icon-download"></span>
       </div>
       {imageInfo}
       <div className={Style.space}></div>
