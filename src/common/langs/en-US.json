@@ -13,7 +13,7 @@
   "generate": "Generate",
   "samplingMethod": "Sampling Method",
   "samplingSteps": "Sampling Steps",
-  "samplingStepsDesc": "The more steps there are in image generation, the better the resulting quality, but it requires more time",
+  "samplingStepsDesc": "Increasing the number of steps in image generation may result in better generated quality, but it can lead to longer generation time",
   "width": "Width",
   "height": "Height",
   "batchSize": "Batch Size",
