@@ -13,6 +13,7 @@
   "generate": "生成",
   "samplingMethod": "采样方法",
   "samplingSteps": "采样步数",
+  "samplingStepsDesc": "图像生成步数，步数越多，生成效果越好，但需要更长时间",
   "width": "宽度",
   "height": "高度",
   "batchSize": "图片数量",

@@ -4,9 +4,26 @@ import className from 'licia/className'
 import fileSize from 'licia/fileSize'
 import truncate from 'licia/truncate'
 import store from '../../store'
-import { useEffect, useState } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
 import ProgressBar from './ProgressBar'
 import { t } from '../../../lib/util'
+
+interface IStatusbarDescProps {
+  desc: string
+  className?: string
+}
+
+export function StatusbarDesc(props: PropsWithChildren<IStatusbarDescProps>) {
+  return (
+    <div
+      className={props.className || ''}
+      onMouseEnter={() => (store.statusbarDesc = props.desc)}
+      onMouseLeave={() => (store.statusbarDesc = '')}
+    >
+      {props.children}
+    </div>
+  )
+}
 
 export default observer(function () {
   const [cpuUsage, setCpuUsage] = useState(0)
@@ -32,15 +49,16 @@ export default observer(function () {
     }
   }, [])
 
-  let imageInfo: JSX.Element | null = null
-  if (store.selectedImage) {
-    const { info } = store.selectedImage
-    imageInfo = (
-      <div className={Style.item}>
-        {info.width} × {info.height} {fileSize(info.size)}B{' '}
-        {info.prompt ? truncate(info.prompt, 100) : ''}
-      </div>
-    )
+  let desc: JSX.Element | null = null
+  if (store.statusbarDesc || store.selectedImage) {
+    let text = store.statusbarDesc
+    if (!text && store.selectedImage) {
+      const { info } = store.selectedImage
+      text = `${info.width} × ${info.height} ${fileSize(info.size)}B ${
+        info.prompt || ''
+      }`
+    }
+    desc = <div className={Style.item}>{truncate(text, 150)}</div>
   }
 
   let taskCount: JSX.Element | null = null
@@ -77,7 +95,7 @@ export default observer(function () {
       >
         <span className="icon-download"></span>
       </div>
-      {imageInfo}
+      {desc}
       <div className={Style.space}></div>
       {taskCount}
       {imageCount}

@@ -63,6 +63,7 @@ class Store {
   tasks: Task[] = []
   ui = new UI()
   settings = new Settings()
+  statusbarDesc = ''
   constructor() {
     makeObservable(this, {
       prompt: observable,
@@ -79,6 +80,7 @@ class Store {
       selectedImage: observable,
       ui: observable,
       settings: observable,
+      statusbarDesc: observable,
       load: action,
       waitForReady: action,
       setGenOption: action,

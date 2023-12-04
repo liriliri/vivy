@@ -4,8 +4,10 @@ import { observer } from 'mobx-react-lite'
 import { t } from '../../../lib/util'
 import store from '../../store'
 import { Select, Row, Number } from '../../../components/setting'
+import SettingStyle from '../../../components/setting.module.scss'
 import Style from './GenOptions.module.scss'
 import InitImage from './InitImage'
+import { StatusbarDesc } from '../statusbar/Statusbar'
 
 export default observer(function () {
   const { genOptions } = store
@@ -53,13 +55,18 @@ export default observer(function () {
           options={samplers}
           onChange={(val) => store.setGenOption('sampler', val)}
         />
-        <Number
-          value={genOptions.steps}
-          title={t('samplingSteps')}
-          min={1}
-          max={50}
-          onChange={(val) => store.setGenOption('steps', val)}
-        />
+        <StatusbarDesc
+          className={SettingStyle.item}
+          desc={t('samplingStepsDesc')}
+        >
+          <Number
+            value={genOptions.steps}
+            title={t('samplingSteps')}
+            min={1}
+            max={50}
+            onChange={(val) => store.setGenOption('steps', val)}
+          />
+        </StatusbarDesc>
       </Row>
       <Row>
         <Number
