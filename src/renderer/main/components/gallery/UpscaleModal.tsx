@@ -95,9 +95,12 @@ export default observer(function UpscaleModal(props: IProps) {
           onChange={(val) => setUpscaler2Visibility(val)}
         />
       </Row>
-      <button className={className(Style.generate, 'button')} onClick={onClick}>
+      <div
+        className={className(Style.generate, 'button', 'primary')}
+        onClick={onClick}
+      >
         {t('generate')}
-      </button>
+      </div>
     </LunaModal>,
     document.body
   )

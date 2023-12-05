@@ -11,7 +11,8 @@
 }
 
 .row {
-  padding: 10px 8px;
+  padding: 0px 8px;
+  margin: 10px 0;
   display: flex;
   gap: 10px;
 }
@@ -128,5 +129,20 @@
       border: 1px solid var(--vivy-color-border);
       background: var(--vivy-color-white);
     }
+  }
+}
+
+.item-input {
+  input {
+    @include input();
+    width: 100%;
+  }
+}
+
+.item-textarea {
+  textarea {
+    @include input();
+    resize: none;
+    width: 100%;
   }
 }

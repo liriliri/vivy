@@ -119,3 +119,48 @@ export function Number(props: INumberProps) {
 const progress = (val: number, min: number, max: number) => {
   return (((val - min) / (max - min)) * 100).toFixed(2)
 }
+
+interface IInputProps {
+  title: string
+  value: string
+  onChange: (val: string) => void
+}
+
+export function Input(props: IInputProps) {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.onChange) {
+      props.onChange(e.target.value)
+    }
+  }
+
+  return (
+    <div className={className(Style.item, Style.itemInput)}>
+      <div className={Style.title}>{props.title}</div>
+      <div className={Style.control}>
+        <input type="text" onChange={onChange}></input>
+      </div>
+    </div>
+  )
+}
+
+interface ITextareaProps {
+  title?: string
+  rows?: number
+  placeholder?: string
+  value: string
+  onChange: (val: string) => void
+}
+
+export function Textarea(props: ITextareaProps) {
+  return (
+    <div className={className(Style.item, Style.itemTextarea)}>
+      {props.title ? <div className={Style.title}>{props.title}</div> : null}
+      <div className={Style.control}>
+        <textarea
+          rows={props.rows || 4}
+          placeholder={props.placeholder || ''}
+        />
+      </div>
+    </div>
+  )
+}

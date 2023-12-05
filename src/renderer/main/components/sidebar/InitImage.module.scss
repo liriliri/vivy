@@ -20,6 +20,8 @@
   padding-top: 30px;
   width: 100%;
   border: 1px solid var(--vivy-color-border);
+  overflow: hidden;
+  border-radius: var(--vivy-border-radius-s-m);
 }
 
 .image-viewer {

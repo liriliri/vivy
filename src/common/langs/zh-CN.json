@@ -97,6 +97,9 @@
   "moveRight": "右移",
   "downloadManager": "下载管理",
   "addDownloadTask": "新建下载任务",
+  "downloadUrl": "下载地址",
+  "saveTo": "存储路径",
+  "download": "下载",
 
   "character": "角色",
   "camera": "镜头",

@@ -97,6 +97,9 @@
   "moveRight": "Move Right",
   "downloadManager": "Download Manager",
   "addDownloadTask": "Add Download Task",
+  "downloadUrl": "Download URL",
+  "saveTo": "Save To",
+  "download": "Download",
 
   "character": "Character",
   "camera": "Camera",
