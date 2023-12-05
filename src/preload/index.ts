@@ -39,6 +39,11 @@ const mainObj = {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
   showTerminal: () => ipcRenderer.invoke('showTerminal'),
   showDownload: () => ipcRenderer.invoke('showDownload'),
+  downloadModel: (options: {
+    url: string
+    fileName: string
+    type: ModelType
+  }) => ipcRenderer.invoke('downloadModel', options),
   showModel: () => ipcRenderer.invoke('showModel'),
   showPrompt: () => ipcRenderer.invoke('showPrompt'),
   showSystem: () => ipcRenderer.invoke('showSystem'),

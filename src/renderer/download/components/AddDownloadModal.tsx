@@ -7,6 +7,10 @@ import Style from './AddDownloadModal.module.scss'
 import { ModelType } from '../../../common/types'
 import className from 'licia/className'
 import { useState } from 'react'
+import Url from 'licia/Url'
+import last from 'licia/last'
+import isStrBlank from 'licia/isStrBlank'
+import isUrl from 'licia/isUrl'
 
 interface IProps {
   visible: boolean
@@ -17,6 +21,21 @@ export default observer(function AddDownloadModal(props: IProps) {
   const [downloadUrl, setDownloadUrl] = useState('')
   const [fileName, setFileName] = useState('')
   const [modelType, setModelType] = useState(ModelType.StableDiffusion)
+
+  const onUrlChange = (url) => {
+    if (isStrBlank(fileName) && isUrl(url)) {
+      setFileName(getFileName(url))
+    }
+    setDownloadUrl(url)
+  }
+
+  const download = () => {
+    main.downloadModel({
+      url: downloadUrl,
+      fileName,
+      type: modelType,
+    })
+  }
 
   return createPortal(
     <LunaModal
@@ -29,7 +48,7 @@ export default observer(function AddDownloadModal(props: IProps) {
         <Textarea
           placeholder={t('downloadUrl')}
           value={downloadUrl}
-          onChange={(url) => setDownloadUrl(url)}
+          onChange={onUrlChange}
         />
       </Row>
       <Row className={Style.row}>
@@ -53,7 +72,7 @@ export default observer(function AddDownloadModal(props: IProps) {
       </Row>
       <div
         className={className(Style.download, 'button', 'primary')}
-        onClick={() => {}}
+        onClick={download}
       >
         {t('download')}
       </div>
@@ -61,3 +80,14 @@ export default observer(function AddDownloadModal(props: IProps) {
     document.body
   )
 })
+
+export function getFileName(url) {
+  let ret = last(url.split('/'))
+
+  if (ret === '') {
+    url = new Url(url)
+    ret = url.hostname
+  }
+
+  return ret
+}

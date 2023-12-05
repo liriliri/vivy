@@ -81,6 +81,7 @@ function initIpc() {
   ipcMain.handle('getWebuiPort', () => webui.getPort())
   ipcMain.handle('showTerminal', () => terminal.showWin())
   ipcMain.handle('showDownload', () => download.showWin())
+  ipcMain.handle('downloadModel', (_, options) => downloadModel(options))
   ipcMain.handle('showModel', () => model.showWin())
   ipcMain.handle('showPrompt', () => prompt.showWin())
   ipcMain.handle('showSystem', () => system.showWin())
@@ -199,4 +200,17 @@ export function init() {
     logs.push(data as string)
     sendAll('addLog', data)
   }
+}
+
+interface IDownloadModelOptions {
+  url: string
+  fileName: string
+  type: ModelType
+}
+
+export function downloadModel(options: IDownloadModelOptions) {
+  if (!win) {
+    return
+  }
+  win.webContents.downloadURL(options.url)
 }

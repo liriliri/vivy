@@ -137,7 +137,7 @@ export function Input(props: IInputProps) {
     <div className={className(Style.item, Style.itemInput)}>
       <div className={Style.title}>{props.title}</div>
       <div className={Style.control}>
-        <input type="text" onChange={onChange}></input>
+        <input value={props.value} type="text" onChange={onChange}></input>
       </div>
     </div>
   )
@@ -152,13 +152,21 @@ interface ITextareaProps {
 }
 
 export function Textarea(props: ITextareaProps) {
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (props.onChange) {
+      props.onChange(e.target.value)
+    }
+  }
+
   return (
     <div className={className(Style.item, Style.itemTextarea)}>
       {props.title ? <div className={Style.title}>{props.title}</div> : null}
       <div className={Style.control}>
         <textarea
+          value={props.value}
           rows={props.rows || 4}
           placeholder={props.placeholder || ''}
+          onChange={onChange}
         />
       </div>
     </div>
