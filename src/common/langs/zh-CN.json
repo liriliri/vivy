@@ -100,6 +100,7 @@
   "downloadUrl": "下载地址",
   "saveTo": "存储路径",
   "download": "下载",
+  "noDownloads": "空列表",
 
   "character": "角色",
   "camera": "镜头",

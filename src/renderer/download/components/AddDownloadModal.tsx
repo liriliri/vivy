@@ -14,7 +14,7 @@ import isUrl from 'licia/isUrl'
 
 interface IProps {
   visible: boolean
-  onClose?: () => void
+  onClose: () => void
 }
 
 export default observer(function AddDownloadModal(props: IProps) {
@@ -35,6 +35,7 @@ export default observer(function AddDownloadModal(props: IProps) {
       fileName,
       type: modelType,
     })
+    props.onClose()
   }
 
   return createPortal(

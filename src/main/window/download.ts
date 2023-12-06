@@ -1,20 +1,30 @@
-import { BrowserWindow, DownloadItem, session } from 'electron'
+import { BrowserWindow, DownloadItem, ipcMain, session } from 'electron'
 import createWin from './createWin'
 import { isDev } from '../lib/util'
 import path from 'path'
 import { getDownloadStore } from '../lib/store'
 import { ModelType } from '../../common/types'
 import * as model from '../lib/model'
+import * as main from './main'
 import uuid from 'licia/uuid'
+import map from 'licia/map'
+import clone from 'licia/clone'
 
 const store = getDownloadStore()
 
 let win: BrowserWindow | null = null
 
+let isIpcInit = false
+
 export function showWin() {
   if (win) {
     win.focus()
     return
+  }
+
+  if (!isIpcInit) {
+    isIpcInit = true
+    initIpc()
   }
 
   win = createWin({
@@ -39,12 +49,6 @@ export function showWin() {
   }
 }
 
-let mainWin: BrowserWindow | null = null
-
-export function init(win: BrowserWindow) {
-  mainWin = win
-}
-
 let downloadModelOptions: IDownloadModelOptions | null = null
 
 interface IDownloadModelOptions {
@@ -54,6 +58,7 @@ interface IDownloadModelOptions {
 }
 
 export function downloadModel(options: IDownloadModelOptions) {
+  const mainWin = main.getWin()
   if (!mainWin) {
     return
   }
@@ -73,24 +78,43 @@ interface IDownload {
 
 const downloads: IDownload[] = []
 
-session.defaultSession.on('will-download', function (_, item) {
-  if (!downloadModelOptions) {
-    return
-  }
+export function init() {
+  session.defaultSession.on('will-download', function (_, item) {
+    if (!downloadModelOptions) {
+      return
+    }
 
-  const { type } = downloadModelOptions
-  const savePath = model.getDir(type)
-  item.setSavePath(savePath)
+    const { type, fileName } = downloadModelOptions
+    const savePath = path.join(model.getDir(type), fileName)
+    item.setSavePath(savePath + '.vivydownload')
 
-  downloads.push({
-    id: uuid(),
-    url: downloadModelOptions.url,
-    fileName: downloadModelOptions.fileName,
-    speed: 0,
-    totalBytes: item.getTotalBytes(),
-    receivedBytes: item.getReceivedBytes(),
-    downloadItem: item,
+    const download = {
+      id: uuid(),
+      url: downloadModelOptions.url,
+      fileName: downloadModelOptions.fileName,
+      speed: 0,
+      totalBytes: item.getTotalBytes(),
+      receivedBytes: item.getReceivedBytes(),
+      downloadItem: item,
+    }
+    downloads.push(download)
+    if (win) {
+      win.webContents.send('addDownload', cloneDownload(download))
+    }
+
+    downloadModelOptions = null
   })
+}
 
-  downloadModelOptions = null
-})
+function initIpc() {
+  ipcMain.handle('getDownloads', () =>
+    map(downloads, (download) => cloneDownload(download))
+  )
+}
+
+function cloneDownload(download: IDownload) {
+  const ret: any = clone(download)
+  delete ret.downloadItem
+
+  return ret
+}

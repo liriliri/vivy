@@ -8,25 +8,10 @@ import {
   OpenDialogOptions,
   dialog,
 } from 'electron'
-import * as webui from './webui'
-import * as terminal from './terminal'
-import * as model from './model'
-import { getDir as getModelDir } from '../lib/model'
-import { ModelType } from '../../common/types'
-import * as prompt from './prompt'
-import * as system from './system'
-import * as download from './download'
-import each from 'licia/each'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import createWin from './createWin'
-import isBuffer from 'licia/isBuffer'
 import { i18n } from '../lib/util'
-import chokidar from 'chokidar'
-import debounce from 'licia/debounce'
-import startWith from 'licia/startWith'
-import isWindows from 'licia/isWindows'
-import contain from 'licia/contain'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -65,8 +50,6 @@ export function showWin() {
     }
   })
 
-  download.init(win)
-
   if (isDev()) {
     win.loadURL('http://localhost:8080')
   } else {
@@ -79,24 +62,9 @@ function initIpc() {
     quitApp = true
     app.quit()
   })
-  ipcMain.handle('getLogs', () => logs)
-  ipcMain.handle('getWebuiPort', () => webui.getPort())
-  ipcMain.handle('showTerminal', () => terminal.showWin())
-  ipcMain.handle('showDownload', () => download.showWin())
-  ipcMain.handle('downloadModel', (_, options) =>
-    download.downloadModel(options)
-  )
-  ipcMain.handle('showModel', () => model.showWin())
-  ipcMain.handle('showPrompt', () => prompt.showWin())
-  ipcMain.handle('showSystem', () => system.showWin())
   ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getMainStore', (_, name) => store.get(name))
   store.on('change', (name, val) => sendAll('changeMainStore', name, val))
-  ipcMain.handle('relaunch', () => {
-    webui.quit()
-    app.relaunch()
-    app.exit()
-  })
   ipcMain.handle('translate', async (_, text) => {
     let translator: typeof bing | null = null
     switch (settingsStore.get('translator')) {
@@ -126,25 +94,6 @@ function initIpc() {
     sendAll('changeSettingsStore', name, val)
   )
 
-  ipcMain.handle('getCpuAndMem', async () => {
-    const metrics = app.getAppMetrics()
-    let cpu = 0
-    let mem = 0
-    each(metrics, (metric) => {
-      cpu += metric.cpu.percentCPUUsage
-      mem += metric.memory.workingSetSize * 1024
-    })
-
-    const webuiCpuAndMem = await webui.getCpuAndMem()
-    cpu += webuiCpuAndMem.cpu
-    mem += webuiCpuAndMem.mem
-
-    return {
-      cpu,
-      mem,
-    }
-  })
-
   ipcMain.handle('showOpenDialog', (_, options: OpenDialogOptions = {}) =>
     dialog.showOpenDialog(options)
   )
@@ -156,52 +105,5 @@ function initIpc() {
   const theme = settingsStore.get('theme')
   if (theme) {
     nativeTheme.themeSource = theme
-  }
-
-  chokidar.watch(settingsStore.get('modelPath')).on(
-    'all',
-    debounce((event, path) => {
-      let type: ModelType | null = null
-      if (startWith(path, getModelDir(ModelType.StableDiffusion))) {
-        type = ModelType.StableDiffusion
-      } else if (startWith(path, getModelDir(ModelType.Lora))) {
-        type = ModelType.Lora
-      } else if (startWith(path, getModelDir(ModelType.Embedding))) {
-        type = ModelType.Embedding
-      }
-      if (type) {
-        sendAll('refreshModel', type)
-      }
-    }, 1000)
-  )
-}
-
-const logs: string[] = []
-
-export function init() {
-  const stdoutWrite = process.stdout.write
-  const stderrWrite = process.stderr.write
-
-  process.stdout.write = function (...args) {
-    addLog(args[0])
-
-    return stdoutWrite.apply(process.stdout, args as any)
-  }
-
-  process.stderr.write = function (...args) {
-    addLog(args[0])
-
-    return stderrWrite.apply(process.stderr, args as any)
-  }
-
-  function addLog(data: string | Buffer) {
-    if (isBuffer(data)) {
-      data = data.toString('utf8')
-    }
-    if (isWindows && contain(data, '|')) {
-      data = (data as string).replace(/\ufffd/g, '█')
-    }
-    logs.push(data as string)
-    sendAll('addLog', data)
   }
 }
