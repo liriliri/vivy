@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import Style from './DownloadList.module.scss'
 import map from 'licia/map'
 import isEmpty from 'licia/isEmpty'
+import fileSize from 'licia/fileSize'
 import store from '../store'
 import { t } from '../../lib/util'
 
@@ -13,9 +14,12 @@ export default observer(function DownloadList() {
         <div className={Style.body}>
           <div className={Style.info}>
             <div className={Style.name}>{download.fileName}</div>
-            <div className={Style.size}>100MB/3.6GB</div>
+            <div className={Style.size}>
+              {fileSize(download.receivedBytes)}B/
+              {fileSize(download.totalBytes)}B
+            </div>
           </div>
-          <div className={Style.speed}>5MB/s</div>
+          <div className={Style.speed}>{fileSize(download.speed)}B/s</div>
           <div className={Style.controls}>
             <div className={Style.control}>
               <span className="icon-pause"></span>

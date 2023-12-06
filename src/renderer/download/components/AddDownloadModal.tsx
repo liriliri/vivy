@@ -35,6 +35,9 @@ export default observer(function AddDownloadModal(props: IProps) {
       fileName,
       type: modelType,
     })
+    setDownloadUrl('')
+    setFileName('')
+    setModelType(ModelType.StableDiffusion)
     props.onClose()
   }
 

@@ -70,6 +70,7 @@ interface IDownload {
   id: string
   url: string
   fileName: string
+  state: string
   speed: number
   totalBytes: number
   receivedBytes: number
@@ -88,10 +89,24 @@ export function init() {
     const savePath = path.join(model.getDir(type), fileName)
     item.setSavePath(savePath + '.vivydownload')
 
-    const download = {
+    let prevReceivedBytes = 0
+
+    item.on('updated', (e, state) => {
+      download.totalBytes = item.getTotalBytes()
+      download.receivedBytes = item.getReceivedBytes()
+      download.state = state
+      download.speed = download.receivedBytes - prevReceivedBytes
+      prevReceivedBytes = download.receivedBytes
+      if (win) {
+        win.webContents.send('updateDownload', cloneDownload(download))
+      }
+    })
+
+    const download: IDownload = {
       id: uuid(),
       url: downloadModelOptions.url,
       fileName: downloadModelOptions.fileName,
+      state: item.getState(),
       speed: 0,
       totalBytes: item.getTotalBytes(),
       receivedBytes: item.getReceivedBytes(),
