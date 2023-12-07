@@ -39,6 +39,9 @@ const mainObj = {
   getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
   showTerminal: () => ipcRenderer.invoke('showTerminal'),
   showDownload: () => ipcRenderer.invoke('showDownload'),
+  getDownloads: () => ipcRenderer.invoke('getDownloads'),
+  pauseDownload: (id: string) => ipcRenderer.invoke('pauseDownload', id),
+  resumeDownload: (id: string) => ipcRenderer.invoke('resumeDownload', id),
   downloadModel: (options: {
     url: string
     fileName: string

@@ -8,9 +8,18 @@ import { t } from '../../lib/util'
 
 export default observer(function DownloadList() {
   const downloads = map(store.downloads, (download) => {
+    const progress = Math.round(
+      (download.receivedBytes / download.totalBytes) * 100
+    )
+
     return (
-      <div className={Style.item} id={download.id}>
-        <div className={Style.progress} />
+      <div className={Style.item} key={download.id}>
+        <div
+          className={Style.progress}
+          style={{
+            width: `${progress}%`,
+          }}
+        />
         <div className={Style.body}>
           <div className={Style.info}>
             <div className={Style.name}>{download.fileName}</div>
@@ -21,9 +30,20 @@ export default observer(function DownloadList() {
           </div>
           <div className={Style.speed}>{fileSize(download.speed)}B/s</div>
           <div className={Style.controls}>
-            <div className={Style.control}>
-              <span className="icon-pause"></span>
-            </div>
+            {download.state === 'progressing' && (
+              <div
+                className={Style.control}
+                onClick={() => {
+                  download.paused
+                    ? main.resumeDownload(download.id)
+                    : main.pauseDownload(download.id)
+                }}
+              >
+                <span
+                  className={download.paused ? 'icon-play' : 'icon-pause'}
+                ></span>
+              </div>
+            )}
             <div className={Style.control}>
               <span className="icon-delete"></span>
             </div>

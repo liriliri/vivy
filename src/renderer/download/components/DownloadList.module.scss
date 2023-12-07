@@ -1,6 +1,6 @@
 .download-list {
   position: absolute;
-  top: 30px;
+  top: 31px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -18,13 +18,27 @@
 
 .item {
   padding: 6px 8px;
+  position: relative;
   border-bottom: 1px solid var(--vivy-color-border);
+  overflow: hidden;
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: var(--vivy-color-primary-bg-hover);
+  transition: width 0.3s linear;
 }
 
 .body {
   display: flex;
   width: 100%;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .info {
@@ -43,6 +57,7 @@
   padding-bottom: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .speed {

@@ -2,7 +2,7 @@
   padding: 12px;
   width: 100%;
   &.highlight {
-    background: var(--vivy-color-primary-bg);
+    background: var(--vivy-color-primary-bg-hover);
   }
 }
 
@@ -34,7 +34,7 @@
   }
   &.highlight {
     :global(.luna-image-viewer) {
-      background-color: var(--vivy-color-primary-bg);
+      background-color: var(--vivy-color-primary-bg-hover);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx'
+import { makeObservable, observable, runInAction } from 'mobx'
 
 interface IDownload {
   id: string
@@ -8,6 +8,7 @@ interface IDownload {
   speed: number
   totalBytes: number
   receivedBytes: number
+  paused: boolean
 }
 
 class Store {
@@ -18,17 +19,28 @@ class Store {
     })
 
     this.bindEvent()
+    this.load()
+  }
+  async load() {
+    const downloads = await main.getDownloads()
+    runInAction(() => {
+      this.downloads = downloads
+    })
   }
   private bindEvent() {
     main.on('addDownload', (event, download) => {
-      this.downloads.push(download)
+      runInAction(() => {
+        this.downloads.push(download)
+      })
     })
     main.on('updateDownload', (event, download) => {
       const { downloads } = this
       const { id } = download
       for (let i = 0, len = downloads.length; i < len; i++) {
         if (downloads[i].id === id) {
-          downloads[i] = download
+          runInAction(() => {
+            downloads[i] = download
+          })
           break
         }
       }

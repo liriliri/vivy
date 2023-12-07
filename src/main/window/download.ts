@@ -9,6 +9,8 @@ import * as main from './main'
 import uuid from 'licia/uuid'
 import map from 'licia/map'
 import clone from 'licia/clone'
+import now from 'licia/now'
+import fs from 'fs-extra'
 
 const store = getDownloadStore()
 
@@ -57,12 +59,20 @@ interface IDownloadModelOptions {
   type: ModelType
 }
 
-export function downloadModel(options: IDownloadModelOptions) {
+export async function downloadModel(options: IDownloadModelOptions) {
   const mainWin = main.getWin()
   if (!mainWin) {
     return
   }
   downloadModelOptions = options
+  let savePath = path.join(model.getDir(options.type), options.fileName)
+  if (fs.existsSync(savePath)) {
+    await fs.unlink(savePath)
+  }
+  savePath += '.vivydownload'
+  if (fs.existsSync(savePath)) {
+    await fs.unlink(savePath)
+  }
   mainWin.webContents.downloadURL(options.url)
 }
 
@@ -75,6 +85,7 @@ interface IDownload {
   totalBytes: number
   receivedBytes: number
   downloadItem: DownloadItem
+  paused: boolean
 }
 
 const downloads: IDownload[] = []
@@ -86,17 +97,25 @@ export function init() {
     }
 
     const { type, fileName } = downloadModelOptions
-    const savePath = path.join(model.getDir(type), fileName)
-    item.setSavePath(savePath + '.vivydownload')
+    const savePath = path.join(model.getDir(type), fileName) + '.vivydownload'
+    item.setSavePath(savePath)
 
     let prevReceivedBytes = 0
-
+    let prevTime = now()
     item.on('updated', (e, state) => {
       download.totalBytes = item.getTotalBytes()
       download.receivedBytes = item.getReceivedBytes()
       download.state = state
-      download.speed = download.receivedBytes - prevReceivedBytes
-      prevReceivedBytes = download.receivedBytes
+      download.paused = item.isPaused()
+      const time = now()
+      if (time - prevTime >= 1000) {
+        download.speed = Math.round(
+          ((download.receivedBytes - prevReceivedBytes) / (time - prevTime)) *
+            1000
+        )
+        prevTime = time
+        prevReceivedBytes = download.receivedBytes
+      }
       if (win) {
         win.webContents.send('updateDownload', cloneDownload(download))
       }
@@ -111,6 +130,7 @@ export function init() {
       totalBytes: item.getTotalBytes(),
       receivedBytes: item.getReceivedBytes(),
       downloadItem: item,
+      paused: item.isPaused(),
     }
     downloads.push(download)
     if (win) {
@@ -121,10 +141,30 @@ export function init() {
   })
 }
 
+function getDownload(id: string): IDownload | undefined {
+  for (let i = 0, len = downloads.length; i < len; i++) {
+    if (downloads[i].id === id) {
+      return downloads[i]
+    }
+  }
+}
+
 function initIpc() {
   ipcMain.handle('getDownloads', () =>
     map(downloads, (download) => cloneDownload(download))
   )
+  ipcMain.handle('pauseDownload', (_, id) => {
+    const download = getDownload(id)
+    if (download) {
+      download.downloadItem.pause()
+    }
+  })
+  ipcMain.handle('resumeDownload', (_, id) => {
+    const download = getDownload(id)
+    if (download) {
+      download.downloadItem.resume()
+    }
+  })
 }
 
 function cloneDownload(download: IDownload) {
