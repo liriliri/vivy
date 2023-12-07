@@ -101,6 +101,7 @@
   "saveTo": "存储路径",
   "download": "下载",
   "noDownloads": "空列表",
+  "cancelDownloadConfirm": "确定要取消下载 {{name}} 吗？",
 
   "character": "角色",
   "camera": "镜头",

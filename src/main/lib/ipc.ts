@@ -1,4 +1,4 @@
-import { app, ipcMain } from 'electron'
+import { app, ipcMain, shell } from 'electron'
 import * as download from '../window/download'
 import * as webui from '../window/webui'
 import * as terminal from '../window/terminal'
@@ -39,5 +39,11 @@ export function init() {
       cpu,
       mem,
     }
+  })
+  ipcMain.handle('openFile', (_, path: string) => {
+    shell.openPath(path)
+  })
+  ipcMain.handle('openFileInFolder', (_, path: string) => {
+    shell.showItemInFolder(path)
   })
 }

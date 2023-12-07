@@ -101,6 +101,7 @@
   "saveTo": "Save To",
   "download": "Download",
   "noDownloads": "No Downloads",
+  "cancelDownloadConfirm": "Are you sure you want to cancel downloading {{name}}?",
 
   "character": "Character",
   "camera": "Camera",

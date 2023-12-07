@@ -5,38 +5,47 @@ import isEmpty from 'licia/isEmpty'
 import fileSize from 'licia/fileSize'
 import store from '../store'
 import { t } from '../../lib/util'
+import LunaModal from 'luna-modal'
 
 export default observer(function DownloadList() {
   const downloads = map(store.downloads, (download) => {
     const progress = Math.round(
       (download.receivedBytes / download.totalBytes) * 100
     )
+    const isProgressing = download.state === 'progressing'
 
     return (
       <div className={Style.item} key={download.id}>
-        <div
-          className={Style.progress}
-          style={{
-            width: `${progress}%`,
-          }}
-        />
+        {isProgressing && (
+          <div
+            className={Style.progress}
+            style={{
+              width: `${progress}%`,
+            }}
+          />
+        )}
         <div className={Style.body}>
           <div className={Style.info}>
             <div className={Style.name}>{download.fileName}</div>
             <div className={Style.size}>
-              {fileSize(download.receivedBytes)}B/
+              {isProgressing && `${fileSize(download.receivedBytes)}B/`}
               {fileSize(download.totalBytes)}B
             </div>
           </div>
-          <div className={Style.speed}>{fileSize(download.speed)}B/s</div>
+          {isProgressing && (
+            <div className={Style.speed}>{fileSize(download.speed)}B/s</div>
+          )}
           <div className={Style.controls}>
-            {download.state === 'progressing' && (
+            {isProgressing && (
               <div
                 className={Style.control}
                 onClick={() => {
-                  download.paused
-                    ? main.resumeDownload(download.id)
-                    : main.pauseDownload(download.id)
+                  const { id } = download
+                  if (download.paused) {
+                    main.resumeDownload(id)
+                  } else {
+                    main.pauseDownload(id)
+                  }
                 }}
               >
                 <span
@@ -44,7 +53,30 @@ export default observer(function DownloadList() {
                 ></span>
               </div>
             )}
-            <div className={Style.control}>
+            {download.state === 'completed' && (
+              <div
+                className={Style.control}
+                onClick={() => {
+                  main.openFileInFolder(download.path)
+                }}
+              >
+                <span className="icon-open-file"></span>
+              </div>
+            )}
+            <div
+              className={Style.control}
+              onClick={async () => {
+                if (isProgressing) {
+                  const result = await LunaModal.confirm(
+                    t('deleteModelConfirm', { name: download.fileName })
+                  )
+                  if (!result) {
+                    return
+                  }
+                }
+                main.deleteDownload(download.id)
+              }}
+            >
               <span className="icon-delete"></span>
             </div>
           </div>

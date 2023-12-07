@@ -11,6 +11,7 @@ import map from 'licia/map'
 import clone from 'licia/clone'
 import now from 'licia/now'
 import fs from 'fs-extra'
+import remove from 'licia/remove'
 
 const store = getDownloadStore()
 
@@ -56,6 +57,7 @@ let downloadModelOptions: IDownloadModelOptions | null = null
 interface IDownloadModelOptions {
   url: string
   fileName: string
+  path?: string
   type: ModelType
 }
 
@@ -65,13 +67,14 @@ export async function downloadModel(options: IDownloadModelOptions) {
     return
   }
   downloadModelOptions = options
-  let savePath = path.join(model.getDir(options.type), options.fileName)
-  if (fs.existsSync(savePath)) {
-    await fs.unlink(savePath)
+  let p = path.join(model.getDir(options.type), options.fileName)
+  downloadModelOptions.path = p
+  if (fs.existsSync(p)) {
+    await fs.unlink(p)
   }
-  savePath += '.vivydownload'
-  if (fs.existsSync(savePath)) {
-    await fs.unlink(savePath)
+  p += '.vivydownload'
+  if (fs.existsSync(p)) {
+    await fs.unlink(p)
   }
   mainWin.webContents.downloadURL(options.url)
 }
@@ -86,6 +89,7 @@ interface IDownload {
   receivedBytes: number
   downloadItem: DownloadItem
   paused: boolean
+  path: string
 }
 
 const downloads: IDownload[] = []
@@ -96,9 +100,9 @@ export function init() {
       return
     }
 
-    const { type, fileName } = downloadModelOptions
-    const savePath = path.join(model.getDir(type), fileName) + '.vivydownload'
-    item.setSavePath(savePath)
+    const p = downloadModelOptions.path || ''
+
+    item.setSavePath(p + '.vivydownload')
 
     let prevReceivedBytes = 0
     let prevTime = now()
@@ -121,6 +125,16 @@ export function init() {
       }
     })
 
+    item.on('done', async (e, state) => {
+      download.state = state
+      download.receivedBytes = item.getReceivedBytes()
+      if (win) {
+        win.webContents.send('updateDownload', cloneDownload(download))
+      }
+      const savePath = p + '.vivydownload'
+      await fs.rename(savePath, savePath.replace('.vivydownload', ''))
+    })
+
     const download: IDownload = {
       id: uuid(),
       url: downloadModelOptions.url,
@@ -131,6 +145,7 @@ export function init() {
       receivedBytes: item.getReceivedBytes(),
       downloadItem: item,
       paused: item.isPaused(),
+      path: p,
     }
     downloads.push(download)
     if (win) {
@@ -163,6 +178,18 @@ function initIpc() {
     const download = getDownload(id)
     if (download) {
       download.downloadItem.resume()
+    }
+  })
+  ipcMain.handle('deleteDownload', (_, id) => {
+    const download = getDownload(id)
+    if (download) {
+      if (download.state !== 'completed') {
+        download.downloadItem.cancel()
+      }
+      remove(downloads, (download) => download.id === id)
+      if (win) {
+        win.webContents.send('deleteDownload', id)
+      }
     }
   })
 }

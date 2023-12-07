@@ -1,4 +1,5 @@
 import { makeObservable, observable, runInAction } from 'mobx'
+import remove from 'licia/remove'
 
 interface IDownload {
   id: string
@@ -9,6 +10,7 @@ interface IDownload {
   totalBytes: number
   receivedBytes: number
   paused: boolean
+  path: string
 }
 
 class Store {
@@ -44,6 +46,11 @@ class Store {
           break
         }
       }
+    })
+    main.on('deleteDownload', (event, id) => {
+      runInAction(() => {
+        remove(this.downloads, (download) => download.id === id)
+      })
     })
   }
 }

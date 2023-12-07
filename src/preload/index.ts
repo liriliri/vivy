@@ -42,6 +42,7 @@ const mainObj = {
   getDownloads: () => ipcRenderer.invoke('getDownloads'),
   pauseDownload: (id: string) => ipcRenderer.invoke('pauseDownload', id),
   resumeDownload: (id: string) => ipcRenderer.invoke('resumeDownload', id),
+  deleteDownload: (id: string) => ipcRenderer.invoke('deleteDownload', id),
   downloadModel: (options: {
     url: string
     fileName: string
@@ -68,6 +69,9 @@ const mainObj = {
   deleteModel: (type: ModelType, name: string) => {
     return ipcRenderer.invoke('deleteModel', type, name)
   },
+  openFile: (path: string) => ipcRenderer.invoke('openFile', path),
+  openFileInFolder: (path: string) =>
+    ipcRenderer.invoke('openFileInFolder', path),
   quitApp: () => ipcRenderer.invoke('quitApp'),
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
