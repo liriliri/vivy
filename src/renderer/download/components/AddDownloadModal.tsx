@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import { t } from '../../lib/util'
 import { Row, Textarea, Input, Select } from '../../components/setting'
 import Style from './AddDownloadModal.module.scss'
-import { ModelType } from '../../../common/types'
+import { ModelType, modelTypes } from '../../../common/types'
 import className from 'licia/className'
 import { useState } from 'react'
 import Url from 'licia/Url'
@@ -64,13 +64,7 @@ export default observer(function AddDownloadModal(props: IProps) {
         <Select
           title={t('saveTo')}
           value={modelType}
-          options={{
-            'Stable Diffusion': ModelType.StableDiffusion,
-            Lora: ModelType.Lora,
-            RealESRGAN: ModelType.RealESRGAN,
-            ScuNET: ModelType.ScuNET,
-            Embedding: ModelType.Embedding,
-          }}
+          options={modelTypes}
           onChange={(type) => setModelType(type as ModelType)}
         ></Select>
       </Row>

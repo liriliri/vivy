@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import filter from 'licia/filter'
 import splitPath from 'licia/splitPath'
 import contain from 'licia/contain'
-import { IModel, ModelType } from '../../common/types'
+import { IModel, ModelType, modelTypes } from '../../common/types'
 import { shell } from 'electron'
 import { glob } from 'glob'
 import chokidar from 'chokidar'
@@ -25,6 +25,8 @@ function ensureDir(type: ModelType) {
 
 ensureDir(ModelType.StableDiffusion)
 ensureDir(ModelType.Lora)
+ensureDir(ModelType.LDSR)
+ensureDir(ModelType.ESRGAN)
 ensureDir(ModelType.RealESRGAN)
 ensureDir(ModelType.ScuNET)
 ensureDir(ModelType.Embedding)
@@ -37,6 +39,8 @@ export function getDir(type: ModelType) {
 
 const fileExts = {
   [ModelType.StableDiffusion]: ['.safetensors', '.ckpt'],
+  [ModelType.ESRGAN]: ['.pth'],
+  [ModelType.LDSR]: ['.ckpt'],
   [ModelType.RealESRGAN]: ['.pth'],
   [ModelType.Lora]: ['.safetensors'],
   [ModelType.ScuNET]: ['.pth'],
@@ -73,6 +77,11 @@ export function openDir(type: ModelType) {
   shell.openPath(getDir(type))
 }
 
+export function exists(type: ModelType, name: string) {
+  const dir = getDir(type)
+  return fs.existsSync(path.resolve(dir, name))
+}
+
 export async function deleteModel(type: ModelType, name: string) {
   const dir = getDir(type)
   await fs.unlink(path.resolve(dir, name))
@@ -86,12 +95,13 @@ export function init() {
         return
       }
       let type: ModelType | null = null
-      if (startWith(path, getDir(ModelType.StableDiffusion))) {
-        type = ModelType.StableDiffusion
-      } else if (startWith(path, getDir(ModelType.Lora))) {
-        type = ModelType.Lora
-      } else if (startWith(path, getDir(ModelType.Embedding))) {
-        type = ModelType.Embedding
+
+      for (const i in modelTypes) {
+        const modelType = modelTypes[i]
+        if (startWith(path, getDir(modelType))) {
+          type = modelType
+          break
+        }
       }
       if (type) {
         const exts = getFileExt(type)

@@ -386,10 +386,12 @@ class Store {
     })
 
     main.on('refreshModel', async (_, type: ModelType) => {
-      if (type === ModelType.StableDiffusion) {
-        this.isReady = false
-        this.waitForReady()
-        await webui.refreshCheckpoints()
+      switch (type) {
+        case ModelType.StableDiffusion:
+          this.isReady = false
+          this.waitForReady()
+          await webui.refreshCheckpoints()
+          break
       }
     })
 

@@ -48,6 +48,9 @@ const mainObj = {
     fileName: string
     type: ModelType
   }) => ipcRenderer.invoke('downloadModel', options),
+  isModelExists: (type: ModelType, name: string) => {
+    return ipcRenderer.invoke('isModelExists', type, name)
+  },
   showModel: () => ipcRenderer.invoke('showModel'),
   showPrompt: () => ipcRenderer.invoke('showPrompt'),
   showSystem: () => ipcRenderer.invoke('showSystem'),

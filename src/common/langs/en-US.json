@@ -102,6 +102,7 @@
   "download": "Download",
   "noDownloads": "No Downloads",
   "cancelDownloadConfirm": "Are you sure you want to cancel downloading {{name}}?",
+  "modelMissingErr": "Required model not exists",
 
   "character": "Character",
   "camera": "Camera",

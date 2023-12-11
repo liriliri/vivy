@@ -3,6 +3,7 @@ import Style from './DownloadList.module.scss'
 import map from 'licia/map'
 import isEmpty from 'licia/isEmpty'
 import fileSize from 'licia/fileSize'
+import className from 'licia/className'
 import store from '../store'
 import { t } from '../../lib/util'
 import LunaModal from 'luna-modal'
@@ -13,9 +14,15 @@ export default observer(function DownloadList() {
       (download.receivedBytes / download.totalBytes) * 100
     )
     const isProgressing = download.state === 'progressing'
+    const isInterrupted = download.state === 'interrupted'
 
     return (
-      <div className={Style.item} key={download.id}>
+      <div
+        className={className(Style.item, {
+          [Style.interrupted]: isInterrupted,
+        })}
+        key={download.id}
+      >
         {isProgressing && (
           <div
             className={Style.progress}
@@ -51,6 +58,22 @@ export default observer(function DownloadList() {
                 <span
                   className={download.paused ? 'icon-play' : 'icon-pause'}
                 ></span>
+              </div>
+            )}
+            {isInterrupted && (
+              <div
+                className={Style.control}
+                onClick={async () => {
+                  const { url, fileName, type, id } = download
+                  await main.deleteDownload(id)
+                  await main.downloadModel({
+                    url,
+                    fileName,
+                    type,
+                  })
+                }}
+              >
+                <span className="icon-refresh"></span>
               </div>
             )}
             {download.state === 'completed' && (

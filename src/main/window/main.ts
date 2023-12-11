@@ -11,6 +11,7 @@ import {
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import createWin from './createWin'
+import * as model from '../lib/model'
 import { i18n } from '../lib/util'
 
 const store = getMainStore()
@@ -64,6 +65,7 @@ function initIpc() {
   })
   ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getMainStore', (_, name) => store.get(name))
+  ipcMain.handle('isModelExists', (_, type, name) => model.exists(type, name))
   store.on('change', (name, val) => sendAll('changeMainStore', name, val))
   ipcMain.handle('translate', async (_, text) => {
     let translator: typeof bing | null = null

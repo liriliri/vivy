@@ -35,6 +35,7 @@ export async function start() {
   const env = {
     PATH,
     GIT_PYTHON_REFRESH: 'quiet',
+    SD_WEBUI_RESTARTING: '1',
   }
 
   if (isMac()) {
@@ -66,6 +67,8 @@ export async function start() {
 
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
   args.push('--lora-dir', model.getDir(ModelType.Lora))
+  args.push('--ldsr-models-path', model.getDir(ModelType.LDSR))
+  args.push('--esrgan-models-path', model.getDir(ModelType.ESRGAN))
   args.push('--realesrgan-models-path', model.getDir(ModelType.RealESRGAN))
   args.push('--scunet-models-path', model.getDir(ModelType.ScuNET))
   args.push('--embeddings-dir', model.getDir(ModelType.Embedding))

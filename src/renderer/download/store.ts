@@ -1,5 +1,6 @@
 import { makeObservable, observable, runInAction } from 'mobx'
 import remove from 'licia/remove'
+import { ModelType } from '../../common/types'
 
 interface IDownload {
   id: string
@@ -11,6 +12,7 @@ interface IDownload {
   receivedBytes: number
   paused: boolean
   path: string
+  type: ModelType
 }
 
 class Store {

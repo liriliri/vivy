@@ -10,6 +10,7 @@ import uuid from 'licia/uuid'
 import map from 'licia/map'
 import clone from 'licia/clone'
 import now from 'licia/now'
+import some from 'licia/some'
 import fs from 'fs-extra'
 import remove from 'licia/remove'
 
@@ -66,6 +67,11 @@ export async function downloadModel(options: IDownloadModelOptions) {
   if (!mainWin) {
     return
   }
+
+  if (some(downloads, (download) => download.url === options.url)) {
+    return
+  }
+
   downloadModelOptions = options
   let p = path.join(model.getDir(options.type), options.fileName)
   downloadModelOptions.path = p
@@ -90,6 +96,7 @@ interface IDownload {
   downloadItem: DownloadItem
   paused: boolean
   path: string
+  type: ModelType
 }
 
 const downloads: IDownload[] = []
@@ -131,8 +138,10 @@ export function init() {
       if (win) {
         win.webContents.send('updateDownload', cloneDownload(download))
       }
-      const savePath = p + '.vivydownload'
-      await fs.rename(savePath, savePath.replace('.vivydownload', ''))
+      if (download.state === 'completed') {
+        const savePath = p + '.vivydownload'
+        await fs.rename(savePath, savePath.replace('.vivydownload', ''))
+      }
     })
 
     const download: IDownload = {
@@ -146,6 +155,7 @@ export function init() {
       downloadItem: item,
       paused: item.isPaused(),
       path: p,
+      type: downloadModelOptions.type,
     }
     downloads.push(download)
     if (win) {

@@ -5,7 +5,7 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import Style from './Toolbar.module.scss'
 import store from '../store'
-import { ModelType } from '../../../common/types'
+import { modelTypes } from '../../../common/types'
 import { t } from '../../lib/util'
 import ToolbarIcon from '../../components/ToolbarIcon'
 import toBool from 'licia/toBool'
@@ -33,13 +33,7 @@ export default observer(function Toolbar() {
       <LunaToolbarSelect
         keyName="type"
         value={store.selectedType}
-        options={{
-          'Stable Diffusion': ModelType.StableDiffusion,
-          Lora: ModelType.Lora,
-          RealESRGAN: ModelType.RealESRGAN,
-          ScuNET: ModelType.ScuNET,
-          Embedding: ModelType.Embedding,
-        }}
+        options={modelTypes}
       />
       <LunaToolbarSpace />
       <ToolbarIcon

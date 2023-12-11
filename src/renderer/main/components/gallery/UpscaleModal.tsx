@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
-import { t } from '../../../lib/util'
+import { notify, t } from '../../../lib/util'
 import { Row, Number, Select } from '../../../components/setting'
 import { useState } from 'react'
 import Style from './UpscaleModal.module.scss'
@@ -9,6 +9,8 @@ import className from 'licia/className'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import store from '../../store'
+import { ModelType } from '../../../../common/types'
+import contain from 'licia/contain'
 
 interface IProps {
   visible: boolean
@@ -33,7 +35,14 @@ export default observer(function UpscaleModal(props: IProps) {
     }
   }
 
-  const onClick = () => {
+  const onClick = async () => {
+    if (
+      !(await checkUpscalerModel(upscaler1)) ||
+      !(await checkUpscalerModel(upscaler2))
+    ) {
+      notify(t('modelMissingErr'))
+      return
+    }
     store.createUpscaleImgTask({
       image: store.selectedImage!.data,
       width,
@@ -105,3 +114,54 @@ export default observer(function UpscaleModal(props: IProps) {
     document.body
   )
 })
+
+const upscalerParams = {
+  ESRGAN_4x: {
+    url: 'https://github.com/cszn/KAIR/releases/download/v1.0/ESRGAN.pth',
+    fileName: 'ESRGAN_4x.pth',
+    type: ModelType.ESRGAN,
+  },
+  LDSR: {
+    url: 'https://heibox.uni-heidelberg.de/f/578df07c8fc04ffbadf3/?dl=1',
+    fileName: 'model.ckpt',
+    type: ModelType.LDSR,
+  },
+  'R-ESRGAN 4x+': {
+    url: 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth',
+    fileName: 'RealESRGAN_x4plus.pth',
+    type: ModelType.RealESRGAN,
+  },
+  'R-ESRGAN 4x+ Anime6B': {
+    url: 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth',
+    fileName: 'RealESRGAN_x4plus_anime_6B.pth',
+    type: ModelType.RealESRGAN,
+  },
+  ScuNET: {
+    url: 'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_gan.pth',
+    fileName: 'ScuNET.pth',
+    type: ModelType.ScuNET,
+  },
+  'ScuNET PSNR': {
+    url: 'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_psnr.pth',
+    fileName: 'ScuNET.pth',
+    type: ModelType.ScuNET,
+  },
+}
+
+const upscalersWithoutModel = ['None', 'Lanczos', 'Nearest']
+
+async function checkUpscalerModel(upscaler: string) {
+  if (contain(upscalersWithoutModel, upscaler)) {
+    return true
+  }
+
+  const param = upscalerParams[upscaler]
+
+  if (!(await main.isModelExists(param.type, param.fileName))) {
+    main.downloadModel(param)
+    main.showDownload()
+    return false
+  }
+
+  return true
+}

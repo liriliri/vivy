@@ -238,6 +238,7 @@ export async function extraSingle(
       resize_mode: 0,
       show_extras_results: true,
       gfpgan_visibility: 0,
+      codeformer_visibility: 0,
       codeformer_weight: 0,
       upscaling_resize: 2,
       upscaling_resize_w: options.upscaling_resize_w,
@@ -270,7 +271,7 @@ export async function waitForReady(
       const progress = result.progress
       const jobCount = result.state.job_count
 
-      if (progress === 0.0 && jobCount === 0) {
+      if ((progress === 0.0 || progress === 0.01) && jobCount <= 0) {
         clearInterval(interval)
         resolve(true)
       } else {

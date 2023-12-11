@@ -21,6 +21,9 @@
   position: relative;
   border-bottom: 1px solid var(--vivy-color-border);
   overflow: hidden;
+  &.interrupted {
+    background: var(--vivy-color-error-bg);
+  }
 }
 
 .progress {
