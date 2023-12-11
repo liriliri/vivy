@@ -68,6 +68,7 @@ export async function start() {
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
   args.push('--lora-dir', model.getDir(ModelType.Lora))
   args.push('--ldsr-models-path', model.getDir(ModelType.LDSR))
+  args.push('--swinir-models-path', model.getDir(ModelType.SwinIR))
   args.push('--esrgan-models-path', model.getDir(ModelType.ESRGAN))
   args.push('--realesrgan-models-path', model.getDir(ModelType.RealESRGAN))
   args.push('--scunet-models-path', model.getDir(ModelType.ScuNET))

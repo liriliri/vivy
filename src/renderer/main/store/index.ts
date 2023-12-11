@@ -10,6 +10,7 @@ import clone from 'licia/clone'
 import some from 'licia/some'
 import uuid from 'licia/uuid'
 import startWith from 'licia/startWith'
+import filter from 'licia/filter'
 import base64 from 'licia/base64'
 import contain from 'licia/contain'
 import remove from 'licia/remove'
@@ -274,7 +275,16 @@ class Store {
     this.setStore('samplers', this.samplers)
   }
   async fetchUpscalers() {
-    const upscalers = await webui.getUpscalers()
+    const upscalers = filter(await webui.getUpscalers(), (upscaler) => {
+      if (!this.settings.enableWebUI) {
+        if (
+          contain(['SwinIR_4x', 'LDSR', 'ScuNET', 'ScuNET PSNR'], upscaler.name)
+        ) {
+          return false
+        }
+      }
+      return true
+    })
     runInAction(() => {
       this.upscalers = map(upscalers, (upscaler) => upscaler.name)
     })
@@ -461,8 +471,17 @@ class Store {
     if (!this.isReady) {
       return false
     } else if (isEmpty(this.models)) {
-      await LunaModal.alert(t('noModelsAlert'))
-      main.showModel()
+      const result = await LunaModal.confirm(t('noModelsConfirm'))
+      if (result) {
+        main.downloadModel({
+          url: 'https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors',
+          fileName: 'v1-5-pruned-emaonly.safetensors',
+          type: ModelType.StableDiffusion,
+        })
+        main.showDownload()
+      } else {
+        main.showModel()
+      }
       return false
     }
 

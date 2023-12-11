@@ -210,7 +210,11 @@ export class UpscaleImgTask extends Task {
     let total = ''
     if (startWith(log, 'Tile')) {
       ;[current, total] = log.slice(5).split('/')
-    } else if (startWith(log, 'ScuNET tiles')) {
+    } else if (
+      startWith(log, 'ScuNET tiles') ||
+      startWith(log, 'SwinIR tiles') ||
+      startWith(log, 'DDIM Sampler')
+    ) {
       ;[current, total] = trim(log.match(/ \d+\/\d+ /)[0]).split('/')
     }
     if (current) {

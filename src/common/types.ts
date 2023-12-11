@@ -6,6 +6,7 @@ export enum ModelType {
   RealESRGAN = 'RealESRGAN',
   ScuNET = 'ScuNET',
   Embedding = 'Embedding',
+  SwinIR = 'SwinIR',
 }
 
 export const modelTypes = {
@@ -16,6 +17,7 @@ export const modelTypes = {
   RealESRGAN: ModelType.RealESRGAN,
   ScuNET: ModelType.ScuNET,
   Embedding: ModelType.Embedding,
+  SwinIR: ModelType.SwinIR,
 }
 
 export interface IModel {

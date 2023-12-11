@@ -91,7 +91,7 @@ export default observer(function DownloadList() {
               onClick={async () => {
                 if (isProgressing) {
                   const result = await LunaModal.confirm(
-                    t('deleteModelConfirm', { name: download.fileName })
+                    t('cancelDownloadConfirm', { name: download.fileName })
                   )
                   if (!result) {
                     return
