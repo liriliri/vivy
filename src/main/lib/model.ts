@@ -30,6 +30,7 @@ ensureDir(ModelType.ESRGAN)
 ensureDir(ModelType.RealESRGAN)
 ensureDir(ModelType.ScuNET)
 ensureDir(ModelType.Embedding)
+ensureDir(ModelType.SwinIR)
 
 export function getDir(type: ModelType) {
   const modelPath = settingsStore.get('modelPath')
@@ -45,6 +46,7 @@ const fileExts = {
   [ModelType.Lora]: ['.safetensors'],
   [ModelType.ScuNET]: ['.pth'],
   [ModelType.Embedding]: ['.safetensors', '.pt'],
+  [ModelType.SwinIR]: ['.pth']
 }
 
 export function getFileExt(type: ModelType) {
