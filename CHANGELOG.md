@@ -1,3 +1,8 @@
+## v0.5.0 (13 Dec 2023)
+
+* feat: model download manager
+* feat: paste init image
+
 ## v0.4.0 (29 Nov 2023)
 
 * feat: read init image info
