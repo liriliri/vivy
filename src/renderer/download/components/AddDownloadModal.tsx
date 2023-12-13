@@ -11,6 +11,7 @@ import Url from 'licia/Url'
 import last from 'licia/last'
 import isStrBlank from 'licia/isStrBlank'
 import isUrl from 'licia/isUrl'
+import isEmpty from 'licia/isEmpty'
 
 interface IProps {
   visible: boolean
@@ -39,6 +40,14 @@ export default observer(function AddDownloadModal(props: IProps) {
     setFileName('')
     setModelType(ModelType.StableDiffusion)
     props.onClose()
+  }
+
+  if (isEmpty(downloadUrl)) {
+    navigator.clipboard.readText().then((text) => {
+      if (isUrl(text)) {
+        onUrlChange(text)
+      }
+    })
   }
 
   return createPortal(
