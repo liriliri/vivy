@@ -103,6 +103,7 @@
   "noDownloads": "No Downloads",
   "cancelDownloadConfirm": "Are you sure you want to cancel downloading {{name}}?",
   "modelMissingErr": "Required model not exists",
+  "noClipboardImage": "There is no image in the clipboard",
 
   "character": "Character",
   "camera": "Camera",

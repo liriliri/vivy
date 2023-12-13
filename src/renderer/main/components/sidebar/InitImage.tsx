@@ -5,7 +5,7 @@ import store from '../../store'
 import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
-import { toDataUrl, t, isFileDrop } from '../../../lib/util'
+import { toDataUrl, t, isFileDrop, notify } from '../../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
   LunaToolbarSeparator,
@@ -29,6 +29,15 @@ export default observer(function InitImage() {
         store.setInitImage(file)
       }
     })
+  }
+
+  const pasteInitImage = async () => {
+    const image = await main.readClipboardImage()
+    if (image) {
+      store.setInitImage(image, 'image/png')
+    } else {
+      notify(t('noClipboardImage'))
+    }
   }
 
   const onDrop = (e: React.DragEvent) => {
@@ -76,6 +85,11 @@ export default observer(function InitImage() {
             icon="open-file"
             title={t('openImage')}
             onClick={openInitImage}
+          />
+          <ToolbarIcon
+            icon="paste"
+            title={t('paste')}
+            onClick={pasteInitImage}
           />
           <ToolbarIcon
             icon="info"

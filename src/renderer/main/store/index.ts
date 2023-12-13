@@ -33,6 +33,7 @@ import isEmpty from 'licia/isEmpty'
 import swap from 'licia/swap'
 import hotkey from 'licia/hotkey'
 import ric from 'licia/ric'
+import isStr from 'licia/isStr'
 
 interface IOptions {
   model: string
@@ -431,9 +432,16 @@ class Store {
     this.tasks.push(task)
     this.doCreateTask()
   }
-  async setInitImage(data: IImage | Blob, mime = '') {
+  async setInitImage(data: IImage | Blob | string, mime = '') {
+    const { genOptions } = this
+
+    let buf = new ArrayBuffer(0)
     if (isFile(data)) {
-      const buf = await convertBin.blobToArrBuffer(data)
+      buf = await convertBin.blobToArrBuffer(data)
+    } else if (isStr(data)) {
+      buf = convertBin(data, 'ArrayBuffer')
+    }
+    if (buf.byteLength > 0) {
       if (!mime) {
         const type = fileType(buf)
         if (type) {
@@ -461,6 +469,10 @@ class Store {
       this.initImage = data as IImage
     }
 
+    const { info } = this.initImage
+    genOptions.width = info.width
+    genOptions.height = info.height
+    this.setStore('genOptions', this.genOptions)
     this.setStore('initImage', this.initImage)
   }
   deleteInitImage() {

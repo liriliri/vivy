@@ -7,12 +7,14 @@ import {
   nativeTheme,
   OpenDialogOptions,
   dialog,
+  clipboard,
 } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import createWin from './createWin'
 import * as model from '../lib/model'
 import { i18n } from '../lib/util'
+import convertBin from 'licia/convertBin'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -108,4 +110,11 @@ function initIpc() {
   if (theme) {
     nativeTheme.themeSource = theme
   }
+
+  ipcMain.handle('readClipboardImage', () => {
+    const image = clipboard.readImage()
+    if (!image.isEmpty()) {
+      return convertBin(image.toPNG(), 'base64')
+    }
+  })
 }

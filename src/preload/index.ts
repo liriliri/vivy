@@ -61,6 +61,7 @@ const mainObj = {
   setSettingsStore: (name, val) => {
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
+  readClipboardImage: () => ipcRenderer.invoke('readClipboardImage'),
   showOpenDialog: (options: OpenDialogOptions = {}) => {
     return ipcRenderer.invoke('showOpenDialog', options)
   },
