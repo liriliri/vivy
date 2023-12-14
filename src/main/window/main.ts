@@ -1,5 +1,5 @@
 import path from 'path'
-import { isDev, sendAll } from '../lib/util'
+import { isDev } from '../lib/util'
 import {
   BrowserWindow,
   ipcMain,
@@ -11,7 +11,7 @@ import {
 } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
-import createWin from './createWin'
+import * as window from '../lib/window'
 import * as model from '../lib/model'
 import { i18n } from '../lib/util'
 import convertBin from 'licia/convertBin'
@@ -39,7 +39,7 @@ export function showWin() {
     initIpc()
   }
 
-  win = createWin({
+  win = window.create({
     minWidth: 1280,
     minHeight: 850,
     ...store.get('bounds'),
@@ -68,7 +68,9 @@ function initIpc() {
   ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
   ipcMain.handle('getMainStore', (_, name) => store.get(name))
   ipcMain.handle('isModelExists', (_, type, name) => model.exists(type, name))
-  store.on('change', (name, val) => sendAll('changeMainStore', name, val))
+  store.on('change', (name, val) => {
+    window.sendAll('changeMainStore', name, val)
+  })
   ipcMain.handle('translate', async (_, text) => {
     let translator: typeof bing | null = null
     switch (settingsStore.get('translator')) {
@@ -95,7 +97,7 @@ function initIpc() {
   })
   ipcMain.handle('getSettingsStore', (_, name) => settingsStore.get(name))
   settingsStore.on('change', (name, val) =>
-    sendAll('changeSettingsStore', name, val)
+    window.sendAll('changeSettingsStore', name, val)
   )
 
   ipcMain.handle('showOpenDialog', (_, options: OpenDialogOptions = {}) =>

@@ -1,7 +1,7 @@
 import path from 'path'
 import { isDev } from '../lib/util'
 import { BrowserWindow } from 'electron'
-import createWin from './createWin'
+import * as window from '../lib/window'
 import { getPromptStore } from '../lib/store'
 
 const store = getPromptStore()
@@ -14,7 +14,7 @@ export function showWin() {
     return
   }
 
-  win = createWin({
+  win = window.create({
     minWidth: 960,
     minHeight: 640,
     ...store.get('bounds'),

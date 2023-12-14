@@ -1,8 +1,8 @@
 import path from 'path'
-import { isDev, sendAll } from '../lib/util'
+import { isDev } from '../lib/util'
 import { BrowserWindow, ipcMain } from 'electron'
 import { getTerminalStore } from '../lib/store'
-import createWin from './createWin'
+import * as window from '../lib/window'
 import isWindows from 'licia/isWindows'
 import contain from 'licia/contain'
 import isBuffer from 'licia/isBuffer'
@@ -23,7 +23,7 @@ export function showWin() {
     initIpc()
   }
 
-  win = createWin({
+  win = window.create({
     minWidth: 960,
     minHeight: 640,
     ...store.get('bounds'),
@@ -72,7 +72,7 @@ export function init() {
       data = (data as string).replace(/\ufffd/g, '█')
     }
     logs.push(data as string)
-    sendAll('addLog', data)
+    window.sendAll('addLog', data)
   }
 }
 

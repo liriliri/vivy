@@ -10,7 +10,7 @@ import { glob } from 'glob'
 import chokidar from 'chokidar'
 import debounce from 'licia/debounce'
 import startWith from 'licia/startWith'
-import { sendAll } from './util'
+import * as window from './window'
 
 const settingsStore = getSettingsStore()
 
@@ -109,7 +109,7 @@ export function init() {
         const exts = getFileExt(type)
         const { ext } = splitPath(path)
         if (contain(exts, ext)) {
-          sendAll('refreshModel', type)
+          window.sendAll('refreshModel', type)
         }
       }
     }, 1000)

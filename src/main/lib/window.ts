@@ -2,6 +2,8 @@ import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron'
 import noop from 'licia/noop'
 import types from 'licia/types'
 import defaults from 'licia/defaults'
+import remove from 'licia/remove'
+import each from 'licia/each'
 import path from 'path'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 import { getSettingsStore } from '../lib/store'
@@ -23,7 +25,9 @@ interface IWinOptions {
   resizable?: boolean
 }
 
-export default function createWin(opts: IWinOptions) {
+const visibleWins: BrowserWindow[] = []
+
+export function create(opts: IWinOptions) {
   defaults(opts, {
     customTitlebar: true,
     preload: true,
@@ -80,10 +84,19 @@ export default function createWin(opts: IWinOptions) {
   win.on('resize', onSavePos)
   win.on('moved', onSavePos)
   win.once('ready-to-show', () => win.show())
+  win.on('show', () => visibleWins.push(win))
+  win.on('closed', () => remove(visibleWins, (window) => window === win))
+
   if (winOptions.customTitlebar) {
     attachTitlebarToWindow(win)
     win.setMinimumSize(winOptions.minWidth, winOptions.minHeight)
   }
 
   return win
+}
+
+export function sendAll(channel: string, ...args: any[]) {
+  each(visibleWins, (win) => {
+    win.webContents.send(channel, ...args)
+  })
 }

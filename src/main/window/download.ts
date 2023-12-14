@@ -1,5 +1,5 @@
 import { BrowserWindow, DownloadItem, ipcMain, session } from 'electron'
-import createWin from './createWin'
+import * as window from '../lib/window'
 import { isDev } from '../lib/util'
 import path from 'path'
 import { getDownloadStore } from '../lib/store'
@@ -31,7 +31,7 @@ export function showWin() {
     initIpc()
   }
 
-  win = createWin({
+  win = window.create({
     minWidth: 640,
     minHeight: 480,
     ...store.get('bounds'),

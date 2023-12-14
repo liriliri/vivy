@@ -2,7 +2,7 @@ import path from 'path'
 import { isDev } from '../lib/util'
 import { BrowserWindow, ipcMain } from 'electron'
 import { getModelStore } from '../lib/store'
-import createWin from './createWin'
+import * as window from '../lib/window'
 import { ModelType } from '../../common/types'
 import * as model from '../lib/model'
 
@@ -23,7 +23,7 @@ export function showWin() {
     initIpc()
   }
 
-  win = createWin({
+  win = window.create({
     minWidth: 640,
     minHeight: 480,
     ...store.get('bounds'),

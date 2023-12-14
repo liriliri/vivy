@@ -9,7 +9,7 @@ import { Readable } from 'stream'
 import { getSettingsStore, getWebUIStore } from '../lib/store'
 import * as model from '../lib/model'
 import { ModelType } from '../../common/types'
-import createWin from './createWin'
+import * as window from '../lib/window'
 import pidusage from 'pidusage'
 import os from 'os'
 
@@ -103,7 +103,7 @@ export function showWin() {
     win.focus()
     return
   }
-  win = createWin({
+  win = window.create({
     customTitlebar: false,
     minHeight: 850,
     minWidth: 1280,
