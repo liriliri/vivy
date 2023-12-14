@@ -12,7 +12,8 @@ import toNum from 'licia/toNum'
 export enum TaskStatus {
   Wait,
   Generating,
-  Complete,
+  Success,
+  Fail,
 }
 
 export class Task extends Emitter {
@@ -80,35 +81,41 @@ export class GenTask extends Task {
     this.status = TaskStatus.Generating
     this.getProgress()
     let result: webui.StableDiffusionResult
-    if (this.initImage) {
-      result = await webui.img2img({
-        denoising_strength: genOptions.denoisingStrength,
-        prompt,
-        negative_prompt: negativePrompt,
-        init_images: [this.initImage],
-        batch_size: genOptions.batchSize,
-        steps: genOptions.steps,
-        sampler_name: genOptions.sampler,
-        cfg_scale: genOptions.cfgScale,
-        width: genOptions.width,
-        height: genOptions.height,
-        seed: genOptions.seed,
-      })
-    } else {
-      result = await webui.txt2img({
-        prompt,
-        negative_prompt: negativePrompt,
-        batch_size: genOptions.batchSize,
-        steps: genOptions.steps,
-        sampler_name: genOptions.sampler,
-        cfg_scale: genOptions.cfgScale,
-        width: genOptions.width,
-        height: genOptions.height,
-        seed: genOptions.seed,
-      })
+    try {
+      if (this.initImage) {
+        result = await webui.img2img({
+          denoising_strength: genOptions.denoisingStrength,
+          prompt,
+          negative_prompt: negativePrompt,
+          init_images: [this.initImage],
+          batch_size: genOptions.batchSize,
+          steps: genOptions.steps,
+          sampler_name: genOptions.sampler,
+          cfg_scale: genOptions.cfgScale,
+          width: genOptions.width,
+          height: genOptions.height,
+          seed: genOptions.seed,
+        })
+      } else {
+        result = await webui.txt2img({
+          prompt,
+          negative_prompt: negativePrompt,
+          batch_size: genOptions.batchSize,
+          steps: genOptions.steps,
+          sampler_name: genOptions.sampler,
+          cfg_scale: genOptions.cfgScale,
+          width: genOptions.width,
+          height: genOptions.height,
+          seed: genOptions.seed,
+        })
+      }
+    } catch (e) {
+      this.status = TaskStatus.Fail
+      this.emit('fail')
+      return
     }
     this.progress = 100
-    this.status = TaskStatus.Complete
+    this.status = TaskStatus.Success
     if (this.progressTimer) {
       clearTimeout(this.progressTimer)
     }
@@ -119,7 +126,7 @@ export class GenTask extends Task {
       image.info.size = base64.decode(image.data).length
       image.info.seed = info.all_seeds[i]
     }
-    this.emit('complete', this.images)
+    this.emit('success', this.images)
   }
   async getProgress() {
     const { batchSize } = this.genOptions
@@ -133,7 +140,7 @@ export class GenTask extends Task {
       }
     })
 
-    if (this.status !== TaskStatus.Complete) {
+    if (this.status !== TaskStatus.Success && this.status !== TaskStatus.Fail) {
       this.progressTimer = setTimeout(() => this.getProgress(), 1000)
       if (current_image && current_image !== this.currentImage) {
         this.currentImage = current_image
@@ -197,12 +204,12 @@ export class UpscaleImgTask extends Task {
       extras_upscaler_2_visibility: upscaleImgOptions.upscaler2Visibility,
     })
     this.progress = 100
-    this.status = TaskStatus.Complete
+    this.status = TaskStatus.Success
     main.off('addLog', this.getProgress)
     const image = this.images[0]
     image.data = result.images[0]
     image.info.size = base64.decode(image.data).length
-    this.emit('complete', this.images)
+    this.emit('success', this.images)
   }
   getProgress = (event, log) => {
     log = trim(log)

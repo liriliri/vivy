@@ -107,6 +107,7 @@
   "interrogate": "反推",
   "interrogateHint": "点击按钮开始从当前图片反推提示词",
   "interrogating": "正在反推图片提示词",
+  "generateErr": "生成图片失败",
 
   "character": "角色",
   "camera": "镜头",

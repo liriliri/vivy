@@ -36,7 +36,7 @@ export default observer(function () {
   each(tasks, (task) => {
     const len = task.images.length
     total += len
-    if (task.status === TaskStatus.Complete) {
+    if (task.status === TaskStatus.Success) {
       complete += len
     } else if (task.status === TaskStatus.Generating) {
       complete += (task.progress / 100) * len

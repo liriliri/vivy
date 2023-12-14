@@ -27,7 +27,7 @@ import fileType from 'licia/fileType'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
-import { t } from '../../lib/util'
+import { notify, t } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import swap from 'licia/swap'
@@ -506,16 +506,21 @@ class Store {
     const task = this.tasks[0]
     if (task) {
       switch (task.status) {
-        case TaskStatus.Complete:
+        case TaskStatus.Success:
+        case TaskStatus.Fail:
           this.tasks.shift()
           this.doCreateTask()
           break
         case TaskStatus.Wait:
-          task.on('complete', (images) => {
+          task.on('success', (images) => {
             this.images.push(...images)
             if (!this.selectedImage) {
               this.selectImage(images[0])
             }
+            this.doCreateTask()
+          })
+          task.on('fail', () => {
+            notify(t('generateErr'))
             this.doCreateTask()
           })
           task.run()
