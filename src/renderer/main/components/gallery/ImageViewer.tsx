@@ -18,6 +18,7 @@ import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t, toDataUrl } from '../../../lib/util'
 import ImageInfoModal from '../common/ImageInfoModal'
+import InterrogateModal from '../common/InterrogateModal'
 import UpscaleModal from './UpscaleModal'
 import CopyButton from '../../../components/CopyButton'
 import { IImage } from '../../../main/store/types'
@@ -28,6 +29,7 @@ export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
+  const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
 
   const save = () => {
     if (store.selectedImage) {
@@ -138,6 +140,12 @@ export default observer(function () {
           disabled={!hasSelectedImage}
           onClick={() => setUpscaleModalVisible(true)}
         />
+        <ToolbarIcon
+          icon="magic"
+          title={t('interrogate')}
+          disabled={!hasSelectedImage}
+          onClick={() => setInterrogateModalVisible(true)}
+        />
         <LunaToolbarSpace />
         <ToolbarIcon
           icon="delete"
@@ -159,15 +167,22 @@ export default observer(function () {
         image={image}
         onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
       ></LunaImageViewer>
-      {hasArrow ? arrowLeft : null}
-      {hasArrow ? arrowRight : null}
-      {store.selectedImage ? (
+      {hasArrow && arrowLeft}
+      {hasArrow && arrowRight}
+      {store.selectedImage && (
         <ImageInfoModal
           visible={imageInfoModalVisible}
           image={store.selectedImage}
           onClose={() => setImageInfoModalVisible(false)}
         />
-      ) : null}
+      )}
+      {store.selectedImage && (
+        <InterrogateModal
+          visible={interrogateModalVisible}
+          image={store.selectedImage}
+          onClose={() => setInterrogateModalVisible(false)}
+        />
+      )}
       <UpscaleModal
         visible={upscaleModalVisible}
         onClose={() => setUpscaleModalVisible(false)}

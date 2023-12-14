@@ -7,17 +7,14 @@ export enum ModelType {
   ScuNET = 'ScuNET',
   Embedding = 'Embedding',
   SwinIR = 'SwinIR',
+  BLIP = 'BLIP',
+  Deepdanbooru = 'Deepdanbooru',
 }
 
 export const modelTypes = {
   'Stable Diffusion': ModelType.StableDiffusion,
   Lora: ModelType.Lora,
-  LDSR: ModelType.LDSR,
-  ESRGAN: ModelType.ESRGAN,
-  RealESRGAN: ModelType.RealESRGAN,
-  ScuNET: ModelType.ScuNET,
   Embedding: ModelType.Embedding,
-  SwinIR: ModelType.SwinIR,
 }
 
 export interface IModel {

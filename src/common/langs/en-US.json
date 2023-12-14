@@ -104,6 +104,9 @@
   "cancelDownloadConfirm": "Are you sure you want to cancel downloading {{name}}?",
   "modelMissingErr": "Required model not exists",
   "noClipboardImage": "There is no image in the clipboard",
+  "interrogate": "Interrogate",
+  "interrogateHint": "Click the button to start generating prompt from selected image",
+  "interrogating": "Interrogating selected image",
 
   "character": "Character",
   "camera": "Camera",

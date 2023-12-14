@@ -315,3 +315,14 @@ export async function interrupt() {
 export async function refreshCheckpoints() {
   await api.post('/sdapi/v1/refresh-checkpoints')
 }
+
+export async function interrogate(image: string, model: string) {
+  const response = await api.post<{ caption: string }>(
+    '/sdapi/v1/interrogate',
+    {
+      image,
+      model,
+    }
+  )
+  return response.data.caption
+}

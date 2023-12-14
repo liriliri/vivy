@@ -19,7 +19,7 @@ export function Row(props: PropsWithChildren<IRowProps>) {
 }
 
 interface ISelectProps {
-  title: string
+  title?: string
   options: types.PlainObj<string>
   value: string
   onChange: (val: string) => void
@@ -42,7 +42,7 @@ export function Select(props: ISelectProps) {
 
   return (
     <div className={className(Style.item, Style.itemSelect)}>
-      <div className={Style.title}>{props.title}</div>
+      {props.title && <div className={Style.title}>{props.title}</div>}
       <div className={Style.control}>
         <div className={Style.select}>
           <select onChange={onChange} value={props.value}>

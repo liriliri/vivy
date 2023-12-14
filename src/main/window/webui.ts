@@ -1,5 +1,5 @@
 import { BrowserWindow, app } from 'electron'
-import { resolveUnpack, isMac } from '../lib/util'
+import { resolveUnpack, isMac, getUserDataPath } from '../lib/util'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
 import extend from 'licia/extend'
@@ -65,6 +65,7 @@ export async function start() {
     '--no-hashing',
   ]
 
+  args.push('--data-dir', getUserDataPath(''))
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
   args.push('--lora-dir', model.getDir(ModelType.Lora))
   args.push('--ldsr-models-path', model.getDir(ModelType.LDSR))

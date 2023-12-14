@@ -14,10 +14,12 @@ import LunaToolbar, {
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useRef, useState } from 'react'
 import ImageInfoModal from '../common/ImageInfoModal'
+import InterrogateModal from '../common/InterrogateModal'
 
 export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
+  const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
 
   const openInitImage = () => {
@@ -113,6 +115,12 @@ export default observer(function InitImage() {
             title={t('zoomOut')}
             onClick={() => imageViewerRef.current?.zoom(-0.1)}
           />
+          <LunaToolbarSeparator />
+          <ToolbarIcon
+            icon="magic"
+            title={t('interrogate')}
+            onClick={() => setInterrogateModalVisible(true)}
+          />
           <LunaToolbarSpace />
           <ToolbarIcon
             icon="delete"
@@ -137,6 +145,11 @@ export default observer(function InitImage() {
           visible={imageInfoModalVisible}
           image={store.initImage}
           onClose={() => setImageInfoModalVisible(false)}
+        />
+        <InterrogateModal
+          visible={interrogateModalVisible}
+          image={store.initImage}
+          onClose={() => setInterrogateModalVisible(false)}
         />
       </div>
     )

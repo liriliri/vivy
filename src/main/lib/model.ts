@@ -11,6 +11,7 @@ import chokidar from 'chokidar'
 import debounce from 'licia/debounce'
 import startWith from 'licia/startWith'
 import * as window from './window'
+import { getUserDataPath } from './util'
 
 const settingsStore = getSettingsStore()
 
@@ -33,6 +34,13 @@ ensureDir(ModelType.Embedding)
 ensureDir(ModelType.SwinIR)
 
 export function getDir(type: ModelType) {
+  if (type === ModelType.BLIP) {
+    return path.join(getUserDataPath('models'), 'BLIP')
+  }
+  if (type === ModelType.Deepdanbooru) {
+    return path.join(getUserDataPath('models'), 'torch_deepdanbooru')
+  }
+
   const modelPath = settingsStore.get('modelPath')
 
   return path.join(modelPath, type)

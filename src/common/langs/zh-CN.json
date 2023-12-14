@@ -104,6 +104,9 @@
   "cancelDownloadConfirm": "确定要取消下载 {{name}} 吗？",
   "modelMissingErr": "所需模型不存在",
   "noClipboardImage": "剪贴板中不存在图片",
+  "interrogate": "反推",
+  "interrogateHint": "点击按钮开始从当前图片反推提示词",
+  "interrogating": "正在反推图片提示词",
 
   "character": "角色",
   "camera": "镜头",
