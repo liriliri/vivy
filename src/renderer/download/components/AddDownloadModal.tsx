@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite'
 import { createPortal } from 'react-dom'
 import { t } from '../../lib/util'
 import { Row, Textarea, Input, Select } from '../../components/setting'
-import Style from './AddDownloadModal.module.scss'
 import { ModelType, modelTypes } from '../../../common/types'
 import className from 'licia/className'
 import { useState } from 'react'
@@ -57,14 +56,14 @@ export default observer(function AddDownloadModal(props: IProps) {
       width={500}
       onClose={props.onClose}
     >
-      <Row className={Style.row}>
+      <Row className="modal-setting-row">
         <Textarea
           placeholder={t('downloadUrl')}
           value={downloadUrl}
           onChange={onUrlChange}
         />
       </Row>
-      <Row className={Style.row}>
+      <Row className="modal-setting-row">
         <Input
           title={t('fileName')}
           value={fileName}
@@ -78,7 +77,7 @@ export default observer(function AddDownloadModal(props: IProps) {
         ></Select>
       </Row>
       <div
-        className={className(Style.download, 'button', 'primary')}
+        className={className('modal-button', 'button', 'primary')}
         onClick={download}
       >
         {t('download')}

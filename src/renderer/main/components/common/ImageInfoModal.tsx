@@ -101,7 +101,7 @@ export default observer(function ImageInfoModal(props: IProps) {
       />
       <div
         className={className(
-          Style.copyData,
+          'modal-button',
           'button',
           showSuccess ? 'success' : 'primary'
         )}

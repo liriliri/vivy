@@ -4,7 +4,6 @@ import { createPortal } from 'react-dom'
 import { notify, t } from '../../../lib/util'
 import { Row, Number, Select } from '../../../components/setting'
 import { useState } from 'react'
-import Style from './UpscaleModal.module.scss'
 import className from 'licia/className'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
@@ -63,7 +62,7 @@ export default observer(function UpscaleModal(props: IProps) {
       width={500}
       onClose={props.onClose}
     >
-      <Row className={Style.row}>
+      <Row className="modal-setting-row">
         <Number
           value={width}
           title={t('width')}
@@ -79,7 +78,7 @@ export default observer(function UpscaleModal(props: IProps) {
           onChange={(val) => setHeight(val)}
         />
       </Row>
-      <Row className={Style.row}>
+      <Row className="modal-setting-row">
         <Select
           value={upscaler1}
           title={t('upscaler') + ' 1'}
@@ -87,7 +86,7 @@ export default observer(function UpscaleModal(props: IProps) {
           onChange={(val) => setUpscaler1(val)}
         />
       </Row>
-      <Row className={Style.row}>
+      <Row className="modal-setting-row">
         <Select
           value={upscaler2}
           title={t('upscaler') + ' 2'}
@@ -105,7 +104,7 @@ export default observer(function UpscaleModal(props: IProps) {
         />
       </Row>
       <div
-        className={className(Style.generate, 'button', 'primary')}
+        className={className('modal-button', 'button', 'primary')}
         onClick={onClick}
       >
         {t('generate')}
