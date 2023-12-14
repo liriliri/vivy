@@ -22,7 +22,6 @@ const config = {
     '!**/site-packages/torch/lib/*.lib',
   ],
   asarUnpack: ['webui/**/*'],
-  electronLanguages: ['zh_CN', 'en'],
   win: {
     target: [
       {
@@ -30,7 +29,9 @@ const config = {
       },
     ],
   },
-  mac: {},
+  mac: {
+    electronLanguages: ['zh_CN', 'en'],
+  },
 }
 
 await builder.build({

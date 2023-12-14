@@ -2,6 +2,7 @@
 
 * feat: model download manager
 * feat: paste init image
+* feat: interrogate image
 
 ## v0.4.0 (29 Nov 2023)
 
