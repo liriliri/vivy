@@ -72,6 +72,7 @@ export default observer(function InitImage() {
           [Style.highlight]: dropHighlight,
         })}
         onClick={openInitImage}
+        onContextMenu={pasteInitImage}
         onDrop={onDrop}
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
