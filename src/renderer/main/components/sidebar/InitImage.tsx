@@ -12,15 +12,19 @@ import LunaToolbar, {
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
 
 export default observer(function InitImage() {
+  const initImageRef = useRef<HTMLDivElement>(null)
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
+  const [resizerStyle, setResizerStyle] = useState<any>({
+    height: '10px',
+  })
 
   const openInitImage = () => {
     openFile({
@@ -65,6 +69,33 @@ export default observer(function InitImage() {
     setDropHighlight(true)
   }
 
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    const startY = e.clientY
+    const height = initImageRef.current!.offsetHeight
+    setResizerStyle({
+      position: 'fixed',
+      width: '100%',
+      height: '100%',
+    })
+
+    const onMouseMove = (e: MouseEvent) => {
+      const deltaY = startY - e.clientY
+      initImageRef.current!.style.height = `${height - deltaY}px`
+    }
+
+    const onMouseUp = (e: MouseEvent) => {
+      setResizerStyle({
+        height: '10px',
+      })
+      const deltaY = startY - e.clientY
+      store.ui.set('initImageHeight', height - deltaY)
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+  }, [])
+
   if (!store.initImage) {
     return (
       <div
@@ -82,7 +113,18 @@ export default observer(function InitImage() {
     )
   } else {
     return (
-      <div className={Style.initImage}>
+      <div
+        className={Style.initImage}
+        ref={initImageRef}
+        style={{
+          height: store.ui.initImageHeight,
+        }}
+      >
+        <div
+          className={Style.resizer}
+          style={resizerStyle}
+          onMouseDown={onMouseDown}
+        />
         <LunaToolbar className={Style.toolbar}>
           <ToolbarIcon
             icon="open-file"

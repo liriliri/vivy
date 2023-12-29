@@ -8,6 +8,7 @@ export class UI {
   imageViewerMaximized = false
   sidebarWidth = 400
   sidebarCollapsed = false
+  initImageHeight = 150
   constructor() {
     makeObservable(this, {
       imageListHeight: observable,
@@ -16,6 +17,7 @@ export class UI {
       imageViewerMaximized: observable,
       sidebarWidth: observable,
       sidebarCollapsed: observable,
+      initImageHeight: observable,
       set: action,
       toggle: action,
     })
@@ -38,6 +40,7 @@ export class UI {
       imageViewerMaximized: this.imageViewerMaximized,
       sidebarWidth: this.sidebarWidth,
       sidebarCollapsed: this.sidebarCollapsed,
+      initImageHeight: this.initImageHeight,
     })
   }
   toggle(key) {

@@ -51,7 +51,7 @@ export default observer(function () {
         className={Style.resizer}
         style={resizerStyle}
         onMouseDown={onMouseDown}
-      ></div>
+      />
       <Prompt />
       <GenOptions />
     </div>
