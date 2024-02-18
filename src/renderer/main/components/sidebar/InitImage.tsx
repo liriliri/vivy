@@ -148,16 +148,6 @@ export default observer(function InitImage() {
             title={t('reset')}
             onClick={() => imageViewerRef.current?.reset()}
           />
-          <ToolbarIcon
-            icon="zoom-in"
-            title={t('zoomIn')}
-            onClick={() => imageViewerRef.current?.zoom(0.1)}
-          />
-          <ToolbarIcon
-            icon="zoom-out"
-            title={t('zoomOut')}
-            onClick={() => imageViewerRef.current?.zoom(-0.1)}
-          />
           <LunaToolbarSeparator />
           <ToolbarIcon
             icon="magic"

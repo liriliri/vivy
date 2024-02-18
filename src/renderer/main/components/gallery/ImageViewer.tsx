@@ -114,16 +114,6 @@ export default observer(function () {
           onClick={() => imageViewerRef.current?.reset()}
         />
         <ToolbarIcon
-          icon="zoom-in"
-          title={t('zoomIn')}
-          onClick={() => imageViewerRef.current?.zoom(0.1)}
-        />
-        <ToolbarIcon
-          icon="zoom-out"
-          title={t('zoomOut')}
-          onClick={() => imageViewerRef.current?.zoom(-0.1)}
-        />
-        <ToolbarIcon
           icon="rotate-left"
           title={t('rotateLeft')}
           onClick={() => imageViewerRef.current?.rotate(-90)}
