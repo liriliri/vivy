@@ -108,6 +108,7 @@
   "interrogateHint": "Click the button to start generating prompt from selected image",
   "interrogating": "Interrogating selected image",
   "generateErr": "Failed to generate image",
+  "sketch": "Sketch",
 
   "character": "Character",
   "camera": "Camera",

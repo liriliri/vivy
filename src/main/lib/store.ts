@@ -76,3 +76,10 @@ export const getWebUIStore = memoize(function () {
     },
   })
 })
+
+export const getPainterStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/painter'), {
+    bounds: 960,
+    height: 640,
+  })
+})

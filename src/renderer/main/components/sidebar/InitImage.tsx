@@ -162,6 +162,11 @@ export default observer(function InitImage() {
           />
           <LunaToolbarSeparator />
           <ToolbarIcon
+            icon="editor"
+            title={t('sketch')}
+            onClick={() => main.showPainter()}
+          />
+          <ToolbarIcon
             icon="magic"
             title={t('interrogate')}
             onClick={() => setInterrogateModalVisible(true)}

@@ -53,6 +53,7 @@ const mainObj = {
   },
   showModel: () => ipcRenderer.invoke('showModel'),
   showPrompt: () => ipcRenderer.invoke('showPrompt'),
+  showPainter: () => ipcRenderer.invoke('showPainter'),
   showSystem: () => ipcRenderer.invoke('showSystem'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),

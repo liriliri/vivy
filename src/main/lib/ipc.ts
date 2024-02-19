@@ -5,12 +5,14 @@ import * as terminal from '../window/terminal'
 import * as model from '../window/model'
 import * as prompt from '../window/prompt'
 import * as system from '../window/system'
+import * as painter from '../window/painter'
 import contextMenu from './contextMenu'
 import each from 'licia/each'
 
 export function init() {
   ipcMain.handle('showSystem', () => system.showWin())
   ipcMain.handle('showPrompt', () => prompt.showWin())
+  ipcMain.handle('showPainter', () => painter.showWin())
   ipcMain.handle('showTerminal', () => terminal.showWin())
   ipcMain.handle('showDownload', () => download.showWin())
   ipcMain.handle('showModel', () => model.showWin())
