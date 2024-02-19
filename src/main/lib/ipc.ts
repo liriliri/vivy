@@ -5,6 +5,7 @@ import * as terminal from '../window/terminal'
 import * as model from '../window/model'
 import * as prompt from '../window/prompt'
 import * as system from '../window/system'
+import contextMenu from './contextMenu'
 import each from 'licia/each'
 
 export function init() {
@@ -46,4 +47,10 @@ export function init() {
   ipcMain.handle('openFileInFolder', (_, path: string) => {
     shell.showItemInFolder(path)
   })
+  ipcMain.handle(
+    'showContextMenu',
+    (_, x: number, y: number, template: any) => {
+      contextMenu(x, y, template)
+    }
+  )
 }

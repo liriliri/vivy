@@ -15,6 +15,7 @@ import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
+import contextMenu from '../../../lib/contextMenu'
 
 export default observer(function InitImage() {
   const initImageRef = useRef<HTMLDivElement>(null)
@@ -44,6 +45,17 @@ export default observer(function InitImage() {
     } else {
       notify(t('noClipboardImage'))
     }
+  }
+
+  const onContextMenu = (e: React.MouseEvent) => {
+    contextMenu(e, [
+      {
+        label: t('paste'),
+        click() {
+          pasteInitImage()
+        },
+      },
+    ])
   }
 
   const onDrop = (e: React.DragEvent) => {
@@ -103,7 +115,7 @@ export default observer(function InitImage() {
           [Style.highlight]: dropHighlight,
         })}
         onClick={openInitImage}
-        onContextMenu={pasteInitImage}
+        onContextMenu={onContextMenu}
         onDrop={onDrop}
         onDragLeave={onDragLeave}
         onDragOver={onDragOver}
