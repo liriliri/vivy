@@ -94,6 +94,13 @@
       border-top-color: var(--vivy-color-text);
     }
   }
+  .luna-toolbar-item-number {
+    input[type='number'] {
+      background: var(--vivy-color-bg-container);
+      border-color: var(--vivy-color-border);
+      color: var(--vivy-color-text);
+    }
+  }
 }
 
 .luna-modal {
@@ -205,4 +212,24 @@
 
 .luna-tab-slider {
   background: var(--vivy-color-primary);
+}
+
+.luna-painter {
+  background: var(--vivy-color-bg-container);
+  border-color: var(--vivy-color-border);
+  color: var(--vivy-color-text);
+  .luna-painter-toolbar,
+  .luna-painter-tools {
+    border-color: var(--vivy-color-border);
+  }
+  .luna-painter-tool {
+    &:hover {
+      background: var(--vivy-color-fill-tertiary);
+      border-color: var(--vivy-color-border);
+    }
+    &.luna-painter-selected {
+      background: var(--vivy-color-fill-secondary);
+      border-color: var(--vivy-color-border);
+    }
+  }
 }
