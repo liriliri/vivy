@@ -162,9 +162,9 @@ export default observer(function InitImage() {
           />
           <LunaToolbarSeparator />
           <ToolbarIcon
-            icon="editor"
+            icon="color-palette"
             title={t('sketch')}
-            onClick={() => main.showPainter()}
+            onClick={() => main.showSketch()}
           />
           <ToolbarIcon
             icon="magic"
@@ -175,7 +175,10 @@ export default observer(function InitImage() {
           <ToolbarIcon
             icon="delete"
             title={t('delete')}
-            onClick={() => store.deleteInitImage()}
+            onClick={() => {
+              store.deleteInitImage()
+              main.closeSketch()
+            }}
           />
         </LunaToolbar>
         <div

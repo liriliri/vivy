@@ -368,12 +368,19 @@ class Store {
   }
   bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
-      if (name === 'prompt') {
-        runInAction(() => {
-          if (this.prompt !== val) {
-            this.prompt = val
-          }
-        })
+      switch (name) {
+        case 'prompt':
+          runInAction(() => {
+            if (this.prompt !== val) {
+              this.prompt = val
+            }
+          })
+          break
+        case 'initImage':
+          runInAction(() => {
+            this.initImage = val
+          })
+          break
       }
     })
 

@@ -84,6 +84,21 @@
   .luna-toolbar-item-separator {
     background: var(--vivy-color-border);
   }
+  .luna-toolbar-item-button {
+    button {
+      color: var(--vivy-color-text);
+      &:hover,
+      &.luna-toolbar-hover {
+        background: var(--vivy-color-fill-secondary);
+        border-color: var(--vivy-color-border);
+      }
+      &:active,
+      &.luna-toolbar-active {
+        border-color: var(--vivy-color-border);
+        background: var(--vivy-color-fill-tertiary);
+      }
+    }
+  }
   .luna-toolbar-item-select {
     select {
       color: var(--vivy-color-text);
