@@ -109,6 +109,7 @@
   "interrogating": "正在反推图片提示词",
   "generateErr": "生成图片失败",
   "sketch": "涂鸦",
+  "mask": "蒙版",
 
   "character": "角色",
   "camera": "镜头",

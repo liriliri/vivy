@@ -40,10 +40,12 @@ export class GenTask extends Task {
   private prompt: string
   private negativePrompt: string
   private initImage: string | null
+  private mask: string | null
   constructor(
     prompt,
     negativePrompt,
     initImage: string | null,
+    mask: string | null,
     genOptions: IGenOptions
   ) {
     super()
@@ -57,6 +59,7 @@ export class GenTask extends Task {
     this.negativePrompt = negativePrompt
     this.genOptions = genOptions
     this.initImage = initImage
+    this.mask = mask
     for (let i = 0; i < genOptions.batchSize; i++) {
       this.images[i] = {
         id: uuid(),
@@ -88,6 +91,7 @@ export class GenTask extends Task {
           prompt,
           negative_prompt: negativePrompt,
           init_images: [this.initImage],
+          mask: this.mask,
           batch_size: genOptions.batchSize,
           steps: genOptions.steps,
           sampler_name: genOptions.sampler,

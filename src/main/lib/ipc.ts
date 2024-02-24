@@ -6,6 +6,7 @@ import * as model from '../window/model'
 import * as prompt from '../window/prompt'
 import * as system from '../window/system'
 import * as sketch from '../window/sketch'
+import * as mask from '../window/mask'
 import contextMenu from './contextMenu'
 import each from 'licia/each'
 
@@ -14,6 +15,8 @@ export function init() {
   ipcMain.handle('showPrompt', () => prompt.showWin())
   ipcMain.handle('showSketch', () => sketch.showWin())
   ipcMain.handle('closeSketch', () => sketch.closeWin())
+  ipcMain.handle('showMask', () => mask.showWin())
+  ipcMain.handle('closeMask', () => mask.closeWin())
   ipcMain.handle('showTerminal', () => terminal.showWin())
   ipcMain.handle('showDownload', () => download.showWin())
   ipcMain.handle('showModel', () => model.showWin())

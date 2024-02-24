@@ -109,6 +109,7 @@
   "interrogating": "Interrogating selected image",
   "generateErr": "Failed to generate image",
   "sketch": "Sketch",
+  "mask": "Mask",
 
   "character": "Character",
   "camera": "Camera",

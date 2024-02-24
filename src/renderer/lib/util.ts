@@ -45,7 +45,7 @@ export function isDev() {
 
 export async function splitImage(url: string, num: number) {
   const images: string[] = []
-  const img = await getImageSize(url)
+  const img = await loadImage(url)
   let colNum = 1
   while (colNum * colNum < num) {
     colNum++
@@ -67,7 +67,7 @@ export async function splitImage(url: string, num: number) {
   return images
 }
 
-export function getImageSize(url: string): Promise<HTMLImageElement> {
+export function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     loadImg(url, function (err, img) {
       if (err) {

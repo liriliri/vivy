@@ -27,7 +27,7 @@ import fileType from 'licia/fileType'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
-import { notify, t } from '../../lib/util'
+import { loadImage, notify, t, toDataUrl } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import swap from 'licia/swap'
@@ -38,6 +38,8 @@ import isStr from 'licia/isStr'
 interface IOptions {
   model: string
 }
+
+let canvas: HTMLCanvasElement
 
 class Store {
   genOptions: IGenOptions = {
@@ -56,6 +58,8 @@ class Store {
   prompt = ''
   negativePrompt = ''
   initImage: IImage | null = null
+  initImageMask: string | null = null
+  initImagePreview: string | null = null
   isReady = false
   models: string[] = []
   samplers: string[] = []
@@ -71,6 +75,8 @@ class Store {
       prompt: observable,
       negativePrompt: observable,
       initImage: observable,
+      initImageMask: observable,
+      initImagePreview: observable,
       genOptions: observable,
       isReady: observable,
       tasks: observable,
@@ -217,6 +223,40 @@ class Store {
       runInAction(() => this.images.push(this.selectedImage!))
     }
   }
+  private async renderInitImage() {
+    const { initImage, initImageMask } = this
+
+    if (!initImage) {
+      return
+    }
+
+    const image = toDataUrl(initImage.data, initImage.info.mime)
+
+    if (initImageMask) {
+      const mask = toDataUrl(initImageMask, 'image/png')
+      if (!canvas) {
+        canvas = document.createElement('canvas')
+      }
+      const ctx = canvas.getContext('2d')!
+      const { width, height } = initImage.info
+      canvas.width = width
+      canvas.height = height
+      ctx.drawImage(await loadImage(image), 0, 0, width, height)
+      ctx.globalCompositeOperation = 'lighter'
+      ctx.globalAlpha = 0.8
+      ctx.drawImage(await loadImage(mask), 0, 0, width, height)
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.globalAlpha = 1
+      runInAction(() => {
+        this.initImagePreview = canvas.toDataURL()
+      })
+      return
+    }
+
+    runInAction(() => {
+      this.initImagePreview = image
+    })
+  }
   async load() {
     const prompt = (await main.getMainStore('prompt')) || ''
     const negativePrompt = (await main.getMainStore('negativePrompt')) || ''
@@ -228,6 +268,11 @@ class Store {
     if (initImage && initImage.info) {
       this.initImage = initImage
     }
+    const initImageMask = await main.getMainStore('initImageMask')
+    if (initImageMask) {
+      this.initImageMask = initImageMask
+    }
+    this.renderInitImage()
     const genOptions = await main.getMainStore('genOptions')
     if (genOptions) {
       runInAction(() => {
@@ -377,9 +422,12 @@ class Store {
           })
           break
         case 'initImage':
-          runInAction(() => {
-            this.initImage = val
-          })
+          this.initImage = val
+          this.renderInitImage()
+          break
+        case 'initImageMask':
+          this.initImageMask = val
+          this.renderInitImage()
           break
       }
     })
@@ -429,6 +477,7 @@ class Store {
       this.prompt,
       this.negativePrompt,
       this.initImage ? this.initImage.data : null,
+      this.initImageMask,
       clone(this.genOptions)
     )
     this.tasks.push(task)
@@ -481,6 +530,10 @@ class Store {
     genOptions.height = info.height
     this.setStore('genOptions', this.genOptions)
     this.setStore('initImage', this.initImage)
+
+    this.initImageMask = null
+    this.setStore('initImageMask', null)
+    this.renderInitImage()
   }
   deleteInitImage() {
     this.initImage = null

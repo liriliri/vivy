@@ -85,3 +85,12 @@ export const getSketchStore = memoize(function () {
     },
   })
 })
+
+export const getMaskStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/mask'), {
+    bounds: {
+      width: 960,
+      height: 640,
+    },
+  })
+})

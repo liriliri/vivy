@@ -5,7 +5,7 @@ import store from '../../store'
 import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
-import { toDataUrl, t, isFileDrop, notify } from '../../../lib/util'
+import { t, isFileDrop, notify } from '../../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
   LunaToolbarSeparator,
@@ -108,7 +108,7 @@ export default observer(function InitImage() {
     document.addEventListener('mouseup', onMouseUp)
   }, [])
 
-  if (!store.initImage) {
+  if (!store.initImagePreview) {
     return (
       <div
         className={className(Style.empty, 'button', {
@@ -167,6 +167,11 @@ export default observer(function InitImage() {
             onClick={() => main.showSketch()}
           />
           <ToolbarIcon
+            icon="mask"
+            title={t('mask')}
+            onClick={() => main.showMask()}
+          />
+          <ToolbarIcon
             icon="magic"
             title={t('interrogate')}
             onClick={() => setInterrogateModalVisible(true)}
@@ -178,6 +183,7 @@ export default observer(function InitImage() {
             onClick={() => {
               store.deleteInitImage()
               main.closeSketch()
+              main.closeMask()
             }}
           />
         </LunaToolbar>
@@ -190,18 +196,18 @@ export default observer(function InitImage() {
           onDragOver={onDragOver}
         >
           <LunaImageViewer
-            image={toDataUrl(store.initImage.data, store.initImage.info.mime)}
+            image={store.initImagePreview!}
             onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
           ></LunaImageViewer>
         </div>
         <ImageInfoModal
           visible={imageInfoModalVisible}
-          image={store.initImage}
+          image={store.initImage!}
           onClose={() => setImageInfoModalVisible(false)}
         />
         <InterrogateModal
           visible={interrogateModalVisible}
-          image={store.initImage}
+          image={store.initImage!}
           onClose={() => setInterrogateModalVisible(false)}
         />
       </div>

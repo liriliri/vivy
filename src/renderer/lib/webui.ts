@@ -55,6 +55,7 @@ type Img2ImgOptions = {
   prompt: string
   negative_prompt: string
   init_images: string[]
+  mask: string | null
   batch_size: number
   steps: number
   cfg_scale: number
@@ -184,7 +185,7 @@ export async function img2img(
     resize_mode: 0,
     denoising_strength: options.denoising_strength,
     image_cfg_scale: 1.5,
-    mask: null,
+    mask: options.mask,
     mask_blur: 4,
     inpainting_fill: 0,
     inpaint_full_res: true,

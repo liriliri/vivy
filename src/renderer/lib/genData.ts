@@ -1,4 +1,4 @@
-import { getImageSize, toDataUrl } from './util'
+import { loadImage, toDataUrl } from './util'
 import trim from 'licia/trim'
 import map from 'licia/map'
 import toNum from 'licia/toNum'
@@ -159,7 +159,7 @@ export async function parseImage(
   data: string,
   mime: string
 ): Promise<IImageGenData> {
-  const { width, height } = await getImageSize(toDataUrl(data, mime))
+  const { width, height } = await loadImage(toDataUrl(data, mime))
   const genData: IImageGenData = {
     width,
     height,
