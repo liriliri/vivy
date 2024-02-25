@@ -25,6 +25,7 @@ export function showWin(mode: 'sketch' | 'mask') {
   win.on('close', () => {
     win?.destroy()
     win = null
+    currentMode = ''
   })
 
   loadUrl(mode)
