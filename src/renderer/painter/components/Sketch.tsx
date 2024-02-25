@@ -1,4 +1,4 @@
-import Painter from 'luna-painter'
+import Painter, { Zoom, Hand } from 'luna-painter'
 import { IImage } from '../../main/store/types'
 import { toDataUrl } from '../../lib/util'
 import debounce from 'licia/debounce'
@@ -10,8 +10,10 @@ export default function Sketch() {
     const { width, height } = initImage.info
     painter.setOption('width', width)
     painter.setOption('height', height)
-    const zoom = painter.getTool('zoom') as any
+    const zoom = painter.getTool('zoom') as Zoom
     zoom.fitScreen()
+    const hand = painter.getTool('hand') as Hand
+    hand.centerCanvas()
 
     const image = new Image()
     image.onload = function () {
@@ -36,16 +38,5 @@ export default function Sketch() {
     )
   }
 
-  return (
-    <LunaPainter
-      style={{
-        width: '100%',
-        height: '100%',
-        border: 'none',
-      }}
-      width={512}
-      height={512}
-      onCreate={onCreate}
-    />
-  )
+  return <LunaPainter width={512} height={512} onCreate={onCreate} />
 }

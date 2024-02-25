@@ -232,10 +232,7 @@ class Store {
     const image = toDataUrl(initImage.data, initImage.info.mime)
 
     if (initImageMask) {
-      const preview = await renderImageMask(
-        image,
-        toDataUrl(initImageMask, 'image/png')
-      )
+      const preview = await renderImageMask(image, initImageMask)
       runInAction(() => {
         this.initImagePreview = preview
       })
