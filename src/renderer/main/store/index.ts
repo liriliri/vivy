@@ -27,7 +27,7 @@ import fileType from 'licia/fileType'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
-import { loadImage, notify, t, toDataUrl } from '../../lib/util'
+import { notify, renderImageMask, t, toDataUrl } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import swap from 'licia/swap'
@@ -38,8 +38,6 @@ import isStr from 'licia/isStr'
 interface IOptions {
   model: string
 }
-
-let canvas: HTMLCanvasElement
 
 class Store {
   genOptions: IGenOptions = {
@@ -233,22 +231,12 @@ class Store {
     const image = toDataUrl(initImage.data, initImage.info.mime)
 
     if (initImageMask) {
-      const mask = toDataUrl(initImageMask, 'image/png')
-      if (!canvas) {
-        canvas = document.createElement('canvas')
-      }
-      const ctx = canvas.getContext('2d')!
-      const { width, height } = initImage.info
-      canvas.width = width
-      canvas.height = height
-      ctx.drawImage(await loadImage(image), 0, 0, width, height)
-      ctx.globalCompositeOperation = 'lighter'
-      ctx.globalAlpha = 0.8
-      ctx.drawImage(await loadImage(mask), 0, 0, width, height)
-      ctx.globalCompositeOperation = 'source-over'
-      ctx.globalAlpha = 1
+      const preview = await renderImageMask(
+        image,
+        toDataUrl(initImageMask, 'image/png')
+      )
       runInAction(() => {
-        this.initImagePreview = canvas.toDataURL()
+        this.initImagePreview = preview
       })
       return
     }
@@ -422,11 +410,15 @@ class Store {
           })
           break
         case 'initImage':
-          this.initImage = val
+          runInAction(() => {
+            this.initImage = val
+          })
           this.renderInitImage()
           break
         case 'initImageMask':
-          this.initImageMask = val
+          runInAction(() => {
+            this.initImageMask = val
+          })
           this.renderInitImage()
           break
       }
@@ -534,6 +526,8 @@ class Store {
     this.initImageMask = null
     this.setStore('initImageMask', null)
     this.renderInitImage()
+
+    main.closePainter()
   }
   deleteInitImage() {
     this.initImage = null

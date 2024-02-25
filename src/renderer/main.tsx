@@ -45,11 +45,9 @@ function renderApp() {
       App = lazy(() => import('./download/App.js') as Promise<any>)
       title = t('downloadManager')
       break
-    case 'sketch':
-      App = lazy(() => import('./sketch/App.js') as Promise<any>)
-      break
-    case 'mask':
-      App = lazy(() => import('./mask/App.js') as Promise<any>)
+    case 'painter':
+      App = lazy(() => import('./painter/App.js') as Promise<any>)
+      title = t(getUrlParam('mode') as string)
       break
   }
   preload.setTitle(title)

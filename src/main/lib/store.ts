@@ -77,8 +77,8 @@ export const getWebUIStore = memoize(function () {
   })
 })
 
-export const getSketchStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/sketch'), {
+export const getPainterStore = memoize(function () {
+  return new FileStore(getUserDataPath('data/painter'), {
     bounds: {
       width: 960,
       height: 640,

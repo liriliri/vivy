@@ -164,12 +164,12 @@ export default observer(function InitImage() {
           <ToolbarIcon
             icon="color-palette"
             title={t('sketch')}
-            onClick={() => main.showSketch()}
+            onClick={() => main.showPainter('sketch')}
           />
           <ToolbarIcon
             icon="mask"
             title={t('mask')}
-            onClick={() => main.showMask()}
+            onClick={() => main.showPainter('mask')}
           />
           <ToolbarIcon
             icon="magic"
@@ -182,8 +182,7 @@ export default observer(function InitImage() {
             title={t('delete')}
             onClick={() => {
               store.deleteInitImage()
-              main.closeSketch()
-              main.closeMask()
+              main.closePainter()
             }}
           />
         </LunaToolbar>

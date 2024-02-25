@@ -53,10 +53,9 @@ const mainObj = {
   },
   showModel: () => ipcRenderer.invoke('showModel'),
   showPrompt: () => ipcRenderer.invoke('showPrompt'),
-  showSketch: () => ipcRenderer.invoke('showSketch'),
-  closeSketch: () => ipcRenderer.invoke('closeSketch'),
-  showMask: () => ipcRenderer.invoke('showMask'),
-  closeMask: () => ipcRenderer.invoke('closeMask'),
+  showPainter: (mode: 'sketch' | 'mask') =>
+    ipcRenderer.invoke('showPainter', mode),
+  closePainter: () => ipcRenderer.invoke('closePainter'),
   showSystem: () => ipcRenderer.invoke('showSystem'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),

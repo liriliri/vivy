@@ -3,6 +3,7 @@ import Style from './App.module.scss'
 import store from './store'
 import { observer } from 'mobx-react-lite'
 import debounce from 'licia/debounce'
+import { parseDataUrl } from '../lib/util'
 
 export default observer(function App() {
   return (
@@ -15,8 +16,8 @@ export default observer(function App() {
         }}
         image={store.image}
         onChange={debounce(async (canvas) => {
-          const dataUrl = canvas.toDataURL('image')
-          const data = dataUrl.slice(dataUrl.indexOf('base64,') + 7)
+          const dataUrl = canvas.toDataURL()
+          const { data } = parseDataUrl(dataUrl)
           await main.setMainStore('initImageMask', data)
         }, 1000)}
       />

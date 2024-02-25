@@ -80,14 +80,24 @@ export function loadImage(url: string): Promise<HTMLImageElement> {
 }
 
 function getClippedRegion(image, x, y, width, height) {
-  const canvas = document.createElement('canvas')
+  const canvas = getTmpCanvas()
   const ctx = canvas.getContext('2d')
   canvas.width = width
   canvas.height = height
 
   ctx!.drawImage(image, x, y, width, height, 0, 0, width, height)
 
-  return canvas.toDataURL().slice('data:image/png;base64,'.length)
+  const { data } = parseDataUrl(canvas.toDataURL())
+
+  return data
+}
+
+export function parseDataUrl(dataUrl: string) {
+  const data = dataUrl.slice(dataUrl.indexOf('base64,') + 7)
+
+  return {
+    data,
+  }
 }
 
 export function toDataUrl(data: string, mime: string) {
@@ -171,4 +181,38 @@ export function notify(content: string, options?: INotifyOptions) {
 
 export function isFileDrop(e: React.DragEvent) {
   return contain(e.dataTransfer.types, 'Files')
+}
+
+let canvas: HTMLCanvasElement
+
+function getTmpCanvas() {
+  if (!canvas) {
+    canvas = document.createElement('canvas')
+  }
+
+  return canvas
+}
+
+export async function renderImageMask(base: string, mask: string) {
+  const maskImage = await loadImage(mask)
+  const baseImage = await loadImage(base)
+
+  const { width, height } = baseImage
+  const canvas = getTmpCanvas()
+  const ctx = canvas.getContext('2d')!
+  canvas.width = width
+  canvas.height = height
+  ctx.clearRect(0, 0, width, height)
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, width, height)
+  ctx.filter = 'invert(1)'
+  ctx.globalAlpha = 0.8
+  ctx.drawImage(maskImage, 0, 0, width, height)
+  ctx.filter = 'none'
+  ctx.globalAlpha = 1
+  ctx.globalCompositeOperation = 'multiply'
+  ctx.drawImage(baseImage, 0, 0, width, height)
+  ctx.globalCompositeOperation = 'source-over'
+
+  return canvas.toDataURL()
 }

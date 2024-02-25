@@ -1,16 +1,17 @@
-import LunaPainter from 'luna-painter/react'
 import Painter from 'luna-painter'
-import { IImage } from '../main/store/types'
-import { toDataUrl } from '../lib/util'
+import { IImage } from '../../main/store/types'
+import { toDataUrl } from '../../lib/util'
 import debounce from 'licia/debounce'
-import Style from './App.module.scss'
+import LunaPainter from 'luna-painter/react'
 
-export default function App() {
+export default function Sketch() {
   const onCreate = async (painter: Painter) => {
     const initImage: IImage = await main.getMainStore('initImage')
     const { width, height } = initImage.info
     painter.setOption('width', width)
     painter.setOption('height', height)
+    const zoom = painter.getTool('zoom') as any
+    zoom.fitScreen()
 
     const image = new Image()
     image.onload = function () {
@@ -36,17 +37,15 @@ export default function App() {
   }
 
   return (
-    <div className={Style.container}>
-      <LunaPainter
-        style={{
-          width: '100%',
-          height: '100%',
-          border: 'none',
-        }}
-        width={512}
-        height={512}
-        onCreate={onCreate}
-      />
-    </div>
+    <LunaPainter
+      style={{
+        width: '100%',
+        height: '100%',
+        border: 'none',
+      }}
+      width={512}
+      height={512}
+      onCreate={onCreate}
+    />
   )
 }
