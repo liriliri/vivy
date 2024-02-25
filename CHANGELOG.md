@@ -1,3 +1,8 @@
+## v0.6.0 (26 Feb 2024)
+
+* feat: sketch
+* feat: mask
+
 ## v0.5.0 (13 Dec 2023)
 
 * feat: model download manager
