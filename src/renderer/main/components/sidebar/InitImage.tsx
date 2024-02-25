@@ -108,7 +108,7 @@ export default observer(function InitImage() {
     document.addEventListener('mouseup', onMouseUp)
   }, [])
 
-  if (!store.initImagePreview) {
+  if (!store.initImage) {
     return (
       <div
         className={className(Style.empty, 'button', {
@@ -201,12 +201,12 @@ export default observer(function InitImage() {
         </div>
         <ImageInfoModal
           visible={imageInfoModalVisible}
-          image={store.initImage!}
+          image={store.initImage}
           onClose={() => setImageInfoModalVisible(false)}
         />
         <InterrogateModal
           visible={interrogateModalVisible}
-          image={store.initImage!}
+          image={store.initImage}
           onClose={() => setInterrogateModalVisible(false)}
         />
       </div>

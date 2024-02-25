@@ -225,6 +225,7 @@ class Store {
     const { initImage, initImageMask } = this
 
     if (!initImage) {
+      this.initImagePreview = null
       return
     }
 
