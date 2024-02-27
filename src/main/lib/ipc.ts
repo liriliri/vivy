@@ -1,4 +1,11 @@
-import { app, ipcMain, shell } from 'electron'
+import {
+  app,
+  ipcMain,
+  shell,
+  dialog,
+  OpenDialogOptions,
+  SaveDialogOptions,
+} from 'electron'
 import * as download from '../window/download'
 import * as webui from '../window/webui'
 import * as terminal from '../window/terminal'
@@ -57,5 +64,11 @@ export function init() {
     (_, x: number, y: number, template: any) => {
       contextMenu(x, y, template)
     }
+  )
+  ipcMain.handle('showOpenDialog', (_, options: OpenDialogOptions = {}) =>
+    dialog.showOpenDialog(options)
+  )
+  ipcMain.handle('showSaveDialog', (_, options: SaveDialogOptions = {}) =>
+    dialog.showSaveDialog(options)
   )
 }

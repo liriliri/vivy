@@ -110,6 +110,8 @@
   "generateErr": "Failed to generate image",
   "sketch": "Sketch",
   "mask": "Mask",
+  "file": "File",
+  "untitled": "Untitled",
 
   "character": "Character",
   "camera": "Camera",

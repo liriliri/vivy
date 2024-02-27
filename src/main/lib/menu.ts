@@ -81,6 +81,18 @@ function getTemplate(): MenuItemConstructorOptions[] {
     ],
   }
 
+  const file = {
+    label: t('file'),
+    submenu: [
+      {
+        label: t('save'),
+        click() {
+          main.getWin()!.webContents.send('saveProject')
+        },
+      },
+    ],
+  }
+
   const tools = {
     label: t('tools'),
     submenu: [
@@ -148,9 +160,9 @@ function getTemplate(): MenuItemConstructorOptions[] {
 
   const template = [tools, help]
   if (isMac()) {
-    template.unshift(vivy, edit)
+    template.unshift(vivy, file, edit)
   } else {
-    template.push(vivy)
+    template.push(vivy, file)
   }
 
   return template

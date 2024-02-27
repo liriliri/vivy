@@ -78,16 +78,7 @@ export const getWebUIStore = memoize(function () {
 })
 
 export const getPainterStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/painter'), {
-    bounds: {
-      width: 960,
-      height: 640,
-    },
-  })
-})
-
-export const getMaskStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/mask'), {
+  return new FileStore(getUserDataPath('data/painter.json'), {
     bounds: {
       width: 960,
       height: 640,

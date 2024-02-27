@@ -19,6 +19,7 @@ import convertBin from 'licia/convertBin'
 import isFile from 'licia/isFile'
 import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
+import each from 'licia/each'
 import * as webui from '../../lib/webui'
 import { ISDGenData, IImageGenData, parseImage } from '../../lib/genData'
 import { IImage, IGenOptions, IUpscaleImgOptions } from './types'
@@ -34,6 +35,7 @@ import swap from 'licia/swap'
 import hotkey from 'licia/hotkey'
 import ric from 'licia/ric'
 import isStr from 'licia/isStr'
+import { VivyFile } from '../../lib/vivyFile'
 
 interface IOptions {
   model: string
@@ -68,6 +70,8 @@ class Store {
   ui = new UI()
   settings = new Settings()
   statusbarDesc = ''
+  private vivyFile: VivyFile | null = null
+  private projectPath = ''
   constructor() {
     makeObservable(this, {
       prompt: observable,
@@ -104,6 +108,7 @@ class Store {
       deleteInitImage: action,
     })
     this.load()
+
     this.bindEvent()
 
     this.waitForReady()
@@ -273,6 +278,13 @@ class Store {
     if (upscalers) {
       runInAction(() => (this.upscalers = upscalers))
     }
+
+    const projectPath = await main.getMainStore('projectPath')
+    if (projectPath && main.existsSync(projectPath)) {
+      this.openProject(projectPath)
+    } else {
+      this.newProject()
+    }
   }
   async setStore(name: string, val: any) {
     await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
@@ -397,68 +409,6 @@ class Store {
       })
     }
   }
-  bindEvent() {
-    main.on('changeMainStore', (_, name, val) => {
-      switch (name) {
-        case 'prompt':
-          runInAction(() => {
-            if (this.prompt !== val) {
-              this.prompt = val
-            }
-          })
-          break
-        case 'initImage':
-          runInAction(() => {
-            this.initImage = val
-          })
-          this.renderInitImage()
-          break
-        case 'initImageMask':
-          runInAction(() => {
-            this.initImageMask = val
-          })
-          this.renderInitImage()
-          break
-      }
-    })
-
-    main.on('closeMain', async () => {
-      if (this.tasks.length > 0) {
-        const result = await LunaModal.confirm(t('quitTaskConfirm'))
-        if (result) {
-          main.quitApp()
-        }
-      } else {
-        const imagesNotSaved = some(this.images, (image) => !image.save)
-        if (imagesNotSaved) {
-          const result = await LunaModal.confirm(t('quitImageConfirm'))
-          if (result) {
-            main.quitApp()
-          }
-        } else {
-          main.quitApp()
-        }
-      }
-    })
-
-    main.on('refreshModel', async (_, type: ModelType) => {
-      switch (type) {
-        case ModelType.StableDiffusion:
-          this.isReady = false
-          this.waitForReady()
-          await webui.refreshCheckpoints()
-          break
-      }
-    })
-
-    hotkey.on('left', this.selectPrevImage)
-    hotkey.on('right', this.selectNextImage)
-    hotkey.on('delete', () => {
-      if (this.selectedImage) {
-        this.deleteImage(this.selectedImage)
-      }
-    })
-  }
   async createGenTask() {
     if (!(await this.checkModel())) {
       return
@@ -530,6 +480,113 @@ class Store {
   deleteInitImage() {
     this.initImage = null
     this.setStore('initImage', null)
+  }
+  newProject() {
+    this.setProjectPath('')
+    this.vivyFile = VivyFile.create()
+  }
+  async openProject(projectPath: string) {
+    this.setProjectPath(projectPath)
+    const data = await main.readFile(projectPath)
+    this.vivyFile = VivyFile.decode(data)
+
+    const json = this.vivyFile.toJSON()
+    runInAction(() => {
+      const { images } = json
+      if (!isEmpty(images)) {
+        this.images = images
+        this.selectImage(this.images[0])
+      }
+    })
+  }
+  saveProject = async () => {
+    if (!this.projectPath) {
+      const { canceled, filePath } = await main.showSaveDialog({
+        defaultPath: `${t('untitled')}.vivy`,
+      })
+      if (canceled) {
+        return
+      }
+      this.setProjectPath(filePath)
+    }
+
+    const vivyFile = this.vivyFile!
+
+    vivyFile.images = []
+    each(this.images, (image) => {
+      vivyFile.images.push(image)
+    })
+
+    const data = VivyFile.encode(this.vivyFile!).finish()
+    await main.writeFile(this.projectPath, data, 'utf8')
+  }
+  private setProjectPath = (projectPath: string) => {
+    this.projectPath = projectPath
+    this.setStore('projectPath', projectPath)
+  }
+  private bindEvent() {
+    main.on('changeMainStore', (_, name, val) => {
+      switch (name) {
+        case 'prompt':
+          runInAction(() => {
+            if (this.prompt !== val) {
+              this.prompt = val
+            }
+          })
+          break
+        case 'initImage':
+          runInAction(() => {
+            this.initImage = val
+          })
+          this.renderInitImage()
+          break
+        case 'initImageMask':
+          runInAction(() => {
+            this.initImageMask = val
+          })
+          this.renderInitImage()
+          break
+      }
+    })
+
+    main.on('closeMain', async () => {
+      if (this.tasks.length > 0) {
+        const result = await LunaModal.confirm(t('quitTaskConfirm'))
+        if (result) {
+          main.quitApp()
+        }
+      } else {
+        const imagesNotSaved = some(this.images, (image) => !image.save)
+        if (imagesNotSaved) {
+          const result = await LunaModal.confirm(t('quitImageConfirm'))
+          if (result) {
+            main.quitApp()
+          }
+        } else {
+          main.quitApp()
+        }
+      }
+    })
+
+    main.on('refreshModel', async (_, type: ModelType) => {
+      switch (type) {
+        case ModelType.StableDiffusion:
+          this.isReady = false
+          this.waitForReady()
+          await webui.refreshCheckpoints()
+          break
+      }
+    })
+
+    main.on('saveProject', this.saveProject)
+
+    hotkey.on('left', this.selectPrevImage)
+    hotkey.on('right', this.selectNextImage)
+    hotkey.on('delete', () => {
+      if (this.selectedImage) {
+        this.deleteImage(this.selectedImage)
+      }
+    })
   }
   private async checkModel() {
     if (!this.isReady) {

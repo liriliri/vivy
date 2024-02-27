@@ -1,11 +1,17 @@
 import types from 'licia/types'
 import isDarkMode from 'licia/isDarkMode'
-import { OpenDialogOptions, contextBridge, ipcRenderer } from 'electron'
+import {
+  OpenDialogOptions,
+  contextBridge,
+  ipcRenderer,
+  SaveDialogOptions,
+} from 'electron'
 import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
 import { colorBgContainer, colorBgContainerDark } from '../common/theme'
 import { ModelType } from '../common/types'
 import getUrlParam from 'licia/getUrlParam'
 import detectOs from 'licia/detectOs'
+import fs from 'fs'
 
 let titleBar: Titlebar
 
@@ -68,6 +74,9 @@ const mainObj = {
   showOpenDialog: (options: OpenDialogOptions = {}) => {
     return ipcRenderer.invoke('showOpenDialog', options)
   },
+  showSaveDialog: (options: SaveDialogOptions = {}) => {
+    return ipcRenderer.invoke('showSaveDialog', options)
+  },
   getCpuAndMem: () => ipcRenderer.invoke('getCpuAndMem'),
   translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),
@@ -85,6 +94,9 @@ const mainObj = {
   },
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
+  writeFile: fs.promises.writeFile,
+  readFile: fs.promises.readFile,
+  existsSync: fs.existsSync,
 }
 contextBridge.exposeInMainWorld('main', mainObj)
 

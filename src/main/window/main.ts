@@ -1,14 +1,6 @@
 import path from 'path'
 import { isDev } from '../lib/util'
-import {
-  BrowserWindow,
-  ipcMain,
-  app,
-  nativeTheme,
-  OpenDialogOptions,
-  dialog,
-  clipboard,
-} from 'electron'
+import { BrowserWindow, ipcMain, app, nativeTheme, clipboard } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import * as window from '../lib/window'
@@ -98,10 +90,6 @@ function initIpc() {
   ipcMain.handle('getSettingsStore', (_, name) => settingsStore.get(name))
   settingsStore.on('change', (name, val) =>
     window.sendAll('changeSettingsStore', name, val)
-  )
-
-  ipcMain.handle('showOpenDialog', (_, options: OpenDialogOptions = {}) =>
-    dialog.showOpenDialog(options)
   )
 
   const language = settingsStore.get('language')

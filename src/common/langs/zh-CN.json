@@ -110,6 +110,8 @@
   "generateErr": "生成图片失败",
   "sketch": "涂鸦",
   "mask": "蒙版",
+  "file": "文件",
+  "untitled": "未命名",
 
   "character": "角色",
   "camera": "镜头",

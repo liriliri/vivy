@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+message VivyFile {
+  string prompt = 1;
+  string negative_prompt = 2;
+  repeated Image images = 3;
+}
+
+message Image {
+  string id = 1;
+  string data = 2;
+  ImageInfo info = 4;
+}
+
+message ImageInfo {
+  string mime = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  uint32 size = 4;
+  optional string prompt = 5;
+  optional string negative_prompt = 6;
+  optional uint32 steps = 7;
+  optional string sampler = 8;
+  optional uint32 cfgScale = 9;
+  optional uint32 seed = 10;
+}
