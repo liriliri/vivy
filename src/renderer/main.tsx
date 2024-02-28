@@ -18,6 +18,7 @@ import 'luna-painter/css'
 import './luna.scss'
 import { spy } from 'mobx'
 import LunaModal from 'luna-modal'
+import LunaPainter from 'luna-painter'
 
 function renderApp() {
   const container: HTMLElement = document.getElementById('app') as HTMLElement
@@ -80,5 +81,6 @@ if (isDev()) {
   }
   i18n.locale(language)
   LunaModal.i18n.locale(language)
+  LunaPainter.i18n.locale(language)
   renderApp()
 })()
