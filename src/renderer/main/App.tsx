@@ -8,6 +8,18 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { t } from '../lib/util'
 import icon from '../assets/img/icon.png'
+import store from './store'
+import { autorun } from 'mobx'
+import splitPath from 'licia/splitPath'
+
+autorun(() => {
+  const { projectPath, isSave } = store
+  let name = t('untitled') + '.vivy'
+  if (projectPath) {
+    name = splitPath(projectPath).name
+  }
+  preload.setTitle(name + (isSave ? '' : ' •'))
+})
 
 export default function App() {
   const [aboutVisible, setAboutVisible] = useState(false)

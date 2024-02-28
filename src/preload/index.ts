@@ -94,9 +94,6 @@ const mainObj = {
   },
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
-  writeFile: fs.promises.writeFile,
-  readFile: fs.promises.readFile,
-  existsSync: fs.existsSync,
 }
 contextBridge.exposeInMainWorld('main', mainObj)
 
@@ -116,8 +113,16 @@ const preloadObj = {
 }
 contextBridge.exposeInMainWorld('preload', preloadObj)
 
+const nodeObj = {
+  writeFile: fs.promises.writeFile,
+  readFile: fs.promises.readFile,
+  existsSync: fs.existsSync,
+}
+contextBridge.exposeInMainWorld('node', nodeObj)
+
 declare global {
   const main: typeof mainObj
   const preload: typeof preloadObj
+  const node: typeof nodeObj
   const VIVY_VERSION: string
 }

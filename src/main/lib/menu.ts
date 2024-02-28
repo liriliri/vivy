@@ -86,6 +86,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
     submenu: [
       {
         label: t('save'),
+        accelerator: isMac() ? 'Cmd+S' : 'Ctrl+S',
         click() {
           main.getWin()!.webContents.send('saveProject')
         },

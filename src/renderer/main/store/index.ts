@@ -3,11 +3,11 @@ import {
   isObservable,
   makeObservable,
   observable,
+  reaction,
   runInAction,
   toJS,
 } from 'mobx'
 import clone from 'licia/clone'
-import some from 'licia/some'
 import uuid from 'licia/uuid'
 import startWith from 'licia/startWith'
 import filter from 'licia/filter'
@@ -70,8 +70,9 @@ class Store {
   ui = new UI()
   settings = new Settings()
   statusbarDesc = ''
+  projectPath = ''
+  isSave = true
   private vivyFile: VivyFile | null = null
-  private projectPath = ''
   constructor() {
     makeObservable(this, {
       prompt: observable,
@@ -91,11 +92,12 @@ class Store {
       ui: observable,
       settings: observable,
       statusbarDesc: observable,
-      load: action,
+      projectPath: observable,
+      isSave: observable,
+      setProjectPath: action,
       waitForReady: action,
       setGenOption: action,
       setGenOptions: action,
-      createGenTask: action,
       selectImage: action,
       selectNextImage: action,
       selectPrevImage: action,
@@ -103,9 +105,9 @@ class Store {
       moveImageRight: action,
       deleteAllImages: action,
       deleteImage: action,
-      addFiles: action,
       setInitImage: action,
       deleteInitImage: action,
+      doCreateTask: action,
     })
     this.load()
 
@@ -223,7 +225,9 @@ class Store {
         runInAction(() => extend(img!.info, imageInfo))
       })
       this.selectImage(image)
-      runInAction(() => this.images.push(this.selectedImage!))
+      runInAction(() => {
+        this.images = [...this.images, this.selectedImage!]
+      })
     }
   }
   private async renderInitImage() {
@@ -251,17 +255,21 @@ class Store {
   async load() {
     const prompt = (await main.getMainStore('prompt')) || ''
     const negativePrompt = (await main.getMainStore('negativePrompt')) || ''
-    runInAction(async () => {
+    runInAction(() => {
       this.prompt = prompt
       this.negativePrompt = negativePrompt
     })
     const initImage = await main.getMainStore('initImage')
     if (initImage && initImage.info) {
-      this.initImage = initImage
+      runInAction(() => {
+        this.initImage = initImage
+      })
     }
     const initImageMask = await main.getMainStore('initImageMask')
     if (initImageMask) {
-      this.initImageMask = initImageMask
+      runInAction(() => {
+        this.initImageMask = initImageMask
+      })
     }
     this.renderInitImage()
     const genOptions = await main.getMainStore('genOptions')
@@ -280,7 +288,7 @@ class Store {
     }
 
     const projectPath = await main.getMainStore('projectPath')
-    if (projectPath && main.existsSync(projectPath)) {
+    if (projectPath && node.existsSync(projectPath)) {
       this.openProject(projectPath)
     } else {
       this.newProject()
@@ -420,12 +428,14 @@ class Store {
       this.initImageMask,
       clone(this.genOptions)
     )
-    this.tasks.push(task)
+    runInAction(() => {
+      this.tasks = [...this.tasks, task]
+    })
     this.doCreateTask()
   }
   async createUpscaleImgTask(options: IUpscaleImgOptions) {
     const task = new UpscaleImgTask(options)
-    this.tasks.push(task)
+    this.tasks = [...this.tasks, task]
     this.doCreateTask()
   }
   async setInitImage(data: IImage | Blob | string, mime = '') {
@@ -487,7 +497,7 @@ class Store {
   }
   async openProject(projectPath: string) {
     this.setProjectPath(projectPath)
-    const data = await main.readFile(projectPath)
+    const data = await node.readFile(projectPath)
     this.vivyFile = VivyFile.decode(data)
 
     const json = this.vivyFile.toJSON()
@@ -518,11 +528,48 @@ class Store {
     })
 
     const data = VivyFile.encode(this.vivyFile!).finish()
-    await main.writeFile(this.projectPath, data, 'utf8')
+    await node.writeFile(this.projectPath, data, 'utf8')
+    runInAction(() => {
+      this.isSave = true
+    })
   }
-  private setProjectPath = (projectPath: string) => {
+  setProjectPath = (projectPath: string) => {
     this.projectPath = projectPath
     this.setStore('projectPath', projectPath)
+  }
+
+  doCreateTask() {
+    if (!this.isReady) {
+      return
+    }
+    const task = this.tasks[0]
+    if (task) {
+      switch (task.status) {
+        case TaskStatus.Success:
+        case TaskStatus.Fail:
+          this.tasks.shift()
+          this.doCreateTask()
+          break
+        case TaskStatus.Wait:
+          task.on('success', (images) => {
+            runInAction(() => {
+              this.images = [...this.images, ...images]
+            })
+            if (!this.selectedImage) {
+              this.selectImage(images[0])
+            }
+            this.doCreateTask()
+          })
+          task.on('fail', () => {
+            notify(t('generateErr'))
+            this.doCreateTask()
+          })
+          task.run()
+          break
+        case TaskStatus.Generating:
+          break
+      }
+    }
   }
   private bindEvent() {
     main.on('changeMainStore', (_, name, val) => {
@@ -556,9 +603,8 @@ class Store {
           main.quitApp()
         }
       } else {
-        const imagesNotSaved = some(this.images, (image) => !image.save)
-        if (imagesNotSaved) {
-          const result = await LunaModal.confirm(t('quitImageConfirm'))
+        if (!this.isSave) {
+          const result = await LunaModal.confirm(t('quitUnsaveConfirm'))
           if (result) {
             main.quitApp()
           }
@@ -587,6 +633,17 @@ class Store {
         this.deleteImage(this.selectedImage)
       }
     })
+
+    reaction(
+      () => {
+        return {
+          images: this.images,
+        }
+      },
+      () => {
+        runInAction(() => (this.isSave = false))
+      }
+    )
   }
   private async checkModel() {
     if (!this.isReady) {
@@ -607,37 +664,6 @@ class Store {
     }
 
     return true
-  }
-  private doCreateTask() {
-    if (!this.isReady) {
-      return
-    }
-    const task = this.tasks[0]
-    if (task) {
-      switch (task.status) {
-        case TaskStatus.Success:
-        case TaskStatus.Fail:
-          this.tasks.shift()
-          this.doCreateTask()
-          break
-        case TaskStatus.Wait:
-          task.on('success', (images) => {
-            this.images.push(...images)
-            if (!this.selectedImage) {
-              this.selectImage(images[0])
-            }
-            this.doCreateTask()
-          })
-          task.on('fail', () => {
-            notify(t('generateErr'))
-            this.doCreateTask()
-          })
-          task.run()
-          break
-        case TaskStatus.Generating:
-          break
-      }
-    }
   }
 }
 

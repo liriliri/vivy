@@ -118,15 +118,19 @@ export class GenTask extends Task {
       this.emit('fail')
       return
     }
-    this.progress = 100
-    this.status = TaskStatus.Success
+    runInAction(() => {
+      this.progress = 100
+      this.status = TaskStatus.Success
+    })
     if (this.progressTimer) {
       clearTimeout(this.progressTimer)
     }
     const info = JSON.parse(result.info)
     for (let i = 0; i < genOptions.batchSize; i++) {
       const image = this.images[i]
-      image.data = result.images[i]
+      runInAction(() => {
+        image.data = result.images[i]
+      })
       image.info.size = base64.decode(image.data).length
       image.info.seed = info.all_seeds[i]
     }
@@ -153,7 +157,9 @@ export class GenTask extends Task {
           batchSize
         )
         for (let i = 0; i < batchSize; i++) {
-          this.images[i].data = images[i]
+          runInAction(() => {
+            this.images[i].data = images[i]
+          })
         }
       }
     }
