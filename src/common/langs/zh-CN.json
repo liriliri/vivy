@@ -77,6 +77,7 @@
   "openDir": "打开目录",
   "quitTaskConfirm": "任务执行中，确定要离开吗？",
   "quitUnsaveConfirm": "工程未保存，确定要离开吗？",
+  "closeUnsaveConfirm": "工程未保存，确定要关闭吗？",
   "empty": "空",
   "noModelsConfirm": "未检查到任何模型，至少需要添加一个模型。是否要下载基础模型？",
   "requireReload": "需要重新启动",
@@ -113,6 +114,8 @@
   "file": "文件",
   "untitled": "未命名",
   "saveAs": "另存为",
+  "new": "新建",
+  "open": "打开",
 
   "character": "角色",
   "camera": "镜头",

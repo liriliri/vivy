@@ -77,6 +77,7 @@
   "openDir": "Open Directory",
   "quitTaskConfirm": "Tasks are running, are you sure you want to leave?",
   "quitUnsaveConfirm": "Project is not saved, are you sure you want to leave?",
+  "closeUnsaveConfirm": "Project is not saved, are you sure you want to close it?",
   "empty": "Empty",
   "noModelsConfirm": "No checkpoints are found, at least one checkpoint needs to be added. Do you want to download base model?",
   "requireReload": "Requires reload",
@@ -113,6 +114,8 @@
   "file": "File",
   "untitled": "Untitled",
   "saveAs": "Save As",
+  "new": "New",
+  "open": "Open",
 
   "character": "Character",
   "camera": "Camera",

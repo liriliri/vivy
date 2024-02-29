@@ -17,8 +17,8 @@ export function StatusbarDesc(props: PropsWithChildren<IStatusbarDescProps>) {
   return (
     <div
       className={props.className || ''}
-      onMouseEnter={() => (store.statusbarDesc = props.desc)}
-      onMouseLeave={() => (store.statusbarDesc = '')}
+      onMouseEnter={() => store.setStatus(props.desc)}
+      onMouseLeave={() => store.setStatus('')}
     >
       {props.children}
     </div>

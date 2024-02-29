@@ -51,6 +51,8 @@ class Store {
       statusbarDesc: observable,
       waitForReady: action,
       doCreateTask: action,
+      setOptions: action,
+      setStatus: action,
     })
     this.load()
 
@@ -121,13 +123,16 @@ class Store {
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
   }
-  async setOptions(key, val) {
+  setStatus(status: string) {
+    this.statusbarDesc = status
+  }
+  setOptions(key, val) {
     const { options } = this
     options[key] = val
     if (key === 'model') {
       this.isReady = false
       this.waitForReady()
-      await webui.setOptions({
+      webui.setOptions({
         sd_model_checkpoint: options.model,
       })
     }
@@ -190,21 +195,18 @@ class Store {
   }
   private bindEvent() {
     main.on('closeMain', async () => {
-      if (this.tasks.length > 0) {
+      if (!isEmpty(this.tasks.length)) {
         const result = await LunaModal.confirm(t('quitTaskConfirm'))
-        if (result) {
-          main.quitApp()
-        }
-      } else {
-        if (!this.project.isSave) {
-          const result = await LunaModal.confirm(t('quitUnsaveConfirm'))
-          if (result) {
-            main.quitApp()
-          }
-        } else {
-          main.quitApp()
+        if (!result) {
+          return
         }
       }
+
+      if (!(await this.project.checkClose(t('quitUnsaveConfirm')))) {
+        return
+      }
+
+      main.quitApp()
     })
 
     main.on('refreshModel', async (_, type: ModelType) => {

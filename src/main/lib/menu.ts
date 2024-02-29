@@ -85,6 +85,23 @@ function getTemplate(): MenuItemConstructorOptions[] {
     label: t('file'),
     submenu: [
       {
+        label: t('new') + '...',
+        accelerator: isMac() ? 'Cmd+N' : 'Ctrl+N',
+        click() {
+          main.getWin()!.webContents.send('newProject')
+        },
+      },
+      {
+        label: t('open') + '...',
+        accelerator: isMac() ? 'Cmd+O' : 'Ctrl+O',
+        click() {
+          main.getWin()!.webContents.send('openProject')
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
         label: t('save'),
         accelerator: isMac() ? 'Cmd+S' : 'Ctrl+S',
         click() {
