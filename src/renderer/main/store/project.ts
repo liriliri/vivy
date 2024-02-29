@@ -65,6 +65,7 @@ export class Project {
       addImage: action,
       deleteImage: action,
       setPrompt: action,
+      setNegativePrompt: action,
       selectImage: action,
       deleteInitImage: action,
       deleteInitImageMask: action,
@@ -107,7 +108,7 @@ export class Project {
     this.prompt = prompt
     this.setStore('prompt', prompt)
   }
-  async setNegativePrompt(negativePrompt: string) {
+  setNegativePrompt(negativePrompt: string) {
     if (this.negativePrompt === negativePrompt) {
       return
     }
@@ -155,22 +156,22 @@ export class Project {
       await this.setNegativePrompt(genData.negativePrompt)
     }
     if (genData.sampler && contain(this.samplers, genData.sampler)) {
-      genOptions.sampler = genData.sampler
+      this.setGenOption('sampler', genData.sampler)
     }
     if (genData.steps) {
-      genOptions.steps = genData.steps
+      this.setGenOption('steps', genData.steps)
     }
     if (genData.width) {
-      genOptions.width = genData.width
+      this.setGenOption('width', genData.width)
     }
     if (genData.height) {
-      genOptions.height = genData.height
+      this.setGenOption('height', genData.height)
     }
     if (genData.cfgScale) {
-      genOptions.cfgScale = genData.cfgScale
+      this.setGenOption('cfgScale', genData.cfgScale)
     }
     if (genData.seed) {
-      genOptions.seed = genData.seed
+      this.setGenOption('seed', genData.seed)
     }
   }
   selectImage(image?: IImage) {
@@ -314,8 +315,6 @@ export class Project {
     this.load(VivyFile.decode(data))
   }
   async load(vivyFile: VivyFile) {
-    this.isLoading = true
-
     this.vivyFile = vivyFile
     const json = vivyFile.toJSON()
     const { images, selectedImage, initImage, initImageMask, genOptions } = json
@@ -400,8 +399,6 @@ export class Project {
     await this.save()
   }
   async setInitImage(data: IImage | Blob | string, mime = '') {
-    const { genOptions } = this
-
     let buf = new ArrayBuffer(0)
     if (isFile(data)) {
       buf = await convertBin.blobToArrBuffer(data)
@@ -422,22 +419,27 @@ export class Project {
 
       const base64Data = await convertBin(buf, 'base64')
       const imageInfo = await parseImage(base64Data, mime)
-      this.initImage = {
-        id: uuid(),
-        data: base64Data,
-        info: {
-          size: buf.byteLength,
-          mime,
-          ...imageInfo,
-        },
-      }
+      runInAction(() => {
+        this.initImage = {
+          id: uuid(),
+          data: base64Data,
+          info: {
+            size: buf.byteLength,
+            mime,
+            ...imageInfo,
+          },
+        }
+      })
     } else {
-      this.initImage = data as IImage
+      runInAction(() => {
+        this.initImage = data as IImage
+      })
     }
 
-    const { info } = this.initImage
-    genOptions.width = info.width
-    genOptions.height = info.height
+    const { info } = this.initImage!
+    this.setGenOption('width', info.width)
+    this.setGenOption('height', info.height)
+
     this.setStore('initImage', this.initImage)
 
     this.deleteInitImageMask()

@@ -216,3 +216,23 @@ export async function renderImageMask(base: string, mask: string) {
 
   return canvas.toDataURL()
 }
+
+export async function isEmptyMask(mask: string) {
+  const image = await loadImage(mask)
+  const { width, height } = image
+  const canvas = getTmpCanvas()
+  const ctx = canvas.getContext('2d')!
+  canvas.width = width
+  canvas.height = height
+  ctx.clearRect(0, 0, width, height)
+  ctx.drawImage(image, 0, 0, width, height)
+
+  const { data } = ctx.getImageData(0, 0, width, height)
+  for (let i = 0, len = data.length; i < len; i += 4) {
+    if (data[i] + data[i + 1] + data[i + 2] !== 0) {
+      return false
+    }
+  }
+
+  return true
+}

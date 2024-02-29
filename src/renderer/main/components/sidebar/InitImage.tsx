@@ -146,11 +146,6 @@ export default observer(function InitImage() {
             onClick={openInitImage}
           />
           <ToolbarIcon
-            icon="paste"
-            title={t('paste')}
-            onClick={pasteInitImage}
-          />
-          <ToolbarIcon
             icon="info"
             title={t('imageInfo')}
             onClick={() => setImageInfoModalVisible(true)}
@@ -192,6 +187,7 @@ export default observer(function InitImage() {
           className={className(Style.imageViewer, {
             [Style.highlight]: dropHighlight,
           })}
+          onContextMenu={onContextMenu}
           onDrop={onDrop}
           onDragLeave={onDragLeave}
           onDragOver={onDragOver}

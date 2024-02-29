@@ -7,7 +7,8 @@ import types from 'licia/types'
 
 export default function contextMenu(e: React.MouseEvent, template: any) {
   const menu = LunaMenu.build(template)
-  menu.show(e.clientX, e.clientY)
+
+  setTimeout(() => menu.show(e.clientX, e.clientY), 50)
 }
 
 const build = LunaMenu.build

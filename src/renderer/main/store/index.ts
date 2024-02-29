@@ -17,7 +17,7 @@ import { Task, TaskStatus, GenTask, UpscaleImgTask } from './task'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
-import { notify, t } from '../../lib/util'
+import { isEmptyMask, notify, t } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import { Project } from './project'
@@ -143,6 +143,11 @@ class Store {
     if (!(await this.checkModel())) {
       return
     }
+
+    if (project.initImageMask && (await isEmptyMask(project.initImageMask))) {
+      project.deleteInitImageMask()
+    }
+
     const task = new GenTask(
       project.prompt,
       project.negativePrompt,
