@@ -43,7 +43,7 @@ export default observer(function UpscaleModal(props: IProps) {
       return
     }
     store.createUpscaleImgTask({
-      image: store.selectedImage!.data,
+      image: store.project.selectedImage!.data,
       width,
       height,
       upscaler1,

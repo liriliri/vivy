@@ -3,7 +3,6 @@ import {
   isObservable,
   makeObservable,
   observable,
-  reaction,
   runInAction,
   toJS,
 } from 'mobx'
@@ -13,11 +12,9 @@ import startWith from 'licia/startWith'
 import filter from 'licia/filter'
 import base64 from 'licia/base64'
 import contain from 'licia/contain'
-import remove from 'licia/remove'
 import map from 'licia/map'
 import convertBin from 'licia/convertBin'
 import isFile from 'licia/isFile'
-import idxOf from 'licia/idxOf'
 import extend from 'licia/extend'
 import each from 'licia/each'
 import * as webui from '../../lib/webui'
@@ -31,11 +28,9 @@ import LunaModal from 'luna-modal'
 import { notify, renderImageMask, t, toDataUrl } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
-import swap from 'licia/swap'
-import hotkey from 'licia/hotkey'
 import ric from 'licia/ric'
 import isStr from 'licia/isStr'
-import { VivyFile } from '../../lib/vivyFile'
+import { Project } from './project'
 
 interface IOptions {
   model: string
@@ -63,16 +58,12 @@ class Store {
   isReady = false
   models: string[] = []
   samplers: string[] = []
-  images: IImage[] = []
   upscalers: string[] = []
-  selectedImage?: IImage
   tasks: Task[] = []
+  statusbarDesc = ''
   ui = new UI()
   settings = new Settings()
-  statusbarDesc = ''
-  projectPath = ''
-  isSave = true
-  private vivyFile: VivyFile | null = null
+  project = new Project()
   constructor() {
     makeObservable(this, {
       prompt: observable,
@@ -86,25 +77,14 @@ class Store {
       models: observable,
       samplers: observable,
       upscalers: observable,
-      images: observable,
       options: observable,
-      selectedImage: observable,
       ui: observable,
       settings: observable,
+      project: observable,
       statusbarDesc: observable,
-      projectPath: observable,
-      isSave: observable,
-      setProjectPath: action,
       waitForReady: action,
       setGenOption: action,
       setGenOptions: action,
-      selectImage: action,
-      selectNextImage: action,
-      selectPrevImage: action,
-      moveImageLeft: action,
-      moveImageRight: action,
-      deleteAllImages: action,
-      deleteImage: action,
       setInitImage: action,
       deleteInitImage: action,
       doCreateTask: action,
@@ -115,91 +95,9 @@ class Store {
 
     this.waitForReady()
   }
-  selectImage(image?: IImage) {
-    this.selectedImage = image
-  }
-  selectPrevImage = () => {
-    const { selectedImage, images } = this
-
-    if (!selectedImage) {
-      return
-    }
-
-    const idx = images.indexOf(selectedImage)
-    let nextIdx = idx - 1
-    if (nextIdx < 0) {
-      nextIdx = images.length - 1
-    }
-    this.selectImage(images[nextIdx])
-  }
-  selectNextImage = () => {
-    const { selectedImage, images } = this
-
-    if (!selectedImage) {
-      return
-    }
-
-    const idx = images.indexOf(selectedImage)
-    let nextIdx = idx + 1
-    if (nextIdx >= images.length) {
-      nextIdx = 0
-    }
-    this.selectImage(images[nextIdx])
-  }
-  moveImageLeft() {
-    const { selectedImage, images } = this
-
-    if (!selectedImage) {
-      return
-    }
-
-    const idx = images.indexOf(selectedImage)
-    if (idx === 0) {
-      return
-    }
-
-    swap(images, idx - 1, idx)
-  }
-  moveImageRight() {
-    const { selectedImage, images } = this
-
-    if (!selectedImage) {
-      return
-    }
-
-    const idx = images.indexOf(selectedImage)
-    if (idx === images.length - 1) {
-      return
-    }
-
-    swap(images, idx, idx + 1)
-  }
-  deleteImage(image: IImage) {
-    const { images, selectedImage } = this
-    if (image === selectedImage) {
-      let idx = idxOf(images, selectedImage) + 1
-      if (idx === images.length) {
-        idx -= 2
-      }
-      this.selectImage(images[idx])
-    }
-    remove(images, (item: IImage) => item === image)
-  }
-  getImage(id: string) {
-    const { images } = this
-
-    for (let i = 0, len = images.length; i < len; i++) {
-      const image = images[i]
-      if (image.id === id) {
-        return image
-      }
-    }
-  }
-  deleteAllImages() {
-    this.selectImage()
-    this.images = []
-  }
   async addFiles(files: FileList) {
+    const { project } = this
+
     for (let i = 0, len = files.length; i < len; i++) {
       const file = files[i]
       const buf = await convertBin.blobToArrBuffer(file)
@@ -221,13 +119,11 @@ class Store {
       }
       ric(async () => {
         const imageInfo = await parseImage(data, type.mime)
-        const img = this.getImage(image.id)
+        const img = project.getImage(image.id)
         runInAction(() => extend(img!.info, imageInfo))
       })
-      this.selectImage(image)
-      runInAction(() => {
-        this.images = [...this.images, this.selectedImage!]
-      })
+      project.selectImage(image)
+      project.addImage(project.selectedImage!)
     }
   }
   private async renderInitImage() {
@@ -285,13 +181,6 @@ class Store {
     const upscalers = await main.getMainStore('upscalers')
     if (upscalers) {
       runInAction(() => (this.upscalers = upscalers))
-    }
-
-    const projectPath = await main.getMainStore('projectPath')
-    if (projectPath && node.existsSync(projectPath)) {
-      this.openProject(projectPath)
-    } else {
-      this.newProject()
     }
   }
   async setStore(name: string, val: any) {
@@ -491,54 +380,9 @@ class Store {
     this.initImage = null
     this.setStore('initImage', null)
   }
-  newProject() {
-    this.setProjectPath('')
-    this.vivyFile = VivyFile.create()
-  }
-  async openProject(projectPath: string) {
-    this.setProjectPath(projectPath)
-    const data = await node.readFile(projectPath)
-    this.vivyFile = VivyFile.decode(data)
-
-    const json = this.vivyFile.toJSON()
-    runInAction(() => {
-      const { images } = json
-      if (!isEmpty(images)) {
-        this.images = images
-        this.selectImage(this.images[0])
-      }
-    })
-  }
-  saveProject = async () => {
-    if (!this.projectPath) {
-      const { canceled, filePath } = await main.showSaveDialog({
-        defaultPath: `${t('untitled')}.vivy`,
-      })
-      if (canceled) {
-        return
-      }
-      this.setProjectPath(filePath)
-    }
-
-    const vivyFile = this.vivyFile!
-
-    vivyFile.images = []
-    each(this.images, (image) => {
-      vivyFile.images.push(image)
-    })
-
-    const data = VivyFile.encode(this.vivyFile!).finish()
-    await node.writeFile(this.projectPath, data, 'utf8')
-    runInAction(() => {
-      this.isSave = true
-    })
-  }
-  setProjectPath = (projectPath: string) => {
-    this.projectPath = projectPath
-    this.setStore('projectPath', projectPath)
-  }
-
   doCreateTask() {
+    const { project } = this
+
     if (!this.isReady) {
       return
     }
@@ -552,11 +396,9 @@ class Store {
           break
         case TaskStatus.Wait:
           task.on('success', (images) => {
-            runInAction(() => {
-              this.images = [...this.images, ...images]
-            })
-            if (!this.selectedImage) {
-              this.selectImage(images[0])
+            each(images, (image: IImage) => project.addImage(image))
+            if (!this.project.selectedImage) {
+              project.selectImage(images[0])
             }
             this.doCreateTask()
           })
@@ -603,7 +445,7 @@ class Store {
           main.quitApp()
         }
       } else {
-        if (!this.isSave) {
+        if (!this.project.isSave) {
           const result = await LunaModal.confirm(t('quitUnsaveConfirm'))
           if (result) {
             main.quitApp()
@@ -623,27 +465,6 @@ class Store {
           break
       }
     })
-
-    main.on('saveProject', this.saveProject)
-
-    hotkey.on('left', this.selectPrevImage)
-    hotkey.on('right', this.selectNextImage)
-    hotkey.on('delete', () => {
-      if (this.selectedImage) {
-        this.deleteImage(this.selectedImage)
-      }
-    })
-
-    reaction(
-      () => {
-        return {
-          images: this.images,
-        }
-      },
-      () => {
-        runInAction(() => (this.isSave = false))
-      }
-    )
   }
   private async checkModel() {
     if (!this.isReady) {

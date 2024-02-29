@@ -13,10 +13,10 @@ import { autorun } from 'mobx'
 import splitPath from 'licia/splitPath'
 
 autorun(() => {
-  const { projectPath, isSave } = store
+  const { path, isSave } = store.project
   let name = t('untitled') + '.vivy'
-  if (projectPath) {
-    name = splitPath(projectPath).name
+  if (path) {
+    name = splitPath(path).name
   }
   preload.setTitle(name + (isSave ? '' : ' •'))
 })

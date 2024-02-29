@@ -27,7 +27,7 @@ export default observer(function () {
   const itemStyle = getItemStyle()
   const images: JSX.Element[] = []
 
-  each(store.images, (image) => {
+  each(store.project.images, (image) => {
     images.push(<Image key={image.id} image={image} />)
   })
 
@@ -139,15 +139,19 @@ export default observer(function () {
         <ToolbarIcon
           icon="left"
           title={t('moveLeft')}
-          onClick={() => store.moveImageLeft()}
-          disabled={isEmpty(images) || store.selectedImage === store.images[0]}
+          onClick={() => store.project.moveImageLeft()}
+          disabled={
+            isEmpty(images) ||
+            store.project.selectedImage === store.project.images[0]
+          }
         />
         <ToolbarIcon
           icon="right"
           title={t('moveRight')}
-          onClick={() => store.moveImageRight()}
+          onClick={() => store.project.moveImageRight()}
           disabled={
-            isEmpty(images) || store.selectedImage === last(store.images)
+            isEmpty(images) ||
+            store.project.selectedImage === last(store.project.images)
           }
         />
         <LunaToolbarSeparator />
@@ -170,10 +174,10 @@ export default observer(function () {
           onClick={async () => {
             const result = await LunaModal.confirm(t('deleteAllImagesConfirm'))
             if (result) {
-              store.deleteAllImages()
+              store.project.deleteAllImages()
             }
           }}
-          disabled={isEmpty(store.images)}
+          disabled={isEmpty(store.project.images)}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
@@ -222,7 +226,7 @@ function Image(props: { image: IImage }) {
   return (
     <div
       className={className(Style.item, Style.image, {
-        [Style.selected]: image.id === store.selectedImage?.id,
+        [Style.selected]: image.id === store.project.selectedImage?.id,
       })}
       key={image.id}
       style={itemStyle}
@@ -252,7 +256,7 @@ function Image(props: { image: IImage }) {
           )
         }
       }}
-      onClick={() => store.selectImage(image)}
+      onClick={() => store.project.selectImage(image)}
     >
       <img ref={imgRef} src={dataUrl} draggable={false} />
     </div>

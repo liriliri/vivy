@@ -50,10 +50,10 @@ export default observer(function () {
   }, [])
 
   let desc: JSX.Element | null = null
-  if (store.statusbarDesc || store.selectedImage) {
+  if (store.statusbarDesc || store.project.selectedImage) {
     let text = store.statusbarDesc
-    if (!text && store.selectedImage) {
-      const { info } = store.selectedImage
+    if (!text && store.project.selectedImage) {
+      const { info } = store.project.selectedImage
       text = `${info.width} × ${info.height} ${fileSize(info.size)}B ${
         info.prompt || ''
       }`
@@ -71,10 +71,10 @@ export default observer(function () {
   }
 
   let imageCount: JSX.Element | null = null
-  if (store.images.length > 0) {
+  if (store.project.images.length > 0) {
     imageCount = (
       <div className={Style.item}>
-        {t('image')}: {store.images.length}
+        {t('image')}: {store.project.images.length}
       </div>
     )
   }

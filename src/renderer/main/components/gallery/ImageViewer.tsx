@@ -32,8 +32,8 @@ export default observer(function () {
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
 
   const save = () => {
-    if (store.selectedImage) {
-      const { selectedImage } = store
+    if (store.project.selectedImage) {
+      const { selectedImage } = store.project
       selectedImage.save = true
       const blob = convertBin(selectedImage.data, 'Blob')
       download(blob, getImageName(selectedImage), selectedImage.info.mime)
@@ -41,13 +41,13 @@ export default observer(function () {
   }
 
   const deleteImage = () => {
-    if (store.selectedImage) {
-      store.deleteImage(store.selectedImage)
+    if (store.project.selectedImage) {
+      store.project.deleteImage(store.project.selectedImage)
     }
   }
 
   const copyImage = () => {
-    const image = store.selectedImage
+    const image = store.project.selectedImage
     if (image) {
       const mime = image.info.mime
       const buf = convertBin(image.data, 'ArrayBuffer')
@@ -62,12 +62,15 @@ export default observer(function () {
   }
 
   let image = store.settings.theme === 'light' ? defaultImage : defaultDarkImage
-  if (store.selectedImage) {
-    image = toDataUrl(store.selectedImage.data, 'image/png')
+  if (store.project.selectedImage) {
+    image = toDataUrl(store.project.selectedImage.data, 'image/png')
   }
 
   const arrowLeft = (
-    <div className={Style.arrowLeft} onClick={() => store.selectPrevImage()}>
+    <div
+      className={Style.arrowLeft}
+      onClick={() => store.project.selectPrevImage()}
+    >
       <span
         className={className(Style.iconArrowLeft, 'icon-arrow-left')}
       ></span>
@@ -75,15 +78,19 @@ export default observer(function () {
   )
 
   const arrowRight = (
-    <div className={Style.arrowRight} onClick={() => store.selectNextImage()}>
+    <div
+      className={Style.arrowRight}
+      onClick={() => store.project.selectNextImage()}
+    >
       <span
         className={className(Style.iconArrowRight, 'icon-arrow-right')}
       ></span>
     </div>
   )
 
-  const hasArrow = store.selectedImage && store.images.length > 1
-  const hasSelectedImage = toBool(store.selectedImage)
+  const hasArrow =
+    store.project.selectedImage && store.project.images.length > 1
+  const hasSelectedImage = toBool(store.project.selectedImage)
 
   return (
     <div
@@ -105,7 +112,7 @@ export default observer(function () {
           icon="info"
           title={t('imageInfo')}
           onClick={() => setImageInfoModalVisible(true)}
-          disabled={!toBool(store.selectedImage?.info.prompt)}
+          disabled={!toBool(store.project.selectedImage?.info.prompt)}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
@@ -159,17 +166,17 @@ export default observer(function () {
       ></LunaImageViewer>
       {hasArrow && arrowLeft}
       {hasArrow && arrowRight}
-      {store.selectedImage && (
+      {store.project.selectedImage && (
         <ImageInfoModal
           visible={imageInfoModalVisible}
-          image={store.selectedImage}
+          image={store.project.selectedImage}
           onClose={() => setImageInfoModalVisible(false)}
         />
       )}
-      {store.selectedImage && (
+      {store.project.selectedImage && (
         <InterrogateModal
           visible={interrogateModalVisible}
-          image={store.selectedImage}
+          image={store.project.selectedImage}
           onClose={() => setInterrogateModalVisible(false)}
         />
       )}
