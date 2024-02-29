@@ -195,7 +195,7 @@ class Store {
   }
   private bindEvent() {
     main.on('closeMain', async () => {
-      if (!isEmpty(this.tasks.length)) {
+      if (!isEmpty(this.tasks)) {
         const result = await LunaModal.confirm(t('quitTaskConfirm'))
         if (!result) {
           return
