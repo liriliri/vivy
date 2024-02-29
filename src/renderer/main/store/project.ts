@@ -46,7 +46,6 @@ export class Project {
   samplers: string[] = []
   genOptions: IGenOptions = clone(defGenOptions)
   private selectedImageIndex = -1
-  private isLoading = false
   private vivyFile: VivyFile | null = null
   constructor() {
     makeObservable(this, {
@@ -356,8 +355,9 @@ export class Project {
 
     this.renderInitImage()
 
-    this.isLoading = false
-    this.isSave = true
+    runInAction(() => {
+      this.isSave = true
+    })
   }
   save = async () => {
     if (!this.path) {
@@ -380,12 +380,8 @@ export class Project {
     vivyFile.selectedImage = this.selectedImageIndex
     vivyFile.negativePrompt = this.negativePrompt
     vivyFile.prompt = this.prompt
-    if (this.initImage) {
-      vivyFile.initImage = this.initImage
-    }
-    if (this.initImageMask) {
-      vivyFile.initImageMask = this.initImageMask
-    }
+    vivyFile.initImage = this.initImage
+    vivyFile.initImageMask = this.initImageMask
 
     const data = VivyFile.encode(vivyFile).finish()
     await node.writeFile(this.path, data, 'utf8')
@@ -539,9 +535,7 @@ export class Project {
       },
       () => {
         runInAction(() => {
-          if (!this.isLoading) {
-            this.isSave = false
-          }
+          this.isSave = false
         })
       }
     )
