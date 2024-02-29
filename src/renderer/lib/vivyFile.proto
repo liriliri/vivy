@@ -3,7 +3,22 @@ syntax = "proto3";
 message VivyFile {
   string prompt = 1;
   string negative_prompt = 2;
-  repeated Image images = 3;
+  GenOptions gen_options = 3;
+  optional Image init_image = 4;
+  optional string init_image_mask = 5;
+  repeated Image images = 6;
+  uint32 selectedImage = 7;
+}
+
+message GenOptions {
+  string sampler = 1;
+  uint32 steps = 2;
+  int64 seed = 3;
+  uint32 width = 4;
+  uint32 height = 5;
+  uint32 batch_size = 6;
+  uint32 cfg_scale = 7;
+  uint32 denoising_strength = 8;
 }
 
 message Image {

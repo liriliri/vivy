@@ -1,29 +1,78 @@
-import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
+import {
+  action,
+  isObservable,
+  makeObservable,
+  observable,
+  reaction,
+  runInAction,
+  toJS,
+} from 'mobx'
 import { VivyFile } from '../../lib/vivyFile'
-import { t } from '../../lib/util'
-import { IImage } from './types'
+import { t, toDataUrl, renderImageMask } from '../../lib/util'
+import { IImage, IGenOptions } from './types'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import swap from 'licia/swap'
 import remove from 'licia/remove'
 import idxOf from 'licia/idxOf'
 import hotkey from 'licia/hotkey'
+import clone from 'licia/clone'
+import extend from 'licia/extend'
+import isStr from 'licia/isStr'
+import isFile from 'licia/isFile'
+import convertBin from 'licia/convertBin'
+import uuid from 'licia/uuid'
+import startWith from 'licia/startWith'
+import base64 from 'licia/base64'
+import fileType from 'licia/fileType'
+import last from 'licia/last'
+import ric from 'licia/ric'
+import map from 'licia/map'
+import { ISDGenData, IImageGenData, parseImage } from '../../lib/genData'
+import contain from 'licia/contain'
+import * as webui from '../../lib/webui'
 
 export class Project {
+  prompt = ''
+  negativePrompt = ''
   path = ''
   isSave = true
   selectedImage?: IImage
   images: IImage[] = []
+  initImage: IImage | null = null
+  initImageMask: string | null = null
+  initImagePreview: string | null = null
+  samplers: string[] = []
+  genOptions: IGenOptions = {
+    sampler: 'Euler a',
+    steps: 20,
+    seed: -1,
+    width: 512,
+    height: 512,
+    batchSize: 2,
+    cfgScale: 7,
+    denoisingStrength: 0.7,
+  }
+  private selectedImageIndex = -1
   private isLoading = false
   private vivyFile: VivyFile | null = null
   constructor() {
     makeObservable(this, {
+      prompt: observable,
+      negativePrompt: observable,
+      genOptions: observable,
       path: observable,
       isSave: observable,
+      samplers: observable,
+      initImage: observable,
+      initImageMask: observable,
+      initImagePreview: observable,
       images: observable,
       selectedImage: observable,
       setPath: action,
       addImage: action,
+      deleteImage: action,
+      setPrompt: action,
     })
 
     this.bindEvent()
@@ -31,15 +80,114 @@ export class Project {
     this.load()
   }
   async load() {
+    const samplers = await main.getMainStore('samplers')
+
+    if (samplers) {
+      runInAction(() => (this.samplers = samplers))
+    }
+
     const path = await main.getMainStore('projectPath')
     if (path && node.existsSync(path)) {
       this.open(path)
     } else {
       this.new()
     }
+
+    await this.fetchSamplers()
+  }
+  async fetchSamplers() {
+    const samplers = await webui.getSamplers()
+    runInAction(() => {
+      this.samplers = map(samplers, (sampler) => sampler.name)
+    })
+    this.setStore('samplers', this.samplers)
+  }
+  setPrompt(prompt: string) {
+    if (this.prompt === prompt) {
+      return
+    }
+    this.prompt = prompt
+    this.setStore('prompt', prompt)
+  }
+  async setNegativePrompt(negativePrompt: string) {
+    if (this.negativePrompt === negativePrompt) {
+      return
+    }
+    this.negativePrompt = negativePrompt
+  }
+  async addFiles(files: FileList) {
+    for (let i = 0, len = files.length; i < len; i++) {
+      const file = files[i]
+      const buf = await convertBin.blobToArrBuffer(file)
+      const type = fileType(buf)
+      if (!type || !startWith(type.mime, 'image/')) {
+        continue
+      }
+      const data = convertBin(buf, 'base64')
+      const image = {
+        id: uuid(),
+        data,
+        save: true,
+        info: {
+          size: base64.decode(data).length,
+          mime: type.mime,
+          width: 0,
+          height: 0,
+        },
+      }
+      ric(async () => {
+        const imageInfo = await parseImage(data, type.mime)
+        const img = this.getImage(image.id)
+        runInAction(() => extend(img!.info, imageInfo))
+      })
+      this.addImage(image)
+      this.selectImage(last(this.images))
+    }
+  }
+  setGenOption(key, val) {
+    this.genOptions[key] = val
+    this.setStore('genOptions', this.genOptions)
+  }
+  async setGenOptions(genData: ISDGenData | IImageGenData) {
+    const { genOptions } = this
+
+    if (genData.prompt) {
+      await this.setPrompt(genData.prompt)
+    }
+    if (genData.negativePrompt) {
+      await this.setNegativePrompt(genData.negativePrompt)
+    }
+    if (genData.sampler && contain(this.samplers, genData.sampler)) {
+      genOptions.sampler = genData.sampler
+    }
+    if (genData.steps) {
+      genOptions.steps = genData.steps
+    }
+    if (genData.width) {
+      genOptions.width = genData.width
+    }
+    if (genData.height) {
+      genOptions.height = genData.height
+    }
+    if (genData.cfgScale) {
+      genOptions.cfgScale = genData.cfgScale
+    }
+    if (genData.seed) {
+      genOptions.seed = genData.seed
+    }
+    await this.setStore('genOptions', genOptions)
   }
   selectImage(image?: IImage) {
-    this.selectedImage = image
+    if (image) {
+      const idx = idxOf(this.images, image)
+      if (idx > -1) {
+        this.selectedImage = image
+        this.selectedImageIndex = idx
+      }
+    } else {
+      this.selectedImage = image
+      this.selectedImageIndex = -1
+    }
   }
   selectPrevImage = () => {
     const { selectedImage, images } = this
@@ -82,6 +230,7 @@ export class Project {
     }
 
     swap(images, idx - 1, idx)
+    this.images = clone(images)
   }
   moveImageRight() {
     const { selectedImage, images } = this
@@ -96,6 +245,7 @@ export class Project {
     }
 
     swap(images, idx, idx + 1)
+    this.images = clone(images)
   }
   deleteImage(image: IImage) {
     const { images, selectedImage } = this
@@ -107,6 +257,7 @@ export class Project {
       this.selectImage(images[idx])
     }
     remove(images, (item: IImage) => item === image)
+    this.images = clone(images)
   }
   getImage(id: string) {
     const { images } = this
@@ -133,6 +284,58 @@ export class Project {
     this.setPath('')
     this.vivyFile = VivyFile.create()
   }
+  async setInitImage(data: IImage | Blob | string, mime = '') {
+    const { genOptions } = this
+
+    let buf = new ArrayBuffer(0)
+    if (isFile(data)) {
+      buf = await convertBin.blobToArrBuffer(data)
+    } else if (isStr(data)) {
+      buf = convertBin(data, 'ArrayBuffer')
+    }
+    if (buf.byteLength > 0) {
+      if (!mime) {
+        const type = fileType(buf)
+        if (type) {
+          mime = type.mime
+        }
+      }
+
+      if (!startWith(mime, 'image/')) {
+        return
+      }
+
+      const base64Data = await convertBin(buf, 'base64')
+      const imageInfo = await parseImage(base64Data, mime)
+      this.initImage = {
+        id: uuid(),
+        data: base64Data,
+        info: {
+          size: buf.byteLength,
+          mime,
+          ...imageInfo,
+        },
+      }
+    } else {
+      this.initImage = data as IImage
+    }
+
+    const { info } = this.initImage
+    genOptions.width = info.width
+    genOptions.height = info.height
+    this.setStore('genOptions', this.genOptions)
+    this.setStore('initImage', this.initImage)
+
+    this.initImageMask = null
+    this.setStore('initImageMask', null)
+    this.renderInitImage()
+
+    main.closePainter()
+  }
+  deleteInitImage() {
+    this.initImage = null
+    this.setStore('initImage', null)
+  }
   async open(path: string) {
     this.isLoading = true
 
@@ -141,16 +344,36 @@ export class Project {
     this.vivyFile = VivyFile.decode(data)
 
     const json = this.vivyFile.toJSON()
-    const { images } = json
+    const { images, selectedImage, initImage, initImageMask, genOptions } = json
+
     if (!isEmpty(images)) {
       runInAction(() => {
         this.images = images
       })
+      if (selectedImage > -1 && images[selectedImage]) {
+        const image = this.images[selectedImage]
+        this.selectImage(image)
+      }
     }
+
+    runInAction(() => {
+      extend(this.genOptions, genOptions)
+      if (initImage && initImage.info) {
+        this.initImage = initImage
+      }
+      if (initImageMask) {
+        this.initImageMask = initImageMask
+      }
+      this.negativePrompt = json.negativePrompt
+    })
+
+    this.setPrompt(json.prompt)
+
+    this.renderInitImage()
 
     this.isLoading = false
   }
-  async save() {
+  save = async () => {
     if (!this.path) {
       const { canceled, filePath } = await main.showSaveDialog({
         defaultPath: `${t('untitled')}.vivy`,
@@ -167,6 +390,16 @@ export class Project {
     each(this.images, (image) => {
       vivyFile.images.push(image)
     })
+    vivyFile.genOptions = this.genOptions
+    vivyFile.selectedImage = this.selectedImageIndex
+    vivyFile.negativePrompt = this.negativePrompt
+    vivyFile.prompt = this.prompt
+    if (this.initImage) {
+      vivyFile.initImage = this.initImage
+    }
+    if (this.initImageMask) {
+      vivyFile.initImageMask = this.initImageMask
+    }
 
     const data = VivyFile.encode(vivyFile).finish()
     await node.writeFile(this.path, data, 'utf8')
@@ -174,8 +407,68 @@ export class Project {
       this.isSave = true
     })
   }
+  saveAs = async () => {
+    const { canceled, filePath } = await main.showSaveDialog({
+      defaultPath: `${t('untitled')}.vivy`,
+    })
+    if (canceled) {
+      return
+    }
+    this.setPath(filePath)
+    await this.save()
+  }
+  private async renderInitImage() {
+    const { initImage, initImageMask } = this
+
+    if (!initImage) {
+      this.initImagePreview = null
+      return
+    }
+
+    const image = toDataUrl(initImage.data, initImage.info.mime)
+
+    if (initImageMask) {
+      const preview = await renderImageMask(image, initImageMask)
+      runInAction(() => {
+        this.initImagePreview = preview
+      })
+      return
+    }
+
+    runInAction(() => {
+      this.initImagePreview = image
+    })
+  }
+  private async setStore(name: string, val: any) {
+    await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
+  }
   private bindEvent() {
-    main.on('saveProject', () => this.save())
+    main.on('changeMainStore', (_, name, val) => {
+      switch (name) {
+        case 'prompt':
+          runInAction(() => {
+            if (this.prompt !== val) {
+              this.prompt = val
+            }
+          })
+          break
+        case 'initImage':
+          runInAction(() => {
+            this.initImage = val
+          })
+          this.renderInitImage()
+          break
+        case 'initImageMask':
+          runInAction(() => {
+            this.initImageMask = val
+          })
+          this.renderInitImage()
+          break
+      }
+    })
+
+    main.on('saveProject', this.save)
+    main.on('saveAsProject', this.saveAs)
 
     hotkey.on('left', this.selectPrevImage)
     hotkey.on('right', this.selectNextImage)
@@ -189,6 +482,11 @@ export class Project {
       () => {
         return {
           images: this.images,
+          prompt: this.prompt,
+          negativePrompt: this.negativePrompt,
+          initImage: this.initImage,
+          initImageMask: this.initImageMask,
+          genOptions: this.genOptions,
         }
       },
       () => {

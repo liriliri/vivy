@@ -10,11 +10,12 @@ import InitImage from './InitImage'
 import { StatusbarDesc } from '../statusbar/Statusbar'
 
 export default observer(function () {
-  const { genOptions } = store
+  const { project } = store
+  const { genOptions } = project
 
   let samplers: any = {}
-  if (!isEmpty(store.samplers)) {
-    each(store.samplers, (sampler) => {
+  if (!isEmpty(project.samplers)) {
+    each(project.samplers, (sampler) => {
       samplers[sampler] = sampler
     })
   } else {
@@ -24,7 +25,7 @@ export default observer(function () {
   }
 
   let img2imgOptions: JSX.Element | null = null
-  if (store.initImage) {
+  if (project.initImage) {
     img2imgOptions = (
       <>
         <Row>
@@ -35,7 +36,7 @@ export default observer(function () {
             max={1}
             step={0.01}
             range={true}
-            onChange={(val) => store.setGenOption('denoisingStrength', val)}
+            onChange={(val) => project.setGenOption('denoisingStrength', val)}
           />
         </Row>
       </>
@@ -53,7 +54,7 @@ export default observer(function () {
           value={genOptions.sampler}
           title={t('samplingMethod')}
           options={samplers}
-          onChange={(val) => store.setGenOption('sampler', val)}
+          onChange={(val) => project.setGenOption('sampler', val)}
         />
         <StatusbarDesc
           className={SettingStyle.item}
@@ -64,7 +65,7 @@ export default observer(function () {
             title={t('samplingSteps')}
             min={1}
             max={50}
-            onChange={(val) => store.setGenOption('steps', val)}
+            onChange={(val) => project.setGenOption('steps', val)}
           />
         </StatusbarDesc>
       </Row>
@@ -74,14 +75,14 @@ export default observer(function () {
           title={t('width')}
           min={64}
           max={2048}
-          onChange={(val) => store.setGenOption('width', val)}
+          onChange={(val) => project.setGenOption('width', val)}
         />
         <Number
           value={genOptions.height}
           title={t('height')}
           min={64}
           max={2048}
-          onChange={(val) => store.setGenOption('height', val)}
+          onChange={(val) => project.setGenOption('height', val)}
         />
       </Row>
       <Row>
@@ -91,7 +92,7 @@ export default observer(function () {
           min={1}
           max={8}
           range={true}
-          onChange={(val) => store.setGenOption('batchSize', val)}
+          onChange={(val) => project.setGenOption('batchSize', val)}
         />
         <Number
           value={genOptions.cfgScale}
@@ -99,14 +100,14 @@ export default observer(function () {
           min={1}
           max={30}
           range={true}
-          onChange={(val) => store.setGenOption('cfgScale', val)}
+          onChange={(val) => project.setGenOption('cfgScale', val)}
         />
       </Row>
       <Row>
         <Number
           value={genOptions.seed}
           title={t('seed')}
-          onChange={(val) => store.setGenOption('seed', val)}
+          onChange={(val) => project.setGenOption('seed', val)}
         />
       </Row>
     </div>

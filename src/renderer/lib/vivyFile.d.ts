@@ -9,8 +9,20 @@ export interface IVivyFile {
     /** VivyFile negativePrompt */
     negativePrompt?: (string|null);
 
+    /** VivyFile genOptions */
+    genOptions?: (IGenOptions|null);
+
+    /** VivyFile initImage */
+    initImage?: (IImage|null);
+
+    /** VivyFile initImageMask */
+    initImageMask?: (string|null);
+
     /** VivyFile images */
     images?: (IImage[]|null);
+
+    /** VivyFile selectedImage */
+    selectedImage?: (number|null);
 }
 
 /** Represents a VivyFile. */
@@ -28,8 +40,26 @@ export class VivyFile implements IVivyFile {
     /** VivyFile negativePrompt. */
     public negativePrompt: string;
 
+    /** VivyFile genOptions. */
+    public genOptions?: (IGenOptions|null);
+
+    /** VivyFile initImage. */
+    public initImage?: (IImage|null);
+
+    /** VivyFile initImageMask. */
+    public initImageMask?: (string|null);
+
     /** VivyFile images. */
     public images: IImage[];
+
+    /** VivyFile selectedImage. */
+    public selectedImage: number;
+
+    /** VivyFile _initImage. */
+    public _initImage?: "initImage";
+
+    /** VivyFile _initImageMask. */
+    public _initImageMask?: "initImageMask";
 
     /**
      * Creates a new VivyFile instance using the specified properties.
@@ -103,6 +133,145 @@ export class VivyFile implements IVivyFile {
 
     /**
      * Gets the default type url for VivyFile
+     * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+     * @returns The default type url
+     */
+    public static getTypeUrl(typeUrlPrefix?: string): string;
+}
+
+/** Properties of a GenOptions. */
+export interface IGenOptions {
+
+    /** GenOptions sampler */
+    sampler?: (string|null);
+
+    /** GenOptions steps */
+    steps?: (number|null);
+
+    /** GenOptions seed */
+    seed?: (number|Long|null);
+
+    /** GenOptions width */
+    width?: (number|null);
+
+    /** GenOptions height */
+    height?: (number|null);
+
+    /** GenOptions batchSize */
+    batchSize?: (number|null);
+
+    /** GenOptions cfgScale */
+    cfgScale?: (number|null);
+
+    /** GenOptions denoisingStrength */
+    denoisingStrength?: (number|null);
+}
+
+/** Represents a GenOptions. */
+export class GenOptions implements IGenOptions {
+
+    /**
+     * Constructs a new GenOptions.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IGenOptions);
+
+    /** GenOptions sampler. */
+    public sampler: string;
+
+    /** GenOptions steps. */
+    public steps: number;
+
+    /** GenOptions seed. */
+    public seed: (number|Long);
+
+    /** GenOptions width. */
+    public width: number;
+
+    /** GenOptions height. */
+    public height: number;
+
+    /** GenOptions batchSize. */
+    public batchSize: number;
+
+    /** GenOptions cfgScale. */
+    public cfgScale: number;
+
+    /** GenOptions denoisingStrength. */
+    public denoisingStrength: number;
+
+    /**
+     * Creates a new GenOptions instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns GenOptions instance
+     */
+    public static create(properties?: IGenOptions): GenOptions;
+
+    /**
+     * Encodes the specified GenOptions message. Does not implicitly {@link GenOptions.verify|verify} messages.
+     * @param message GenOptions message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IGenOptions, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified GenOptions message, length delimited. Does not implicitly {@link GenOptions.verify|verify} messages.
+     * @param message GenOptions message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IGenOptions, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a GenOptions message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns GenOptions
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): GenOptions;
+
+    /**
+     * Decodes a GenOptions message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns GenOptions
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): GenOptions;
+
+    /**
+     * Verifies a GenOptions message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a GenOptions message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns GenOptions
+     */
+    public static fromObject(object: { [k: string]: any }): GenOptions;
+
+    /**
+     * Creates a plain object from a GenOptions message. Also converts values to other types if specified.
+     * @param message GenOptions
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: GenOptions, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this GenOptions to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+
+    /**
+     * Gets the default type url for GenOptions
      * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
      * @returns The default type url
      */

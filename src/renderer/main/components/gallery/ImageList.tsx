@@ -60,7 +60,7 @@ export default observer(function () {
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault()
     setDropHighlight(false)
-    store.addFiles(e.dataTransfer.files)
+    store.project.addFiles(e.dataTransfer.files)
   }
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
@@ -113,7 +113,7 @@ export default observer(function () {
             openFile({
               accept: 'image/png,image/jpeg',
               multiple: true,
-            }).then(async (fileList) => store.addFiles(fileList as any))
+            }).then(async (fileList) => store.project.addFiles(fileList as any))
           }}
         />
         <LunaToolbarSeparator />

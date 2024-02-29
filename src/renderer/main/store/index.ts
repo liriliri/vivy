@@ -7,29 +7,19 @@ import {
   toJS,
 } from 'mobx'
 import clone from 'licia/clone'
-import uuid from 'licia/uuid'
-import startWith from 'licia/startWith'
 import filter from 'licia/filter'
-import base64 from 'licia/base64'
 import contain from 'licia/contain'
 import map from 'licia/map'
-import convertBin from 'licia/convertBin'
-import isFile from 'licia/isFile'
-import extend from 'licia/extend'
 import each from 'licia/each'
 import * as webui from '../../lib/webui'
-import { ISDGenData, IImageGenData, parseImage } from '../../lib/genData'
-import { IImage, IGenOptions, IUpscaleImgOptions } from './types'
+import { IImage, IUpscaleImgOptions } from './types'
 import { Task, TaskStatus, GenTask, UpscaleImgTask } from './task'
-import fileType from 'licia/fileType'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
-import { notify, renderImageMask, t, toDataUrl } from '../../lib/util'
+import { notify, t } from '../../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
-import ric from 'licia/ric'
-import isStr from 'licia/isStr'
 import { Project } from './project'
 
 interface IOptions {
@@ -37,27 +27,11 @@ interface IOptions {
 }
 
 class Store {
-  genOptions: IGenOptions = {
-    sampler: 'Euler a',
-    steps: 20,
-    seed: -1,
-    width: 512,
-    height: 512,
-    batchSize: 2,
-    cfgScale: 7,
-    denoisingStrength: 0.7,
-  }
   options: IOptions = {
     model: '',
   }
-  prompt = ''
-  negativePrompt = ''
-  initImage: IImage | null = null
-  initImageMask: string | null = null
-  initImagePreview: string | null = null
   isReady = false
   models: string[] = []
-  samplers: string[] = []
   upscalers: string[] = []
   tasks: Task[] = []
   statusbarDesc = ''
@@ -66,16 +40,9 @@ class Store {
   project = new Project()
   constructor() {
     makeObservable(this, {
-      prompt: observable,
-      negativePrompt: observable,
-      initImage: observable,
-      initImageMask: observable,
-      initImagePreview: observable,
-      genOptions: observable,
       isReady: observable,
       tasks: observable,
       models: observable,
-      samplers: observable,
       upscalers: observable,
       options: observable,
       ui: observable,
@@ -83,10 +50,6 @@ class Store {
       project: observable,
       statusbarDesc: observable,
       waitForReady: action,
-      setGenOption: action,
-      setGenOptions: action,
-      setInitImage: action,
-      deleteInitImage: action,
       doCreateTask: action,
     })
     this.load()
@@ -95,89 +58,7 @@ class Store {
 
     this.waitForReady()
   }
-  async addFiles(files: FileList) {
-    const { project } = this
-
-    for (let i = 0, len = files.length; i < len; i++) {
-      const file = files[i]
-      const buf = await convertBin.blobToArrBuffer(file)
-      const type = fileType(buf)
-      if (!type || !startWith(type.mime, 'image/')) {
-        continue
-      }
-      const data = convertBin(buf, 'base64')
-      const image = {
-        id: uuid(),
-        data,
-        save: true,
-        info: {
-          size: base64.decode(data).length,
-          mime: type.mime,
-          width: 0,
-          height: 0,
-        },
-      }
-      ric(async () => {
-        const imageInfo = await parseImage(data, type.mime)
-        const img = project.getImage(image.id)
-        runInAction(() => extend(img!.info, imageInfo))
-      })
-      project.selectImage(image)
-      project.addImage(project.selectedImage!)
-    }
-  }
-  private async renderInitImage() {
-    const { initImage, initImageMask } = this
-
-    if (!initImage) {
-      this.initImagePreview = null
-      return
-    }
-
-    const image = toDataUrl(initImage.data, initImage.info.mime)
-
-    if (initImageMask) {
-      const preview = await renderImageMask(image, initImageMask)
-      runInAction(() => {
-        this.initImagePreview = preview
-      })
-      return
-    }
-
-    runInAction(() => {
-      this.initImagePreview = image
-    })
-  }
   async load() {
-    const prompt = (await main.getMainStore('prompt')) || ''
-    const negativePrompt = (await main.getMainStore('negativePrompt')) || ''
-    runInAction(() => {
-      this.prompt = prompt
-      this.negativePrompt = negativePrompt
-    })
-    const initImage = await main.getMainStore('initImage')
-    if (initImage && initImage.info) {
-      runInAction(() => {
-        this.initImage = initImage
-      })
-    }
-    const initImageMask = await main.getMainStore('initImageMask')
-    if (initImageMask) {
-      runInAction(() => {
-        this.initImageMask = initImageMask
-      })
-    }
-    this.renderInitImage()
-    const genOptions = await main.getMainStore('genOptions')
-    if (genOptions) {
-      runInAction(() => {
-        extend(this.genOptions, genOptions)
-      })
-    }
-    const samplers = await main.getMainStore('samplers')
-    if (samplers) {
-      runInAction(() => (this.samplers = samplers))
-    }
     const upscalers = await main.getMainStore('upscalers')
     if (upscalers) {
       runInAction(() => (this.upscalers = upscalers))
@@ -208,13 +89,6 @@ class Store {
       }
     })
   }
-  async fetchSamplers() {
-    const samplers = await webui.getSamplers()
-    runInAction(() => {
-      this.samplers = map(samplers, (sampler) => sampler.name)
-    })
-    this.setStore('samplers', this.samplers)
-  }
   async fetchUpscalers() {
     const upscalers = filter(await webui.getUpscalers(), (upscaler) => {
       if (!this.settings.enableWebUI) {
@@ -243,57 +117,9 @@ class Store {
     }
     await this.fetchOptions()
     await this.fetchModels()
-    await this.fetchSamplers()
     await this.fetchUpscalers()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
-  }
-  async setPrompt(prompt: string) {
-    if (this.prompt === prompt) {
-      return
-    }
-    this.prompt = prompt
-    await this.setStore('prompt', prompt)
-  }
-  async setNegativePrompt(negativePrompt: string) {
-    if (this.negativePrompt === negativePrompt) {
-      return
-    }
-    this.negativePrompt = negativePrompt
-    await this.setStore('negativePrompt', negativePrompt)
-  }
-  setGenOption(key, val) {
-    this.genOptions[key] = val
-    this.setStore('genOptions', this.genOptions)
-  }
-  async setGenOptions(genData: ISDGenData | IImageGenData) {
-    const { genOptions } = this
-
-    if (genData.prompt) {
-      await this.setPrompt(genData.prompt)
-    }
-    if (genData.negativePrompt) {
-      await this.setNegativePrompt(genData.negativePrompt)
-    }
-    if (genData.sampler && contain(this.samplers, genData.sampler)) {
-      genOptions.sampler = genData.sampler
-    }
-    if (genData.steps) {
-      genOptions.steps = genData.steps
-    }
-    if (genData.width) {
-      genOptions.width = genData.width
-    }
-    if (genData.height) {
-      genOptions.height = genData.height
-    }
-    if (genData.cfgScale) {
-      genOptions.cfgScale = genData.cfgScale
-    }
-    if (genData.seed) {
-      genOptions.seed = genData.seed
-    }
-    await this.setStore('genOptions', genOptions)
   }
   async setOptions(key, val) {
     const { options } = this
@@ -307,15 +133,17 @@ class Store {
     }
   }
   async createGenTask() {
+    const { project } = this
+
     if (!(await this.checkModel())) {
       return
     }
     const task = new GenTask(
-      this.prompt,
-      this.negativePrompt,
-      this.initImage ? this.initImage.data : null,
-      this.initImageMask,
-      clone(this.genOptions)
+      project.prompt,
+      project.negativePrompt,
+      project.initImage ? project.initImage.data : null,
+      project.initImageMask,
+      clone(project.genOptions)
     )
     runInAction(() => {
       this.tasks = [...this.tasks, task]
@@ -326,59 +154,6 @@ class Store {
     const task = new UpscaleImgTask(options)
     this.tasks = [...this.tasks, task]
     this.doCreateTask()
-  }
-  async setInitImage(data: IImage | Blob | string, mime = '') {
-    const { genOptions } = this
-
-    let buf = new ArrayBuffer(0)
-    if (isFile(data)) {
-      buf = await convertBin.blobToArrBuffer(data)
-    } else if (isStr(data)) {
-      buf = convertBin(data, 'ArrayBuffer')
-    }
-    if (buf.byteLength > 0) {
-      if (!mime) {
-        const type = fileType(buf)
-        if (type) {
-          mime = type.mime
-        }
-      }
-
-      if (!startWith(mime, 'image/')) {
-        return
-      }
-
-      const base64Data = await convertBin(buf, 'base64')
-      const imageInfo = await parseImage(base64Data, mime)
-      this.initImage = {
-        id: uuid(),
-        data: base64Data,
-        save: true,
-        info: {
-          size: buf.byteLength,
-          mime,
-          ...imageInfo,
-        },
-      }
-    } else {
-      this.initImage = data as IImage
-    }
-
-    const { info } = this.initImage
-    genOptions.width = info.width
-    genOptions.height = info.height
-    this.setStore('genOptions', this.genOptions)
-    this.setStore('initImage', this.initImage)
-
-    this.initImageMask = null
-    this.setStore('initImageMask', null)
-    this.renderInitImage()
-
-    main.closePainter()
-  }
-  deleteInitImage() {
-    this.initImage = null
-    this.setStore('initImage', null)
   }
   doCreateTask() {
     const { project } = this
@@ -414,30 +189,6 @@ class Store {
     }
   }
   private bindEvent() {
-    main.on('changeMainStore', (_, name, val) => {
-      switch (name) {
-        case 'prompt':
-          runInAction(() => {
-            if (this.prompt !== val) {
-              this.prompt = val
-            }
-          })
-          break
-        case 'initImage':
-          runInAction(() => {
-            this.initImage = val
-          })
-          this.renderInitImage()
-          break
-        case 'initImageMask':
-          runInAction(() => {
-            this.initImageMask = val
-          })
-          this.renderInitImage()
-          break
-      }
-    })
-
     main.on('closeMain', async () => {
       if (this.tasks.length > 0) {
         const result = await LunaModal.confirm(t('quitTaskConfirm'))

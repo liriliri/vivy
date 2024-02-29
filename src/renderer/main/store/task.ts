@@ -64,7 +64,6 @@ export class GenTask extends Task {
       this.images[i] = {
         id: uuid(),
         data: '',
-        save: false,
         info: {
           mime: 'image/png',
           prompt,
@@ -192,7 +191,6 @@ export class UpscaleImgTask extends Task {
     this.images.push({
       id: uuid(),
       data: '',
-      save: false,
       info: {
         mime: 'image/png',
         width: upscaleImgOptions.width,

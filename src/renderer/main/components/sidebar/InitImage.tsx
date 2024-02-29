@@ -18,6 +18,8 @@ import InterrogateModal from '../common/InterrogateModal'
 import contextMenu from '../../../lib/contextMenu'
 
 export default observer(function InitImage() {
+  const { project } = store
+
   const initImageRef = useRef<HTMLDivElement>(null)
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
@@ -33,7 +35,7 @@ export default observer(function InitImage() {
     }).then(async (fileList) => {
       const file = fileList[0]
       if (file) {
-        store.setInitImage(file)
+        project.setInitImage(file)
       }
     })
   }
@@ -41,7 +43,7 @@ export default observer(function InitImage() {
   const pasteInitImage = async () => {
     const image = await main.readClipboardImage()
     if (image) {
-      store.setInitImage(image, 'image/png')
+      project.setInitImage(image, 'image/png')
     } else {
       notify(t('noClipboardImage'))
     }
@@ -62,13 +64,13 @@ export default observer(function InitImage() {
     e.preventDefault()
     setDropHighlight(false)
     if (isFileDrop(e)) {
-      store.setInitImage(e.dataTransfer.files[0])
+      project.setInitImage(e.dataTransfer.files[0])
     } else {
       const id = e.dataTransfer.getData('imageId')
       if (id) {
-        const image = store.getImage(id)
+        const image = project.getImage(id)
         if (image) {
-          store.setInitImage(image)
+          project.setInitImage(image)
         }
       }
     }
@@ -108,7 +110,7 @@ export default observer(function InitImage() {
     document.addEventListener('mouseup', onMouseUp)
   }, [])
 
-  if (!store.initImage) {
+  if (!project.initImage) {
     return (
       <div
         className={className(Style.empty, 'button', {
@@ -152,7 +154,7 @@ export default observer(function InitImage() {
             icon="info"
             title={t('imageInfo')}
             onClick={() => setImageInfoModalVisible(true)}
-            disabled={!toBool(store.initImage?.info.prompt)}
+            disabled={!toBool(project.initImage?.info.prompt)}
           />
           <LunaToolbarSeparator />
           <ToolbarIcon
@@ -181,7 +183,7 @@ export default observer(function InitImage() {
             icon="delete"
             title={t('delete')}
             onClick={() => {
-              store.deleteInitImage()
+              project.deleteInitImage()
               main.closePainter()
             }}
           />
@@ -195,18 +197,18 @@ export default observer(function InitImage() {
           onDragOver={onDragOver}
         >
           <LunaImageViewer
-            image={store.initImagePreview!}
+            image={project.initImagePreview!}
             onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
           ></LunaImageViewer>
         </div>
         <ImageInfoModal
           visible={imageInfoModalVisible}
-          image={store.initImage}
+          image={project.initImage}
           onClose={() => setImageInfoModalVisible(false)}
         />
         <InterrogateModal
           visible={interrogateModalVisible}
-          image={store.initImage}
+          image={project.initImage}
           onClose={() => setInterrogateModalVisible(false)}
         />
       </div>

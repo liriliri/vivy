@@ -45,15 +45,15 @@ export default observer(function () {
 
   if (editorRef.current) {
     const editor = editorRef.current
-    if (editor.getValue() !== store.prompt && !editor.hasTextFocus()) {
-      editor.setValue(store.prompt)
+    if (editor.getValue() !== store.project.prompt && !editor.hasTextFocus()) {
+      editor.setValue(store.project.prompt)
     }
   }
 
   if (negativeEditorRef.current) {
     const editor = negativeEditorRef.current
-    if (editor.getValue() !== store.negativePrompt) {
-      editor.setValue(store.negativePrompt)
+    if (editor.getValue() !== store.project.negativePrompt) {
+      editor.setValue(store.project.negativePrompt)
     }
   }
 
@@ -69,14 +69,14 @@ export default observer(function () {
         const buf = await convertBin.blobToArrBuffer(file)
         if (file.type === 'text/plain') {
           const text = bytesToStr(convertBin(buf, 'Uint8Array'))
-          store.setGenOptions(parseText(text))
+          store.project.setGenOptions(parseText(text))
         } else if (startWith(file.type, 'image')) {
           const imageInfo = await parseImage(
             convertBin(buf, 'base64'),
             file.type
           )
           if (imageInfo.prompt) {
-            store.setGenOptions(imageInfo)
+            store.project.setGenOptions(imageInfo)
           } else {
             notify(t('importErr'))
           }
@@ -92,7 +92,7 @@ export default observer(function () {
       ;(document.activeElement as any).blur()
     }
     const text = await navigator.clipboard.readText()
-    store.setGenOptions(parseText(text))
+    store.project.setGenOptions(parseText(text))
   }
 
   const getSelectedEditor = () => {
@@ -161,8 +161,8 @@ export default observer(function () {
         <PromptEditor
           height={100}
           theme={theme}
-          defaultValue={store.prompt}
-          onChange={(value) => store.setPrompt(value || '')}
+          defaultValue={store.project.prompt}
+          onChange={(value) => store.project.setPrompt(value || '')}
           onMount={promptOnMount}
         />
       </div>
@@ -174,9 +174,9 @@ export default observer(function () {
         <PromptEditor
           height={60}
           theme={theme}
-          defaultValue={store.negativePrompt}
+          defaultValue={store.project.negativePrompt}
           onChange={(value) => {
-            store.setNegativePrompt(value || '')
+            store.project.setNegativePrompt(value || '')
           }}
           onMount={negativePromptOnMount}
         />

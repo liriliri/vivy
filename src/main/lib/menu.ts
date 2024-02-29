@@ -91,6 +91,13 @@ function getTemplate(): MenuItemConstructorOptions[] {
           main.getWin()!.webContents.send('saveProject')
         },
       },
+      {
+        label: t('saveAs') + '...',
+        accelerator: isMac() ? 'Shift+Cmd+S' : 'Shift+Ctrl+S',
+        click() {
+          main.getWin()!.webContents.send('saveAsProject')
+        },
+      },
     ],
   }
 
