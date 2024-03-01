@@ -4,7 +4,6 @@ import store from '../../store'
 import LunaImageViewer from 'luna-image-viewer/react'
 import ImageViewer from 'luna-image-viewer'
 import LunaToolbar, {
-  LunaToolbarHtml,
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
@@ -20,56 +19,38 @@ import { t, toDataUrl } from '../../../lib/util'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
 import UpscaleModal from './UpscaleModal'
-import CopyButton from '../../../components/CopyButton'
 import { IImage } from '../../../main/store/types'
 import slugify from 'licia/slugify'
 import truncate from 'licia/truncate'
 
 export default observer(function () {
+  const { project } = store
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
 
   const save = () => {
-    if (store.project.selectedImage) {
-      const { selectedImage } = store.project
+    if (project.selectedImage) {
+      const { selectedImage } = project
       const blob = convertBin(selectedImage.data, 'Blob')
       download(blob, getImageName(selectedImage), selectedImage.info.mime)
     }
   }
 
   const deleteImage = () => {
-    if (store.project.selectedImage) {
-      store.project.deleteImage(store.project.selectedImage)
-    }
-  }
-
-  const copyImage = () => {
-    const image = store.project.selectedImage
-    if (image) {
-      const mime = image.info.mime
-      const buf = convertBin(image.data, 'ArrayBuffer')
-      navigator.clipboard.write([
-        new ClipboardItem({
-          [mime]: new Blob([buf], {
-            type: mime,
-          }),
-        }),
-      ])
+    if (project.selectedImage) {
+      project.deleteImage(project.selectedImage)
     }
   }
 
   let image = store.settings.theme === 'light' ? defaultImage : defaultDarkImage
-  if (store.project.selectedImage) {
-    image = toDataUrl(store.project.selectedImage.data, 'image/png')
+  if (project.selectedImage) {
+    image = toDataUrl(project.selectedImage.data, 'image/png')
   }
 
   const arrowLeft = (
-    <div
-      className={Style.arrowLeft}
-      onClick={() => store.project.selectPrevImage()}
-    >
+    <div className={Style.arrowLeft} onClick={() => project.selectPrevImage()}>
       <span
         className={className(Style.iconArrowLeft, 'icon-arrow-left')}
       ></span>
@@ -77,19 +58,15 @@ export default observer(function () {
   )
 
   const arrowRight = (
-    <div
-      className={Style.arrowRight}
-      onClick={() => store.project.selectNextImage()}
-    >
+    <div className={Style.arrowRight} onClick={() => project.selectNextImage()}>
       <span
         className={className(Style.iconArrowRight, 'icon-arrow-right')}
       ></span>
     </div>
   )
 
-  const hasArrow =
-    store.project.selectedImage && store.project.images.length > 1
-  const hasSelectedImage = toBool(store.project.selectedImage)
+  const hasArrow = project.selectedImage && project.images.length > 1
+  const hasSelectedImage = toBool(project.selectedImage)
 
   return (
     <div
@@ -104,14 +81,11 @@ export default observer(function () {
           onClick={save}
           disabled={!hasSelectedImage}
         />
-        <LunaToolbarHtml disabled={!hasSelectedImage}>
-          <CopyButton className="toolbar-icon" onClick={copyImage} />
-        </LunaToolbarHtml>
         <ToolbarIcon
           icon="info"
           title={t('imageInfo')}
           onClick={() => setImageInfoModalVisible(true)}
-          disabled={!toBool(store.project.selectedImage?.info.prompt)}
+          disabled={!toBool(project.selectedImage?.info.prompt)}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
@@ -165,17 +139,17 @@ export default observer(function () {
       ></LunaImageViewer>
       {hasArrow && arrowLeft}
       {hasArrow && arrowRight}
-      {store.project.selectedImage && (
+      {project.selectedImage && (
         <ImageInfoModal
           visible={imageInfoModalVisible}
-          image={store.project.selectedImage}
+          image={project.selectedImage}
           onClose={() => setImageInfoModalVisible(false)}
         />
       )}
-      {store.project.selectedImage && (
+      {project.selectedImage && (
         <InterrogateModal
           visible={interrogateModalVisible}
-          image={store.project.selectedImage}
+          image={project.selectedImage}
           onClose={() => setInterrogateModalVisible(false)}
         />
       )}

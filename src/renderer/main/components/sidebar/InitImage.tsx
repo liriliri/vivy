@@ -5,7 +5,7 @@ import store from '../../store'
 import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
-import { t, isFileDrop, notify } from '../../../lib/util'
+import { t, isFileDrop, notify, copyData } from '../../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
   LunaToolbarSeparator,
@@ -29,7 +29,7 @@ export default observer(function InitImage() {
     height: '10px',
   })
 
-  const openInitImage = () => {
+  const open = () => {
     openFile({
       accept: 'image/png,image/jpeg',
     }).then(async (fileList) => {
@@ -40,7 +40,7 @@ export default observer(function InitImage() {
     })
   }
 
-  const pasteInitImage = async () => {
+  const paste = async () => {
     const image = await main.readClipboardImage()
     if (image) {
       project.setInitImage(image, 'image/png')
@@ -53,9 +53,40 @@ export default observer(function InitImage() {
     contextMenu(e, [
       {
         label: t('paste'),
+        click: paste,
+      },
+    ])
+  }
+
+  const onImageContextMenu = (e: React.MouseEvent) => {
+    const imageViewer = imageViewerRef.current!
+
+    contextMenu(e, [
+      {
+        label: t('reset'),
+        click: () => imageViewer.reset(),
+      },
+      {
+        label: t('rotateLeft'),
+        click: () => imageViewer.rotate(-90),
+      },
+      {
+        label: t('rotateRight'),
+        click: () => imageViewer.rotate(90),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: t('copy'),
         click() {
-          pasteInitImage()
+          const image = project.initImage!
+          copyData(image.data, image.info.mime)
         },
+      },
+      {
+        label: t('paste'),
+        click: paste,
       },
     ])
   }
@@ -116,7 +147,7 @@ export default observer(function InitImage() {
         className={className(Style.empty, 'button', {
           [Style.highlight]: dropHighlight,
         })}
-        onClick={openInitImage}
+        onClick={open}
         onContextMenu={onContextMenu}
         onDrop={onDrop}
         onDragLeave={onDragLeave}
@@ -140,22 +171,12 @@ export default observer(function InitImage() {
           onMouseDown={onMouseDown}
         />
         <LunaToolbar className={Style.toolbar}>
-          <ToolbarIcon
-            icon="open-file"
-            title={t('openImage')}
-            onClick={openInitImage}
-          />
+          <ToolbarIcon icon="open-file" title={t('openImage')} onClick={open} />
           <ToolbarIcon
             icon="info"
             title={t('imageInfo')}
             onClick={() => setImageInfoModalVisible(true)}
             disabled={!toBool(project.initImage?.info.prompt)}
-          />
-          <LunaToolbarSeparator />
-          <ToolbarIcon
-            icon="reset"
-            title={t('reset')}
-            onClick={() => imageViewerRef.current?.reset()}
           />
           <LunaToolbarSeparator />
           <ToolbarIcon
@@ -187,7 +208,7 @@ export default observer(function InitImage() {
           className={className(Style.imageViewer, {
             [Style.highlight]: dropHighlight,
           })}
-          onContextMenu={onContextMenu}
+          onContextMenu={onImageContextMenu}
           onDrop={onDrop}
           onDragLeave={onDragLeave}
           onDragOver={onDragOver}

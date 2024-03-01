@@ -11,11 +11,12 @@ import openFile from 'licia/openFile'
 import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
-import { t, toDataUrl, isFileDrop } from '../../../lib/util'
+import { t, toDataUrl, isFileDrop, copyData } from '../../../lib/util'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
 import last from 'licia/last'
+import contextMenu from '../../../lib/contextMenu'
 
 export default observer(function () {
   const imageListRef = useRef<HTMLDivElement>(null)
@@ -223,6 +224,22 @@ function Image(props: { image: IImage }) {
 
   const dragImg = new window.Image()
 
+  const onContextMenu = (e: React.MouseEvent) => {
+    contextMenu(e, [
+      {
+        label: t('copy'),
+        click: () => copyData(image.data, image.info.mime),
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: t('delete'),
+        click: () => store.project.deleteImage(image),
+      },
+    ])
+  }
+
   return (
     <div
       className={className(Style.item, Style.image, {
@@ -231,6 +248,7 @@ function Image(props: { image: IImage }) {
       key={image.id}
       style={itemStyle}
       draggable={true}
+      onContextMenu={onContextMenu}
       onMouseDown={() => {
         if (dragImg.src || !imgRef.current) {
           return

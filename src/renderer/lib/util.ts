@@ -1,5 +1,6 @@
 import types from 'licia/types'
 import loadImg from 'licia/loadImg'
+import convertBin from 'licia/convertBin'
 import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
 import isDataUrl from 'licia/isDataUrl'
@@ -10,6 +11,7 @@ import trim from 'licia/trim'
 import startWith from 'licia/startWith'
 import h from 'licia/h'
 import contain from 'licia/contain'
+import isArrBuffer from 'licia/isArrBuffer'
 import enUS from '../../common/langs/en-US.json'
 import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
@@ -235,4 +237,17 @@ export async function isEmptyMask(mask: string) {
   }
 
   return true
+}
+
+export function copyData(buf: any, mime: string) {
+  if (!isArrBuffer(buf)) {
+    buf = convertBin(buf, 'ArrayBuffer')
+  }
+  navigator.clipboard.write([
+    new ClipboardItem({
+      [mime]: new Blob([buf], {
+        type: mime,
+      }),
+    }),
+  ])
 }

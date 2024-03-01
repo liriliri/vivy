@@ -147,8 +147,6 @@ export class Project {
     this.genOptions[key] = val
   }
   async setGenOptions(genData: ISDGenData | IImageGenData) {
-    const { genOptions } = this
-
     if (genData.prompt) {
       await this.setPrompt(genData.prompt)
     }
