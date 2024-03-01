@@ -18,7 +18,7 @@ message GenOptions {
   uint32 height = 5;
   uint32 batch_size = 6;
   uint32 cfg_scale = 7;
-  uint32 denoising_strength = 8;
+  double denoising_strength = 8;
 }
 
 message Image {

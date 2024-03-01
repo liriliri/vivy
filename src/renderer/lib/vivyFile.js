@@ -550,7 +550,7 @@ export const GenOptions = $root.GenOptions = (() => {
         if (message.cfgScale != null && Object.hasOwnProperty.call(message, "cfgScale"))
             writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.cfgScale);
         if (message.denoisingStrength != null && Object.hasOwnProperty.call(message, "denoisingStrength"))
-            writer.uint32(/* id 8, wireType 0 =*/64).uint32(message.denoisingStrength);
+            writer.uint32(/* id 8, wireType 1 =*/65).double(message.denoisingStrength);
         return writer;
     };
 
@@ -614,7 +614,7 @@ export const GenOptions = $root.GenOptions = (() => {
                     break;
                 }
             case 8: {
-                    message.denoisingStrength = reader.uint32();
+                    message.denoisingStrength = reader.double();
                     break;
                 }
             default:
@@ -674,8 +674,8 @@ export const GenOptions = $root.GenOptions = (() => {
             if (!$util.isInteger(message.cfgScale))
                 return "cfgScale: integer expected";
         if (message.denoisingStrength != null && message.hasOwnProperty("denoisingStrength"))
-            if (!$util.isInteger(message.denoisingStrength))
-                return "denoisingStrength: integer expected";
+            if (typeof message.denoisingStrength !== "number")
+                return "denoisingStrength: number expected";
         return null;
     };
 
@@ -713,7 +713,7 @@ export const GenOptions = $root.GenOptions = (() => {
         if (object.cfgScale != null)
             message.cfgScale = object.cfgScale >>> 0;
         if (object.denoisingStrength != null)
-            message.denoisingStrength = object.denoisingStrength >>> 0;
+            message.denoisingStrength = Number(object.denoisingStrength);
         return message;
     };
 
@@ -762,7 +762,7 @@ export const GenOptions = $root.GenOptions = (() => {
         if (message.cfgScale != null && message.hasOwnProperty("cfgScale"))
             object.cfgScale = message.cfgScale;
         if (message.denoisingStrength != null && message.hasOwnProperty("denoisingStrength"))
-            object.denoisingStrength = message.denoisingStrength;
+            object.denoisingStrength = options.json && !isFinite(message.denoisingStrength) ? String(message.denoisingStrength) : message.denoisingStrength;
         return object;
     };
 

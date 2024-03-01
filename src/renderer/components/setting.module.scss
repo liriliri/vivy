@@ -121,11 +121,10 @@
     input::-webkit-slider-thumb {
       -webkit-appearance: none;
       position: relative;
-      top: 0px;
       z-index: 1;
-      width: 16px;
+      width: 12px;
       border: none;
-      height: 16px;
+      height: 12px;
       border-radius: 10px;
       border: 1px solid var(--vivy-color-border);
       background: var(--vivy-color-white);
