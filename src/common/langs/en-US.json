@@ -116,6 +116,7 @@
   "saveAs": "Save As",
   "new": "New",
   "open": "Open",
+  "openProjectErr": "Failed to open project {{name}}",
 
   "character": "Character",
   "camera": "Camera",

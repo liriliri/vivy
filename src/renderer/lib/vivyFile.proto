@@ -24,7 +24,7 @@ message GenOptions {
 message Image {
   string id = 1;
   string data = 2;
-  ImageInfo info = 4;
+  ImageInfo info = 3;
 }
 
 message ImageInfo {

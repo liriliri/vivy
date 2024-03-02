@@ -8,7 +8,7 @@ import {
   toJS,
 } from 'mobx'
 import { VivyFile } from '../../lib/vivyFile'
-import { t, toDataUrl, renderImageMask } from '../../lib/util'
+import { t, toDataUrl, renderImageMask, notify } from '../../lib/util'
 import { IImage, IGenOptions } from './types'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
@@ -32,6 +32,7 @@ import { ISDGenData, IImageGenData, parseImage } from '../../lib/genData'
 import contain from 'licia/contain'
 import * as webui from '../../lib/webui'
 import LunaModal from 'luna-modal'
+import splitPath from 'licia/splitPath'
 
 export class Project {
   prompt = ''
@@ -310,7 +311,15 @@ export class Project {
     this.setPath(path!)
     const data = await node.readFile(path!)
 
-    this.load(VivyFile.decode(data))
+    try {
+      await this.load(VivyFile.decode(data))
+    } catch (e) {
+      notify(
+        t('openProjectErr', {
+          name: splitPath(path!).name,
+        })
+      )
+    }
   }
   async load(vivyFile: VivyFile) {
     this.vivyFile = vivyFile

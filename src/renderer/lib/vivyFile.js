@@ -874,7 +874,7 @@ export const Image = $root.Image = (() => {
         if (message.data != null && Object.hasOwnProperty.call(message, "data"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.data);
         if (message.info != null && Object.hasOwnProperty.call(message, "info"))
-            $root.ImageInfo.encode(message.info, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+            $root.ImageInfo.encode(message.info, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
         return writer;
     };
 
@@ -917,7 +917,7 @@ export const Image = $root.Image = (() => {
                     message.data = reader.string();
                     break;
                 }
-            case 4: {
+            case 3: {
                     message.info = $root.ImageInfo.decode(reader, reader.uint32());
                     break;
                 }

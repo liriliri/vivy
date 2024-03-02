@@ -116,6 +116,7 @@
   "saveAs": "另存为",
   "new": "新建",
   "open": "打开",
+  "openProjectErr": "打开工程 {{name}} 失败",
 
   "character": "角色",
   "camera": "镜头",
