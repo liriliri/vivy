@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx'
+import { action, makeObservable, observable, runInAction } from 'mobx'
 import { ModelType, IModel } from '../../common/types'
 
 class Store {
@@ -25,7 +25,8 @@ class Store {
     this.selectedModel = model
   }
   refresh = async () => {
-    this.models = await main.getModels(this.selectedType)
+    const models = await main.getModels(this.selectedType)
+    runInAction(() => (this.models = models))
   }
   private bindEvent() {
     main.on('refreshModel', this.refresh)

@@ -61,7 +61,7 @@
     "luna-performance-monitor": "^0.4.1",
     "luna-setting": "^0.9.4",
     "luna-tab": "^0.3.0",
-    "luna-toolbar": "^0.5.2",
+    "luna-toolbar": "^0.5.5",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^4.0.2",
     "monaco-editor": "^0.25.2",

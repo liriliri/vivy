@@ -169,12 +169,6 @@ textarea {
   span {
     padding: 2px;
   }
-  &:hover {
-    span {
-      background: var(--vivy-color-fill-secondary);
-      border-radius: var(--vivy-border-radius-x-s);
-    }
-  }
 }
 
 .modal-setting-row {

@@ -6,7 +6,7 @@ import store from '../../store'
 import { editor } from 'monaco-editor'
 import { useRef, useState } from 'react'
 import LunaToolbar, {
-  LunaToolbarHtml,
+  LunaToolbarButton,
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
@@ -105,12 +105,12 @@ export default observer(function () {
     <div className={Style.generateBasic}>
       <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
         <LunaToolbar>
-          <LunaToolbarHtml>
+          <LunaToolbarButton onClick={() => {}}>
             <CopyButton
               className="toolbar-icon"
               onClick={() => copyPrompt(getSelectedEditor())}
             />
-          </LunaToolbarHtml>
+          </LunaToolbarButton>
           <ToolbarIcon
             icon="paste"
             title={t('paste')}
