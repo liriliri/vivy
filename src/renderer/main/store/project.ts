@@ -345,12 +345,12 @@ export class Project {
       if (initImage && initImage.info) {
         this.initImage = initImage
         this.setStore('initImage', this.initImage)
+        this.renderInitImage()
       } else {
         this.deleteInitImage()
       }
       if (initImageMask) {
-        this.initImageMask = initImageMask
-        this.setStore('initImageMask', this.initImageMask)
+        this.setInitImageMask(initImageMask)
       } else {
         this.deleteInitImageMask()
       }
@@ -358,8 +358,6 @@ export class Project {
     })
 
     this.setPrompt(json.prompt)
-
-    this.renderInitImage()
 
     runInAction(() => {
       this.isSave = true
@@ -424,7 +422,7 @@ export class Project {
         return
       }
 
-      const base64Data = await convertBin(buf, 'base64')
+      const base64Data = convertBin(buf, 'base64')
       const imageInfo = await parseImage(base64Data, mime)
       runInAction(() => {
         this.initImage = {
@@ -460,6 +458,12 @@ export class Project {
   deleteInitImageMask() {
     this.initImageMask = null
     this.setStore('initImageMask', null)
+    this.renderInitImage()
+    main.closePainter()
+  }
+  setInitImageMask(mask: string) {
+    this.initImageMask = mask
+    this.setStore('initImageMask', mask)
     this.renderInitImage()
     main.closePainter()
   }

@@ -5,7 +5,7 @@ import store from '../../store'
 import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
-import { t, isFileDrop, notify, copyData } from '../../../lib/util'
+import { t, isFileDrop, notify, copyData, toDataUrl } from '../../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
   LunaToolbarSeparator,
@@ -16,6 +16,7 @@ import { useCallback, useRef, useState } from 'react'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
 import contextMenu from '../../../lib/contextMenu'
+import convertBin from 'licia/convertBin'
 
 export default observer(function InitImage() {
   const { project } = store
@@ -49,6 +50,20 @@ export default observer(function InitImage() {
     }
   }
 
+  const importMask = () => {
+    openFile({
+      accept: 'image/png,image/jpeg',
+    }).then(async (fileList) => {
+      const file = fileList[0]
+      if (file) {
+        const buf = await convertBin.blobToArrBuffer(file)
+        project.setInitImageMask(
+          toDataUrl(convertBin(buf, 'base64'), file.type)
+        )
+      }
+    })
+  }
+
   const onContextMenu = (e: React.MouseEvent) => {
     contextMenu(e, [
       {
@@ -61,7 +76,7 @@ export default observer(function InitImage() {
   const onImageContextMenu = (e: React.MouseEvent) => {
     const imageViewer = imageViewerRef.current!
 
-    contextMenu(e, [
+    const template: any[] = [
       {
         label: t('reset'),
         click: () => imageViewer.reset(),
@@ -88,7 +103,25 @@ export default observer(function InitImage() {
         label: t('paste'),
         click: paste,
       },
-    ])
+      {
+        type: 'separator',
+      },
+      {
+        label: t('importMask'),
+        click: importMask,
+      },
+    ]
+
+    if (project.initImageMask) {
+      template.push({
+        label: t('deleteMask'),
+        click() {
+          project.deleteInitImageMask()
+        },
+      })
+    }
+
+    contextMenu(e, template)
   }
 
   const onDrop = (e: React.DragEvent) => {

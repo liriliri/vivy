@@ -117,6 +117,9 @@
   "new": "新建",
   "open": "打开",
   "openProjectErr": "打开工程 {{name}} 失败",
+  "importMask": "导入蒙版",
+  "deleteMask": "删除蒙版",
+  "imgToImg": "图生图",
 
   "character": "角色",
   "camera": "镜头",

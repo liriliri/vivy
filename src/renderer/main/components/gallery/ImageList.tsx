@@ -227,6 +227,12 @@ function Image(props: { image: IImage }) {
   const onContextMenu = (e: React.MouseEvent) => {
     contextMenu(e, [
       {
+        label: t('imgToImg'),
+        click() {
+          store.project.setInitImage(image)
+        },
+      },
+      {
         label: t('copy'),
         click: () => copyData(image.data, image.info.mime),
       },

@@ -117,6 +117,9 @@
   "new": "New",
   "open": "Open",
   "openProjectErr": "Failed to open project {{name}}",
+  "importMask": "Import Mask",
+  "deleteMask": "Delete Mask",
+  "imgToImg": "Image to Image",
 
   "character": "Character",
   "camera": "Camera",

@@ -85,10 +85,8 @@ export function create(opts: IWinOptions) {
   win.on('resize', onSavePos)
   win.on('moved', onSavePos)
   win.once('ready-to-show', () => win.show())
-  win.on('show', () => {
-    visibleWins.push(win)
-    focusedWin = win
-  })
+  win.on('show', () => visibleWins.push(win))
+  win.on('focus', () => (focusedWin = win))
   win.on('closed', () => remove(visibleWins, (window) => window === win))
 
   if (winOptions.customTitlebar) {
