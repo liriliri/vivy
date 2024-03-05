@@ -1,5 +1,5 @@
 .image-viewer {
-  background: var(--vivy-color-border);
+  background: var(--vivy-color-bg-container);
   position: relative;
   padding-top: 31px;
   flex: 1;
@@ -9,6 +9,9 @@
     .arrow-right {
       opacity: 1;
     }
+  }
+  :global(.luna-image-viewer) {
+    background-color: var(--vivy-color-bg-container-darker);
   }
 }
 
