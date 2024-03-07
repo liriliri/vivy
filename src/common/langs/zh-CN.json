@@ -126,6 +126,9 @@
   "resizeAndFill": "填充",
   "randomSeed": "随机种子",
   "maskBlur": "蒙版羽化",
+  "maskMode": "蒙版模式",
+  "inpaintMasked": "重绘蒙版内容",
+  "inpaintNotMasked": "重绘非蒙版内容",
 
   "character": "角色",
   "camera": "镜头",

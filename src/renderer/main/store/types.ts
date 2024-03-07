@@ -28,6 +28,7 @@ export interface IGenOptions {
   denoisingStrength: number
   resizeMode: number
   maskBlur: number
+  maskInvert: boolean
 }
 
 export interface IUpscaleImgOptions {

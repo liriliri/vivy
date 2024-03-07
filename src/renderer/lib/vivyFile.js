@@ -15,7 +15,7 @@ export const VivyFile = $root.VivyFile = (() => {
      * @interface IVivyFile
      * @property {string|null} [prompt] VivyFile prompt
      * @property {string|null} [negativePrompt] VivyFile negativePrompt
-     * @property {IGenOptions|null} [genOptions] VivyFile genOptions
+     * @property {string|null} [genOptions] VivyFile genOptions
      * @property {IImage|null} [initImage] VivyFile initImage
      * @property {string|null} [initImageMask] VivyFile initImageMask
      * @property {Array.<IImage>|null} [images] VivyFile images
@@ -56,11 +56,11 @@ export const VivyFile = $root.VivyFile = (() => {
 
     /**
      * VivyFile genOptions.
-     * @member {IGenOptions|null|undefined} genOptions
+     * @member {string} genOptions
      * @memberof VivyFile
      * @instance
      */
-    VivyFile.prototype.genOptions = null;
+    VivyFile.prototype.genOptions = "";
 
     /**
      * VivyFile initImage.
@@ -148,7 +148,7 @@ export const VivyFile = $root.VivyFile = (() => {
         if (message.negativePrompt != null && Object.hasOwnProperty.call(message, "negativePrompt"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.negativePrompt);
         if (message.genOptions != null && Object.hasOwnProperty.call(message, "genOptions"))
-            $root.GenOptions.encode(message.genOptions, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.genOptions);
         if (message.initImage != null && Object.hasOwnProperty.call(message, "initImage"))
             $root.Image.encode(message.initImage, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
         if (message.initImageMask != null && Object.hasOwnProperty.call(message, "initImageMask"))
@@ -201,7 +201,7 @@ export const VivyFile = $root.VivyFile = (() => {
                     break;
                 }
             case 3: {
-                    message.genOptions = $root.GenOptions.decode(reader, reader.uint32());
+                    message.genOptions = reader.string();
                     break;
                 }
             case 4: {
@@ -264,11 +264,9 @@ export const VivyFile = $root.VivyFile = (() => {
         if (message.negativePrompt != null && message.hasOwnProperty("negativePrompt"))
             if (!$util.isString(message.negativePrompt))
                 return "negativePrompt: string expected";
-        if (message.genOptions != null && message.hasOwnProperty("genOptions")) {
-            let error = $root.GenOptions.verify(message.genOptions);
-            if (error)
-                return "genOptions." + error;
-        }
+        if (message.genOptions != null && message.hasOwnProperty("genOptions"))
+            if (!$util.isString(message.genOptions))
+                return "genOptions: string expected";
         if (message.initImage != null && message.hasOwnProperty("initImage")) {
             properties._initImage = 1;
             {
@@ -313,11 +311,8 @@ export const VivyFile = $root.VivyFile = (() => {
             message.prompt = String(object.prompt);
         if (object.negativePrompt != null)
             message.negativePrompt = String(object.negativePrompt);
-        if (object.genOptions != null) {
-            if (typeof object.genOptions !== "object")
-                throw TypeError(".VivyFile.genOptions: object expected");
-            message.genOptions = $root.GenOptions.fromObject(object.genOptions);
-        }
+        if (object.genOptions != null)
+            message.genOptions = String(object.genOptions);
         if (object.initImage != null) {
             if (typeof object.initImage !== "object")
                 throw TypeError(".VivyFile.initImage: object expected");
@@ -358,7 +353,7 @@ export const VivyFile = $root.VivyFile = (() => {
         if (options.defaults) {
             object.prompt = "";
             object.negativePrompt = "";
-            object.genOptions = null;
+            object.genOptions = "";
             object.selectedImage = 0;
         }
         if (message.prompt != null && message.hasOwnProperty("prompt"))
@@ -366,7 +361,7 @@ export const VivyFile = $root.VivyFile = (() => {
         if (message.negativePrompt != null && message.hasOwnProperty("negativePrompt"))
             object.negativePrompt = message.negativePrompt;
         if (message.genOptions != null && message.hasOwnProperty("genOptions"))
-            object.genOptions = $root.GenOptions.toObject(message.genOptions, options);
+            object.genOptions = message.genOptions;
         if (message.initImage != null && message.hasOwnProperty("initImage")) {
             object.initImage = $root.Image.toObject(message.initImage, options);
             if (options.oneofs)
@@ -414,431 +409,6 @@ export const VivyFile = $root.VivyFile = (() => {
     };
 
     return VivyFile;
-})();
-
-export const GenOptions = $root.GenOptions = (() => {
-
-    /**
-     * Properties of a GenOptions.
-     * @exports IGenOptions
-     * @interface IGenOptions
-     * @property {string|null} [sampler] GenOptions sampler
-     * @property {number|null} [steps] GenOptions steps
-     * @property {number|Long|null} [seed] GenOptions seed
-     * @property {number|null} [width] GenOptions width
-     * @property {number|null} [height] GenOptions height
-     * @property {number|null} [batchSize] GenOptions batchSize
-     * @property {number|null} [cfgScale] GenOptions cfgScale
-     * @property {number|null} [denoisingStrength] GenOptions denoisingStrength
-     * @property {number|null} [resizeMode] GenOptions resizeMode
-     * @property {number|null} [maskBlur] GenOptions maskBlur
-     */
-
-    /**
-     * Constructs a new GenOptions.
-     * @exports GenOptions
-     * @classdesc Represents a GenOptions.
-     * @implements IGenOptions
-     * @constructor
-     * @param {IGenOptions=} [properties] Properties to set
-     */
-    function GenOptions(properties) {
-        if (properties)
-            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
-                    this[keys[i]] = properties[keys[i]];
-    }
-
-    /**
-     * GenOptions sampler.
-     * @member {string} sampler
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.sampler = "";
-
-    /**
-     * GenOptions steps.
-     * @member {number} steps
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.steps = 0;
-
-    /**
-     * GenOptions seed.
-     * @member {number|Long} seed
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.seed = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
-
-    /**
-     * GenOptions width.
-     * @member {number} width
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.width = 0;
-
-    /**
-     * GenOptions height.
-     * @member {number} height
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.height = 0;
-
-    /**
-     * GenOptions batchSize.
-     * @member {number} batchSize
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.batchSize = 0;
-
-    /**
-     * GenOptions cfgScale.
-     * @member {number} cfgScale
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.cfgScale = 0;
-
-    /**
-     * GenOptions denoisingStrength.
-     * @member {number} denoisingStrength
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.denoisingStrength = 0;
-
-    /**
-     * GenOptions resizeMode.
-     * @member {number} resizeMode
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.resizeMode = 0;
-
-    /**
-     * GenOptions maskBlur.
-     * @member {number} maskBlur
-     * @memberof GenOptions
-     * @instance
-     */
-    GenOptions.prototype.maskBlur = 0;
-
-    /**
-     * Creates a new GenOptions instance using the specified properties.
-     * @function create
-     * @memberof GenOptions
-     * @static
-     * @param {IGenOptions=} [properties] Properties to set
-     * @returns {GenOptions} GenOptions instance
-     */
-    GenOptions.create = function create(properties) {
-        return new GenOptions(properties);
-    };
-
-    /**
-     * Encodes the specified GenOptions message. Does not implicitly {@link GenOptions.verify|verify} messages.
-     * @function encode
-     * @memberof GenOptions
-     * @static
-     * @param {IGenOptions} message GenOptions message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    GenOptions.encode = function encode(message, writer) {
-        if (!writer)
-            writer = $Writer.create();
-        if (message.sampler != null && Object.hasOwnProperty.call(message, "sampler"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.sampler);
-        if (message.steps != null && Object.hasOwnProperty.call(message, "steps"))
-            writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.steps);
-        if (message.seed != null && Object.hasOwnProperty.call(message, "seed"))
-            writer.uint32(/* id 3, wireType 0 =*/24).int64(message.seed);
-        if (message.width != null && Object.hasOwnProperty.call(message, "width"))
-            writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.width);
-        if (message.height != null && Object.hasOwnProperty.call(message, "height"))
-            writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.height);
-        if (message.batchSize != null && Object.hasOwnProperty.call(message, "batchSize"))
-            writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.batchSize);
-        if (message.cfgScale != null && Object.hasOwnProperty.call(message, "cfgScale"))
-            writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.cfgScale);
-        if (message.denoisingStrength != null && Object.hasOwnProperty.call(message, "denoisingStrength"))
-            writer.uint32(/* id 8, wireType 1 =*/65).double(message.denoisingStrength);
-        if (message.resizeMode != null && Object.hasOwnProperty.call(message, "resizeMode"))
-            writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.resizeMode);
-        if (message.maskBlur != null && Object.hasOwnProperty.call(message, "maskBlur"))
-            writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.maskBlur);
-        return writer;
-    };
-
-    /**
-     * Encodes the specified GenOptions message, length delimited. Does not implicitly {@link GenOptions.verify|verify} messages.
-     * @function encodeDelimited
-     * @memberof GenOptions
-     * @static
-     * @param {IGenOptions} message GenOptions message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    GenOptions.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
-    };
-
-    /**
-     * Decodes a GenOptions message from the specified reader or buffer.
-     * @function decode
-     * @memberof GenOptions
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @param {number} [length] Message length if known beforehand
-     * @returns {GenOptions} GenOptions
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    GenOptions.decode = function decode(reader, length) {
-        if (!(reader instanceof $Reader))
-            reader = $Reader.create(reader);
-        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.GenOptions();
-        while (reader.pos < end) {
-            let tag = reader.uint32();
-            switch (tag >>> 3) {
-            case 1: {
-                    message.sampler = reader.string();
-                    break;
-                }
-            case 2: {
-                    message.steps = reader.uint32();
-                    break;
-                }
-            case 3: {
-                    message.seed = reader.int64();
-                    break;
-                }
-            case 4: {
-                    message.width = reader.uint32();
-                    break;
-                }
-            case 5: {
-                    message.height = reader.uint32();
-                    break;
-                }
-            case 6: {
-                    message.batchSize = reader.uint32();
-                    break;
-                }
-            case 7: {
-                    message.cfgScale = reader.uint32();
-                    break;
-                }
-            case 8: {
-                    message.denoisingStrength = reader.double();
-                    break;
-                }
-            case 9: {
-                    message.resizeMode = reader.uint32();
-                    break;
-                }
-            case 10: {
-                    message.maskBlur = reader.uint32();
-                    break;
-                }
-            default:
-                reader.skipType(tag & 7);
-                break;
-            }
-        }
-        return message;
-    };
-
-    /**
-     * Decodes a GenOptions message from the specified reader or buffer, length delimited.
-     * @function decodeDelimited
-     * @memberof GenOptions
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {GenOptions} GenOptions
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    GenOptions.decodeDelimited = function decodeDelimited(reader) {
-        if (!(reader instanceof $Reader))
-            reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
-    };
-
-    /**
-     * Verifies a GenOptions message.
-     * @function verify
-     * @memberof GenOptions
-     * @static
-     * @param {Object.<string,*>} message Plain object to verify
-     * @returns {string|null} `null` if valid, otherwise the reason why it is not
-     */
-    GenOptions.verify = function verify(message) {
-        if (typeof message !== "object" || message === null)
-            return "object expected";
-        if (message.sampler != null && message.hasOwnProperty("sampler"))
-            if (!$util.isString(message.sampler))
-                return "sampler: string expected";
-        if (message.steps != null && message.hasOwnProperty("steps"))
-            if (!$util.isInteger(message.steps))
-                return "steps: integer expected";
-        if (message.seed != null && message.hasOwnProperty("seed"))
-            if (!$util.isInteger(message.seed) && !(message.seed && $util.isInteger(message.seed.low) && $util.isInteger(message.seed.high)))
-                return "seed: integer|Long expected";
-        if (message.width != null && message.hasOwnProperty("width"))
-            if (!$util.isInteger(message.width))
-                return "width: integer expected";
-        if (message.height != null && message.hasOwnProperty("height"))
-            if (!$util.isInteger(message.height))
-                return "height: integer expected";
-        if (message.batchSize != null && message.hasOwnProperty("batchSize"))
-            if (!$util.isInteger(message.batchSize))
-                return "batchSize: integer expected";
-        if (message.cfgScale != null && message.hasOwnProperty("cfgScale"))
-            if (!$util.isInteger(message.cfgScale))
-                return "cfgScale: integer expected";
-        if (message.denoisingStrength != null && message.hasOwnProperty("denoisingStrength"))
-            if (typeof message.denoisingStrength !== "number")
-                return "denoisingStrength: number expected";
-        if (message.resizeMode != null && message.hasOwnProperty("resizeMode"))
-            if (!$util.isInteger(message.resizeMode))
-                return "resizeMode: integer expected";
-        if (message.maskBlur != null && message.hasOwnProperty("maskBlur"))
-            if (!$util.isInteger(message.maskBlur))
-                return "maskBlur: integer expected";
-        return null;
-    };
-
-    /**
-     * Creates a GenOptions message from a plain object. Also converts values to their respective internal types.
-     * @function fromObject
-     * @memberof GenOptions
-     * @static
-     * @param {Object.<string,*>} object Plain object
-     * @returns {GenOptions} GenOptions
-     */
-    GenOptions.fromObject = function fromObject(object) {
-        if (object instanceof $root.GenOptions)
-            return object;
-        let message = new $root.GenOptions();
-        if (object.sampler != null)
-            message.sampler = String(object.sampler);
-        if (object.steps != null)
-            message.steps = object.steps >>> 0;
-        if (object.seed != null)
-            if ($util.Long)
-                (message.seed = $util.Long.fromValue(object.seed)).unsigned = false;
-            else if (typeof object.seed === "string")
-                message.seed = parseInt(object.seed, 10);
-            else if (typeof object.seed === "number")
-                message.seed = object.seed;
-            else if (typeof object.seed === "object")
-                message.seed = new $util.LongBits(object.seed.low >>> 0, object.seed.high >>> 0).toNumber();
-        if (object.width != null)
-            message.width = object.width >>> 0;
-        if (object.height != null)
-            message.height = object.height >>> 0;
-        if (object.batchSize != null)
-            message.batchSize = object.batchSize >>> 0;
-        if (object.cfgScale != null)
-            message.cfgScale = object.cfgScale >>> 0;
-        if (object.denoisingStrength != null)
-            message.denoisingStrength = Number(object.denoisingStrength);
-        if (object.resizeMode != null)
-            message.resizeMode = object.resizeMode >>> 0;
-        if (object.maskBlur != null)
-            message.maskBlur = object.maskBlur >>> 0;
-        return message;
-    };
-
-    /**
-     * Creates a plain object from a GenOptions message. Also converts values to other types if specified.
-     * @function toObject
-     * @memberof GenOptions
-     * @static
-     * @param {GenOptions} message GenOptions
-     * @param {$protobuf.IConversionOptions} [options] Conversion options
-     * @returns {Object.<string,*>} Plain object
-     */
-    GenOptions.toObject = function toObject(message, options) {
-        if (!options)
-            options = {};
-        let object = {};
-        if (options.defaults) {
-            object.sampler = "";
-            object.steps = 0;
-            if ($util.Long) {
-                let long = new $util.Long(0, 0, false);
-                object.seed = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-            } else
-                object.seed = options.longs === String ? "0" : 0;
-            object.width = 0;
-            object.height = 0;
-            object.batchSize = 0;
-            object.cfgScale = 0;
-            object.denoisingStrength = 0;
-            object.resizeMode = 0;
-            object.maskBlur = 0;
-        }
-        if (message.sampler != null && message.hasOwnProperty("sampler"))
-            object.sampler = message.sampler;
-        if (message.steps != null && message.hasOwnProperty("steps"))
-            object.steps = message.steps;
-        if (message.seed != null && message.hasOwnProperty("seed"))
-            if (typeof message.seed === "number")
-                object.seed = options.longs === String ? String(message.seed) : message.seed;
-            else
-                object.seed = options.longs === String ? $util.Long.prototype.toString.call(message.seed) : options.longs === Number ? new $util.LongBits(message.seed.low >>> 0, message.seed.high >>> 0).toNumber() : message.seed;
-        if (message.width != null && message.hasOwnProperty("width"))
-            object.width = message.width;
-        if (message.height != null && message.hasOwnProperty("height"))
-            object.height = message.height;
-        if (message.batchSize != null && message.hasOwnProperty("batchSize"))
-            object.batchSize = message.batchSize;
-        if (message.cfgScale != null && message.hasOwnProperty("cfgScale"))
-            object.cfgScale = message.cfgScale;
-        if (message.denoisingStrength != null && message.hasOwnProperty("denoisingStrength"))
-            object.denoisingStrength = options.json && !isFinite(message.denoisingStrength) ? String(message.denoisingStrength) : message.denoisingStrength;
-        if (message.resizeMode != null && message.hasOwnProperty("resizeMode"))
-            object.resizeMode = message.resizeMode;
-        if (message.maskBlur != null && message.hasOwnProperty("maskBlur"))
-            object.maskBlur = message.maskBlur;
-        return object;
-    };
-
-    /**
-     * Converts this GenOptions to JSON.
-     * @function toJSON
-     * @memberof GenOptions
-     * @instance
-     * @returns {Object.<string,*>} JSON object
-     */
-    GenOptions.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-    };
-
-    /**
-     * Gets the default type url for GenOptions
-     * @function getTypeUrl
-     * @memberof GenOptions
-     * @static
-     * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
-     * @returns {string} The default type url
-     */
-    GenOptions.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-        if (typeUrlPrefix === undefined) {
-            typeUrlPrefix = "type.googleapis.com";
-        }
-        return typeUrlPrefix + "/GenOptions";
-    };
-
-    return GenOptions;
 })();
 
 export const Image = $root.Image = (() => {

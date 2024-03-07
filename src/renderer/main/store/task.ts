@@ -100,6 +100,7 @@ export class GenTask extends Task {
           seed: genOptions.seed,
           resize_mode: genOptions.resizeMode,
           mask_blur: genOptions.maskBlur,
+          inpainting_mask_invert: genOptions.maskInvert ? 1 : 0,
         })
       } else {
         result = await webui.txt2img({

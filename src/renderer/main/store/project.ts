@@ -286,7 +286,7 @@ export class Project {
     vivyFile.prompt = ''
     vivyFile.negativePrompt = ''
     vivyFile.images = []
-    vivyFile.genOptions = clone(defGenOptions)
+    vivyFile.genOptions = JSON.stringify(defGenOptions)
     this.load(vivyFile)
   }
   async open(path?: string) {
@@ -341,7 +341,7 @@ export class Project {
     }
 
     runInAction(() => {
-      extend(this.genOptions, genOptions)
+      extend(this.genOptions, JSON.parse(genOptions))
       if (initImage && initImage.info) {
         this.initImage = initImage
         this.setStore('initImage', this.initImage)
@@ -380,7 +380,7 @@ export class Project {
     each(this.images, (image) => {
       vivyFile.images.push(image)
     })
-    vivyFile.genOptions = this.genOptions
+    vivyFile.genOptions = JSON.stringify(this.genOptions)
     vivyFile.selectedImage = this.selectedImageIndex
     vivyFile.negativePrompt = this.negativePrompt
     vivyFile.prompt = this.prompt
@@ -452,8 +452,8 @@ export class Project {
   deleteInitImage() {
     this.initImage = null
     this.setStore('initImage', null)
-    this.renderInitImage()
-    main.closePainter()
+
+    this.deleteInitImageMask()
   }
   deleteInitImageMask() {
     this.initImageMask = null
@@ -566,4 +566,5 @@ const defGenOptions = {
   denoisingStrength: 0.7,
   resizeMode: 0,
   maskBlur: 4,
+  maskInvert: false,
 }

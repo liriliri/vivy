@@ -10,6 +10,7 @@ import InitImage from './InitImage'
 import { StatusbarDesc } from '../statusbar/Statusbar'
 import toStr from 'licia/toStr'
 import toNum from 'licia/toNum'
+import toBool from 'licia/toBool'
 import className from 'licia/className'
 
 export default observer(function () {
@@ -61,6 +62,15 @@ export default observer(function () {
     maskOptions = (
       <>
         <Row>
+          <Select
+            value={genOptions.maskInvert ? '1' : '0'}
+            title={t('maskMode')}
+            options={{
+              [t('inpaintMasked')]: '0',
+              [t('inpaintNotMasked')]: '1',
+            }}
+            onChange={(val) => project.setGenOption('maskInvert', toBool(val))}
+          />
           <Number
             value={genOptions.maskBlur}
             title={t('maskBlur')}

@@ -126,6 +126,9 @@
   "resizeAndFill": "Resize and Fill",
   "randomSeed": "Random Seed",
   "maskBlur": "Mask Blur",
+  "maskMode": "Mask Mode",
+  "inpaintMasked": "Inpaint Masked",
+  "inpaintNotMasked": "Inpaint not Masked",
 
   "character": "Character",
   "camera": "Camera",
