@@ -129,6 +129,11 @@
   "maskMode": "蒙版模式",
   "inpaintMasked": "重绘蒙版内容",
   "inpaintNotMasked": "重绘非蒙版内容",
+  "maskedContent": "蒙版内容",
+  "fill": "边缘颜色填充",
+  "original": "原图",
+  "latentNoise": "噪点潜空间",
+  "latentNothing": "空白潜空间",
 
   "character": "角色",
   "camera": "镜头",

@@ -81,6 +81,19 @@ export default observer(function () {
             onChange={(val) => project.setGenOption('maskBlur', val)}
           />
         </Row>
+        <Row>
+          <Select
+            value={toStr(genOptions.inpaintFill)}
+            title={t('maskedContent')}
+            options={{
+              [t('fill')]: '0',
+              [t('original')]: '1',
+              [t('latentNoise')]: '2',
+              [t('latentNothing')]: '3',
+            }}
+            onChange={(val) => project.setGenOption('inpaintFill', toNum(val))}
+          />
+        </Row>
       </>
     )
   }

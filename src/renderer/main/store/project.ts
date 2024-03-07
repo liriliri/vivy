@@ -567,4 +567,5 @@ const defGenOptions = {
   resizeMode: 0,
   maskBlur: 4,
   maskInvert: false,
+  inpaintFill: 0,
 }

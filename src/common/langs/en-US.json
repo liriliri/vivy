@@ -129,6 +129,11 @@
   "maskMode": "Mask Mode",
   "inpaintMasked": "Inpaint Masked",
   "inpaintNotMasked": "Inpaint not Masked",
+  "maskedContent": "Masked Content",
+  "fill": "Fill",
+  "original": "Original",
+  "latentNoise": "Latent Noise",
+  "latentNothing": "Latent Nothing",
 
   "character": "Character",
   "camera": "Camera",

@@ -29,6 +29,7 @@ export interface IGenOptions {
   resizeMode: number
   maskBlur: number
   maskInvert: boolean
+  inpaintFill: number
 }
 
 export interface IUpscaleImgOptions {

@@ -66,6 +66,7 @@ type Img2ImgOptions = {
   resize_mode: number
   mask_blur: number
   inpainting_mask_invert: number
+  inpainting_fill: number
 }
 
 type ExtraSingleOptions = {
@@ -190,7 +191,7 @@ export async function img2img(
     image_cfg_scale: 1.5,
     mask: options.mask,
     mask_blur: options.mask_blur,
-    inpainting_fill: 0,
+    inpainting_fill: options.inpainting_fill,
     inpaint_full_res: true,
     inpaint_full_res_padding: 0,
     inpainting_mask_invert: options.inpainting_mask_invert,
