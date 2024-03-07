@@ -20,6 +20,7 @@ message GenOptions {
   uint32 cfg_scale = 7;
   double denoising_strength = 8;
   uint32 resize_mode = 9;
+  uint32 mask_blur = 10;
 }
 
 message Image {

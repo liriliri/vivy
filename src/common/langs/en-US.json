@@ -125,6 +125,7 @@
   "cropAndResize": "Crop and Resize",
   "resizeAndFill": "Resize and Fill",
   "randomSeed": "Random Seed",
+  "maskBlur": "Mask Blur",
 
   "character": "Character",
   "camera": "Camera",

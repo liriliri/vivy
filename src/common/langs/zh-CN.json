@@ -125,6 +125,7 @@
   "cropAndResize": "裁剪",
   "resizeAndFill": "填充",
   "randomSeed": "随机种子",
+  "maskBlur": "蒙版羽化",
 
   "character": "角色",
   "camera": "镜头",

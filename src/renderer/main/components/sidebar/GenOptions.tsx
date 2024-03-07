@@ -56,12 +56,32 @@ export default observer(function () {
     )
   }
 
+  let maskOptions: JSX.Element | null = null
+  if (project.initImageMask) {
+    maskOptions = (
+      <>
+        <Row>
+          <Number
+            value={genOptions.maskBlur}
+            title={t('maskBlur')}
+            min={0}
+            max={64}
+            step={1}
+            range={true}
+            onChange={(val) => project.setGenOption('maskBlur', val)}
+          />
+        </Row>
+      </>
+    )
+  }
+
   return (
     <div className={Style.genOptions}>
       <Row>
         <InitImage />
       </Row>
       {img2imgOptions}
+      {maskOptions}
       <Row>
         <Select
           value={genOptions.sampler}

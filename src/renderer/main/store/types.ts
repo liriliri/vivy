@@ -27,6 +27,7 @@ export interface IGenOptions {
   cfgScale: number
   denoisingStrength: number
   resizeMode: number
+  maskBlur: number
 }
 
 export interface IUpscaleImgOptions {

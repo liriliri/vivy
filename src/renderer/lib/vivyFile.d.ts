@@ -168,6 +168,9 @@ export interface IGenOptions {
 
     /** GenOptions resizeMode */
     resizeMode?: (number|null);
+
+    /** GenOptions maskBlur */
+    maskBlur?: (number|null);
 }
 
 /** Represents a GenOptions. */
@@ -205,6 +208,9 @@ export class GenOptions implements IGenOptions {
 
     /** GenOptions resizeMode. */
     public resizeMode: number;
+
+    /** GenOptions maskBlur. */
+    public maskBlur: number;
 
     /**
      * Creates a new GenOptions instance using the specified properties.

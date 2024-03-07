@@ -64,6 +64,7 @@ type Img2ImgOptions = {
   height: number
   seed: number
   resize_mode: number
+  mask_blur: number
 }
 
 type ExtraSingleOptions = {
@@ -187,7 +188,7 @@ export async function img2img(
     denoising_strength: options.denoising_strength,
     image_cfg_scale: 1.5,
     mask: options.mask,
-    mask_blur: 4,
+    mask_blur: options.mask_blur,
     inpainting_fill: 0,
     inpaint_full_res: true,
     inpaint_full_res_padding: 0,

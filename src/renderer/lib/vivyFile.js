@@ -431,6 +431,7 @@ export const GenOptions = $root.GenOptions = (() => {
      * @property {number|null} [cfgScale] GenOptions cfgScale
      * @property {number|null} [denoisingStrength] GenOptions denoisingStrength
      * @property {number|null} [resizeMode] GenOptions resizeMode
+     * @property {number|null} [maskBlur] GenOptions maskBlur
      */
 
     /**
@@ -521,6 +522,14 @@ export const GenOptions = $root.GenOptions = (() => {
     GenOptions.prototype.resizeMode = 0;
 
     /**
+     * GenOptions maskBlur.
+     * @member {number} maskBlur
+     * @memberof GenOptions
+     * @instance
+     */
+    GenOptions.prototype.maskBlur = 0;
+
+    /**
      * Creates a new GenOptions instance using the specified properties.
      * @function create
      * @memberof GenOptions
@@ -562,6 +571,8 @@ export const GenOptions = $root.GenOptions = (() => {
             writer.uint32(/* id 8, wireType 1 =*/65).double(message.denoisingStrength);
         if (message.resizeMode != null && Object.hasOwnProperty.call(message, "resizeMode"))
             writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.resizeMode);
+        if (message.maskBlur != null && Object.hasOwnProperty.call(message, "maskBlur"))
+            writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.maskBlur);
         return writer;
     };
 
@@ -632,6 +643,10 @@ export const GenOptions = $root.GenOptions = (() => {
                     message.resizeMode = reader.uint32();
                     break;
                 }
+            case 10: {
+                    message.maskBlur = reader.uint32();
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -694,6 +709,9 @@ export const GenOptions = $root.GenOptions = (() => {
         if (message.resizeMode != null && message.hasOwnProperty("resizeMode"))
             if (!$util.isInteger(message.resizeMode))
                 return "resizeMode: integer expected";
+        if (message.maskBlur != null && message.hasOwnProperty("maskBlur"))
+            if (!$util.isInteger(message.maskBlur))
+                return "maskBlur: integer expected";
         return null;
     };
 
@@ -734,6 +752,8 @@ export const GenOptions = $root.GenOptions = (() => {
             message.denoisingStrength = Number(object.denoisingStrength);
         if (object.resizeMode != null)
             message.resizeMode = object.resizeMode >>> 0;
+        if (object.maskBlur != null)
+            message.maskBlur = object.maskBlur >>> 0;
         return message;
     };
 
@@ -764,6 +784,7 @@ export const GenOptions = $root.GenOptions = (() => {
             object.cfgScale = 0;
             object.denoisingStrength = 0;
             object.resizeMode = 0;
+            object.maskBlur = 0;
         }
         if (message.sampler != null && message.hasOwnProperty("sampler"))
             object.sampler = message.sampler;
@@ -786,6 +807,8 @@ export const GenOptions = $root.GenOptions = (() => {
             object.denoisingStrength = options.json && !isFinite(message.denoisingStrength) ? String(message.denoisingStrength) : message.denoisingStrength;
         if (message.resizeMode != null && message.hasOwnProperty("resizeMode"))
             object.resizeMode = message.resizeMode;
+        if (message.maskBlur != null && message.hasOwnProperty("maskBlur"))
+            object.maskBlur = message.maskBlur;
         return object;
     };
 

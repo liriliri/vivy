@@ -565,4 +565,5 @@ const defGenOptions = {
   cfgScale: 7,
   denoisingStrength: 0.7,
   resizeMode: 0,
+  maskBlur: 4,
 }
