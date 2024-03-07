@@ -93,6 +93,15 @@ export default observer(function () {
             }}
             onChange={(val) => project.setGenOption('inpaintFill', toNum(val))}
           />
+          <Select
+            value={genOptions.inpaintFull ? '1' : '0'}
+            title={t('inpaintArea')}
+            options={{
+              [t('wholePicture')]: '0',
+              [t('onlyMasked')]: '1',
+            }}
+            onChange={(val) => project.setGenOption('inpaintFull', toBool(val))}
+          />
         </Row>
       </>
     )

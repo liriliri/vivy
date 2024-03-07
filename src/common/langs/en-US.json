@@ -134,6 +134,9 @@
   "original": "Original",
   "latentNoise": "Latent Noise",
   "latentNothing": "Latent Nothing",
+  "inpaintArea": "Inpaint Area",
+  "wholePicture": "Whole Picture",
+  "onlyMasked": "Only Masked",
 
   "character": "Character",
   "camera": "Camera",

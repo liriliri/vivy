@@ -134,6 +134,9 @@
   "original": "原图",
   "latentNoise": "噪点潜空间",
   "latentNothing": "空白潜空间",
+  "inpaintArea": "重绘区域",
+  "wholePicture": "全图",
+  "onlyMasked": "仅蒙版",
 
   "character": "角色",
   "camera": "镜头",

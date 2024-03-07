@@ -30,6 +30,7 @@ export interface IGenOptions {
   maskBlur: number
   maskInvert: boolean
   inpaintFill: number
+  inpaintFull: boolean
 }
 
 export interface IUpscaleImgOptions {
