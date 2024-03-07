@@ -10,6 +10,7 @@ import InitImage from './InitImage'
 import { StatusbarDesc } from '../statusbar/Statusbar'
 import toStr from 'licia/toStr'
 import toNum from 'licia/toNum'
+import className from 'licia/className'
 
 export default observer(function () {
   const { project } = store
@@ -116,6 +117,12 @@ export default observer(function () {
         />
       </Row>
       <Row>
+        <div
+          className={className('icon', Style.randomSeed)}
+          onClick={() => project.setGenOption('seed', -1)}
+        >
+          <span className="icon-dice" title={t('randomSeed')} />
+        </div>
         <Number
           value={genOptions.seed}
           title={t('seed')}

@@ -2,3 +2,13 @@
   flex: 1;
   overflow: auto;
 }
+
+.random-seed {
+  position: absolute;
+  right: 8px;
+  top: 2px;
+  z-index: 1;
+  &:hover {
+    color: var(--vivy-color-primary);
+  }
+}
