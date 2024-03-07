@@ -8,6 +8,8 @@ import SettingStyle from '../../../components/setting.module.scss'
 import Style from './GenOptions.module.scss'
 import InitImage from './InitImage'
 import { StatusbarDesc } from '../statusbar/Statusbar'
+import toStr from 'licia/toStr'
+import toNum from 'licia/toNum'
 
 export default observer(function () {
   const { project } = store
@@ -29,6 +31,16 @@ export default observer(function () {
     img2imgOptions = (
       <>
         <Row>
+          <Select
+            value={toStr(genOptions.resizeMode)}
+            title={t('resizeMode')}
+            options={{
+              [t('justResize')]: '0',
+              [t('cropAndResize')]: '1',
+              [t('resizeAndFill')]: '2',
+            }}
+            onChange={(val) => project.setGenOption('resizeMode', toNum(val))}
+          />
           <Number
             value={genOptions.denoisingStrength}
             title={t('denoisingStrength')}

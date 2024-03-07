@@ -165,6 +165,9 @@ export interface IGenOptions {
 
     /** GenOptions denoisingStrength */
     denoisingStrength?: (number|null);
+
+    /** GenOptions resizeMode */
+    resizeMode?: (number|null);
 }
 
 /** Represents a GenOptions. */
@@ -199,6 +202,9 @@ export class GenOptions implements IGenOptions {
 
     /** GenOptions denoisingStrength. */
     public denoisingStrength: number;
+
+    /** GenOptions resizeMode. */
+    public resizeMode: number;
 
     /**
      * Creates a new GenOptions instance using the specified properties.

@@ -564,4 +564,5 @@ const defGenOptions = {
   batchSize: 2,
   cfgScale: 7,
   denoisingStrength: 0.7,
+  resizeMode: 0,
 }

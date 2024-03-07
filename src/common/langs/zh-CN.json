@@ -120,6 +120,10 @@
   "importMask": "导入蒙版",
   "deleteMask": "删除蒙版",
   "imgToImg": "图生图",
+  "resizeMode": "缩放模式",
+  "justResize": "拉伸",
+  "cropAndResize": "裁剪",
+  "resizeAndFill": "填充",
 
   "character": "角色",
   "camera": "镜头",

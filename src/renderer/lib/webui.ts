@@ -63,6 +63,7 @@ type Img2ImgOptions = {
   width: number
   height: number
   seed: number
+  resize_mode: number
 }
 
 type ExtraSingleOptions = {
@@ -182,7 +183,7 @@ export async function img2img(
 ): Promise<StableDiffusionResult> {
   const response = await api.post<ApiRawResponse>('/sdapi/v1/img2img', {
     init_images: options.init_images,
-    resize_mode: 0,
+    resize_mode: options.resize_mode,
     denoising_strength: options.denoising_strength,
     image_cfg_scale: 1.5,
     mask: options.mask,

@@ -430,6 +430,7 @@ export const GenOptions = $root.GenOptions = (() => {
      * @property {number|null} [batchSize] GenOptions batchSize
      * @property {number|null} [cfgScale] GenOptions cfgScale
      * @property {number|null} [denoisingStrength] GenOptions denoisingStrength
+     * @property {number|null} [resizeMode] GenOptions resizeMode
      */
 
     /**
@@ -512,6 +513,14 @@ export const GenOptions = $root.GenOptions = (() => {
     GenOptions.prototype.denoisingStrength = 0;
 
     /**
+     * GenOptions resizeMode.
+     * @member {number} resizeMode
+     * @memberof GenOptions
+     * @instance
+     */
+    GenOptions.prototype.resizeMode = 0;
+
+    /**
      * Creates a new GenOptions instance using the specified properties.
      * @function create
      * @memberof GenOptions
@@ -551,6 +560,8 @@ export const GenOptions = $root.GenOptions = (() => {
             writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.cfgScale);
         if (message.denoisingStrength != null && Object.hasOwnProperty.call(message, "denoisingStrength"))
             writer.uint32(/* id 8, wireType 1 =*/65).double(message.denoisingStrength);
+        if (message.resizeMode != null && Object.hasOwnProperty.call(message, "resizeMode"))
+            writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.resizeMode);
         return writer;
     };
 
@@ -617,6 +628,10 @@ export const GenOptions = $root.GenOptions = (() => {
                     message.denoisingStrength = reader.double();
                     break;
                 }
+            case 9: {
+                    message.resizeMode = reader.uint32();
+                    break;
+                }
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -676,6 +691,9 @@ export const GenOptions = $root.GenOptions = (() => {
         if (message.denoisingStrength != null && message.hasOwnProperty("denoisingStrength"))
             if (typeof message.denoisingStrength !== "number")
                 return "denoisingStrength: number expected";
+        if (message.resizeMode != null && message.hasOwnProperty("resizeMode"))
+            if (!$util.isInteger(message.resizeMode))
+                return "resizeMode: integer expected";
         return null;
     };
 
@@ -714,6 +732,8 @@ export const GenOptions = $root.GenOptions = (() => {
             message.cfgScale = object.cfgScale >>> 0;
         if (object.denoisingStrength != null)
             message.denoisingStrength = Number(object.denoisingStrength);
+        if (object.resizeMode != null)
+            message.resizeMode = object.resizeMode >>> 0;
         return message;
     };
 
@@ -743,6 +763,7 @@ export const GenOptions = $root.GenOptions = (() => {
             object.batchSize = 0;
             object.cfgScale = 0;
             object.denoisingStrength = 0;
+            object.resizeMode = 0;
         }
         if (message.sampler != null && message.hasOwnProperty("sampler"))
             object.sampler = message.sampler;
@@ -763,6 +784,8 @@ export const GenOptions = $root.GenOptions = (() => {
             object.cfgScale = message.cfgScale;
         if (message.denoisingStrength != null && message.hasOwnProperty("denoisingStrength"))
             object.denoisingStrength = options.json && !isFinite(message.denoisingStrength) ? String(message.denoisingStrength) : message.denoisingStrength;
+        if (message.resizeMode != null && message.hasOwnProperty("resizeMode"))
+            object.resizeMode = message.resizeMode;
         return object;
     };
 

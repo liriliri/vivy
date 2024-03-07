@@ -98,6 +98,7 @@ export class GenTask extends Task {
           width: genOptions.width,
           height: genOptions.height,
           seed: genOptions.seed,
+          resize_mode: genOptions.resizeMode,
         })
       } else {
         result = await webui.txt2img({

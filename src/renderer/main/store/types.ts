@@ -26,6 +26,7 @@ export interface IGenOptions {
   batchSize: number
   cfgScale: number
   denoisingStrength: number
+  resizeMode: number
 }
 
 export interface IUpscaleImgOptions {

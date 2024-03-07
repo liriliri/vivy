@@ -120,6 +120,10 @@
   "importMask": "Import Mask",
   "deleteMask": "Delete Mask",
   "imgToImg": "Image to Image",
+  "resizeMode": "Resize Mode",
+  "justResize": "Just Resize",
+  "cropAndResize": "Crop and Resize",
+  "resizeAndFill": "Resize and Fill",
 
   "character": "Character",
   "camera": "Camera",
