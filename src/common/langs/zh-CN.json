@@ -137,6 +137,7 @@
   "inpaintArea": "重绘区域",
   "wholePicture": "全图",
   "onlyMasked": "仅蒙版",
+  "onlyMaskedPadding": "仅蒙版模式边缘像素",
 
   "character": "角色",
   "camera": "镜头",

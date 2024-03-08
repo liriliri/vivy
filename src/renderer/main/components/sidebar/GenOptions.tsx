@@ -59,6 +59,23 @@ export default observer(function () {
 
   let maskOptions: JSX.Element | null = null
   if (project.initImageMask) {
+    let onlyMaskedPadding: JSX.Element | null = null
+    if (genOptions.inpaintFull) {
+      onlyMaskedPadding = (
+        <Row>
+          <Number
+            value={genOptions.inpaintFullPadding}
+            title={t('onlyMaskedPadding')}
+            min={0}
+            max={256}
+            step={1}
+            range={true}
+            onChange={(val) => project.setGenOption('inpaintFullPadding', val)}
+          />
+        </Row>
+      )
+    }
+
     maskOptions = (
       <>
         <Row>
@@ -103,6 +120,7 @@ export default observer(function () {
             onChange={(val) => project.setGenOption('inpaintFull', toBool(val))}
           />
         </Row>
+        {onlyMaskedPadding}
       </>
     )
   }

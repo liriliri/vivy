@@ -68,6 +68,7 @@ type Img2ImgOptions = {
   inpainting_mask_invert: number
   inpainting_fill: number
   inpaint_full_res: boolean
+  inpaint_full_res_padding: number
 }
 
 type ExtraSingleOptions = {
@@ -194,7 +195,7 @@ export async function img2img(
     mask_blur: options.mask_blur,
     inpainting_fill: options.inpainting_fill,
     inpaint_full_res: options.inpaint_full_res,
-    inpaint_full_res_padding: 0,
+    inpaint_full_res_padding: options.inpaint_full_res_padding,
     inpainting_mask_invert: options.inpainting_mask_invert,
     initial_noise_multiplier: 1,
     prompt: options.prompt,

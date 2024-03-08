@@ -569,4 +569,5 @@ const defGenOptions = {
   maskInvert: false,
   inpaintFill: 0,
   inpaintFull: false,
+  inpaintFullPadding: 0,
 }

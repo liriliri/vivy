@@ -137,6 +137,7 @@
   "inpaintArea": "Inpaint Area",
   "wholePicture": "Whole Picture",
   "onlyMasked": "Only Masked",
+  "onlyMaskedPadding": "Only Masked Padding",
 
   "character": "Character",
   "camera": "Camera",
