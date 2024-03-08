@@ -43,15 +43,21 @@ export default observer(function () {
             }}
             onChange={(val) => project.setGenOption('resizeMode', toNum(val))}
           />
-          <Number
-            value={genOptions.denoisingStrength}
-            title={t('denoisingStrength')}
-            min={0}
-            max={1}
-            step={0.01}
-            range={true}
-            onChange={(val) => project.setGenOption('denoisingStrength', val)}
-          />
+
+          <StatusbarDesc
+            className={SettingStyle.item}
+            desc={t('denoisingStrengthDesc')}
+          >
+            <Number
+              value={genOptions.denoisingStrength}
+              title={t('denoisingStrength')}
+              min={0}
+              max={1}
+              step={0.01}
+              range={true}
+              onChange={(val) => project.setGenOption('denoisingStrength', val)}
+            />
+          </StatusbarDesc>
         </Row>
       </>
     )
@@ -177,14 +183,16 @@ export default observer(function () {
           range={true}
           onChange={(val) => project.setGenOption('batchSize', val)}
         />
-        <Number
-          value={genOptions.cfgScale}
-          title={t('cfgScale')}
-          min={1}
-          max={30}
-          range={true}
-          onChange={(val) => project.setGenOption('cfgScale', val)}
-        />
+        <StatusbarDesc className={SettingStyle.item} desc={t('cfgScaleDesc')}>
+          <Number
+            value={genOptions.cfgScale}
+            title={t('cfgScale')}
+            min={1}
+            max={30}
+            range={true}
+            onChange={(val) => project.setGenOption('cfgScale', val)}
+          />
+        </StatusbarDesc>
       </Row>
       <Row>
         <div
@@ -193,11 +201,13 @@ export default observer(function () {
         >
           <span className="icon-dice" title={t('randomSeed')} />
         </div>
-        <Number
-          value={genOptions.seed}
-          title={t('seed')}
-          onChange={(val) => project.setGenOption('seed', val)}
-        />
+        <StatusbarDesc className={SettingStyle.item} desc={t('seedDesc')}>
+          <Number
+            value={genOptions.seed}
+            title={t('seed')}
+            onChange={(val) => project.setGenOption('seed', val)}
+          />
+        </StatusbarDesc>
       </Row>
     </div>
   )
