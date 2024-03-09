@@ -17,6 +17,7 @@ import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
 import contextMenu from '../../../lib/contextMenu'
 import convertBin from 'licia/convertBin'
+import NewImageModal from './NewImageModal'
 
 export default observer(function InitImage() {
   const { project } = store
@@ -25,6 +26,7 @@ export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
+  const [newImageModalVisible, setNewImageModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
   const [resizerStyle, setResizerStyle] = useState<any>({
     height: '10px',
@@ -66,6 +68,12 @@ export default observer(function InitImage() {
 
   const onContextMenu = (e: React.MouseEvent) => {
     contextMenu(e, [
+      {
+        label: t('new'),
+        click() {
+          setNewImageModalVisible(true)
+        },
+      },
       {
         label: t('paste'),
         click: paste,
@@ -176,18 +184,24 @@ export default observer(function InitImage() {
 
   if (!project.initImage) {
     return (
-      <div
-        className={className(Style.empty, 'button', {
-          [Style.highlight]: dropHighlight,
-        })}
-        onClick={open}
-        onContextMenu={onContextMenu}
-        onDrop={onDrop}
-        onDragLeave={onDragLeave}
-        onDragOver={onDragOver}
-      >
-        {t('setImage')}
-      </div>
+      <>
+        <div
+          className={className(Style.empty, 'button', {
+            [Style.highlight]: dropHighlight,
+          })}
+          onClick={open}
+          onContextMenu={onContextMenu}
+          onDrop={onDrop}
+          onDragLeave={onDragLeave}
+          onDragOver={onDragOver}
+        >
+          {t('setImage')}
+        </div>
+        <NewImageModal
+          visible={newImageModalVisible}
+          onClose={() => setNewImageModalVisible(false)}
+        />
+      </>
     )
   } else {
     return (
