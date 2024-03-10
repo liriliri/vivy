@@ -187,7 +187,8 @@ function getTemplate(): MenuItemConstructorOptions[] {
   if (isMac()) {
     template.unshift(vivy, file, edit)
   } else {
-    template.push(vivy, file)
+    template.unshift(file)
+    template.push(vivy)
   }
 
   return template
