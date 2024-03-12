@@ -1,3 +1,9 @@
+## v0.7.0 (12 Mar 2024)
+
+* feat: save and open projects
+* feat: upload and delete mask
+* feat: img2img mask options
+
 ## v0.6.0 (26 Feb 2024)
 
 * feat: sketch
