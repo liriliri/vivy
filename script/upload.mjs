@@ -5,6 +5,7 @@ import {
   ListObjectsCommand,
 } from '@aws-sdk/client-s3'
 import each from 'licia/each.js'
+import isWindows from 'licia/isWindows.js'
 
 const pkg = await fs.readJson('package.json')
 const version = pkg.version
@@ -20,7 +21,10 @@ const client = new S3Client({
   },
 })
 
-const Key = `VIVY-${version}-arm64.dmg`
+let Key = `VIVY-${version}-arm64.dmg`
+if (isWindows) {
+  Key = `VIVY-${version}-win.zip`
+}
 
 const listObjects = new ListObjectsCommand({
   Bucket,
@@ -39,7 +43,7 @@ if (fileExists) {
   console.log(`${Key} exists`)
 } else {
   console.log(`upload ${Key}`)
-  const filePath = `release/${version}/VIVY-${version}-arm64.dmg`
+  const filePath = `release/${version}/${Key}`
   const Body = fs.createReadStream(filePath)
   const putObject = new PutObjectCommand({
     Bucket,
