@@ -43,7 +43,6 @@ export default observer(function () {
             }}
             onChange={(val) => project.setGenOption('resizeMode', toNum(val))}
           />
-
           <StatusbarDesc
             className={SettingStyle.item}
             desc={t('denoisingStrengthDesc')}

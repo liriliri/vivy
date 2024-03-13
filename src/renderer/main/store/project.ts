@@ -8,7 +8,7 @@ import {
   toJS,
 } from 'mobx'
 import { VivyFile } from '../../lib/vivyFile'
-import { t, toDataUrl, renderImageMask, notify } from '../../lib/util'
+import { t, toDataUrl, renderImageMask, notify, blurAll } from '../../lib/util'
 import { IImage, IGenOptions } from './types'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
@@ -362,6 +362,8 @@ export class Project {
     runInAction(() => {
       this.isSave = true
     })
+
+    blurAll()
   }
   save = async () => {
     if (!this.path) {

@@ -262,3 +262,10 @@ export function copyData(buf: any, mime: string) {
     }),
   ])
 }
+
+export function blurAll() {
+  const tmp = document.createElement('input')
+  document.body.appendChild(tmp)
+  tmp.focus()
+  document.body.removeChild(tmp)
+}
