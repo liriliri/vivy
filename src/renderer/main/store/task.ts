@@ -104,6 +104,9 @@ export class GenTask extends Task {
           inpainting_fill: genOptions.inpaintFill,
           inpaint_full_res: genOptions.inpaintFull,
           inpaint_full_res_padding: genOptions.inpaintFullPadding,
+          override_settings: {
+            CLIP_stop_at_last_layers: genOptions.clipSkip,
+          },
         })
       } else {
         result = await webui.txt2img({
@@ -116,6 +119,9 @@ export class GenTask extends Task {
           width: genOptions.width,
           height: genOptions.height,
           seed: genOptions.seed,
+          override_settings: {
+            CLIP_stop_at_last_layers: genOptions.clipSkip,
+          },
         })
       }
     } catch (e) {

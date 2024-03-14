@@ -143,6 +143,8 @@
   "onlyMaskedPadding": "仅蒙版模式边缘像素",
   "newImage": "新建图片",
   "add": "添加",
+  "clipSkip": "CLIP 跳过层数",
+  "clipSkipDesc": "控制文本编码器跳过最后几层",
 
   "character": "角色",
   "camera": "镜头",

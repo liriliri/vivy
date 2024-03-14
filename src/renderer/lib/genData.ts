@@ -20,6 +20,7 @@ interface IGenData {
   sampler?: string
   cfgScale?: number
   model?: string
+  clipSkip?: number
 }
 
 export interface ISDGenData extends IGenData {
@@ -137,6 +138,9 @@ function parseA1111(text: string): ISDGenData {
           break
         case 'CFG scale':
           genData.cfgScale = toNum(val)
+          break
+        case 'Clip skip':
+          genData.clipSkip = toNum(val)
           break
         case 'Model':
           genData.model = val

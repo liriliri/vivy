@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import types from 'licia/types'
 
 type Progress = {
   progress: number
@@ -48,6 +49,7 @@ type Txt2ImgOptions = {
   width: number
   height: number
   seed: number
+  override_settings: types.PlainObj<any>
 }
 
 type Img2ImgOptions = {
@@ -69,6 +71,7 @@ type Img2ImgOptions = {
   inpainting_fill: number
   inpaint_full_res: boolean
   inpaint_full_res_padding: number
+  override_settings: types.PlainObj<any>
 }
 
 type ExtraSingleOptions = {
@@ -171,7 +174,7 @@ export async function txt2img(
     s_tmax: 0,
     s_tmin: 0,
     s_noise: 1,
-    override_settings: {},
+    override_settings: options.override_settings,
     override_settings_restore_afterwards: true,
     script_args: [],
     script_name: null,
@@ -222,7 +225,7 @@ export async function img2img(
     s_tmax: 0,
     s_tmin: 0,
     s_noise: 1,
-    override_settings: {},
+    override_settings: options.override_settings,
     override_settings_restore_afterwards: true,
     script_args: [],
     include_init_images: false,

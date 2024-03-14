@@ -27,4 +27,5 @@ message ImageInfo {
   optional string sampler = 8;
   optional uint32 cfgScale = 9;
   optional uint32 seed = 10;
+  optional uint32 clip_skip = 11;
 }

@@ -31,6 +31,9 @@ export default observer(function ImageInfoModal(props: IProps) {
   if (info.cfgScale) {
     addData(t('cfgScale'), info.cfgScale)
   }
+  if (info.clipSkip) {
+    addData(t('clipSkip'), info.clipSkip)
+  }
   if (info.seed) {
     addData(t('seed'), info.seed)
   }
@@ -56,6 +59,9 @@ export default observer(function ImageInfoModal(props: IProps) {
     }
     if (info.cfgScale) {
       parameters.push(`CFG scale: ${info.cfgScale}`)
+    }
+    if (info.clipSkip) {
+      parameters.push(`Clip skip: ${info.clipSkip}`)
     }
     text.push(parameters.join(', '))
     copy(text.join('\n'))

@@ -172,6 +172,9 @@ export class Project {
     if (genData.seed) {
       this.setGenOption('seed', genData.seed)
     }
+    if (genData.clipSkip) {
+      this.setGenOption('clipSkip', genData.clipSkip)
+    }
     blurAll()
   }
   selectImage(image?: IImage) {
@@ -570,4 +573,5 @@ const defGenOptions = {
   inpaintFill: 0,
   inpaintFull: false,
   inpaintFullPadding: 0,
+  clipSkip: 1,
 }

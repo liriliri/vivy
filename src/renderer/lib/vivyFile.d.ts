@@ -280,6 +280,9 @@ export interface IImageInfo {
 
     /** ImageInfo seed */
     seed?: (number|null);
+
+    /** ImageInfo clipSkip */
+    clipSkip?: (number|null);
 }
 
 /** Represents an ImageInfo. */
@@ -321,6 +324,9 @@ export class ImageInfo implements IImageInfo {
     /** ImageInfo seed. */
     public seed?: (number|null);
 
+    /** ImageInfo clipSkip. */
+    public clipSkip?: (number|null);
+
     /** ImageInfo _prompt. */
     public _prompt?: "prompt";
 
@@ -338,6 +344,9 @@ export class ImageInfo implements IImageInfo {
 
     /** ImageInfo _seed. */
     public _seed?: "seed";
+
+    /** ImageInfo _clipSkip. */
+    public _clipSkip?: "clipSkip";
 
     /**
      * Creates a new ImageInfo instance using the specified properties.

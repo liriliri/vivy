@@ -9,6 +9,7 @@ export interface IImageInfo {
   sampler?: string
   cfgScale?: number
   seed?: number
+  clipSkip?: number
 }
 
 export interface IImage {
@@ -32,6 +33,7 @@ export interface IGenOptions {
   inpaintFill: number
   inpaintFull: boolean
   inpaintFullPadding: number
+  clipSkip: number
 }
 
 export interface IUpscaleImgOptions {

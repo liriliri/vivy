@@ -682,6 +682,7 @@ export const ImageInfo = $root.ImageInfo = (() => {
      * @property {string|null} [sampler] ImageInfo sampler
      * @property {number|null} [cfgScale] ImageInfo cfgScale
      * @property {number|null} [seed] ImageInfo seed
+     * @property {number|null} [clipSkip] ImageInfo clipSkip
      */
 
     /**
@@ -779,6 +780,14 @@ export const ImageInfo = $root.ImageInfo = (() => {
      */
     ImageInfo.prototype.seed = null;
 
+    /**
+     * ImageInfo clipSkip.
+     * @member {number|null|undefined} clipSkip
+     * @memberof ImageInfo
+     * @instance
+     */
+    ImageInfo.prototype.clipSkip = null;
+
     // OneOf field names bound to virtual getters and setters
     let $oneOfFields;
 
@@ -849,6 +858,17 @@ export const ImageInfo = $root.ImageInfo = (() => {
     });
 
     /**
+     * ImageInfo _clipSkip.
+     * @member {"clipSkip"|undefined} _clipSkip
+     * @memberof ImageInfo
+     * @instance
+     */
+    Object.defineProperty(ImageInfo.prototype, "_clipSkip", {
+        get: $util.oneOfGetter($oneOfFields = ["clipSkip"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
      * Creates a new ImageInfo instance using the specified properties.
      * @function create
      * @memberof ImageInfo
@@ -892,6 +912,8 @@ export const ImageInfo = $root.ImageInfo = (() => {
             writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.cfgScale);
         if (message.seed != null && Object.hasOwnProperty.call(message, "seed"))
             writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.seed);
+        if (message.clipSkip != null && Object.hasOwnProperty.call(message, "clipSkip"))
+            writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.clipSkip);
         return writer;
     };
 
@@ -964,6 +986,10 @@ export const ImageInfo = $root.ImageInfo = (() => {
                 }
             case 10: {
                     message.seed = reader.uint32();
+                    break;
+                }
+            case 11: {
+                    message.clipSkip = reader.uint32();
                     break;
                 }
             default:
@@ -1044,6 +1070,11 @@ export const ImageInfo = $root.ImageInfo = (() => {
             if (!$util.isInteger(message.seed))
                 return "seed: integer expected";
         }
+        if (message.clipSkip != null && message.hasOwnProperty("clipSkip")) {
+            properties._clipSkip = 1;
+            if (!$util.isInteger(message.clipSkip))
+                return "clipSkip: integer expected";
+        }
         return null;
     };
 
@@ -1079,6 +1110,8 @@ export const ImageInfo = $root.ImageInfo = (() => {
             message.cfgScale = object.cfgScale >>> 0;
         if (object.seed != null)
             message.seed = object.seed >>> 0;
+        if (object.clipSkip != null)
+            message.clipSkip = object.clipSkip >>> 0;
         return message;
     };
 
@@ -1138,6 +1171,11 @@ export const ImageInfo = $root.ImageInfo = (() => {
             object.seed = message.seed;
             if (options.oneofs)
                 object._seed = "seed";
+        }
+        if (message.clipSkip != null && message.hasOwnProperty("clipSkip")) {
+            object.clipSkip = message.clipSkip;
+            if (options.oneofs)
+                object._clipSkip = "clipSkip";
         }
         return object;
     };

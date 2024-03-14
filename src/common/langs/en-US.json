@@ -143,6 +143,8 @@
   "onlyMaskedPadding": "Only Masked Padding",
   "newImage": "New Image",
   "add": "Add",
+  "clipSkip": "Clip Skip",
+  "clipSkipDesc": "Controls how many layers from the last one in the text encoder are skipped",
 
   "character": "Character",
   "camera": "Camera",

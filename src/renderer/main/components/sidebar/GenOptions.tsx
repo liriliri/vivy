@@ -174,14 +174,6 @@ export default observer(function () {
         />
       </Row>
       <Row>
-        <Number
-          value={genOptions.batchSize}
-          title={t('batchSize')}
-          min={1}
-          max={8}
-          range={true}
-          onChange={(val) => project.setGenOption('batchSize', val)}
-        />
         <StatusbarDesc className={SettingStyle.item} desc={t('cfgScaleDesc')}>
           <Number
             value={genOptions.cfgScale}
@@ -192,8 +184,26 @@ export default observer(function () {
             onChange={(val) => project.setGenOption('cfgScale', val)}
           />
         </StatusbarDesc>
+        <StatusbarDesc className={SettingStyle.item} desc={t('clipSkipDesc')}>
+          <Number
+            value={genOptions.clipSkip}
+            title={t('clipSkip')}
+            min={1}
+            max={12}
+            range={true}
+            onChange={(val) => project.setGenOption('clipSkip', val)}
+          />
+        </StatusbarDesc>
       </Row>
       <Row>
+        <Number
+          value={genOptions.batchSize}
+          title={t('batchSize')}
+          min={1}
+          max={8}
+          range={true}
+          onChange={(val) => project.setGenOption('batchSize', val)}
+        />
         <div
           className={className('icon', Style.randomSeed)}
           onClick={() => project.setGenOption('seed', -1)}
