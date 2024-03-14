@@ -172,6 +172,7 @@ export class Project {
     if (genData.seed) {
       this.setGenOption('seed', genData.seed)
     }
+    blurAll()
   }
   selectImage(image?: IImage) {
     if (image) {
