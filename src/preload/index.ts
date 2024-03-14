@@ -85,6 +85,9 @@ const mainObj = {
   deleteModel: (type: ModelType, name: string) => {
     return ipcRenderer.invoke('deleteModel', type, name)
   },
+  addModel: (type: ModelType, filePath: string) => {
+    return ipcRenderer.invoke('addModel', type, filePath)
+  },
   openFile: (path: string) => ipcRenderer.invoke('openFile', path),
   openFileInFolder: (path: string) =>
     ipcRenderer.invoke('openFileInFolder', path),

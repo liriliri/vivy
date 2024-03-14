@@ -11,12 +11,26 @@ import ToolbarIcon from '../../components/ToolbarIcon'
 import toBool from 'licia/toBool'
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal'
+import isEmpty from 'licia/isEmpty'
 
 export default observer(function Toolbar() {
   const onChange = (key, val) => {
     if (key === 'type') {
       store.selectType(val)
     }
+  }
+
+  const addModel = async () => {
+    const { filePaths } = await main.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+        { name: 'model file', extensions: ['safetensors', 'ckpt', 'pt'] },
+      ],
+    })
+    if (isEmpty(filePaths)) {
+      return
+    }
+    await main.addModel(store.selectedType, filePaths[0])
   }
 
   const deleteModel = async () => {
@@ -36,6 +50,7 @@ export default observer(function Toolbar() {
         options={modelTypes}
       />
       <LunaToolbarSpace />
+      <ToolbarIcon icon="add" title={t('add')} onClick={addModel} />
       <ToolbarIcon
         icon="delete"
         title={t('delete')}

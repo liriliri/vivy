@@ -295,13 +295,10 @@ export class Project {
     }
 
     if (!path) {
-      const { canceled, filePaths } = await main.showOpenDialog({
+      const { filePaths } = await main.showOpenDialog({
         properties: ['openFile'],
         filters: [{ name: 'vivy file', extensions: ['vivy'] }],
       })
-      if (canceled) {
-        return
-      }
       if (isEmpty(filePaths)) {
         return
       }

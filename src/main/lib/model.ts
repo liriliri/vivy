@@ -97,6 +97,13 @@ export async function deleteModel(type: ModelType, name: string) {
   await fs.unlink(path.resolve(dir, name))
 }
 
+export async function addModel(type: ModelType, filePath: string) {
+  const dir = getDir(type)
+  const { name } = splitPath(filePath)
+  await fs.copy(filePath, path.resolve(dir, name))
+  window.sendAll('refreshModel', type)
+}
+
 export function init() {
   chokidar.watch(settingsStore.get('modelPath')).on(
     'all',
