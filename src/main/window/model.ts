@@ -46,6 +46,8 @@ export function showWin() {
 }
 
 function initIpc() {
+  ipcMain.handle('setModelStore', (_, name, val) => store.set(name, val))
+  ipcMain.handle('getModelStore', (_, name) => store.get(name))
   ipcMain.handle('getModels', (_, type: ModelType) => model.getModels(type))
   ipcMain.handle('openModelDir', (_, type: ModelType) => model.openDir(type))
   ipcMain.handle('deleteModel', (_, type: ModelType, name: string) => {

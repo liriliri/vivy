@@ -66,6 +66,8 @@ const mainObj = {
   getLogs: () => ipcRenderer.invoke('getLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
   setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
+  getModelStore: (name) => ipcRenderer.invoke('getModelStore', name),
+  setModelStore: (name, val) => ipcRenderer.invoke('setModelStore', name, val),
   getSettingsStore: (name) => ipcRenderer.invoke('getSettingsStore', name),
   setSettingsStore: (name, val) => {
     return ipcRenderer.invoke('setSettingsStore', name, val)
