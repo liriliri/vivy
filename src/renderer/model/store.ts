@@ -4,12 +4,14 @@ import { ModelType, IModel } from '../../common/types'
 class Store {
   selectedType = ModelType.StableDiffusion
   models: IModel[] = []
-  selectedModel?: string
+  selectedModel?: IModel
+  previewHeight = 200
   constructor() {
     makeObservable(this, {
       selectedType: observable,
       models: observable,
       selectedModel: observable,
+      previewHeight: observable,
       selectModel: action,
       selectType: action,
     })
@@ -21,7 +23,7 @@ class Store {
     this.selectedType = type
     this.refresh()
   }
-  selectModel(model?: string) {
+  selectModel(model?: IModel) {
     this.selectedModel = model
   }
   refresh = async () => {

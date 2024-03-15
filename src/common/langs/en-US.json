@@ -145,6 +145,8 @@
   "add": "Add",
   "clipSkip": "Clip Skip",
   "clipSkipDesc": "Controls how many layers from the last one in the text encoder are skipped",
+  "selectModelToPreview": "Select a model to preview",
+  "noPreview": "No Preview",
 
   "character": "Character",
   "camera": "Camera",

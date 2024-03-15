@@ -7,13 +7,16 @@ import { t } from '../../lib/util'
 import map from 'licia/map'
 import dateFormat from 'licia/dateFormat'
 import store from '../store'
+import { IModel } from '../../../common/types'
 
 export default observer(function ModelList() {
-  const [height, setHeight] = useState(window.innerHeight - 30)
+  const [height, setHeight] = useState(
+    window.innerHeight - 59 - store.previewHeight
+  )
 
   useEffect(() => {
     function updateHeight() {
-      setHeight(window.innerHeight - 30)
+      setHeight(window.innerHeight - 59 - store.previewHeight)
     }
 
     window.addEventListener('resize', updateHeight)
@@ -56,7 +59,19 @@ export default observer(function ModelList() {
     <LunaDataGrid
       className={Style.modelList}
       data={data}
-      onSelect={(node) => store.selectModel(node.data.name as string)}
+      onSelect={(node) => {
+        let model: IModel | null = null
+        for (let i = 0, len = store.models.length; i < len; i++) {
+          const m = store.models[i]
+          if (m.name === node.data.name) {
+            model = m
+            break
+          }
+        }
+        if (model) {
+          store.selectModel(model)
+        }
+      }}
       onDeselect={() => store.selectModel()}
       columns={columns}
       minHeight={height}

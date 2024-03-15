@@ -65,18 +65,37 @@ export async function getModels(type: ModelType) {
   const dir = getDir(type)
   let files = await glob(`${dir}/**/**`)
   const exts = getFileExt(type)
+  const previews: string[] = []
   files = filter(files, (file) => {
     const { ext } = splitPath(file)
+
+    if (contain(['.jpg', '.jpeg', '.webp', '.png'], ext)) {
+      previews.push(file)
+      return false
+    }
+
     return contain(exts, ext)
   })
   const models: IModel[] = []
   for (let i = 0, len = files.length; i < len; i++) {
     const file = files[i]
     const stat = await fs.stat(path.resolve(dir, file))
+
+    let preview = ''
+    for (let i = 0, len = previews.length; i < len; i++) {
+      const p = previews[i]
+      const { ext } = splitPath(p)
+      if (startWith(file, p.replace(ext, ''))) {
+        preview = p
+        break
+      }
+    }
+
     models.push({
       name: file.slice(dir.length + 1),
       size: stat.size,
       createdDate: stat.birthtime.getTime(),
+      preview,
     })
   }
 

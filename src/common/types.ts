@@ -21,4 +21,5 @@ export interface IModel {
   name: string
   size: number
   createdDate: number
+  preview?: string
 }

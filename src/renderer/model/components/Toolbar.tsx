@@ -34,11 +34,14 @@ export default observer(function Toolbar() {
   }
 
   const deleteModel = async () => {
+    if (!store.selectedModel) {
+      return
+    }
     const result = await LunaModal.confirm(
-      t('deleteModelConfirm', { name: store.selectedModel })
+      t('deleteModelConfirm', { name: store.selectedModel.name })
     )
     if (result) {
-      await main.deleteModel(store.selectedType, store.selectedModel!)
+      await main.deleteModel(store.selectedType, store.selectedModel.name)
     }
   }
 
