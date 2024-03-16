@@ -272,6 +272,8 @@ function Image(props: { image: IImage }) {
       }}
       onDragStart={(e) => {
         e.dataTransfer.setData('imageId', image.id)
+        e.dataTransfer.setData('imageData', image.data)
+        e.dataTransfer.setData('imageMime', image.info.mime)
         if (dragImg.src) {
           e.dataTransfer.setDragImage(
             dragImg,

@@ -7,6 +7,7 @@ import defaults from 'licia/defaults'
 import types from 'licia/types'
 import enUS from '../../common/langs/en-US.json'
 import zhCN from '../../common/langs/zh-CN.json'
+import splitPath from 'licia/splitPath'
 
 export const i18n = new I18n('en-US', {
   'en-US': enUS,
@@ -47,4 +48,9 @@ export function isMac() {
 
 export function getUserDataPath(p: string) {
   return path.resolve(app.getPath('appData'), 'vivy', p)
+}
+
+export function replaceExt(file, newExt) {
+  const { ext } = splitPath(file)
+  return file.replace(ext, newExt)
 }

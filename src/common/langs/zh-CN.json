@@ -147,6 +147,7 @@
   "clipSkipDesc": "控制文本编码器跳过最后几层",
   "selectModelToPreview": "选择一个模型以预览",
   "noPreview": "无预览图",
+  "unsupportedFormat": "格式不支持",
 
   "character": "角色",
   "camera": "镜头",

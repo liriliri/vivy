@@ -90,6 +90,14 @@ const mainObj = {
   addModel: (type: ModelType, filePath: string) => {
     return ipcRenderer.invoke('addModel', type, filePath)
   },
+  setModelPreview: (
+    type: ModelType,
+    name: string,
+    data: string,
+    mimeType: string
+  ) => {
+    return ipcRenderer.invoke('setModelPreview', type, name, data, mimeType)
+  },
   openFile: (path: string) => ipcRenderer.invoke('openFile', path),
   openFileInFolder: (path: string) =>
     ipcRenderer.invoke('openFileInFolder', path),

@@ -1,13 +1,18 @@
 import store from '../store'
 import Style from './ModelPreview.module.scss'
-import { t } from '../../lib/util'
+import { isFileDrop, notify, t, toDataUrl } from '../../lib/util'
 import { observer } from 'mobx-react-lite'
 import LunaImageViewer from 'luna-image-viewer/react'
 import fileUrl from 'licia/fileUrl'
 import { useCallback, useRef, useState } from 'react'
+import className from 'licia/className'
+import convertBin from 'licia/convertBin'
+import fileType from 'licia/fileType'
+import isDataUrl from 'licia/isDataUrl'
 
 export default observer(function ModelPreview() {
   const modelPreviewRef = useRef<HTMLDivElement>(null)
+  const [dropHighlight, setDropHighlight] = useState(false)
   const [resizerStyle, setResizerStyle] = useState<any>({
     height: '10px',
   })
@@ -15,13 +20,61 @@ export default observer(function ModelPreview() {
   let body: JSX.Element | null = null
 
   if (store.selectedModel && store.selectedModel.preview) {
-    body = <LunaImageViewer image={fileUrl(store.selectedModel.preview)} />
+    const { preview } = store.selectedModel
+    const src = isDataUrl(preview) ? preview : fileUrl(preview)
+    body = <LunaImageViewer image={src} />
   } else {
     body = (
       <div className={Style.noPreview}>
         {store.selectedModel ? t('noPreview') : t('selectModelToPreview')}
       </div>
     )
+  }
+
+  const onDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    if (!store.selectedModel) {
+      return
+    }
+    setDropHighlight(false)
+    let data = ''
+    let mime = ''
+    if (isFileDrop(e)) {
+      const buf = await convertBin.blobToArrBuffer(e.dataTransfer.files[0])
+      const type = fileType(buf)
+      if (type) {
+        mime = type.mime
+        data = convertBin(buf, 'base64')
+      }
+    } else {
+      const imageData = e.dataTransfer.getData('imageData')
+      if (imageData) {
+        data = imageData
+        mime = e.dataTransfer.getData('imageMime')
+      }
+    }
+    if (!data) {
+      return
+    }
+    if (!mime) {
+      notify(t('unsupportedFormat'))
+      return
+    }
+
+    store.selectedModel.preview = toDataUrl(data, mime)
+    await main.setModelPreview(
+      store.selectedType,
+      store.selectedModel.name,
+      data,
+      mime
+    )
+  }
+
+  const onDragLeave = () => setDropHighlight(false)
+
+  const onDragOver = (e) => {
+    e.preventDefault()
+    setDropHighlight(true)
   }
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
@@ -53,10 +106,15 @@ export default observer(function ModelPreview() {
 
   return (
     <div
-      className={Style.modelPreview}
+      className={className(Style.modelPreview, {
+        [Style.highlight]: dropHighlight,
+      })}
       style={{
         height: store.previewHeight,
       }}
+      onDrop={onDrop}
+      onDragLeave={onDragLeave}
+      onDragOver={onDragOver}
       ref={modelPreviewRef}
     >
       <div

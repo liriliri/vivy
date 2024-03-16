@@ -10,8 +10,9 @@ import { glob } from 'glob'
 import chokidar from 'chokidar'
 import debounce from 'licia/debounce'
 import startWith from 'licia/startWith'
+import mime from 'licia/mime'
 import * as window from './window'
-import { getUserDataPath } from './util'
+import { getUserDataPath, replaceExt } from './util'
 
 const settingsStore = getSettingsStore()
 
@@ -65,14 +66,8 @@ export async function getModels(type: ModelType) {
   const dir = getDir(type)
   let files = await glob(`${dir}/**/**`)
   const exts = getFileExt(type)
-  const previews: string[] = []
   files = filter(files, (file) => {
     const { ext } = splitPath(file)
-
-    if (contain(['.jpg', '.jpeg', '.webp', '.png'], ext)) {
-      previews.push(file)
-      return false
-    }
 
     return contain(exts, ext)
   })
@@ -81,25 +76,26 @@ export async function getModels(type: ModelType) {
     const file = files[i]
     const stat = await fs.stat(path.resolve(dir, file))
 
-    let preview = ''
-    for (let i = 0, len = previews.length; i < len; i++) {
-      const p = previews[i]
-      const { ext } = splitPath(p)
-      if (startWith(file, p.replace(ext, ''))) {
-        preview = p
-        break
-      }
-    }
-
     models.push({
       name: file.slice(dir.length + 1),
       size: stat.size,
       createdDate: stat.birthtime.getTime(),
-      preview,
+      preview: await getModelPreview(file),
     })
   }
 
   return models
+}
+
+const previewExts = ['.png', '.jpg', '.jpeg', '.webp']
+async function getModelPreview(file: string) {
+  for (let i = 0, len = previewExts.length; i < len; i++) {
+    const p = replaceExt(file, previewExts[i])
+    if (await fs.pathExists(p)) {
+      return p
+    }
+  }
+  return ''
 }
 
 export function openDir(type: ModelType) {
@@ -121,6 +117,25 @@ export async function addModel(type: ModelType, filePath: string) {
   const { name } = splitPath(filePath)
   await fs.copy(filePath, path.resolve(dir, name))
   window.sendAll('refreshModel', type)
+}
+
+export async function setModelPreview(
+  type: ModelType,
+  name: string,
+  data: string,
+  mimeType: string
+) {
+  const dir = getDir(type)
+  const file = path.resolve(dir, name)
+  const preview = await getModelPreview(file)
+  if (preview) {
+    await fs.unlink(preview)
+  }
+
+  const buf = Buffer.from(data, 'base64')
+  const ext = `.${mime(mimeType)}`
+  const previewPath = replaceExt(file, ext)
+  await fs.writeFile(previewPath, buf)
 }
 
 export function init() {

@@ -56,4 +56,10 @@ function initIpc() {
   ipcMain.handle('addModel', (_, type: ModelType, filePath: string) => {
     return model.addModel(type, filePath)
   })
+  ipcMain.handle(
+    'setModelPreview',
+    (_, type: ModelType, name: string, data: string, mimeType: string) => {
+      return model.setModelPreview(type, name, data, mimeType)
+    }
+  )
 }
