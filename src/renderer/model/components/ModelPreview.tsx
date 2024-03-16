@@ -10,6 +10,9 @@ import convertBin from 'licia/convertBin'
 import fileType from 'licia/fileType'
 import isDataUrl from 'licia/isDataUrl'
 import startWith from 'licia/startWith'
+import openFile from 'licia/openFile'
+import isFile from 'licia/isFile'
+import isEmpty from 'licia/isEmpty'
 
 export default observer(function ModelPreview() {
   const modelPreviewRef = useRef<HTMLDivElement>(null)
@@ -26,34 +29,44 @@ export default observer(function ModelPreview() {
     body = <LunaImageViewer image={src} />
   } else {
     body = (
-      <div className={Style.noPreview}>
+      <div
+        className={Style.noPreview}
+        onClick={() => {
+          if (!store.selectedModel) {
+            return
+          }
+
+          openFile({
+            accept: 'image/png,image/jpeg,image/webp',
+          }).then(async (fileList) => {
+            if (!isEmpty(fileList)) {
+              setModelPreview(fileList[0])
+            }
+          })
+        }}
+      >
         {store.selectedModel ? t('noPreview') : t('selectModelToPreview')}
       </div>
     )
   }
 
-  const onDrop = async (e: React.DragEvent) => {
-    e.preventDefault()
+  async function setModelPreview(file: string | Blob, mime = '') {
     if (!store.selectedModel) {
       return
     }
-    setDropHighlight(false)
+
     let data = ''
-    let mime = ''
-    if (isFileDrop(e)) {
-      const buf = await convertBin.blobToArrBuffer(e.dataTransfer.files[0])
+    if (isFile(file)) {
+      const buf = await convertBin.blobToArrBuffer(file)
       const type = fileType(buf)
       if (type) {
         mime = type.mime
         data = convertBin(buf, 'base64')
       }
     } else {
-      const imageData = e.dataTransfer.getData('imageData')
-      if (imageData) {
-        data = imageData
-        mime = e.dataTransfer.getData('imageMime')
-      }
+      data = file as string
     }
+
     if (!data) {
       return
     }
@@ -69,6 +82,19 @@ export default observer(function ModelPreview() {
       data,
       mime
     )
+  }
+
+  const onDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    setDropHighlight(false)
+    if (isFileDrop(e)) {
+      setModelPreview(e.dataTransfer.files[0])
+    } else {
+      setModelPreview(
+        e.dataTransfer.getData('imageData'),
+        e.dataTransfer.getData('imageMime')
+      )
+    }
   }
 
   const onDragLeave = () => setDropHighlight(false)
