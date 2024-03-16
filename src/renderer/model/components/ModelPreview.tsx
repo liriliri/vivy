@@ -9,6 +9,7 @@ import className from 'licia/className'
 import convertBin from 'licia/convertBin'
 import fileType from 'licia/fileType'
 import isDataUrl from 'licia/isDataUrl'
+import startWith from 'licia/startWith'
 
 export default observer(function ModelPreview() {
   const modelPreviewRef = useRef<HTMLDivElement>(null)
@@ -56,7 +57,7 @@ export default observer(function ModelPreview() {
     if (!data) {
       return
     }
-    if (!mime) {
+    if (!mime || !startWith(mime, 'image/')) {
       notify(t('unsupportedFormat'))
       return
     }
