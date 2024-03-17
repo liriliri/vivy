@@ -196,14 +196,6 @@ export default observer(function () {
         </StatusbarDesc>
       </Row>
       <Row>
-        <Number
-          value={genOptions.batchSize}
-          title={t('batchSize')}
-          min={1}
-          max={8}
-          range={true}
-          onChange={(val) => project.setGenOption('batchSize', val)}
-        />
         <div
           className={className('icon', Style.randomSeed)}
           onClick={() => project.setGenOption('seed', -1)}

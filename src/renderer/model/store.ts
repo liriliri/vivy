@@ -3,6 +3,7 @@ import { ModelType, IModel } from '../../common/types'
 import map from 'licia/map'
 import dateFormat from 'licia/dateFormat'
 import fileSize from 'licia/fileSize'
+import clamp from 'licia/clamp'
 
 class Store {
   selectedType = ModelType.StableDiffusion
@@ -71,11 +72,7 @@ class Store {
     let height = window.innerHeight - 57 - this.previewHeight
     const maxHeight = window.innerHeight - 100
     const minHeight = 145
-    if (height > maxHeight) {
-      height = maxHeight
-    } else if (height < minHeight) {
-      height = minHeight
-    }
+    height = clamp(height, minHeight, maxHeight)
     this.listHeight = height
   }
   private bindEvent() {

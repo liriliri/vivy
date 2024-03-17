@@ -1,4 +1,36 @@
 .generate {
   width: 100%;
+  display: flex;
+  border-radius: var(--vivy-border-radius-s-m);
+  overflow: hidden;
+  :global(.button) {
+    border-radius: 0;
+  }
+}
+
+.generate-button {
+  flex: 1;
   padding: 12px 0;
+  border-right: 1px solid var(--vivy-color-primary-active);
+}
+
+.batch-size-button {
+  padding: 12px 0;
+  width: 40px;
+}
+
+.spin-buttons {
+  display: flex;
+  flex-direction: column;
+  :global(.button) {
+    height: 22px;
+  }
+}
+
+.spin-up-button {
+  padding-top: 5px;
+}
+
+.spin-down-button {
+  padding-top: 1px;
 }

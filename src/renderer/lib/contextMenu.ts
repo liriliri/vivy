@@ -1,14 +1,19 @@
-import React from 'react'
 import LunaMenu from 'luna-menu'
 import each from 'licia/each'
 import isFn from 'licia/isFn'
 import uuid from 'licia/uuid'
 import types from 'licia/types'
 
-export default function contextMenu(e: React.MouseEvent, template: any) {
+export default function contextMenu(
+  e: {
+    clientX: number
+    clientY: number
+  },
+  template: any
+) {
   const menu = LunaMenu.build(template)
 
-  setTimeout(() => menu.show(e.clientX, e.clientY), 50)
+  setTimeout(() => menu.show(e.clientX, e.clientY), 100)
 }
 
 const build = LunaMenu.build
