@@ -2,7 +2,7 @@
   padding: 12px;
   width: 100%;
   &.highlight {
-    box-shadow: inset 0 0 0 2px var(--vivy-color-primary-bg-hover);
+    background: var(--vivy-color-primary-bg);
   }
 }
 
@@ -35,7 +35,7 @@
   }
   &.highlight {
     :global(.luna-image-viewer) {
-      box-shadow: inset 0 0 0 2px var(--vivy-color-primary-bg-hover);
+      background-color: var(--vivy-color-primary-bg);
     }
   }
 }
