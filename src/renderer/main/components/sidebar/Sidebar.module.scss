@@ -8,6 +8,12 @@
   flex-direction: column;
 }
 
+.generate-basic {
+  padding: 14px 8px;
+  padding-top: 45px;
+  border-bottom: 1px solid var(--vivy-color-border);
+}
+
 .resizer {
   position: absolute;
   height: 100%;

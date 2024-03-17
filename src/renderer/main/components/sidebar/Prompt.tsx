@@ -102,7 +102,7 @@ export default observer(function () {
   const theme = store.settings.theme === 'dark' ? 'vivy-dark' : 'vs'
 
   return (
-    <div className={Style.generateBasic}>
+    <>
       <div className={Style.toolbar} onMouseDown={(e) => e.preventDefault()}>
         <LunaToolbar>
           <LunaToolbarButton onClick={() => {}}>
@@ -181,13 +181,6 @@ export default observer(function () {
           onMount={negativePromptOnMount}
         />
       </div>
-      <div
-        className={className(Style.generate, 'button', 'primary')}
-        onMouseDown={(e) => e.preventDefault()}
-        onClick={() => store.createGenTask()}
-      >
-        {t('generate')}
-      </div>
-    </div>
+    </>
   )
 })

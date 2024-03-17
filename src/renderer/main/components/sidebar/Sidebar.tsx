@@ -4,6 +4,7 @@ import Style from './Sidebar.module.scss'
 import { useCallback, useRef, useState } from 'react'
 import GenOptions from './GenOptions'
 import Prompt from './Prompt'
+import Generate from './Generate'
 
 export default observer(function () {
   const sidebarRef = useRef<HTMLDivElement>(null)
@@ -52,7 +53,10 @@ export default observer(function () {
         style={resizerStyle}
         onMouseDown={onMouseDown}
       />
-      <Prompt />
+      <div className={Style.generateBasic}>
+        <Prompt />
+        <Generate />
+      </div>
       <GenOptions />
     </div>
   )

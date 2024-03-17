@@ -1,9 +1,3 @@
-.generate-basic {
-  padding: 14px 8px;
-  padding-top: 45px;
-  border-bottom: 1px solid var(--vivy-color-border);
-}
-
 .toolbar {
   background: var(--vivy-color-bg-container);
   position: absolute;
@@ -28,9 +22,4 @@
   &.selected {
     border-color: var(--vivy-color-error);
   }
-}
-
-.generate {
-  width: 100%;
-  padding: 12px 0;
 }
