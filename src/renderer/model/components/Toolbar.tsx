@@ -1,4 +1,5 @@
 import LunaToolbar, {
+  LunaToolbarInput,
   LunaToolbarSelect,
   LunaToolbarSeparator,
   LunaToolbarSpace,
@@ -51,6 +52,12 @@ export default observer(function Toolbar() {
         keyName="type"
         value={store.selectedType}
         options={modelTypes}
+      />
+      <LunaToolbarInput
+        keyName="filter"
+        value={store.filter}
+        placeholder={t('filter')}
+        onChange={(val) => store.setFilter(val)}
       />
       <LunaToolbarSpace />
       <ToolbarIcon icon="add" title={t('add')} onClick={addModel} />

@@ -109,6 +109,13 @@
       border-top-color: var(--vivy-color-text);
     }
   }
+  .luna-toolbar-item-input {
+    input {
+      background: var(--vivy-color-bg-container);
+      border-color: var(--vivy-color-border);
+      color: var(--vivy-color-text);
+    }
+  }
   .luna-toolbar-item-number {
     input[type='number'] {
       background: var(--vivy-color-bg-container);

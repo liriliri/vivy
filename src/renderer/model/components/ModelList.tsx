@@ -10,6 +10,7 @@ export default observer(function ModelList() {
     <LunaDataGrid
       className={Style.modelList}
       data={store.data}
+      filter={store.filter}
       onSelect={(node) => {
         let model: IModel | null = null
         for (let i = 0, len = store.models.length; i < len; i++) {

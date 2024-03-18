@@ -12,6 +12,7 @@ class Store {
   selectedModel?: IModel
   previewHeight = 200
   listHeight = 0
+  filter = ''
   constructor() {
     makeObservable(this, {
       selectedType: observable,
@@ -20,6 +21,8 @@ class Store {
       previewHeight: observable,
       listHeight: observable,
       data: observable,
+      filter: observable,
+      setFilter: action,
       selectModel: action,
       selectType: action,
       setPreviewHeight: action,
@@ -38,6 +41,9 @@ class Store {
     if (previewHeight) {
       this.setPreviewHeight(previewHeight)
     }
+  }
+  setFilter(filter: string) {
+    this.filter = filter
   }
   setPreviewHeight(height: number) {
     this.previewHeight = height
