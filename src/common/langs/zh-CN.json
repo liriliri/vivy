@@ -149,6 +149,8 @@
   "noPreview": "无预览图",
   "unsupportedFormat": "格式不支持",
   "filter": "过滤",
+  "none": "无",
+  "automatic": "自动匹配",
 
   "character": "角色",
   "camera": "镜头",

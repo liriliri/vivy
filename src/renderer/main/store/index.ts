@@ -24,14 +24,17 @@ import { Project } from './project'
 
 interface IOptions {
   model: string
+  vae: string
 }
 
 class Store {
   options: IOptions = {
     model: '',
+    vae: 'None',
   }
   isReady = false
   models: string[] = []
+  vaes: string[] = []
   upscalers: string[] = []
   tasks: Task[] = []
   statusbarDesc = ''
@@ -43,6 +46,7 @@ class Store {
       isReady: observable,
       tasks: observable,
       models: observable,
+      vaes: observable,
       upscalers: observable,
       options: observable,
       ui: observable,
@@ -88,6 +92,7 @@ class Store {
     runInAction(() => {
       this.options = {
         model: options.sd_model_checkpoint,
+        vae: options.sd_vae,
       }
     })
   }
@@ -113,12 +118,19 @@ class Store {
       this.models = map(models, (model) => model.title)
     })
   }
+  async fetchVaes() {
+    const vaes = await webui.getSdVaes()
+    runInAction(() => {
+      this.vaes = map(vaes, (vae) => vae.model_name)
+    })
+  }
   async waitForReady() {
     if (isEmpty(this.tasks)) {
       await webui.waitForReady()
     }
     await this.fetchOptions()
     await this.fetchModels()
+    await this.fetchVaes()
     await this.fetchUpscalers()
     runInAction(() => (this.isReady = true))
     this.doCreateTask()
@@ -134,6 +146,10 @@ class Store {
       this.waitForReady()
       webui.setOptions({
         sd_model_checkpoint: options.model,
+      })
+    } else if (key === 'vae') {
+      webui.setOptions({
+        sd_vae: options.vae,
       })
     }
   }

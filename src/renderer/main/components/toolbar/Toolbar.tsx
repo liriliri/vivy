@@ -11,7 +11,7 @@ import types from 'licia/types'
 import Style from './Toolbar.module.scss'
 import { observer } from 'mobx-react-lite'
 import { t } from '../../../lib/util'
-import { LoadingBar } from '../../../components/Loading'
+import { LoadingBar } from '../../../components/loading'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import Settings from './Settings'
 import { useState } from 'react'
@@ -39,6 +39,16 @@ export default observer(function () {
     }
   }
 
+  const vaeOptions = {
+    [t('none')]: 'None',
+    [t('automatic')]: 'Automatic',
+  }
+  if (!isEmpty(store.vaes)) {
+    each(store.vaes, (vae) => {
+      vaeOptions[vae] = vae
+    })
+  }
+
   const loading = (
     <LunaToolbarHtml>
       {store.isReady ? null : <LoadingBar className={Style.loading} />}
@@ -59,6 +69,12 @@ export default observer(function () {
           title={t('model')}
           options={modelOptions}
           disabled={modelDisabled}
+        />
+        <LunaToolbarSelect
+          keyName="vae"
+          value={store.options.vae}
+          title={'VAE'}
+          options={vaeOptions}
         />
         <ToolbarIcon
           icon="model"

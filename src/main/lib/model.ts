@@ -33,6 +33,7 @@ ensureDir(ModelType.RealESRGAN)
 ensureDir(ModelType.ScuNET)
 ensureDir(ModelType.Embedding)
 ensureDir(ModelType.SwinIR)
+ensureDir(ModelType.VAE)
 
 export function getDir(type: ModelType) {
   if (type === ModelType.BLIP) {
@@ -56,6 +57,7 @@ const fileExts = {
   [ModelType.ScuNET]: ['.pth'],
   [ModelType.Embedding]: ['.safetensors', '.pt'],
   [ModelType.SwinIR]: ['.pth'],
+  [ModelType.VAE]: ['.ckpt', '.pt'],
 }
 
 export function getFileExt(type: ModelType) {

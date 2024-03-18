@@ -67,6 +67,7 @@ export async function start() {
 
   args.push('--data-dir', getUserDataPath(''))
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
+  args.push('--vae-dir', model.getDir(ModelType.VAE))
   args.push('--lora-dir', model.getDir(ModelType.Lora))
   args.push('--ldsr-models-path', model.getDir(ModelType.LDSR))
   args.push('--swinir-models-path', model.getDir(ModelType.SwinIR))

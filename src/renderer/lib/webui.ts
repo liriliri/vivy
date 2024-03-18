@@ -20,6 +20,7 @@ type Progress = {
 
 type Options = {
   sd_model_checkpoint: string
+  sd_vae: string
 }
 
 type StableDiffusionModel = {
@@ -29,6 +30,11 @@ type StableDiffusionModel = {
   sha256: string
   filename: string
   config: string
+}
+
+type StableDiffusionVae = {
+  model_name: string
+  filename: string
 }
 
 type ApiRawResponse = {
@@ -298,12 +304,17 @@ export async function getSdModels(): Promise<StableDiffusionModel[]> {
   return response.data
 }
 
+export async function getSdVaes(): Promise<StableDiffusionVae[]> {
+  const response = await api.get<StableDiffusionVae[]>('/sdapi/v1/sd-vae')
+  return response.data
+}
+
 export async function getOptions(): Promise<Options> {
   const response = await api.get('/sdapi/v1/options')
   return response.data
 }
 
-export async function setOptions(options: Options) {
+export async function setOptions(options: Partial<Options>) {
   const response = await api.post('/sdapi/v1/options', options)
   return response.data
 }

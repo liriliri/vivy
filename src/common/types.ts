@@ -9,10 +9,12 @@ export enum ModelType {
   SwinIR = 'SwinIR',
   BLIP = 'BLIP',
   Deepdanbooru = 'Deepdanbooru',
+  VAE = 'VAE',
 }
 
 export const modelTypes = {
   'Stable Diffusion': ModelType.StableDiffusion,
+  VAE: ModelType.VAE,
   Lora: ModelType.Lora,
   Embedding: ModelType.Embedding,
 }

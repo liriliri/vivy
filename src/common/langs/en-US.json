@@ -149,6 +149,8 @@
   "noPreview": "No Preview",
   "unsupportedFormat": "Unsupported format",
   "filter": "Filter",
+  "none": "None",
+  "automatic": "Automatic",
 
   "character": "Character",
   "camera": "Camera",
