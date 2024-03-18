@@ -22,6 +22,8 @@
   "seed": "种子",
   "seedDesc": "种子确定随机初始图，相同种子将生成相同图像",
   "save": "保存",
+  "saveAll": "全部保存",
+  "saveSuccess": "保存成功",
   "reset": "重置",
   "zoomIn": "放大",
   "zoomOut": "缩小",

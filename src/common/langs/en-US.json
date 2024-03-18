@@ -22,6 +22,8 @@
   "seed": "Seed",
   "seedDesc": "The seed determines the randomly generated initial image, and the same seed will produce the same image",
   "save": "Save",
+  "saveAll": "Save All",
+  "saveSuccess": "Save successfully",
   "reset": "Reset",
   "zoomIn": "Zoom In",
   "zoomOut": "Zoom Out",

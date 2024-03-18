@@ -16,12 +16,10 @@ import ToolbarIcon from '../../../components/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t, toDataUrl } from '../../../lib/util'
+import { getImageName } from '../../lib/util'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
 import UpscaleModal from './UpscaleModal'
-import { IImage } from '../../../main/store/types'
-import slugify from 'licia/slugify'
-import truncate from 'licia/truncate'
 
 export default observer(function () {
   const { project } = store
@@ -160,17 +158,3 @@ export default observer(function () {
     </div>
   )
 })
-
-export function getImageName(image: IImage) {
-  const ext = image.info.mime === 'image/jpeg' ? '.jpg' : '.png'
-
-  if (image.info.prompt && image.info.seed) {
-    const name = truncate(image.info.prompt, 100, {
-      ellipsis: '',
-      separator: ',',
-    })
-    return `${slugify(name)}-${image.info.seed}${ext}`
-  }
-
-  return `${image.id}${ext}`
-}

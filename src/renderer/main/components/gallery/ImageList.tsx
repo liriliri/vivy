@@ -11,14 +11,16 @@ import openFile from 'licia/openFile'
 import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
-import { t, toDataUrl, isFileDrop, copyData } from '../../../lib/util'
+import { t, toDataUrl, isFileDrop, copyData, notify } from '../../../lib/util'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
 import last from 'licia/last'
 import contextMenu from '../../../lib/contextMenu'
+import { getImageName } from '../../lib/util'
 
 export default observer(function () {
+  const { project } = store
   const imageListRef = useRef<HTMLDivElement>(null)
   const [resizerStyle, setResizerStyle] = useState<any>({
     height: '10px',
@@ -28,7 +30,7 @@ export default observer(function () {
   const itemStyle = getItemStyle()
   const images: JSX.Element[] = []
 
-  each(store.project.images, (image) => {
+  each(project.images, (image) => {
     images.push(<Image key={image.id} image={image} />)
   })
 
@@ -58,10 +60,28 @@ export default observer(function () {
     })
   })
 
+  const saveAll = async function () {
+    const { filePaths } = await main.showOpenDialog({
+      properties: ['openDirectory'],
+    })
+    if (!isEmpty(filePaths)) {
+      const dir = filePaths[0]
+      for (let i = 0, len = project.images.length; i < len; i++) {
+        const image = project.images[i]
+        await node.writeFile(
+          dir + `/${getImageName(image)}`,
+          image.data,
+          'base64'
+        )
+      }
+      notify(t('saveSuccess'))
+    }
+  }
+
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault()
     setDropHighlight(false)
-    store.project.addFiles(e.dataTransfer.files)
+    project.addFiles(e.dataTransfer.files)
   }
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
@@ -107,6 +127,12 @@ export default observer(function () {
         onMouseDown={onMouseDown}
       ></div>
       <LunaToolbar className={Style.toolbar}>
+        <ToolbarIcon
+          icon="save"
+          title={t('saveAll')}
+          onClick={saveAll}
+          disabled={isEmpty(images)}
+        />
         <ToolbarIcon
           icon="open-file"
           title={t('openImage')}
