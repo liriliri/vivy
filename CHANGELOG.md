@@ -1,3 +1,10 @@
+## v0.8.0 (18 Mar 2024)
+
+* feat: model preview
+* feat: support clip skip option
+* feat: support vae option
+* feat: save multiple images
+
 ## v0.7.0 (12 Mar 2024)
 
 * feat: save and open projects
