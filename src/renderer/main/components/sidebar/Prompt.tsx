@@ -22,7 +22,7 @@ import PromptEditor, {
 import openFile from 'licia/openFile'
 import convertBin from 'licia/convertBin'
 import bytesToStr from 'licia/bytesToStr'
-import { parseImage, parseText } from '../../../lib/genData'
+import { parseImage, parseText } from '../../lib/genData'
 import startWith from 'licia/startWith'
 
 export default observer(function () {

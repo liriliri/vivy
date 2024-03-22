@@ -1,4 +1,5 @@
-import { loadImage, toDataUrl } from './util'
+import { toDataUrl } from '../../lib/util'
+import { loadImage } from './util'
 import trim from 'licia/trim'
 import map from 'licia/map'
 import toNum from 'licia/toNum'

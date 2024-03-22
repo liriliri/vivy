@@ -11,13 +11,13 @@ import openFile from 'licia/openFile'
 import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
-import { t, toDataUrl, isFileDrop, copyData, notify } from '../../../lib/util'
+import { t, toDataUrl, notify, isFileDrop } from '../../../lib/util'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
 import last from 'licia/last'
 import contextMenu from '../../../lib/contextMenu'
-import { getImageName } from '../../lib/util'
+import { getImageName, copyData } from '../../lib/util'
 
 export default observer(function () {
   const { project } = store

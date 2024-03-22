@@ -5,7 +5,8 @@ import store from '../../store'
 import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
-import { t, isFileDrop, notify, copyData, toDataUrl } from '../../../lib/util'
+import { t, notify, toDataUrl, isFileDrop } from '../../../lib/util'
+import { copyData } from '../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
   LunaToolbarSeparator,

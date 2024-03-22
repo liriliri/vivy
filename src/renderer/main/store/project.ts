@@ -7,8 +7,9 @@ import {
   runInAction,
   toJS,
 } from 'mobx'
-import { VivyFile } from '../../lib/vivyFile'
-import { t, toDataUrl, renderImageMask, notify, blurAll } from '../../lib/util'
+import { VivyFile } from '../lib/vivyFile'
+import { t, toDataUrl, notify } from '../../lib/util'
+import { blurAll, renderImageMask } from '../lib/util'
 import { IImage, IGenOptions } from './types'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
@@ -28,9 +29,9 @@ import fileType from 'licia/fileType'
 import last from 'licia/last'
 import ric from 'licia/ric'
 import map from 'licia/map'
-import { ISDGenData, IImageGenData, parseImage } from '../../lib/genData'
+import { ISDGenData, IImageGenData, parseImage } from '../lib/genData'
 import contain from 'licia/contain'
-import * as webui from '../../lib/webui'
+import * as webui from '../lib/webui'
 import LunaModal from 'luna-modal'
 import splitPath from 'licia/splitPath'
 

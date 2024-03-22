@@ -20,7 +20,7 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "genIcon": "lsla genIcon --input src/renderer/icon --output src/renderer/icon.css --name vivy-icon",
     "genTheme": "lsla genTheme --input src/common/theme.json --output src/renderer/theme.scss && lsla genTheme --input src/common/theme.json --output src/common/theme.ts",
-    "genPb": "cd src/renderer/lib && pbjs -t static-module -w es6 -o vivyFile.js vivyFile.proto && pbts -o vivyFile.d.ts vivyFile.js"
+    "genPb": "cd src/renderer/main/lib && pbjs -t static-module -w es6 -o vivyFile.js vivyFile.proto && pbts -o vivyFile.d.ts vivyFile.js"
   },
   "repository": {
     "type": "git",
