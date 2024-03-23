@@ -38,10 +38,6 @@ export function getSystemLanguage() {
   return 'en-US'
 }
 
-export function isDev() {
-  return import.meta.env.MODE === 'development'
-}
-
 export function parseDataUrl(dataUrl: string) {
   const data = dataUrl.slice(dataUrl.indexOf('base64,') + 7)
 

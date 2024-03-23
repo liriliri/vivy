@@ -1,5 +1,5 @@
 import path from 'path'
-import { isDev } from '../lib/util'
+import { isDev } from '../../common/util'
 import { BrowserWindow } from 'electron'
 import * as window from '../lib/window'
 import { getSystemStore } from '../lib/store'

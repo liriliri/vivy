@@ -13,7 +13,7 @@ export default function contextMenu(
 ) {
   const menu = LunaMenu.build(template)
 
-  setTimeout(() => menu.show(e.clientX, e.clientY), 100)
+  setTimeout(() => menu.show(e.clientX, e.clientY), 150)
 }
 
 const build = LunaMenu.build

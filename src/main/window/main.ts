@@ -1,5 +1,5 @@
 import path from 'path'
-import { isDev } from '../lib/util'
+import { isDev } from '../../common/util'
 import { BrowserWindow, ipcMain, app, nativeTheme, clipboard } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'

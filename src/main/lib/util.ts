@@ -7,6 +7,7 @@ import defaults from 'licia/defaults'
 import types from 'licia/types'
 import enUS from '../../common/langs/en-US.json'
 import zhCN from '../../common/langs/zh-CN.json'
+import { isDev } from '../../common/util'
 import splitPath from 'licia/splitPath'
 
 export const i18n = new I18n('en-US', {
@@ -18,10 +19,7 @@ export function t(path: string | string[], data?: types.PlainObj<any>) {
   return i18n.t(path, data)
 }
 
-export function isDev() {
-  return import.meta.env.MODE === 'development'
-}
-
+// @ts-ignore
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export function resolve(p) {

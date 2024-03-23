@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import { lazy } from 'react'
-import { getSystemLanguage, i18n, isDev, t } from './lib/util'
+import { getSystemLanguage, i18n, t } from './lib/util'
+import { isDev } from '../common/util'
 import hotKey from 'licia/hotkey'
 import getUrlParam from 'licia/getUrlParam'
 import './main.scss'
