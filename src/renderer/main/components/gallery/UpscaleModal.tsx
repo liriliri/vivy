@@ -3,7 +3,7 @@ import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t } from '../../../lib/util'
 import { Row, Number, Select } from '../../../components/setting'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import className from 'licia/className'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
@@ -22,6 +22,14 @@ export default observer(function UpscaleModal(props: IProps) {
   const [upscaler1, setUpscaler1] = useState('None')
   const [upscaler2, setUpscaler2] = useState('None')
   const [upscaler2Visibility, setUpscaler2Visibility] = useState(0.7)
+
+  useEffect(() => {
+    const { project } = store
+    if (props.visible) {
+      setWidth(project.genOptions.width * 2)
+      setHeight(project.genOptions.height * 2)
+    }
+  }, [props.visible])
 
   let upscalers: any = {}
   if (!isEmpty(store.upscalers)) {
