@@ -7,6 +7,7 @@ import store from '../../store'
 import { PropsWithChildren, useEffect, useState } from 'react'
 import ProgressBar from './ProgressBar'
 import { t } from '../../../lib/util'
+import now from 'licia/now'
 
 interface IStatusbarDescProps {
   desc: string
@@ -61,6 +62,11 @@ export default observer(function () {
     desc = <div className={Style.item}>{truncate(text, 150)}</div>
   }
 
+  let taskDuration: JSX.Element | null = null
+  if (store.tasks.length > 0) {
+    taskDuration = <TaskDuration />
+  }
+
   let taskCount: JSX.Element | null = null
   if (store.tasks.length > 0) {
     taskCount = (
@@ -97,6 +103,7 @@ export default observer(function () {
       </div>
       {desc}
       <div className={Style.space}></div>
+      {taskDuration}
       {taskCount}
       {imageCount}
       <div
@@ -110,3 +117,23 @@ export default observer(function () {
     </div>
   )
 })
+
+function TaskDuration() {
+  const startTime = now()
+  const [duration, setDuration] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const duration = Math.round((now() - startTime) / 1000)
+      setDuration(duration)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className={className(Style.item, Style.taskDuration)}>
+      {t('time')}: {duration}
+    </div>
+  )
+}
