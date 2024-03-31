@@ -49,6 +49,7 @@ export default observer(function Settings(props: IProps) {
           value={store.settings.language}
           title={t('language')}
           options={{
+            [t('sysPreference')]: 'system',
             English: 'en-US',
             ['中文']: 'zh-CN',
           }}

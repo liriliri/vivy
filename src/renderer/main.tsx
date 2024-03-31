@@ -75,11 +75,7 @@ if (isDev()) {
 }
 
 ;(async function () {
-  let language = await main.getSettingsStore('language')
-  if (!language) {
-    language = getSystemLanguage()
-    await main.setSettingsStore('language', language)
-  }
+  let language = await main.getLanguage()
   i18n.locale(language)
   LunaModal.i18n.locale(language)
   LunaPainter.i18n.locale(language)

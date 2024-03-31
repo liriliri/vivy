@@ -2,22 +2,8 @@ import path from 'path'
 import contain from 'licia/contain'
 import { app } from 'electron'
 import { fileURLToPath } from 'url'
-import I18n from 'licia/I18n'
-import defaults from 'licia/defaults'
-import types from 'licia/types'
-import enUS from '../../common/langs/en-US.json'
-import zhCN from '../../common/langs/zh-CN.json'
 import { isDev } from '../../common/util'
 import splitPath from 'licia/splitPath'
-
-export const i18n = new I18n('en-US', {
-  'en-US': enUS,
-  'zh-CN': defaults(zhCN, enUS),
-})
-
-export function t(path: string | string[], data?: types.PlainObj<any>) {
-  return i18n.t(path, data)
-}
 
 // @ts-ignore
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

@@ -72,6 +72,7 @@ const mainObj = {
   setSettingsStore: (name, val) => {
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
+  getLanguage: () => ipcRenderer.invoke('getLanguage'),
   readClipboardImage: () => ipcRenderer.invoke('readClipboardImage'),
   showOpenDialog: (options: OpenDialogOptions = {}) => {
     return ipcRenderer.invoke('showOpenDialog', options)

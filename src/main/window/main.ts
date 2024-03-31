@@ -5,7 +5,6 @@ import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import * as window from '../lib/window'
 import * as model from '../lib/model'
-import { i18n } from '../lib/util'
 import convertBin from 'licia/convertBin'
 
 const store = getMainStore()
@@ -92,10 +91,6 @@ function initIpc() {
     window.sendAll('changeSettingsStore', name, val)
   )
 
-  const language = settingsStore.get('language')
-  if (language) {
-    i18n.locale(language)
-  }
   const theme = settingsStore.get('theme')
   if (theme) {
     nativeTheme.themeSource = theme
