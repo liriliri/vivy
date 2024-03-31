@@ -102,7 +102,12 @@ const mainObj = {
     ipcRenderer.invoke('openFileInFolder', path),
   quitApp: () => ipcRenderer.invoke('quitApp'),
   showContextMenu: (x: number, y: number, template: any) => {
-    ipcRenderer.invoke('showContextMenu', x, y, template)
+    ipcRenderer.invoke(
+      'showContextMenu',
+      Math.round(x),
+      Math.round(y),
+      template
+    )
   },
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
