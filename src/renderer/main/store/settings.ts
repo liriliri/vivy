@@ -1,10 +1,8 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
-import { getSystemLanguage } from '../lib/util'
-import isDarkMode from 'licia/isDarkMode'
 
 export class Settings {
-  language = getSystemLanguage()
-  theme = isDarkMode() ? 'dark' : 'light'
+  language = 'en-US'
+  theme = 'light'
   translator = 'bing'
   enableWebUI = false
   modelPath = ''
@@ -19,7 +17,6 @@ export class Settings {
     })
 
     this.load()
-    this.bindEvent()
   }
   async load() {
     const names = ['language', 'theme', 'enableWebUI', 'modelPath']
@@ -34,12 +31,5 @@ export class Settings {
   async set(name: string, val: any) {
     this[name] = val
     await main.setSettingsStore(name, val)
-  }
-  private bindEvent() {
-    main.on('changeSettingsStore', (_, name, val) => {
-      if (name === 'theme') {
-        this.theme = val
-      }
-    })
   }
 }

@@ -1,11 +1,3 @@
-import { makeObservable } from 'mobx'
-import { Settings } from '../store/settings'
+import BaseStore from '../store/BaseStore'
 
-class Store {
-  settings = new Settings()
-  constructor() {
-    makeObservable(this, {})
-  }
-}
-
-export default new Store()
+export default new BaseStore()

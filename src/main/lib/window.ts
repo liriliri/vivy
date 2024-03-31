@@ -6,10 +6,8 @@ import remove from 'licia/remove'
 import each from 'licia/each'
 import path from 'path'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
-import { getSettingsStore } from '../lib/store'
 import { colorBgContainer, colorBgContainerDark } from '../../common/theme'
-
-const settingsStore = getSettingsStore()
+import { getTheme } from './util'
 
 interface IWinOptions {
   customTitlebar?: boolean
@@ -50,11 +48,7 @@ export function create(opts: IWinOptions) {
     show: false,
     resizable: winOptions.resizable,
   }
-  const theme = settingsStore.get('theme')
-  if (theme) {
-    options.backgroundColor =
-      theme === 'dark' ? colorBgContainerDark : colorBgContainer
-  }
+  options.backgroundColor = getTheme() ? colorBgContainerDark : colorBgContainer
   if (winOptions.x) {
     options.x = winOptions.x
   }

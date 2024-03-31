@@ -38,7 +38,7 @@ export default observer(function Prompt() {
     editor.onDidBlurEditorWidget(() => setEditorFocus(false))
   }
 
-  const theme = store.settings.theme === 'dark' ? 'vivy-dark' : 'vs'
+  const theme = store.theme === 'dark' ? 'vivy-dark' : 'vs'
 
   return (
     <div className={Style.container}>
@@ -69,7 +69,7 @@ export default observer(function Prompt() {
           <ToolbarIcon
             icon="translate"
             title={t('translate')}
-            disabled={store.settings.language === 'en-US'}
+            disabled={store.language === 'en-US'}
             onClick={() => translatePrompt(editorRef.current!)}
           />
           <LunaToolbarSpace />

@@ -1,5 +1,4 @@
 import types from 'licia/types'
-import isDarkMode from 'licia/isDarkMode'
 import {
   OpenDialogOptions,
   contextBridge,
@@ -22,13 +21,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (getUrlParam('page') && detectOs() !== 'os x') {
     document.body.classList.add('hide-cet-menubar')
   }
-  setTheme(await mainObj.getSettingsStore('theme'))
+  updateTheme()
 })
 
-function setTheme(theme?: string) {
-  if (!theme) {
-    theme = isDarkMode() ? 'dark' : 'light'
-  }
+async function updateTheme() {
+  const theme = await mainObj.getTheme()
   if (theme === 'dark') {
     document.body.classList.add('-theme-with-dark-background')
   } else {
@@ -73,6 +70,7 @@ const mainObj = {
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
   getLanguage: () => ipcRenderer.invoke('getLanguage'),
+  getTheme: () => ipcRenderer.invoke('getTheme'),
   readClipboardImage: () => ipcRenderer.invoke('readClipboardImage'),
   showOpenDialog: (options: OpenDialogOptions = {}) => {
     return ipcRenderer.invoke('showOpenDialog', options)
@@ -111,11 +109,7 @@ const mainObj = {
 }
 contextBridge.exposeInMainWorld('main', mainObj)
 
-mainObj.on('changeSettingsStore', (_, name, val) => {
-  if (name === 'theme') {
-    setTheme(val)
-  }
-})
+mainObj.on('updateTheme', updateTheme)
 
 const preloadObj = {
   setTitle: (title: string) => {

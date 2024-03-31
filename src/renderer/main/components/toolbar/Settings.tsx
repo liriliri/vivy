@@ -21,7 +21,7 @@ interface IProps {
 
 export default observer(function Settings(props: IProps) {
   const onChange = (key, val) => {
-    if (contain(['language', 'modelPath', 'enableWebUI'], key)) {
+    if (contain(['language', 'enableWebUI'], key)) {
       notify(t('requireReload'))
     }
     store.settings.set(key, val)
@@ -40,6 +40,7 @@ export default observer(function Settings(props: IProps) {
           value={store.settings.theme}
           title={t('theme')}
           options={{
+            [t('sysPreference')]: 'system',
             [t('light')]: 'light',
             [t('dark')]: 'dark',
           }}
@@ -59,7 +60,10 @@ export default observer(function Settings(props: IProps) {
         <SettingPath
           title={t('modelPath')}
           value={store.settings.modelPath}
-          onChange={(val) => store.settings.set('modelPath', val)}
+          onChange={(val) => {
+            notify(t('requireReload'))
+            store.settings.set('modelPath', val)
+          }}
           options={{
             properties: ['openDirectory'],
           }}

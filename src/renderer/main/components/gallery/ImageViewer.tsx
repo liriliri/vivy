@@ -42,7 +42,7 @@ export default observer(function () {
     }
   }
 
-  let image = store.settings.theme === 'light' ? defaultImage : defaultDarkImage
+  let image = store.theme === 'dark' ? defaultDarkImage : defaultImage
   if (project.selectedImage) {
     image = toDataUrl(project.selectedImage.data, 'image/png')
   }

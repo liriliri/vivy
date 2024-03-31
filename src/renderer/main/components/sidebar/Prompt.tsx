@@ -99,7 +99,7 @@ export default observer(function () {
     return negativeEditorFocus ? negativeEditorRef.current! : editorRef.current!
   }
 
-  const theme = store.settings.theme === 'dark' ? 'vivy-dark' : 'vs'
+  const theme = store.theme === 'dark' ? 'vivy-dark' : 'vs'
 
   return (
     <>

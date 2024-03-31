@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { lazy } from 'react'
-import { getSystemLanguage, i18n, t } from './lib/util'
+import { i18n, t } from './lib/util'
 import { isDev } from '../common/util'
 import hotKey from 'licia/hotkey'
 import getUrlParam from 'licia/getUrlParam'
@@ -75,7 +75,7 @@ if (isDev()) {
 }
 
 ;(async function () {
-  let language = await main.getLanguage()
+  const language = await main.getLanguage()
   i18n.locale(language)
   LunaModal.i18n.locale(language)
   LunaPainter.i18n.locale(language)

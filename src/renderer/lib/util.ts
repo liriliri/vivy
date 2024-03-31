@@ -30,14 +30,6 @@ export function t(path: string | string[], data?: types.PlainObj<any>) {
   return i18n.t(path, data)
 }
 
-export function getSystemLanguage() {
-  if (navigator.language === 'zh-CN') {
-    return 'zh-CN'
-  }
-
-  return 'en-US'
-}
-
 export function parseDataUrl(dataUrl: string) {
   const data = dataUrl.slice(dataUrl.indexOf('base64,') + 7)
 

@@ -36,22 +36,21 @@ export default observer(function Graph() {
     }
   }, [])
 
-  const { theme } = store.settings
-  const color = theme === 'dark' ? colorPrimaryDark : colorPrimary
+  const color = store.theme === 'dark' ? colorPrimaryDark : colorPrimary
 
   return (
     <>
       <LunaPerformanceMonitor
         title="CPU"
         data={cpuData}
-        theme={theme}
+        theme={store.theme}
         color={color}
         unit="%"
       />
       <LunaPerformanceMonitor
         title="MEM"
         data={memData}
-        theme={theme}
+        theme={store.theme}
         color={color}
         unit="MB"
       />

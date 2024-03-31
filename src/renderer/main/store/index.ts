@@ -15,20 +15,21 @@ import * as webui from '../lib/webui'
 import { IImage, IUpscaleImgOptions } from './types'
 import { Task, TaskStatus, GenTask, UpscaleImgTask } from './task'
 import { UI } from './ui'
-import { Settings } from '../../store/settings'
+import { Settings } from './settings'
 import LunaModal from 'luna-modal'
 import { notify, t } from '../../lib/util'
 import { isEmptyMask } from '../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import { Project } from './project'
+import BaseStore from '../../store/BaseStore'
 
 interface IOptions {
   model: string
   vae: string
 }
 
-class Store {
+class Store extends BaseStore {
   options: IOptions = {
     model: '',
     vae: 'None',
@@ -43,6 +44,8 @@ class Store {
   settings = new Settings()
   project = new Project()
   constructor() {
+    super()
+
     makeObservable(this, {
       isReady: observable,
       tasks: observable,

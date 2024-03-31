@@ -27,7 +27,7 @@ export default observer(function () {
       allowProposedApi: true,
       fontSize: 14,
       fontFamily: 'mono, courier-new, courier, monospace',
-      theme: getTheme(store.settings.theme === 'dark'),
+      theme: getTheme(store.theme === 'dark'),
     })
     const fitAddon = new FitAddon()
     term.loadAddon(fitAddon)
@@ -59,7 +59,7 @@ export default observer(function () {
     }
   }, [])
 
-  const theme = getTheme(store.settings.theme === 'dark')
+  const theme = getTheme(store.theme === 'dark')
   if (termRef.current) {
     termRef.current.options.theme = theme
   }

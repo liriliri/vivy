@@ -1,6 +1,6 @@
 import path from 'path'
 import contain from 'licia/contain'
-import { app } from 'electron'
+import { app, nativeTheme } from 'electron'
 import { fileURLToPath } from 'url'
 import { isDev } from '../../common/util'
 import splitPath from 'licia/splitPath'
@@ -37,4 +37,12 @@ export function getUserDataPath(p: string) {
 export function replaceExt(file, newExt) {
   const { ext } = splitPath(file)
   return file.replace(ext, newExt)
+}
+
+export function getTheme() {
+  if (nativeTheme.themeSource === 'system') {
+    return nativeTheme.shouldUseDarkColors ? 'dark' : 'light'
+  }
+
+  return nativeTheme.themeSource
 }

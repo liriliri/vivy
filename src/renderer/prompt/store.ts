@@ -1,5 +1,5 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
-import { Settings } from '../store/settings'
+import BaseStore from '../store/BaseStore'
 import tags from '../assets/tags.json'
 import keys from 'licia/keys'
 import * as prompt from '../lib/prompt'
@@ -11,8 +11,7 @@ import randomItem from 'licia/randomItem'
 import { editor } from 'monaco-editor'
 import { searchTags } from '../lib/util'
 
-class Store {
-  settings = new Settings()
+class Store extends BaseStore {
   prompt = ''
   setPromptTime = now()
   editor?: editor.IStandaloneCodeEditor
@@ -22,8 +21,9 @@ class Store {
   keyword = ''
   searchTags: string[] = []
   constructor() {
+    super()
+
     makeObservable(this, {
-      settings: observable,
       prompt: observable,
       searchTags: observable,
       setPrompt: observable,

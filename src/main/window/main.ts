@@ -1,6 +1,6 @@
 import path from 'path'
 import { isDev } from '../../common/util'
-import { BrowserWindow, ipcMain, app, nativeTheme, clipboard } from 'electron'
+import { BrowserWindow, ipcMain, app, clipboard } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import * as window from '../lib/window'
@@ -81,20 +81,12 @@ function initIpc() {
   })
 
   ipcMain.handle('setSettingsStore', (_, name, val) => {
-    if (name === 'theme') {
-      nativeTheme.themeSource = val
-    }
     settingsStore.set(name, val)
   })
   ipcMain.handle('getSettingsStore', (_, name) => settingsStore.get(name))
   settingsStore.on('change', (name, val) =>
     window.sendAll('changeSettingsStore', name, val)
   )
-
-  const theme = settingsStore.get('theme')
-  if (theme) {
-    nativeTheme.themeSource = theme
-  }
 
   ipcMain.handle('readClipboardImage', () => {
     const image = clipboard.readImage()
