@@ -28,7 +28,7 @@ export default observer(function () {
     })
   } else {
     modelDisabled = true
-    if (store.isReady) {
+    if (store.isWebUIReady) {
       modelOptions = {
         [t('empty')]: 'empty',
       }
@@ -51,7 +51,7 @@ export default observer(function () {
 
   const loading = (
     <LunaToolbarHtml>
-      {store.isReady ? null : (
+      {store.isWebUIReady ? null : (
         <LoadingBar
           className={Style.loading}
           onClick={() => {

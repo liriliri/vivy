@@ -76,9 +76,8 @@ export class Project {
       moveImageRight: action,
     })
 
-    this.bindEvent()
-
     this.init()
+    this.bindEvent()
   }
   async init() {
     const samplers = await main.getMainStore('samplers')

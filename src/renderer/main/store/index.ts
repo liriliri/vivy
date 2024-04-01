@@ -34,7 +34,7 @@ class Store extends BaseStore {
     model: '',
     vae: 'None',
   }
-  isReady = false
+  isWebUIReady = false
   models: string[] = []
   vaes: string[] = []
   upscalers: string[] = []
@@ -47,7 +47,7 @@ class Store extends BaseStore {
     super()
 
     makeObservable(this, {
-      isReady: observable,
+      isWebUIReady: observable,
       tasks: observable,
       models: observable,
       vaes: observable,
@@ -136,7 +136,7 @@ class Store extends BaseStore {
     await this.fetchModels()
     await this.fetchVaes()
     await this.fetchUpscalers()
-    runInAction(() => (this.isReady = true))
+    runInAction(() => (this.isWebUIReady = true))
     this.doCreateTask()
   }
   setStatus(status: string) {
@@ -146,7 +146,7 @@ class Store extends BaseStore {
     const { options } = this
     options[key] = val
     if (key === 'model') {
-      this.isReady = false
+      this.isWebUIReady = false
       this.waitForReady()
       webui.setOptions({
         sd_model_checkpoint: options.model,
@@ -188,7 +188,7 @@ class Store extends BaseStore {
   doCreateTask() {
     const { project } = this
 
-    if (!this.isReady) {
+    if (!this.isWebUIReady) {
       return
     }
     const task = this.tasks[0]
@@ -237,7 +237,7 @@ class Store extends BaseStore {
     main.on('refreshModel', async (_, type: ModelType) => {
       switch (type) {
         case ModelType.StableDiffusion:
-          this.isReady = false
+          this.isWebUIReady = false
           this.waitForReady()
           await webui.refreshCheckpoints()
           break
@@ -245,7 +245,7 @@ class Store extends BaseStore {
     })
   }
   private async checkModel() {
-    if (!this.isReady) {
+    if (!this.isWebUIReady) {
       return false
     } else if (isEmpty(this.models)) {
       const result = await LunaModal.confirm(t('noModelsConfirm'))
