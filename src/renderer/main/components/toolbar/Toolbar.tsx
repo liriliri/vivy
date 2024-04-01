@@ -51,7 +51,14 @@ export default observer(function () {
 
   const loading = (
     <LunaToolbarHtml>
-      {store.isReady ? null : <LoadingBar className={Style.loading} />}
+      {store.isReady ? null : (
+        <LoadingBar
+          className={Style.loading}
+          onClick={() => {
+            main.showTerminal()
+          }}
+        />
+      )}
     </LunaToolbarHtml>
   )
 

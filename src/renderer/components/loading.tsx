@@ -1,5 +1,6 @@
 interface ILoadingProps {
   className?: string
+  onClick?: () => void
 }
 
 export const LoadingBar = (props: ILoadingProps) => {
@@ -13,6 +14,7 @@ export const LoadingBar = (props: ILoadingProps) => {
       className={props.className || ''}
       width="24px"
       height="30px"
+      onClick={props.onClick}
       viewBox="0 0 24 30"
     >
       <rect x="0" y="10" width="4" height="10" fill="#0e639c" opacity="0.2">
