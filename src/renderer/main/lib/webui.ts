@@ -113,7 +113,7 @@ const api = axios.create({
 })
 
 ;(async () => {
-  const port = await main.getWebuiPort()
+  const port = await main.getWebUIPort()
   api.defaults.baseURL = `http://127.0.0.1:${port}`
 })()
 

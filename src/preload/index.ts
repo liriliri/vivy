@@ -39,7 +39,7 @@ async function updateTheme() {
 }
 
 const mainObj = {
-  getWebuiPort: () => ipcRenderer.invoke('getWebuiPort'),
+  getWebUIPort: () => ipcRenderer.invoke('getWebUIPort'),
   showTerminal: () => ipcRenderer.invoke('showTerminal'),
   showDownload: () => ipcRenderer.invoke('showDownload'),
   getDownloads: () => ipcRenderer.invoke('getDownloads'),

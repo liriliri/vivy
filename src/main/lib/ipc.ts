@@ -29,7 +29,7 @@ export function init() {
   ipcMain.handle('downloadModel', (_, options) =>
     download.downloadModel(options)
   )
-  ipcMain.handle('getWebuiPort', () => webui.getPort())
+  ipcMain.handle('getWebUIPort', () => webui.getPort())
   ipcMain.handle('relaunch', () => {
     webui.quit()
     app.relaunch()
