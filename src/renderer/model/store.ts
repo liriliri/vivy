@@ -32,11 +32,11 @@ class Store {
     this.bindEvent()
     this.refresh()
 
-    this.load()
+    this.init()
 
     this.updateListHeight()
   }
-  async load() {
+  async init() {
     const previewHeight = await main.getModelStore('previewHeight')
     if (previewHeight) {
       this.setPreviewHeight(previewHeight)

@@ -13,12 +13,11 @@ export class Settings {
       enableWebUI: observable,
       modelPath: observable,
       set: action,
-      load: action,
     })
 
-    this.load()
+    this.init()
   }
-  async load() {
+  async init() {
     const names = ['language', 'theme', 'enableWebUI', 'modelPath']
     for (let i = 0, len = names.length; i < len; i++) {
       const name = names[i]

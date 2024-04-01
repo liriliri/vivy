@@ -22,9 +22,9 @@ export class UI {
       toggle: action,
     })
 
-    this.load()
+    this.init()
   }
-  async load() {
+  async init() {
     const ui = await main.getMainStore('ui')
     if (ui) {
       extend(this, ui)

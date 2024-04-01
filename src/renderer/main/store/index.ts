@@ -62,13 +62,13 @@ class Store extends BaseStore {
       setOptions: action,
       setStatus: action,
     })
-    this.load()
+    this.init()
 
     this.bindEvent()
 
     this.waitForReady()
   }
-  async load() {
+  async init() {
     const upscalers = await main.getMainStore('upscalers')
     if (upscalers) {
       runInAction(() => (this.upscalers = upscalers))

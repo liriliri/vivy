@@ -31,13 +31,12 @@ class Store extends BaseStore {
       selectedCategoryTags: observable,
       keyword: observable,
       search: action,
-      load: action,
     })
 
-    this.load()
+    this.init()
     this.bindEvent()
   }
-  async load() {
+  async init() {
     this.prompt = (await main.getMainStore('prompt')) || ''
   }
   async setPrompt(prompt: string) {

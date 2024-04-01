@@ -13,9 +13,9 @@ class Store {
       mask: observable,
     })
 
-    this.load()
+    this.init()
   }
-  async load() {
+  async init() {
     const initImage: IImage = await main.getMainStore('initImage')
     runInAction(() => {
       this.initImage = initImage

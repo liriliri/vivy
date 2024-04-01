@@ -23,9 +23,9 @@ class Store {
     })
 
     this.bindEvent()
-    this.load()
+    this.init()
   }
-  async load() {
+  async init() {
     const downloads = await main.getDownloads()
     runInAction(() => {
       this.downloads = downloads
