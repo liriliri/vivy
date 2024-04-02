@@ -4,6 +4,7 @@ import { BrowserWindow, ipcMain, app, clipboard } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import * as window from '../lib/window'
+import * as webui from './webui'
 import * as model from '../lib/model'
 import convertBin from 'licia/convertBin'
 
@@ -93,5 +94,13 @@ function initIpc() {
     if (!image.isEmpty()) {
       return convertBin(image.toPNG(), 'base64')
     }
+  })
+
+  ipcMain.handle('getWebUIPort', () => webui.getPort())
+  ipcMain.handle('isWebUIRunning', () => webui.isRunning())
+  ipcMain.handle('relaunch', () => {
+    webui.quit()
+    app.relaunch()
+    app.exit()
   })
 }
