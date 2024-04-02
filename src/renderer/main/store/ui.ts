@@ -1,5 +1,6 @@
 import { action, makeObservable, observable } from 'mobx'
 import extend from 'licia/extend'
+import { setMainStore } from '../../lib/util'
 
 export class UI {
   imageListHeight = 181
@@ -33,7 +34,7 @@ export class UI {
   async set(key, val) {
     this[key] = val
 
-    await main.setMainStore('ui', {
+    await setMainStore('ui', {
       imageListHeight: this.imageListHeight,
       imageListItemSize: this.imageListItemSize,
       imageListMaximized: this.imageListMaximized,
