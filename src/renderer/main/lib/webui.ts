@@ -278,25 +278,37 @@ export async function getProgress(
   return response.data
 }
 
-export async function waitForReady(
-  checkInterval: number = 5.0
-): Promise<boolean> {
-  return new Promise((resolve) => {
-    const interval = setInterval(async () => {
-      const result = await getProgress()
-      const progress = result.progress
-      const jobCount = result.state.job_count
+let waitPromise: Promise<boolean> | null = null
 
-      if ((progress === 0.0 || progress === 0.01) && jobCount <= 0) {
-        clearInterval(interval)
-        resolve(true)
-      } else {
-        console.log(
-          `[WAIT]: progress = ${progress.toFixed(4)}, job_count = ${jobCount}`
-        )
+export async function wait(checkInterval: number = 5.0): Promise<boolean> {
+  if (waitPromise) {
+    return waitPromise
+  }
+
+  waitPromise = new Promise((resolve) => {
+    async function check() {
+      if (!(await main.isWebUIRunning())) {
+        waitPromise = null
+        return resolve(false)
       }
-    }, checkInterval * 1000)
+      try {
+        const result = await getProgress()
+        const progress = result.progress
+        const jobCount = result.state.job_count
+
+        if ((progress === 0.0 || progress === 0.01) && jobCount <= 0) {
+          waitPromise = null
+          return resolve(true)
+        }
+      } catch (e) {
+        // @ts-ignore
+      }
+      setTimeout(check, checkInterval * 1000)
+    }
+    check()
   })
+
+  return waitPromise
 }
 
 export async function getSdModels(): Promise<StableDiffusionModel[]> {

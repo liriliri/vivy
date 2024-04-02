@@ -57,21 +57,29 @@ class Store extends BaseStore {
       settings: observable,
       project: observable,
       statusbarDesc: observable,
-      waitForReady: action,
       doCreateTask: action,
-      setOptions: action,
       setStatus: action,
     })
+
     this.init()
-
     this.bindEvent()
-
-    this.waitForReady()
   }
   async init() {
     const upscalers = await main.getMainStore('upscalers')
     if (upscalers) {
       runInAction(() => (this.upscalers = upscalers))
+    }
+
+    const ready = await webui.wait()
+    if (ready) {
+      runInAction(() => {
+        this.isWebUIReady = true
+      })
+      await this.project.fetchSamplers()
+      await this.fetchOptions()
+      await this.fetchModels()
+      await this.fetchVaes()
+      await this.fetchUpscalers()
     }
   }
   async setStore(name: string, val: any) {
@@ -128,34 +136,27 @@ class Store extends BaseStore {
       this.vaes = map(vaes, (vae) => vae.model_name)
     })
   }
-  async waitForReady() {
-    if (isEmpty(this.tasks)) {
-      await webui.waitForReady()
-    }
-    await this.fetchOptions()
-    await this.fetchModels()
-    await this.fetchVaes()
-    await this.fetchUpscalers()
-    runInAction(() => (this.isWebUIReady = true))
-    this.doCreateTask()
-  }
   setStatus(status: string) {
     this.statusbarDesc = status
   }
-  setOptions(key, val) {
+  async setOptions(key, val) {
     const { options } = this
     options[key] = val
-    if (key === 'model') {
+    runInAction(() => {
       this.isWebUIReady = false
-      this.waitForReady()
-      webui.setOptions({
+    })
+    if (key === 'model') {
+      await webui.setOptions({
         sd_model_checkpoint: options.model,
       })
     } else if (key === 'vae') {
-      webui.setOptions({
+      await webui.setOptions({
         sd_vae: options.vae,
       })
     }
+    runInAction(() => {
+      this.isWebUIReady = true
+    })
   }
   async createGenTask() {
     const { project } = this
@@ -237,9 +238,9 @@ class Store extends BaseStore {
     main.on('refreshModel', async (_, type: ModelType) => {
       switch (type) {
         case ModelType.StableDiffusion:
-          this.isWebUIReady = false
-          this.waitForReady()
           await webui.refreshCheckpoints()
+          await this.fetchModels()
+          await this.fetchOptions()
           break
       }
     })

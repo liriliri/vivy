@@ -92,6 +92,10 @@ export async function start() {
   app.on('will-quit', () => subprocess.kill())
 }
 
+export function isRunning() {
+  return !subprocess.killed
+}
+
 export function quit() {
   if (subprocess) {
     subprocess.kill()

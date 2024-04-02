@@ -30,6 +30,7 @@ export function init() {
     download.downloadModel(options)
   )
   ipcMain.handle('getWebUIPort', () => webui.getPort())
+  ipcMain.handle('isWebUIRunning', () => webui.isRunning())
   ipcMain.handle('relaunch', () => {
     webui.quit()
     app.relaunch()

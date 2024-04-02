@@ -92,8 +92,6 @@ export class Project {
     } else {
       this.new()
     }
-
-    await this.fetchSamplers()
   }
   async fetchSamplers() {
     const samplers = await webui.getSamplers()

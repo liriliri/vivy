@@ -24,7 +24,7 @@ export default observer(function () {
     })
   } else {
     samplers = {
-      [t('loading')]: 'loading',
+      [t('empty')]: 'empty',
     }
   }
 
@@ -142,6 +142,7 @@ export default observer(function () {
           value={genOptions.sampler}
           title={t('samplingMethod')}
           options={samplers}
+          disabled={isEmpty(samplers)}
           onChange={(val) => project.setGenOption('sampler', val)}
         />
         <StatusbarDesc

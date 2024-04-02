@@ -35,6 +35,12 @@
 }
 
 .item-select {
+  &.disabled {
+    select {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
   .select {
     position: relative;
     width: 100%;

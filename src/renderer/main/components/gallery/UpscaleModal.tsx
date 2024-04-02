@@ -38,7 +38,7 @@ export default observer(function UpscaleModal(props: IProps) {
     })
   } else {
     upscalers = {
-      [t('loading')]: 'loading',
+      [t('empty')]: 'empty',
     }
   }
 
@@ -91,6 +91,7 @@ export default observer(function UpscaleModal(props: IProps) {
           value={upscaler1}
           title={t('upscaler') + ' 1'}
           options={upscalers}
+          disabled={isEmpty(upscalers)}
           onChange={(val) => setUpscaler1(val)}
         />
       </Row>
