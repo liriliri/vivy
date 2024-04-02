@@ -10,6 +10,7 @@ import * as webui from '../../lib/webui'
 import Style from './InterrogateModal.module.scss'
 import { Row, Select } from '../../../components/setting'
 import { ModelType } from '../../../../common/types'
+import store from '../../store'
 
 interface IProps {
   visible: boolean
@@ -35,7 +36,7 @@ export default observer(function InterrogateModal(props: IProps) {
       notify(t('modelMissingErr'))
       return
     }
-    if (isInterrogating) {
+    if (isInterrogating || !store.isWebUIReady) {
       return
     }
     setIsInterrogating(true)

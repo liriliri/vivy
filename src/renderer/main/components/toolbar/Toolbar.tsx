@@ -26,9 +26,12 @@ export default observer(function () {
     each(store.models, (model) => {
       modelOptions[model] = model
     })
+    if (store.isWebUIErr) {
+      modelDisabled = true
+    }
   } else {
     modelDisabled = true
-    if (store.isWebUIReady) {
+    if (store.isWebUIReady || store.isWebUIErr) {
       modelOptions = {
         [t('empty')]: 'empty',
       }
@@ -51,7 +54,7 @@ export default observer(function () {
 
   const loading = (
     <LunaToolbarHtml>
-      {store.isWebUIReady ? null : (
+      {store.isWebUIReady || store.isWebUIErr ? null : (
         <LoadingBar
           className={Style.loading}
           onClick={() => {
@@ -81,6 +84,7 @@ export default observer(function () {
           keyName="vae"
           value={store.options.vae}
           title={'VAE'}
+          disabled={modelDisabled}
           options={vaeOptions}
         />
         <ToolbarIcon

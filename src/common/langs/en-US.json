@@ -84,6 +84,7 @@
   "closeUnsaveConfirm": "Project is not saved, are you sure you want to close it?",
   "empty": "Empty",
   "noModelsConfirm": "No checkpoints are found, at least one checkpoint needs to be added. Do you want to download base model?",
+  "webUIErrConfirm": "Something is wrong with Stable Diffusion web UI. Do you want to open terminal to view the logs?",
   "requireReload": "Requires reload",
   "translation": "Translation",
   "translationService": "Translation Service",

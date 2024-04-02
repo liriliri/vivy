@@ -19,6 +19,7 @@ const store = getWebUIStore()
 let port = 7860
 export const getPort = () => port
 
+let isDead = true
 let subprocess: ChildProcessByStdio<null, Readable, Readable>
 export async function start() {
   const appDir = resolveUnpack('webui/stable-diffusion-webui')
@@ -81,6 +82,7 @@ export async function start() {
     args.push('--nowebui')
   }
 
+  isDead = false
   subprocess = childProcess.spawn('python', args, {
     cwd: appDir,
     windowsHide: true,
@@ -89,12 +91,14 @@ export async function start() {
   })
   subprocess.stdout.on('data', (data) => process.stdout.write(data))
   subprocess.stderr.on('data', (data) => process.stderr.write(data))
+  subprocess.on('exit', () => (isDead = true))
+  subprocess.on('error', () => window.sendAll('webUIError'))
 
   app.on('will-quit', () => subprocess.kill())
 }
 
 export function isRunning() {
-  return !subprocess.killed
+  return !isDead
 }
 
 export function quit() {

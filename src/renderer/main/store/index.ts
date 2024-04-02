@@ -28,6 +28,7 @@ class Store extends BaseStore {
     vae: 'None',
   }
   isWebUIReady = false
+  isWebUIErr = false
   models: string[] = []
   vaes: string[] = []
   upscalers: string[] = []
@@ -41,6 +42,7 @@ class Store extends BaseStore {
 
     makeObservable(this, {
       isWebUIReady: observable,
+      isWebUIErr: observable,
       tasks: observable,
       models: observable,
       vaes: observable,
@@ -73,6 +75,8 @@ class Store extends BaseStore {
       await this.fetchModels()
       await this.fetchVaes()
       await this.fetchUpscalers()
+    } else {
+      this.showWebUIErr()
     }
   }
   async stop() {
@@ -172,6 +176,10 @@ class Store extends BaseStore {
     this.doCreateTask()
   }
   async createUpscaleImgTask(options: IUpscaleImgOptions) {
+    if (!this.isWebUIReady) {
+      return
+    }
+
     const task = new UpscaleImgTask(options)
     this.tasks = [...this.tasks, task]
     this.doCreateTask()
@@ -234,11 +242,15 @@ class Store extends BaseStore {
           break
       }
     })
+
+    main.on('webUIError', this.showWebUIErr)
   }
   private async checkModel() {
     if (!this.isWebUIReady) {
       return false
-    } else if (isEmpty(this.models)) {
+    }
+
+    if (isEmpty(this.models)) {
       const result = await LunaModal.confirm(t('noModelsConfirm'))
       if (result) {
         main.downloadModel({
@@ -254,6 +266,16 @@ class Store extends BaseStore {
     }
 
     return true
+  }
+  private showWebUIErr = async () => {
+    runInAction(() => {
+      this.isWebUIReady = false
+      this.isWebUIErr = true
+    })
+    const result = await LunaModal.confirm(t('webUIErrConfirm'))
+    if (result) {
+      main.showTerminal()
+    }
   }
 }
 
