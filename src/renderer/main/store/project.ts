@@ -1,14 +1,6 @@
-import {
-  action,
-  isObservable,
-  makeObservable,
-  observable,
-  reaction,
-  runInAction,
-  toJS,
-} from 'mobx'
+import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { VivyFile } from '../lib/vivyFile'
-import { t, toDataUrl, notify } from '../../lib/util'
+import { t, toDataUrl, notify, setMainStore, setMemStore } from '../../lib/util'
 import { blurAll, renderImageMask } from '../lib/util'
 import { IImage, IGenOptions } from './types'
 import isEmpty from 'licia/isEmpty'
@@ -98,14 +90,14 @@ export class Project {
     runInAction(() => {
       this.samplers = map(samplers, (sampler) => sampler.name)
     })
-    this.setStore('samplers', this.samplers)
+    setMainStore('samplers', this.samplers)
   }
   setPrompt(prompt: string) {
     if (this.prompt === prompt) {
       return
     }
     this.prompt = prompt
-    this.setStore('prompt', prompt)
+    setMemStore('prompt', prompt)
   }
   setNegativePrompt(negativePrompt: string) {
     if (this.negativePrompt === negativePrompt) {
@@ -276,7 +268,7 @@ export class Project {
   }
   setPath(path: string) {
     this.path = path
-    main.setMainStore('projectPath', path)
+    setMainStore('projectPath', path)
   }
   new = async () => {
     if (!(await this.checkClose(t('closeUnsaveConfirm')))) {
@@ -343,7 +335,7 @@ export class Project {
       extend(this.genOptions, JSON.parse(genOptions))
       if (initImage && initImage.info) {
         this.initImage = initImage
-        this.setStore('initImage', this.initImage)
+        setMemStore('initImage', this.initImage)
         this.renderInitImage()
       } else {
         this.deleteInitImage()
@@ -446,25 +438,25 @@ export class Project {
     this.setGenOption('width', info.width)
     this.setGenOption('height', info.height)
 
-    this.setStore('initImage', this.initImage)
+    setMemStore('initImage', this.initImage)
 
     this.deleteInitImageMask()
   }
   deleteInitImage() {
     this.initImage = null
-    this.setStore('initImage', null)
+    setMemStore('initImage', null)
 
     this.deleteInitImageMask()
   }
   deleteInitImageMask() {
     this.initImageMask = null
-    this.setStore('initImageMask', null)
+    setMemStore('initImageMask', null)
     this.renderInitImage()
     main.closePainter()
   }
   setInitImageMask(mask: string) {
     this.initImageMask = mask
-    this.setStore('initImageMask', mask)
+    setMemStore('initImageMask', mask)
     this.renderInitImage()
     main.closePainter()
   }
@@ -497,11 +489,8 @@ export class Project {
       this.initImagePreview = image
     })
   }
-  private async setStore(name: string, val: any) {
-    await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
-  }
   private bindEvent() {
-    main.on('changeMainStore', (_, name, val) => {
+    main.on('changeMemStore', (_, name, val) => {
       switch (name) {
         case 'prompt':
           if (this.prompt !== val) {

@@ -9,7 +9,7 @@ import shuffle from 'licia/shuffle'
 import random from 'licia/random'
 import randomItem from 'licia/randomItem'
 import { editor } from 'monaco-editor'
-import { searchTags } from '../lib/util'
+import { searchTags, setMemStore } from '../lib/util'
 
 class Store extends BaseStore {
   prompt = ''
@@ -42,7 +42,7 @@ class Store extends BaseStore {
   async setPrompt(prompt: string) {
     this.prompt = prompt
     this.setPromptTime = now()
-    await main.setMainStore('prompt', prompt)
+    setMemStore('prompt', prompt)
   }
   async random() {
     const result: string[] = []
@@ -80,7 +80,7 @@ class Store extends BaseStore {
     this.search('')
   }
   private bindEvent() {
-    main.on('changeMainStore', (_, name, val) => {
+    main.on('changeMemStore', (_, name, val) => {
       if (name === 'prompt') {
         runInAction(() => {
           if (now() - this.setPromptTime < 500) {

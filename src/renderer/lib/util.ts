@@ -13,6 +13,7 @@ import enUS from '../../common/langs/en-US.json'
 import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 import LunaNotification, { INotifyOptions } from 'luna-notification'
+import { isObservable, toJS } from 'mobx'
 
 const suggestionsZhCNLines = suggestionsZhCN.split('\n')
 
@@ -119,4 +120,12 @@ export function notify(content: string, options?: INotifyOptions) {
 
 export function isFileDrop(e: React.DragEvent) {
   return contain(e.dataTransfer.types, 'Files')
+}
+
+export async function setMainStore(name: string, val: any) {
+  await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
+}
+
+export async function setMemStore(name: string, val: any) {
+  await main.setMemStore(name, isObservable(val) ? toJS(val) : val)
 }

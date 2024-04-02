@@ -1,11 +1,4 @@
-import {
-  action,
-  isObservable,
-  makeObservable,
-  observable,
-  runInAction,
-  toJS,
-} from 'mobx'
+import { action, makeObservable, observable, runInAction } from 'mobx'
 import clone from 'licia/clone'
 import filter from 'licia/filter'
 import contain from 'licia/contain'
@@ -17,7 +10,7 @@ import { Task, TaskStatus, GenTask, UpscaleImgTask } from './task'
 import { UI } from './ui'
 import { Settings } from './settings'
 import LunaModal from 'luna-modal'
-import { notify, t } from '../../lib/util'
+import { notify, setMainStore, t } from '../../lib/util'
 import { isEmptyMask } from '../lib/util'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
@@ -82,9 +75,6 @@ class Store extends BaseStore {
       await this.fetchUpscalers()
     }
   }
-  async setStore(name: string, val: any) {
-    await main.setMainStore(name, isObservable(val) ? toJS(val) : val)
-  }
   async stop() {
     await this.interrupt()
     const task = this.tasks[0]
@@ -122,7 +112,7 @@ class Store extends BaseStore {
     runInAction(() => {
       this.upscalers = map(upscalers, (upscaler) => upscaler.name)
     })
-    this.setStore('upscalers', this.upscalers)
+    setMainStore('upscalers', this.upscalers)
   }
   async fetchModels() {
     const models = await webui.getSdModels()

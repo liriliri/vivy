@@ -1,6 +1,6 @@
 import { makeObservable, observable, runInAction } from 'mobx'
 import { IImage } from '../main/store/types'
-import { toDataUrl } from '../lib/util'
+import { setMemStore, toDataUrl } from '../lib/util'
 
 class Store {
   image = ''
@@ -16,13 +16,13 @@ class Store {
     this.init()
   }
   async init() {
-    const initImage: IImage = await main.getMainStore('initImage')
+    const initImage: IImage = await main.getMemStore('initImage')
     runInAction(() => {
       this.initImage = initImage
       this.image = toDataUrl(initImage.data, initImage.info.mime)
     })
 
-    const mask = await main.getMainStore('initImageMask')
+    const mask = await main.getMemStore('initImageMask')
     if (mask) {
       runInAction(() => (this.mask = toDataUrl(mask, 'image/png')))
     }
@@ -31,7 +31,7 @@ class Store {
   }
   setMask(mask: string) {
     if (this.isLoaded) {
-      main.setMainStore('initImageMask', mask)
+      setMemStore('initImageMask', mask)
     }
   }
 }

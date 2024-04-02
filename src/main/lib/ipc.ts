@@ -13,8 +13,12 @@ import * as model from '../window/model'
 import * as prompt from '../window/prompt'
 import * as system from '../window/system'
 import * as painter from '../window/painter'
+import * as window from './window'
 import contextMenu from './contextMenu'
 import each from 'licia/each'
+import { getMemStore } from './store'
+
+const memStore = getMemStore()
 
 export function init() {
   ipcMain.handle('showSystem', () => system.showWin())
@@ -65,4 +69,10 @@ export function init() {
   ipcMain.handle('showSaveDialog', (_, options: SaveDialogOptions = {}) =>
     dialog.showSaveDialog(options)
   )
+
+  ipcMain.handle('setMemStore', (_, name, val) => memStore.set(name, val))
+  ipcMain.handle('getMemStore', (_, name) => memStore.get(name))
+  memStore.on('change', (name, val) => {
+    window.sendAll('changeMemStore', name, val)
+  })
 }
