@@ -241,7 +241,8 @@ export class UpscaleImgTask extends Task {
     } else if (
       startWith(log, 'ScuNET tiles') ||
       startWith(log, 'SwinIR tiles') ||
-      startWith(log, 'DDIM Sampler')
+      startWith(log, 'DDIM Sampler') ||
+      startWith(log, 'tiled upscale')
     ) {
       ;[current, total] = trim(log.match(/ \d+\/\d+ /)[0]).split('/')
     }

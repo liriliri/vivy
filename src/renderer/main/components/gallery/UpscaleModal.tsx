@@ -34,7 +34,9 @@ export default observer(function UpscaleModal(props: IProps) {
   let upscalers: any = {}
   if (!isEmpty(store.upscalers)) {
     each(store.upscalers, (upscaler) => {
-      upscalers[upscaler] = upscaler
+      if (upscalerParams[upscaler]) {
+        upscalers[upscaler] = upscaler
+      }
     })
   } else {
     upscalers = {
@@ -158,6 +160,21 @@ const upscalerParams = {
     url: 'https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth',
     fileName: 'SwinIR_4x.pth',
     type: ModelType.SwinIR,
+  },
+  'DAT x2': {
+    url: 'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x2.pth',
+    fileName: 'DAT_x2.pth',
+    type: ModelType.DAT,
+  },
+  'DAT x3': {
+    url: 'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x3.pth',
+    fileName: 'DAT_x3.pth',
+    type: ModelType.DAT,
+  },
+  'DAT x4': {
+    url: 'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x4.pth',
+    fileName: 'DAT_x4.pth',
+    type: ModelType.DAT,
   },
 }
 

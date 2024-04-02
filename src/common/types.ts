@@ -10,6 +10,7 @@ export enum ModelType {
   BLIP = 'BLIP',
   Deepdanbooru = 'Deepdanbooru',
   VAE = 'VAE',
+  DAT = 'DAT',
 }
 
 export const modelTypes = {
