@@ -12,7 +12,9 @@ import LunaSetting, {
 import { notify, t } from '../../../lib/util'
 import store from '../../../main/store'
 import Style from './Settings.module.scss'
+import each from 'licia/each'
 import SettingPath from '../../../components/SettingPath'
+import isEmpty from 'licia/isEmpty'
 
 interface IProps {
   visible: boolean
@@ -21,10 +23,18 @@ interface IProps {
 
 export default observer(function Settings(props: IProps) {
   const onChange = (key, val) => {
-    if (contain(['language', 'enableWebUI'], key)) {
+    if (contain(['language', 'enableWebUI', 'device'], key)) {
       notify(t('requireReload'))
     }
     store.settings.set(key, val)
+  }
+
+  const deviceOptions: any = {}
+  each(store.settings.devices, (device) => {
+    deviceOptions[device.name] = device.id
+  })
+  if (isEmpty(store.settings.devices)) {
+    deviceOptions[t('empty')] = 'empty'
   }
 
   return createPortal(
@@ -57,6 +67,13 @@ export default observer(function Settings(props: IProps) {
         />
         <LunaSettingSeparator />
         <LunaSettingTitle title="Stable Diffusion" />
+        <LunaSettingSelect
+          keyName="device"
+          value={store.settings.device}
+          title={t('device')}
+          disabled={isEmpty(store.settings.devices)}
+          options={deviceOptions}
+        />
         <SettingPath
           title={t('modelPath')}
           value={store.settings.modelPath}

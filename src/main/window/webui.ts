@@ -12,6 +12,9 @@ import { ModelType } from '../../common/types'
 import * as window from '../lib/window'
 import pidusage from 'pidusage'
 import os from 'os'
+import contain from 'licia/contain'
+import map from 'licia/map'
+import upperCase from 'licia/upperCase'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -19,8 +22,10 @@ const store = getWebUIStore()
 let port = 7860
 export const getPort = () => port
 
-let isDead = true
+let isDead = false
+let devices: string[] = []
 let subprocess: ChildProcessByStdio<null, Readable, Readable>
+
 export async function start() {
   const appDir = resolveUnpack('webui/stable-diffusion-webui')
 
@@ -41,11 +46,6 @@ export async function start() {
 
   if (isMac()) {
     extend(env, {
-      COMMANDLINE_ARGS:
-        '--skip-torch-cuda-test --upcast-sampling --no-half-vae --no-half --use-cpu interrogate',
-      TORCH_COMMAND: 'pip install torch==2.0.1 torchvision==0.15.2',
-      K_DIFFUSION_REPO: 'https://github.com/brkirch/k-diffusion.git',
-      K_DIFFUSION_COMMIT_HASH: '51c9778f269cedb55a4d88c79c0246d35bdadb71',
       PYTORCH_ENABLE_MPS_FALLBACK: '1',
     })
   }
@@ -82,7 +82,32 @@ export async function start() {
     args.push('--nowebui')
   }
 
-  isDead = false
+  const result: any = JSON.parse(
+    await spawn('python', ['-u', 'devices.py'], {
+      cwd: appDir,
+      windowsHide: true,
+      stdio: '',
+      env,
+    })
+  )
+
+  devices = result.devices
+  let device = settingsStore.get('device')
+  if (!device || !contain(devices, device)) {
+    device = devices[0]
+    settingsStore.set('device', device)
+  }
+
+  if (device === 'cpu') {
+    args.push('--use-cpu', 'all')
+  } else if (isMac()) {
+    args.push('--use-cpu', 'interrogate')
+  }
+
+  if (isMac()) {
+    args.push('--upcast-sampling', '--no-half-vae', '--no-half')
+  }
+
   subprocess = childProcess.spawn('python', args, {
     cwd: appDir,
     windowsHide: true,
@@ -95,6 +120,34 @@ export async function start() {
   subprocess.on('error', () => window.sendAll('webUIError'))
 
   app.on('will-quit', () => subprocess.kill())
+}
+
+function spawn(command: string, args: string[], options: any): Promise<string> {
+  return new Promise((resolve) => {
+    const child = childProcess.spawn(command, args, options)
+    let result = ''
+    child.stdout.on('data', (data) => (result += data))
+    child.on('close', function () {
+      resolve(result)
+    })
+  })
+}
+
+export function getDevices() {
+  return map(devices, (device) => {
+    let name = device
+    switch (device) {
+      case 'mps':
+      case 'cpu':
+        name = upperCase(device)
+        break
+    }
+
+    return {
+      id: device,
+      name,
+    }
+  })
 }
 
 export function isRunning() {

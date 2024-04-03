@@ -70,6 +70,7 @@ class Store extends BaseStore {
       runInAction(() => {
         this.isWebUIReady = true
       })
+      await this.settings.getDevices()
       await this.project.fetchSamplers()
       await this.fetchOptions()
       await this.fetchModels()
