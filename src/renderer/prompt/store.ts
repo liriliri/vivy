@@ -37,7 +37,7 @@ class Store extends BaseStore {
     this.bindEvent()
   }
   async init() {
-    this.prompt = (await main.getMainStore('prompt')) || ''
+    this.prompt = (await main.getMemStore('prompt')) || ''
   }
   async setPrompt(prompt: string) {
     this.prompt = prompt
