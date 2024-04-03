@@ -34,7 +34,10 @@ export default observer(function UpscaleModal(props: IProps) {
   let upscalers: any = {}
   if (!isEmpty(store.upscalers)) {
     each(store.upscalers, (upscaler) => {
-      if (upscalerParams[upscaler]) {
+      if (
+        contain(upscalersWithoutModel, upscaler) ||
+        upscalerParams[upscaler]
+      ) {
         upscalers[upscaler] = upscaler
       }
     })
