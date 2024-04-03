@@ -82,11 +82,14 @@ export async function start() {
     args.push('--nowebui')
   }
 
+  if (isMac()) {
+    args.push('--upcast-sampling')
+  }
+
   const result: any = JSON.parse(
     await spawn('python', ['-u', 'devices.py'], {
       cwd: appDir,
       windowsHide: true,
-      stdio: '',
       env,
     })
   )
@@ -104,8 +107,8 @@ export async function start() {
     args.push('--use-cpu', 'interrogate')
   }
 
-  if (isMac()) {
-    args.push('--upcast-sampling', '--no-half-vae', '--no-half')
+  if (device === 'cpu' || isMac()) {
+    args.push('--no-half-vae', '--no-half')
   }
 
   subprocess = childProcess.spawn('python', args, {
