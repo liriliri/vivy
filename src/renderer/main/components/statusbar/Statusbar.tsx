@@ -111,7 +111,9 @@ export default observer(function () {
         onClick={() => main.showSystem()}
       >
         <div className={Style.cpu}>CPU {cpuUsage.toFixed(2)}</div>
-        <div className={Style.mem}>MEM {fileSize(memUsage)}B</div>
+        <div className={Style.mem}>
+          {t('ram')} {fileSize(memUsage)}B
+        </div>
       </div>
       <ProgressBar />
     </div>

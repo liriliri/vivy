@@ -23,7 +23,7 @@ import ric from 'licia/ric'
 import map from 'licia/map'
 import { ISDGenData, IImageGenData, parseImage } from '../lib/genData'
 import contain from 'licia/contain'
-import * as webui from '../lib/webui'
+import * as webui from '../../lib/webui'
 import LunaModal from 'luna-modal'
 import splitPath from 'licia/splitPath'
 

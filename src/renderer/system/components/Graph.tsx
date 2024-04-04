@@ -2,6 +2,7 @@ import LunaPerformanceMonitor from 'luna-performance-monitor/react'
 import { useCallback, useEffect, useRef } from 'react'
 import store from '../store'
 import { observer } from 'mobx-react-lite'
+import { t } from '../../lib/util'
 import { colorPrimary, colorPrimaryDark } from '../../../common/theme'
 
 export default observer(function Graph() {
@@ -48,7 +49,7 @@ export default observer(function Graph() {
         unit="%"
       />
       <LunaPerformanceMonitor
-        title="MEM"
+        title={t('ram')}
         data={memData}
         theme={store.theme}
         color={color}
