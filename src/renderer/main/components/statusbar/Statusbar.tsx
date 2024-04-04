@@ -28,16 +28,16 @@ export function StatusbarDesc(props: PropsWithChildren<IStatusbarDescProps>) {
 
 export default observer(function () {
   const [cpuUsage, setCpuUsage] = useState(0)
-  const [memUsage, setMemUsage] = useState(0)
+  const [ramUsage, setRamUsage] = useState(0)
 
   useEffect(() => {
     let timer: NodeJS.Timer | null = null
 
     async function updateCpuAndMem() {
       timer = null
-      const { cpu, mem } = await main.getCpuAndMem()
+      const { cpu, ram } = await main.getCpuAndRam()
       setCpuUsage(cpu)
-      setMemUsage(mem)
+      setRamUsage(ram)
       timer = setTimeout(updateCpuAndMem, 2000)
     }
 
@@ -111,8 +111,8 @@ export default observer(function () {
         onClick={() => main.showSystem()}
       >
         <div className={Style.cpu}>CPU {cpuUsage.toFixed(2)}</div>
-        <div className={Style.mem}>
-          {t('ram')} {fileSize(memUsage)}B
+        <div className={Style.ram}>
+          {t('ram')} {fileSize(ramUsage)}B
         </div>
       </div>
       <ProgressBar />

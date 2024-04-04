@@ -158,6 +158,7 @@
   "sysPreference": "System Preference",
   "device": "Device",
   "ram": "RAM",
+  "vram": "VRAM",
 
   "character": "Character",
   "camera": "Camera",

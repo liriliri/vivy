@@ -1,3 +1,8 @@
 import BaseStore from '../store/BaseStore'
+import { Settings } from '../store/settings'
 
-export default new BaseStore()
+class Store extends BaseStore {
+  settings = new Settings()
+}
+
+export default new Store()

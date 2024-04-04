@@ -82,7 +82,7 @@ const mainObj = {
   showSaveDialog: (options: SaveDialogOptions = {}) => {
     return ipcRenderer.invoke('showSaveDialog', options)
   },
-  getCpuAndMem: () => ipcRenderer.invoke('getCpuAndMem'),
+  getCpuAndRam: () => ipcRenderer.invoke('getCpuAndRam'),
   translate: (text) => ipcRenderer.invoke('translate', text),
   relaunch: () => ipcRenderer.invoke('relaunch'),
   getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),

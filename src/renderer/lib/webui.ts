@@ -18,6 +18,19 @@ type Progress = {
   textinfo: string
 }
 
+type Ram = {
+  free: number
+  used: number
+  total: number
+}
+
+type Memory = {
+  ram: Ram
+  cuda: {
+    system: Ram
+  }
+}
+
 type Options = {
   sd_model_checkpoint: string
   sd_vae: string
@@ -358,4 +371,9 @@ export async function interrogate(image: string, model: string) {
     }
   )
   return response.data.caption
+}
+
+export async function getMemory(): Promise<Memory> {
+  const response = await api.get<Memory>('/sdapi/v1/memory')
+  return response.data
 }

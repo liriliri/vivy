@@ -2,9 +2,11 @@ import path from 'path'
 import { isDev } from '../../common/util'
 import { BrowserWindow } from 'electron'
 import * as window from '../lib/window'
-import { getSystemStore } from '../lib/store'
+import { getSettingsStore, getSystemStore } from '../lib/store'
+import startWith from 'licia/startWith'
 
 const store = getSystemStore()
+const settingsStore = getSettingsStore()
 
 let win: BrowserWindow | null = null
 
@@ -14,13 +16,20 @@ export function showWin() {
     return
   }
 
+  let width = 960
+  let height = 300
+
+  if (startWith(settingsStore.get('device'), 'cuda')) {
+    height = 435
+  }
+
   win = window.create({
-    minWidth: 960,
-    minHeight: 300,
+    minWidth: height,
+    minHeight: height,
     resizable: false,
     ...store.get('bounds'),
-    width: 960,
-    height: 300,
+    width,
+    height,
     onSavePos: () => store.set('bounds', win?.getBounds()),
   })
   win.on('close', () => {

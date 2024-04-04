@@ -200,15 +200,15 @@ export function showWin() {
 
 const cpuCount = os.cpus().length
 
-export function getCpuAndMem(): Promise<{
+export function getCpuAndRam(): Promise<{
   cpu: number
-  mem: number
+  ram: number
 }> {
   return new Promise((resolve, reject) => {
     if (!subprocess) {
       return resolve({
         cpu: 0,
-        mem: 0,
+        ram: 0,
       })
     }
 
@@ -219,7 +219,7 @@ export function getCpuAndMem(): Promise<{
 
       resolve({
         cpu: stats.cpu / cpuCount,
-        mem: stats.memory,
+        ram: stats.memory,
       })
     })
   })

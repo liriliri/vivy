@@ -29,7 +29,7 @@
 .system-info {
   display: flex;
   .cpu,
-  .mem {
+  .ram {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

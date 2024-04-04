@@ -33,22 +33,22 @@ export function init() {
   ipcMain.handle('downloadModel', (_, options) =>
     download.downloadModel(options)
   )
-  ipcMain.handle('getCpuAndMem', async () => {
+  ipcMain.handle('getCpuAndRam', async () => {
     const metrics = app.getAppMetrics()
     let cpu = 0
-    let mem = 0
+    let ram = 0
     each(metrics, (metric) => {
       cpu += metric.cpu.percentCPUUsage
-      mem += metric.memory.workingSetSize * 1024
+      ram += metric.memory.workingSetSize * 1024
     })
 
-    const webuiCpuAndMem = await webui.getCpuAndMem()
-    cpu += webuiCpuAndMem.cpu
-    mem += webuiCpuAndMem.mem
+    const webuiCpuAndRam = await webui.getCpuAndRam()
+    cpu += webuiCpuAndRam.cpu
+    ram += webuiCpuAndRam.ram
 
     return {
       cpu,
-      mem,
+      ram,
     }
   })
   ipcMain.handle('openFile', (_, path: string) => {
