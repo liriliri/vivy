@@ -15,6 +15,8 @@ import os from 'os'
 import contain from 'licia/contain'
 import map from 'licia/map'
 import upperCase from 'licia/upperCase'
+import startWith from 'licia/startWith'
+import toNum from 'licia/toNum'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -24,6 +26,7 @@ export const getPort = () => port
 
 let isDead = false
 let devices: string[] = []
+let cuda: string[] = []
 let subprocess: ChildProcessByStdio<null, Readable, Readable>
 
 export async function start() {
@@ -94,6 +97,7 @@ export async function start() {
     })
   )
 
+  cuda = result.cuda
   devices = result.devices
   let device = settingsStore.get('device')
   if (!device || !contain(devices, device)) {
@@ -105,6 +109,10 @@ export async function start() {
     args.push('--use-cpu', 'all')
   } else if (isMac()) {
     args.push('--use-cpu', 'interrogate')
+  }
+
+  if (startWith(device, 'cuda')) {
+    args.push('--device-id', device.slice(5))
   }
 
   if (device === 'cpu' || isMac()) {
@@ -144,6 +152,11 @@ export function getDevices() {
       case 'cpu':
         name = upperCase(device)
         break
+    }
+
+    if (startWith(device, 'cuda')) {
+      const num = toNum(device.slice(5))
+      name = cuda[num]
     }
 
     return {
