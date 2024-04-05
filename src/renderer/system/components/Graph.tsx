@@ -19,11 +19,11 @@ export default observer(function Graph() {
   }, [])
 
   const ramData = useCallback(() => {
-    return +(dataRef.current.ram / 1024 / 1024).toFixed(1)
+    return +(dataRef.current.ram / 1024 / 1024 / 1024).toFixed(2)
   }, [])
 
   const vramData = useCallback(() => {
-    return +(dataRef.current.vram / 1024 / 1024 / 1024).toFixed(1)
+    return +(dataRef.current.vram / 1024 / 1024 / 1024).toFixed(2)
   }, [])
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default observer(function Graph() {
         data={ramData}
         theme={store.theme}
         color={color}
-        unit="MB"
+        unit="GB"
       />
       {vram}
     </>
