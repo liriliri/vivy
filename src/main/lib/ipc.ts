@@ -33,7 +33,12 @@ export function init() {
   ipcMain.handle('downloadModel', (_, options) =>
     download.downloadModel(options)
   )
+  let cpuAndRamCache: any = null
   ipcMain.handle('getCpuAndRam', async () => {
+    if (cpuAndRamCache) {
+      return cpuAndRamCache
+    }
+
     const metrics = app.getAppMetrics()
     let cpu = 0
     let ram = 0
@@ -46,10 +51,14 @@ export function init() {
     cpu += webuiCpuAndRam.cpu
     ram += webuiCpuAndRam.ram
 
-    return {
+    cpuAndRamCache = {
       cpu,
       ram,
     }
+
+    setTimeout(() => (cpuAndRamCache = null), 2000)
+
+    return cpuAndRamCache
   })
   ipcMain.handle('openFile', (_, path: string) => {
     shell.openPath(path)
