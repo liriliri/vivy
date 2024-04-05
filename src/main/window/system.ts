@@ -16,7 +16,7 @@ export function showWin() {
     return
   }
 
-  let width = 960
+  const width = 960
   let height = 300
 
   if (startWith(settingsStore.get('device'), 'cuda')) {

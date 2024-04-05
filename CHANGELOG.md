@@ -1,3 +1,11 @@
+## v0.9.0 (5 Apr 2024)
+
+* feat: theme and language support follow system preference
+* feat: upgrade Stable Diffusion web UI to 1.8.0-RC
+* feat: support setting generation device
+* feat: display task duration
+* feat: display cuda vram
+
 ## v0.8.0 (18 Mar 2024)
 
 * feat: model preview
