@@ -89,16 +89,24 @@ export async function start() {
     args.push('--upcast-sampling')
   }
 
-  const result: any = JSON.parse(
-    await spawn('python', ['-u', 'devices.py'], {
-      cwd: appDir,
-      windowsHide: true,
-      env,
-    })
-  )
+  if (store.get('cuda') && store.get('devices')) {
+    cuda = store.get('cuda')
+    devices = store.get('devices')
+  } else {
+    const result: any = JSON.parse(
+      await spawn('python', ['-u', 'devices.py'], {
+        cwd: appDir,
+        windowsHide: true,
+        env,
+      })
+    )
 
-  cuda = result.cuda
-  devices = result.devices
+    cuda = result.cuda
+    store.set('cuda', cuda)
+    devices = result.devices
+    store.set('devices', devices)
+  }
+
   let device = settingsStore.get('device')
   if (!device || !contain(devices, device)) {
     device = devices[0]
