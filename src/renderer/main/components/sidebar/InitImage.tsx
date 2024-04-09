@@ -26,6 +26,7 @@ import CropModal from '../common/CropModal'
 import contextMenu from '../../../lib/contextMenu'
 import convertBin from 'licia/convertBin'
 import NewImageModal from './NewImageModal'
+import { toJS } from 'mobx'
 
 export default observer(function InitImage() {
   const { project } = store
@@ -159,7 +160,7 @@ export default observer(function InitImage() {
       if (id) {
         const image = project.getImage(id)
         if (image) {
-          project.setInitImage(image)
+          project.setInitImage(toJS(image))
         }
       }
     }
