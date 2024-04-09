@@ -15,10 +15,11 @@ import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
-import { t, toDataUrl } from '../../../lib/util'
+import { parseDataUrl, t, toDataUrl } from '../../../lib/util'
 import { getImageName } from '../../lib/util'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
+import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
 
 export default observer(function () {
@@ -27,6 +28,7 @@ export default observer(function () {
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
+  const [cropModalVisible, setCropModalVisible] = useState(false)
 
   const save = () => {
     if (project.selectedImage) {
@@ -40,6 +42,11 @@ export default observer(function () {
     if (project.selectedImage) {
       project.deleteImage(project.selectedImage)
     }
+  }
+
+  const onCrop = (canvas: HTMLCanvasElement) => {
+    const { data } = parseDataUrl(canvas.toDataURL('image/png'))
+    store.project.addFiles([convertBin(data, 'Blob')])
   }
 
   let image = store.theme === 'dark' ? defaultDarkImage : defaultImage
@@ -103,6 +110,12 @@ export default observer(function () {
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
+          icon="crop"
+          title={t('crop')}
+          disabled={!hasSelectedImage}
+          onClick={() => setCropModalVisible(true)}
+        />
+        <ToolbarIcon
           icon="resize-image"
           title={t('upscale')}
           disabled={!hasSelectedImage}
@@ -151,10 +164,20 @@ export default observer(function () {
           onClose={() => setInterrogateModalVisible(false)}
         />
       )}
-      <UpscaleModal
-        visible={upscaleModalVisible}
-        onClose={() => setUpscaleModalVisible(false)}
-      />
+      {project.selectedImage && (
+        <UpscaleModal
+          visible={upscaleModalVisible}
+          onClose={() => setUpscaleModalVisible(false)}
+        />
+      )}
+      {project.selectedImage && (
+        <CropModal
+          visible={cropModalVisible}
+          image={project.selectedImage}
+          onCrop={onCrop}
+          onClose={() => setCropModalVisible(false)}
+        />
+      )}
     </div>
   )
 })

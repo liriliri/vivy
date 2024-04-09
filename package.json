@@ -54,6 +54,7 @@
     "glob": "^10.3.10",
     "install": "^0.13.0",
     "licia": "^1.39.1",
+    "luna-cropper": "^0.2.1",
     "luna-data-grid": "^0.6.0",
     "luna-image-viewer": "^0.4.0",
     "luna-mask-editor": "^0.4.1",

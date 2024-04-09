@@ -2,7 +2,7 @@ import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { VivyFile } from '../lib/vivyFile'
 import { t, toDataUrl, notify, setMainStore, setMemStore } from '../../lib/util'
 import { blurAll, renderImageMask } from '../lib/util'
-import { IImage, IGenOptions } from './types'
+import { IImage, IGenOptions, IImageInfo } from './types'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import swap from 'licia/swap'
@@ -62,6 +62,7 @@ export class Project {
       setNegativePrompt: action,
       selectImage: action,
       deleteInitImage: action,
+      updateInitImage: action,
       deleteInitImageMask: action,
       deleteAllImages: action,
       moveImageLeft: action,
@@ -105,7 +106,7 @@ export class Project {
     }
     this.negativePrompt = negativePrompt
   }
-  async addFiles(files: FileList) {
+  async addFiles(files: FileList | Blob[]) {
     for (let i = 0, len = files.length; i < len; i++) {
       const file = files[i]
       const buf = await convertBin.blobToArrBuffer(file)
@@ -447,6 +448,14 @@ export class Project {
     setMemStore('initImage', null)
 
     this.deleteInitImageMask()
+  }
+  updateInitImage(data: string, info: Partial<IImageInfo>) {
+    const initImage = this.initImage
+    if (initImage) {
+      initImage.data = data
+      extend(initImage.info, info)
+      this.setInitImage(initImage)
+    }
   }
   deleteInitImageMask() {
     this.initImageMask = null

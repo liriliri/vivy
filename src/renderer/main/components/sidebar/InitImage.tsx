@@ -5,7 +5,13 @@ import store from '../../store'
 import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
-import { t, notify, toDataUrl, isFileDrop } from '../../../lib/util'
+import {
+  t,
+  notify,
+  toDataUrl,
+  isFileDrop,
+  parseDataUrl,
+} from '../../../lib/util'
 import { copyData } from '../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
@@ -16,6 +22,7 @@ import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
+import CropModal from '../common/CropModal'
 import contextMenu from '../../../lib/contextMenu'
 import convertBin from 'licia/convertBin'
 import NewImageModal from './NewImageModal'
@@ -27,6 +34,7 @@ export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
+  const [cropModalVisible, setCropModalVisible] = useState(false)
   const [newImageModalVisible, setNewImageModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
   const [resizerStyle, setResizerStyle] = useState<any>({
@@ -131,6 +139,14 @@ export default observer(function InitImage() {
     }
 
     contextMenu(e, template)
+  }
+
+  const onCrop = (canvas: HTMLCanvasElement) => {
+    const { data } = parseDataUrl(canvas.toDataURL('image/png'))
+    store.project.updateInitImage(data, {
+      width: canvas.width,
+      height: canvas.height,
+    })
   }
 
   const onDrop = (e: React.DragEvent) => {
@@ -238,6 +254,11 @@ export default observer(function InitImage() {
             onClick={() => main.showPainter('mask')}
           />
           <ToolbarIcon
+            icon="crop"
+            title={t('crop')}
+            onClick={() => setCropModalVisible(true)}
+          />
+          <ToolbarIcon
             icon="magic"
             title={t('interrogate')}
             onClick={() => setInterrogateModalVisible(true)}
@@ -275,6 +296,12 @@ export default observer(function InitImage() {
           visible={interrogateModalVisible}
           image={project.initImage}
           onClose={() => setInterrogateModalVisible(false)}
+        />
+        <CropModal
+          visible={cropModalVisible}
+          image={project.initImage}
+          onCrop={onCrop}
+          onClose={() => setCropModalVisible(false)}
         />
       </div>
     )

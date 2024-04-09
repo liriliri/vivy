@@ -1,6 +1,6 @@
 import Painter, { Zoom, Hand } from 'luna-painter'
 import { IImage } from '../../main/store/types'
-import { setMemStore, toDataUrl } from '../../lib/util'
+import { parseDataUrl, setMemStore, toDataUrl } from '../../lib/util'
 import debounce from 'licia/debounce'
 import LunaPainter from 'luna-painter/react'
 
@@ -30,9 +30,9 @@ export default function Sketch() {
     painter.on(
       'canvasRender',
       debounce(async () => {
-        const dataUrl = painter.getCanvas().toDataURL(initImage.info.mime)
-        const data = dataUrl.slice(dataUrl.indexOf('base64,') + 7)
-        initImage.data = data
+        initImage.data = parseDataUrl(
+          painter.getCanvas().toDataURL(initImage.info.mime)
+        ).data
         setMemStore('initImage', initImage)
       }, 1000)
     )

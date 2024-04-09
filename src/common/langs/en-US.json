@@ -159,6 +159,7 @@
   "device": "Device",
   "ram": "RAM",
   "vram": "VRAM",
+  "crop": "Crop",
 
   "character": "Character",
   "camera": "Camera",
