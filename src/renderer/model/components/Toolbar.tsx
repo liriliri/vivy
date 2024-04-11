@@ -53,6 +53,18 @@ export default observer(function Toolbar() {
         value={store.selectedType}
         options={modelTypes}
       />
+      <ToolbarIcon
+        icon="open-file"
+        title={t('openDir')}
+        onClick={() => {
+          if (store.selectedModel) {
+            main.openFileInFolder(store.selectedModel.path)
+          } else {
+            main.openModelDir(store.selectedType)
+          }
+        }}
+      />
+      <LunaToolbarSeparator />
       <LunaToolbarInput
         keyName="filter"
         value={store.filter}
@@ -66,14 +78,6 @@ export default observer(function Toolbar() {
         title={t('delete')}
         onClick={deleteModel}
         disabled={!toBool(store.selectedModel)}
-      />
-      <LunaToolbarSeparator />
-      <ToolbarIcon
-        icon="open-file"
-        title={t('openDir')}
-        onClick={() => {
-          main.openModelDir(store.selectedType)
-        }}
       />
     </LunaToolbar>
   )

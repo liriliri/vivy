@@ -23,6 +23,7 @@ export const modelTypes = {
 export interface IModel {
   name: string
   size: number
+  path: string
   createdDate: number
   preview?: string
 }

@@ -76,11 +76,13 @@ export async function getModels(type: ModelType) {
   const models: IModel[] = []
   for (let i = 0, len = files.length; i < len; i++) {
     const file = files[i]
-    const stat = await fs.stat(path.resolve(dir, file))
+    const p = path.resolve(dir, file)
+    const stat = await fs.stat(p)
 
     models.push({
       name: file.slice(dir.length + 1),
       size: stat.size,
+      path: p,
       createdDate: stat.birthtime.getTime(),
       preview: await getModelPreview(file),
     })

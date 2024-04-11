@@ -17,6 +17,7 @@ import map from 'licia/map'
 import upperCase from 'licia/upperCase'
 import startWith from 'licia/startWith'
 import toNum from 'licia/toNum'
+import { isDev } from '../../common/util'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -66,6 +67,7 @@ export async function start() {
     '--skip-python-version-check',
     '--skip-torch-cuda-test',
     '--skip-version-check',
+    '--skip-load-model-at-start',
     '--no-hashing',
   ]
 
@@ -83,6 +85,8 @@ export async function start() {
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')
+  } else if (isDev()) {
+    args.push('--no-gradio-queue')
   }
 
   if (isMac()) {
