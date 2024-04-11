@@ -255,3 +255,36 @@
     }
   }
 }
+
+.luna-object-viewer {
+  color: var(--vivy-color-text);
+  font-size: 12px !important;
+}
+.luna-object-viewer-null {
+  color: var(--vivy-color-text);
+}
+.luna-object-viewer-string,
+.luna-object-viewer-regexp {
+  color: var(--vivy-color-text);
+}
+.luna-object-viewer-number {
+  color: var(--vivy-color-text);
+}
+.luna-object-viewer-boolean {
+  color: var(--vivy-color-text);
+}
+.luna-object-viewer-special {
+  color: var(--vivy-color-text);
+}
+.luna-object-viewer-key,
+.luna-object-viewer-key-lighter {
+  color: var(--vivy-color-primary);
+}
+.luna-object-viewer-expanded:before {
+  border-color: transparent;
+  border-top-color: var(--vivy-color-text);
+}
+.luna-object-viewer-collapsed:before {
+  border-top-color: transparent;
+  border-left-color: var(--vivy-color-text);
+}

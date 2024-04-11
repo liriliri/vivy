@@ -91,10 +91,12 @@ export default observer(function Toolbar() {
           disabled={!toBool(store.selectedModel)}
         />
       </LunaToolbar>
-      <MetadataModal
-        visible={metadataModalVisible}
-        onClose={() => setMetadataModalVisible(false)}
-      />
+      {store.metadata && (
+        <MetadataModal
+          visible={metadataModalVisible}
+          onClose={() => setMetadataModalVisible(false)}
+        />
+      )}
     </>
   )
 })

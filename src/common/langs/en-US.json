@@ -161,6 +161,7 @@
   "vram": "VRAM",
   "crop": "Crop",
   "metadata": "Metadata",
+  "copyMetadata": "Copy Metadata",
 
   "character": "Character",
   "camera": "Camera",

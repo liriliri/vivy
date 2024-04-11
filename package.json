@@ -61,6 +61,7 @@
     "luna-menu": "^0.1.2",
     "luna-modal": "^1.2.1",
     "luna-notification": "^0.1.6",
+    "luna-object-viewer": "^0.3.1",
     "luna-painter": "^0.4.0",
     "luna-performance-monitor": "^0.4.2",
     "luna-setting": "^0.9.4",
