@@ -36,7 +36,7 @@ type Options = {
   sd_vae: string
 }
 
-type StableDiffusionModel = {
+export type StableDiffusionModel = {
   title: string
   model_name: string
   hash: string
@@ -45,9 +45,16 @@ type StableDiffusionModel = {
   config: string
 }
 
-type StableDiffusionVae = {
+export type StableDiffusionVae = {
   model_name: string
   filename: string
+}
+
+export type StableDiffusionLora = {
+  name: string
+  alias: string
+  path: string
+  metadata: any
 }
 
 type ApiRawResponse = {
@@ -331,6 +338,11 @@ export async function getSdModels(): Promise<StableDiffusionModel[]> {
 
 export async function getSdVaes(): Promise<StableDiffusionVae[]> {
   const response = await api.get<StableDiffusionVae[]>('/sdapi/v1/sd-vae')
+  return response.data
+}
+
+export async function getSdLoras(): Promise<StableDiffusionLora[]> {
+  const response = await api.get<StableDiffusionLora[]>('/sdapi/v1/loras')
   return response.data
 }
 

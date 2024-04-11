@@ -4,6 +4,8 @@ import map from 'licia/map'
 import dateFormat from 'licia/dateFormat'
 import fileSize from 'licia/fileSize'
 import clamp from 'licia/clamp'
+import isEmpty from 'licia/isEmpty'
+import * as webui from '../lib/webui'
 
 class Store {
   selectedType = ModelType.StableDiffusion
@@ -13,6 +15,10 @@ class Store {
   previewHeight = 200
   listHeight = 0
   filter = ''
+  sdModels: webui.StableDiffusionModel[] = []
+  sdVaes: webui.StableDiffusionVae[] = []
+  sdLoras: webui.StableDiffusionLora[] = []
+  metadata: any = null
   constructor() {
     makeObservable(this, {
       selectedType: observable,
@@ -57,6 +63,15 @@ class Store {
   }
   selectModel(model?: IModel) {
     this.selectedModel = model
+    let sdLora: webui.StableDiffusionLora | undefined
+    if (model && this.selectedType === ModelType.Lora) {
+      sdLora = this.getSdLora(model)
+    }
+    if (sdLora && !isEmpty(sdLora.metadata)) {
+      this.metadata = sdLora.metadata
+    } else {
+      this.metadata = null
+    }
   }
   refresh = async () => {
     const models = await main.getModels(this.selectedType)
@@ -73,6 +88,22 @@ class Store {
         }
       })
     })
+
+    try {
+      switch (this.selectedType) {
+        case ModelType.StableDiffusion:
+          this.sdModels = await webui.getSdModels()
+          break
+        case ModelType.Lora:
+          this.sdLoras = await webui.getSdLoras()
+          break
+        case ModelType.VAE:
+          this.sdVaes = await webui.getSdVaes()
+          break
+      }
+    } catch (e) {
+      // @ts-ignore
+    }
   }
   updateListHeight = () => {
     let height = window.innerHeight - 57 - this.previewHeight
@@ -85,6 +116,9 @@ class Store {
     main.on('refreshModel', this.refresh)
 
     window.addEventListener('resize', this.updateListHeight)
+  }
+  private getSdLora(model: IModel) {
+    return this.sdLoras.find((lora) => lora.path === model.path)
   }
 }
 

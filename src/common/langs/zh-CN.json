@@ -160,6 +160,7 @@
   "ram": "内存",
   "vram": "显存",
   "crop": "裁剪",
+  "metadata": "元数据",
 
   "character": "角色",
   "camera": "镜头",

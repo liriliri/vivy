@@ -13,8 +13,12 @@ import toBool from 'licia/toBool'
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal'
 import isEmpty from 'licia/isEmpty'
+import MetadataModal from './MetadataModal'
+import { useState } from 'react'
 
 export default observer(function Toolbar() {
+  const [metadataModalVisible, setMetadataModalVisible] = useState(false)
+
   const onChange = (key, val) => {
     if (key === 'type') {
       store.selectType(val)
@@ -47,38 +51,50 @@ export default observer(function Toolbar() {
   }
 
   return (
-    <LunaToolbar className={Style.toolbar} onChange={onChange}>
-      <LunaToolbarSelect
-        keyName="type"
-        value={store.selectedType}
-        options={modelTypes}
+    <>
+      <LunaToolbar className={Style.toolbar} onChange={onChange}>
+        <LunaToolbarSelect
+          keyName="type"
+          value={store.selectedType}
+          options={modelTypes}
+        />
+        <ToolbarIcon
+          icon="open-file"
+          title={t('openDir')}
+          onClick={() => {
+            if (store.selectedModel) {
+              main.openFileInFolder(store.selectedModel.path)
+            } else {
+              main.openModelDir(store.selectedType)
+            }
+          }}
+        />
+        <LunaToolbarSeparator />
+        <LunaToolbarInput
+          keyName="filter"
+          value={store.filter}
+          placeholder={t('filter')}
+          onChange={(val) => store.setFilter(val)}
+        />
+        <LunaToolbarSpace />
+        <ToolbarIcon
+          icon="info"
+          title={t('metadata')}
+          onClick={() => setMetadataModalVisible(true)}
+          disabled={!toBool(store.metadata)}
+        />
+        <ToolbarIcon icon="add" title={t('add')} onClick={addModel} />
+        <ToolbarIcon
+          icon="delete"
+          title={t('delete')}
+          onClick={deleteModel}
+          disabled={!toBool(store.selectedModel)}
+        />
+      </LunaToolbar>
+      <MetadataModal
+        visible={metadataModalVisible}
+        onClose={() => setMetadataModalVisible(false)}
       />
-      <ToolbarIcon
-        icon="open-file"
-        title={t('openDir')}
-        onClick={() => {
-          if (store.selectedModel) {
-            main.openFileInFolder(store.selectedModel.path)
-          } else {
-            main.openModelDir(store.selectedType)
-          }
-        }}
-      />
-      <LunaToolbarSeparator />
-      <LunaToolbarInput
-        keyName="filter"
-        value={store.filter}
-        placeholder={t('filter')}
-        onChange={(val) => store.setFilter(val)}
-      />
-      <LunaToolbarSpace />
-      <ToolbarIcon icon="add" title={t('add')} onClick={addModel} />
-      <ToolbarIcon
-        icon="delete"
-        title={t('delete')}
-        onClick={deleteModel}
-        disabled={!toBool(store.selectedModel)}
-      />
-    </LunaToolbar>
+    </>
   )
 })
