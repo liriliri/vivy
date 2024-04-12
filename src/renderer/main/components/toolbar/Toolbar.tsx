@@ -42,6 +42,10 @@ export default observer(function () {
     }
   }
 
+  if (!isEmpty(store.tasks)) {
+    modelDisabled = true
+  }
+
   const vaeOptions = {
     [t('none')]: 'None',
     [t('automatic')]: 'Automatic',

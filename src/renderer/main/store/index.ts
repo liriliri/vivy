@@ -247,10 +247,16 @@ class Store extends BaseStore {
     main.on('webUIError', this.showWebUIErr)
 
     main.on('setModel', async (_, model) => {
+      if (!isEmpty(this.tasks)) {
+        return
+      }
       await this.setOptions('model', model)
     })
 
     main.on('setVae', async (_, vae) => {
+      if (!isEmpty(this.tasks)) {
+        return
+      }
       await this.setOptions('vae', vae)
     })
   }
