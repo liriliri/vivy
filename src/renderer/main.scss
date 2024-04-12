@@ -113,6 +113,9 @@ textarea {
   &:hover {
     background: var(--vivy-color-fill-secondary);
   }
+  &.disabled {
+    pointer-events: none;
+  }
   &.primary {
     color: #fff;
     background: var(--vivy-color-primary);

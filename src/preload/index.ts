@@ -113,6 +113,9 @@ const mainObj = {
       template
     )
   },
+  sendToWindow: (name: string, channel: string, ...args: any[]) => {
+    ipcRenderer.invoke('sendToWindow', name, channel, ...args)
+  },
   on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
 }

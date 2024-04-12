@@ -24,6 +24,7 @@ export function showWin() {
   }
 
   win = window.create({
+    name: 'model',
     minWidth: 640,
     minHeight: 480,
     ...store.get('bounds'),

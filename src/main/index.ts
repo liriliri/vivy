@@ -1,6 +1,7 @@
 import { app } from 'electron'
 import * as webui from './window/webui'
 import * as menu from './lib/menu'
+import * as window from './lib/window'
 import * as ipc from './lib/ipc'
 import * as model from './lib/model'
 import * as main from './window/main'
@@ -31,7 +32,7 @@ app.on('ready', () => {
 })
 
 app.on('second-instance', () => {
-  const win = main.getWin()
+  const win = window.getWin('main')
   if (win) {
     if (win.isMaximized()) {
       win.restore()

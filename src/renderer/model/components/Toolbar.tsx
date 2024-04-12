@@ -1,4 +1,5 @@
 import LunaToolbar, {
+  LunaToolbarHtml,
   LunaToolbarInput,
   LunaToolbarSelect,
   LunaToolbarSeparator,
@@ -6,7 +7,7 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import Style from './Toolbar.module.scss'
 import store from '../store'
-import { modelTypes } from '../../../common/types'
+import { ModelType, modelTypes } from '../../../common/types'
 import { t } from '../../lib/util'
 import ToolbarIcon from '../../components/ToolbarIcon'
 import toBool from 'licia/toBool'
@@ -15,6 +16,7 @@ import LunaModal from 'luna-modal'
 import isEmpty from 'licia/isEmpty'
 import MetadataModal from './MetadataModal'
 import { useState } from 'react'
+import className from 'licia/className'
 
 export default observer(function Toolbar() {
   const [metadataModalVisible, setMetadataModalVisible] = useState(false)
@@ -49,6 +51,9 @@ export default observer(function Toolbar() {
       await main.deleteModel(store.selectedType, store.selectedModel.name)
     }
   }
+
+  const isEmbbeing = store.selectedType === ModelType.Embedding
+  const applyDisabled = !toBool(store.selectedModel) || isEmbbeing
 
   return (
     <>
@@ -90,6 +95,19 @@ export default observer(function Toolbar() {
           onClick={deleteModel}
           disabled={!toBool(store.selectedModel)}
         />
+        <LunaToolbarSeparator />
+        <LunaToolbarHtml>
+          <div
+            className={className(Style.applyButton, 'button', {
+              primary: !applyDisabled,
+              disabled: applyDisabled,
+            })}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => store.apply()}
+          >
+            {t('apply')}
+          </div>
+        </LunaToolbarHtml>
       </LunaToolbar>
       {store.metadata && (
         <MetadataModal

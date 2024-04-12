@@ -6,6 +6,8 @@ import fileSize from 'licia/fileSize'
 import clamp from 'licia/clamp'
 import isEmpty from 'licia/isEmpty'
 import * as webui from '../lib/webui'
+import contain from 'licia/contain'
+import * as prompt from '../lib/prompt'
 
 class Store {
   selectedType = ModelType.StableDiffusion
@@ -36,16 +38,22 @@ class Store {
     })
 
     this.bindEvent()
-    this.refresh()
-
     this.init()
-
-    this.updateListHeight()
   }
   async init() {
+    this.updateListHeight()
+
     const previewHeight = await main.getModelStore('previewHeight')
     if (previewHeight) {
       this.setPreviewHeight(previewHeight)
+    }
+
+    await this.refresh()
+    if (isEmpty(this.sdModels)) {
+      const ready = await webui.wait()
+      if (ready) {
+        await this.refresh()
+      }
     }
   }
   setFilter(filter: string) {
@@ -112,6 +120,43 @@ class Store {
     height = clamp(height, minHeight, maxHeight)
     this.listHeight = height
   }
+  apply = async () => {
+    if (!this.selectedModel) {
+      return
+    }
+
+    const model = this.selectedModel
+    switch (this.selectedType) {
+      case ModelType.StableDiffusion: {
+        const sdModel = this.getSdModel(model)
+        if (sdModel) {
+          main.sendToWindow('main', 'setModel', sdModel.title)
+        }
+        break
+      }
+      case ModelType.VAE: {
+        const vae = this.getVae(model)
+        if (vae) {
+          main.sendToWindow('main', 'setVae', vae.model_name)
+        }
+        break
+      }
+      case ModelType.Lora: {
+        const lora = this.getSdLora(model)
+        if (lora) {
+          const alias = lora.alias
+          const p = (await main.getMemStore('prompt')) || ''
+          if (!contain(p, `lora:${alias}`)) {
+            await main.setMemStore(
+              'prompt',
+              prompt.addTag(p, `<lora:${alias}:1>`)
+            )
+          }
+        }
+        break
+      }
+    }
+  }
   private bindEvent() {
     main.on('refreshModel', this.refresh)
 
@@ -119,6 +164,12 @@ class Store {
   }
   private getSdLora(model: IModel) {
     return this.sdLoras.find((lora) => lora.path === model.path)
+  }
+  private getSdModel(model: IModel) {
+    return this.sdModels.find((sdModel) => sdModel.filename === model.path)
+  }
+  private getVae(model: IModel) {
+    return this.sdVaes.find((vae) => vae.filename === model.path)
   }
 }
 

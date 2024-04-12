@@ -5,7 +5,6 @@ import path from 'path'
 import { getDownloadStore } from '../lib/store'
 import { ModelType } from '../../common/types'
 import * as model from '../lib/model'
-import * as main from './main'
 import uuid from 'licia/uuid'
 import map from 'licia/map'
 import clone from 'licia/clone'
@@ -32,6 +31,7 @@ export function showWin() {
   }
 
   win = window.create({
+    name: 'download',
     minWidth: 640,
     minHeight: 480,
     ...store.get('bounds'),
@@ -63,7 +63,7 @@ interface IDownloadModelOptions {
 }
 
 export async function downloadModel(options: IDownloadModelOptions) {
-  const mainWin = main.getWin()
+  const mainWin = window.getWin('main')
   if (!mainWin) {
     return
   }

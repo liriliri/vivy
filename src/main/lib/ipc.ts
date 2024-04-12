@@ -84,4 +84,11 @@ export function init() {
   memStore.on('change', (name, val) => {
     window.sendAll('changeMemStore', name, val)
   })
+
+  ipcMain.handle(
+    'sendToWindow',
+    (_, name: string, channel: string, ...args: any[]) => {
+      window.sendTo(name, channel, ...args)
+    }
+  )
 }

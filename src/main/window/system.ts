@@ -24,6 +24,7 @@ export function showWin() {
   }
 
   win = window.create({
+    name: 'system',
     minWidth: height,
     minHeight: height,
     resizable: false,

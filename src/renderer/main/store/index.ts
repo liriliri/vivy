@@ -136,8 +136,8 @@ class Store extends BaseStore {
   }
   async setOptions(key, val) {
     const { options } = this
-    options[key] = val
     runInAction(() => {
+      options[key] = val
       this.isWebUIReady = false
     })
     if (key === 'model') {
@@ -245,6 +245,14 @@ class Store extends BaseStore {
     })
 
     main.on('webUIError', this.showWebUIErr)
+
+    main.on('setModel', async (_, model) => {
+      await this.setOptions('model', model)
+    })
+
+    main.on('setVae', async (_, vae) => {
+      await this.setOptions('vae', vae)
+    })
   }
   private async checkModel() {
     if (!this.isWebUIReady) {

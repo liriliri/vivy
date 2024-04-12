@@ -17,6 +17,7 @@ export function showWin(mode: 'sketch' | 'mask') {
   }
 
   win = window.create({
+    name: 'painter',
     minWidth: 960,
     minHeight: 640,
     ...store.get('bounds'),

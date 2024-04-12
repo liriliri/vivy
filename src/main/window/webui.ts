@@ -196,6 +196,7 @@ export function showWin() {
     return
   }
   win = window.create({
+    name: 'webui',
     customTitlebar: false,
     minHeight: 850,
     minWidth: 1280,

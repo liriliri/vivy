@@ -24,6 +24,7 @@ export function showWin() {
   }
 
   win = window.create({
+    name: 'terminal',
     minWidth: 960,
     minHeight: 640,
     ...store.get('bounds'),

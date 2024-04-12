@@ -5,7 +5,7 @@ import * as model from '../window/model'
 import * as download from '../window/download'
 import * as system from '../window/system'
 import * as terminal from '../window/terminal'
-import * as main from '../window/main'
+import * as window from '../lib/window'
 import { isMac } from './util'
 import { t } from './language'
 import upperCase from 'licia/upperCase'
@@ -40,7 +40,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
       {
         label: t('aboutVivy'),
         click() {
-          main.getWin()!.webContents.send('showAbout')
+          window.sendTo('main', 'showAbout')
         },
       },
       ...hideMenu,
@@ -50,7 +50,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
       {
         label: t('quitVivy'),
         click() {
-          main.getWin()!.close()
+          window.getWin('main')?.close()
         },
       },
     ],
@@ -89,14 +89,14 @@ function getTemplate(): MenuItemConstructorOptions[] {
         label: t('new') + '...',
         accelerator: isMac() ? 'Cmd+N' : 'Ctrl+N',
         click() {
-          main.getWin()!.webContents.send('newProject')
+          window.sendTo('main', 'newProject')
         },
       },
       {
         label: t('open') + '...',
         accelerator: isMac() ? 'Cmd+O' : 'Ctrl+O',
         click() {
-          main.getWin()!.webContents.send('openProject')
+          window.sendTo('main', 'openProject')
         },
       },
       {
@@ -106,14 +106,14 @@ function getTemplate(): MenuItemConstructorOptions[] {
         label: t('save'),
         accelerator: isMac() ? 'Cmd+S' : 'Ctrl+S',
         click() {
-          main.getWin()!.webContents.send('saveProject')
+          window.sendTo('main', 'saveProject')
         },
       },
       {
         label: t('saveAs') + '...',
         accelerator: isMac() ? 'Shift+Cmd+S' : 'Shift+Ctrl+S',
         click() {
-          main.getWin()!.webContents.send('saveAsProject')
+          window.sendTo('main', 'saveAsProject')
         },
       },
     ],

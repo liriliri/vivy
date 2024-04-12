@@ -13,10 +13,6 @@ const settingsStore = getSettingsStore()
 
 let win: BrowserWindow | null = null
 
-export function getWin() {
-  return win
-}
-
 let isIpcInit = false
 let quitApp = false
 
@@ -32,6 +28,7 @@ export function showWin() {
   }
 
   win = window.create({
+    name: 'main',
     minWidth: 1280,
     minHeight: 850,
     ...store.get('bounds'),

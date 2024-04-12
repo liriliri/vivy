@@ -10,6 +10,7 @@ import { colorBgContainer, colorBgContainerDark } from '../../common/theme'
 import { getTheme } from './util'
 
 interface IWinOptions {
+  name: string
   customTitlebar?: boolean
   minWidth?: number
   minHeight?: number
@@ -24,6 +25,7 @@ interface IWinOptions {
 }
 
 const visibleWins: BrowserWindow[] = []
+const wins: types.PlainObj<BrowserWindow> = {}
 let focusedWin: BrowserWindow | null = null
 
 export function create(opts: IWinOptions) {
@@ -81,7 +83,11 @@ export function create(opts: IWinOptions) {
   win.once('ready-to-show', () => win.show())
   win.on('show', () => visibleWins.push(win))
   win.on('focus', () => (focusedWin = win))
-  win.on('closed', () => remove(visibleWins, (window) => window === win))
+  win.on('hide', () => remove(visibleWins, (window) => window === win))
+  win.on('closed', () => {
+    delete wins[opts.name]
+  })
+  wins[opts.name] = win
 
   if (winOptions.customTitlebar) {
     attachTitlebarToWindow(win)
@@ -92,7 +98,7 @@ export function create(opts: IWinOptions) {
 }
 
 export function sendAll(channel: string, ...args: any[]) {
-  each(visibleWins, (win) => {
+  each(wins, (win) => {
     win.webContents.send(channel, ...args)
   })
 }
@@ -101,4 +107,15 @@ export function sendFocused(channel: string, ...args: any[]) {
   if (focusedWin) {
     focusedWin.webContents.send(channel, ...args)
   }
+}
+
+export function sendTo(name: string, channel: string, ...args: any[]) {
+  const win = getWin(name)
+  if (win) {
+    win.webContents.send(channel, ...args)
+  }
+}
+
+export function getWin(name: string) {
+  return wins[name]
 }
