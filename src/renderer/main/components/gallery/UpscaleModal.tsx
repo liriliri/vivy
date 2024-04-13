@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t } from '../../../lib/util'
+import { getModelUrl } from '../../lib/model'
 import { Row, Number, Select } from '../../../components/setting'
 import { useEffect, useState } from 'react'
 import className from 'licia/className'
@@ -10,9 +11,11 @@ import each from 'licia/each'
 import store from '../../store'
 import { ModelType } from '../../../../common/types'
 import contain from 'licia/contain'
+import { IImage } from '../../store/types'
 
 interface IProps {
   visible: boolean
+  image: IImage
   onClose?: () => void
 }
 
@@ -24,10 +27,9 @@ export default observer(function UpscaleModal(props: IProps) {
   const [upscaler2Visibility, setUpscaler2Visibility] = useState(0.7)
 
   useEffect(() => {
-    const { project } = store
     if (props.visible) {
-      setWidth(project.genOptions.width * 2)
-      setHeight(project.genOptions.height * 2)
+      setWidth(props.image.info.width * 2)
+      setHeight(props.image.info.height * 2)
     }
   }, [props.visible])
 
@@ -56,7 +58,7 @@ export default observer(function UpscaleModal(props: IProps) {
       return
     }
     store.createUpscaleImgTask({
-      image: store.project.selectedImage!.data,
+      image: props.image.data,
       width,
       height,
       upscaler1,
@@ -130,7 +132,6 @@ export default observer(function UpscaleModal(props: IProps) {
 
 const upscalerParams = {
   ESRGAN_4x: {
-    url: 'https://github.com/cszn/KAIR/releases/download/v1.0/ESRGAN.pth',
     fileName: 'ESRGAN_4x.pth',
     type: ModelType.ESRGAN,
   },
@@ -140,18 +141,14 @@ const upscalerParams = {
     type: ModelType.LDSR,
   },
   'R-ESRGAN 4x+': {
-    url:
-      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth',
     fileName: 'RealESRGAN_x4plus.pth',
     type: ModelType.RealESRGAN,
   },
   'R-ESRGAN 4x+ Anime6B': {
-    url:
-      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth',
     fileName: 'RealESRGAN_x4plus_anime_6B.pth',
     type: ModelType.RealESRGAN,
   },
-  ScuNET: {
+  'ScuNET GAN': {
     url:
       'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_gan.pth',
     fileName: 'ScuNET.pth',
@@ -163,7 +160,7 @@ const upscalerParams = {
     fileName: 'ScuNET.pth',
     type: ModelType.ScuNET,
   },
-  SwinIR_4x: {
+  'SwinIR 4x': {
     url:
       'https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth',
     fileName: 'SwinIR_4x.pth',
@@ -199,6 +196,9 @@ async function checkUpscalerModel(upscaler: string) {
   const param = upscalerParams[upscaler]
 
   if (!(await main.isModelExists(param.type, param.fileName))) {
+    if (!param.url) {
+      param.url = getModelUrl(upscaler)
+    }
     main.downloadModel(param)
     main.showDownload()
     return false

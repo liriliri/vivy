@@ -12,6 +12,7 @@ import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
 import { notify, setMainStore, t } from '../../lib/util'
 import { isEmptyMask } from '../lib/util'
+import { getModelUrl } from '../lib/model'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import { Project } from './project'
@@ -107,7 +108,10 @@ class Store extends BaseStore {
     const upscalers = filter(await webui.getUpscalers(), (upscaler) => {
       if (!this.settings.enableWebUI) {
         if (
-          contain(['SwinIR_4x', 'LDSR', 'ScuNET', 'ScuNET PSNR'], upscaler.name)
+          contain(
+            ['SwinIR 4x', 'LDSR', 'ScuNET GAN', 'ScuNET PSNR'],
+            upscaler.name
+          )
         ) {
           return false
         }
@@ -269,8 +273,7 @@ class Store extends BaseStore {
       const result = await LunaModal.confirm(t('noModelsConfirm'))
       if (result) {
         main.downloadModel({
-          url:
-            'https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors',
+          url: getModelUrl('v1-5-pruned-emaonly'),
           fileName: 'v1-5-pruned-emaonly.safetensors',
           type: ModelType.StableDiffusion,
         })

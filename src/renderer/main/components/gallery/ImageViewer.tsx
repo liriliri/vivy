@@ -167,6 +167,7 @@ export default observer(function () {
       {project.selectedImage && (
         <UpscaleModal
           visible={upscaleModalVisible}
+          image={project.selectedImage}
           onClose={() => setUpscaleModalVisible(false)}
         />
       )}
