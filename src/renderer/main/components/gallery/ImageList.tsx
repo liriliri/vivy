@@ -184,14 +184,20 @@ export default observer(function () {
         <LunaToolbarSeparator />
         <ToolbarIcon
           icon="stop"
-          title={t('stop')}
-          onClick={() => store.stop()}
+          title={t('stopTasks')}
+          onClick={() => {
+            notify(t('stoppingTasks'))
+            store.stop()
+          }}
           disabled={isEmpty(store.tasks)}
         />
         <ToolbarIcon
           icon="pause"
-          title={t('interrupt')}
-          onClick={() => store.interrupt()}
+          title={t('interruptTask')}
+          onClick={() => {
+            notify(t('interruptingTask'))
+            store.interrupt()
+          }}
           disabled={isEmpty(store.tasks)}
         />
         <LunaToolbarSpace />

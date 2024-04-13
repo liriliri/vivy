@@ -59,6 +59,8 @@ export async function start() {
     '-u',
     'launch.py',
     '--api',
+    '--server-name',
+    '127.0.0.1',
     '--port',
     toStr(port),
     '--no-download-sd-model',

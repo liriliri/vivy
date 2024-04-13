@@ -269,7 +269,8 @@ class Store extends BaseStore {
       const result = await LunaModal.confirm(t('noModelsConfirm'))
       if (result) {
         main.downloadModel({
-          url: 'https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors',
+          url:
+            'https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors',
           fileName: 'v1-5-pruned-emaonly.safetensors',
           type: ModelType.StableDiffusion,
         })

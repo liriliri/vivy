@@ -140,42 +140,50 @@ const upscalerParams = {
     type: ModelType.LDSR,
   },
   'R-ESRGAN 4x+': {
-    url: 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth',
+    url:
+      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth',
     fileName: 'RealESRGAN_x4plus.pth',
     type: ModelType.RealESRGAN,
   },
   'R-ESRGAN 4x+ Anime6B': {
-    url: 'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth',
+    url:
+      'https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth',
     fileName: 'RealESRGAN_x4plus_anime_6B.pth',
     type: ModelType.RealESRGAN,
   },
   ScuNET: {
-    url: 'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_gan.pth',
+    url:
+      'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_gan.pth',
     fileName: 'ScuNET.pth',
     type: ModelType.ScuNET,
   },
   'ScuNET PSNR': {
-    url: 'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_psnr.pth',
+    url:
+      'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_psnr.pth',
     fileName: 'ScuNET.pth',
     type: ModelType.ScuNET,
   },
   SwinIR_4x: {
-    url: 'https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth',
+    url:
+      'https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth',
     fileName: 'SwinIR_4x.pth',
     type: ModelType.SwinIR,
   },
   'DAT x2': {
-    url: 'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x2.pth',
+    url:
+      'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x2.pth',
     fileName: 'DAT_x2.pth',
     type: ModelType.DAT,
   },
   'DAT x3': {
-    url: 'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x3.pth',
+    url:
+      'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x3.pth',
     fileName: 'DAT_x3.pth',
     type: ModelType.DAT,
   },
   'DAT x4': {
-    url: 'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x4.pth',
+    url:
+      'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x4.pth',
     fileName: 'DAT_x4.pth',
     type: ModelType.DAT,
   },
