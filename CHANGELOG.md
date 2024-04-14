@@ -1,3 +1,9 @@
+## v0.10.0 (15 Apr 2024)
+
+* feat: use model from model manager
+* feat: show lora metadata
+* feat: crop image
+
 ## v0.9.0 (5 Apr 2024)
 
 * feat: theme and language support follow system preference
