@@ -109,13 +109,21 @@ class Store extends BaseStore {
       if (!this.settings.enableWebUI) {
         if (
           contain(
-            ['SwinIR 4x', 'LDSR', 'ScuNET GAN', 'ScuNET PSNR'],
+            [
+              'SwinIR 4x',
+              'SwinIR_4x',
+              'LDSR',
+              'ScuNET',
+              'ScuNET GAN',
+              'ScuNET PSNR',
+            ],
             upscaler.name
           )
         ) {
           return false
         }
       }
+
       return true
     })
     runInAction(() => {

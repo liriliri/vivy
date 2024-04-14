@@ -40,7 +40,13 @@ export default observer(function UpscaleModal(props: IProps) {
         contain(upscalersWithoutModel, upscaler) ||
         upscalerParams[upscaler]
       ) {
-        upscalers[upscaler] = upscaler
+        let name = upscaler
+        if (name === 'SwinIR_4x') {
+          name = 'SwinIR 4x'
+        } else if (name === 'ScuNET') {
+          name = 'ScuNET GAN'
+        }
+        upscalers[name] = upscaler
       }
     })
   } else {
@@ -130,7 +136,7 @@ export default observer(function UpscaleModal(props: IProps) {
   )
 })
 
-const upscalerParams = {
+const upscalerParams: any = {
   ESRGAN_4x: {
     fileName: 'ESRGAN_4x.pth',
     type: ModelType.ESRGAN,
@@ -149,42 +155,33 @@ const upscalerParams = {
     type: ModelType.RealESRGAN,
   },
   'ScuNET GAN': {
-    url:
-      'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_gan.pth',
     fileName: 'ScuNET.pth',
     type: ModelType.ScuNET,
   },
   'ScuNET PSNR': {
-    url:
-      'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_psnr.pth',
     fileName: 'ScuNET.pth',
     type: ModelType.ScuNET,
   },
   'SwinIR 4x': {
-    url:
-      'https://github.com/JingyunLiang/SwinIR/releases/download/v0.0/003_realSR_BSRGAN_DFOWMFC_s64w8_SwinIR-L_x4_GAN.pth',
     fileName: 'SwinIR_4x.pth',
     type: ModelType.SwinIR,
   },
   'DAT x2': {
-    url:
-      'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x2.pth',
     fileName: 'DAT_x2.pth',
     type: ModelType.DAT,
   },
   'DAT x3': {
-    url:
-      'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x3.pth',
     fileName: 'DAT_x3.pth',
     type: ModelType.DAT,
   },
   'DAT x4': {
-    url:
-      'https://github.com/n0kovo/dat_upscaler_models/raw/main/DAT/DAT_x4.pth',
     fileName: 'DAT_x4.pth',
     type: ModelType.DAT,
   },
 }
+
+upscalerParams['SwinIR_4x'] = upscalerParams['SwinIR 4x']
+upscalerParams['ScuNET'] = upscalerParams['ScuNET GAN']
 
 const upscalersWithoutModel = ['None', 'Lanczos', 'Nearest']
 
