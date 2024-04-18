@@ -13,6 +13,7 @@ const ignoreSitePackages = map(
     'networkx',
     'numba',
     'pip',
+    'pywt',
     'test',
     'tzdata',
   ],
@@ -30,20 +31,26 @@ const config = {
     'preload',
     'renderer',
     'webui',
+
     '!**/*.{js.map,md,MD,a,c,h,cpp,pc,tcl}',
     '!**/{.github,mamba}',
+    '!**/env/{share,include,conda-meta,man,ssl}',
+
+    '!**/stable-diffusion-webui/test',
     '!**/taming-transformers/{data,assets}',
     '!**/stable-diffusion-stability-ai/assets',
-    '!**/env/{share,include,conda-meta,man,ssl}',
+
     '!**/site-packages/**/__pycache__',
+    '!**/site-packages/{fsspec,h11,importlib_resources,jsonschema,jsonschema_specifications,lazy_loader,lib2to3,matplotlib,mpmath,pandas,psutil,referencing,toolz}/tests',
+    '!**/site-packages/{mpl_toolkits,numpy,scipy,skimage,sympy}/**/tests',
     '!**/site-packages/torch/include',
     '!**/site-packages/torch/lib/*.lib',
-    '!**/site-packages/pandas/tests',
+    ...ignoreSitePackages,
+
     // mac
     '!**/env/lib/tcl*',
     // windows
     '!**/env/Library/lib/tcl*',
-    ...ignoreSitePackages,
   ],
   asarUnpack: ['webui/**/*'],
   win: {
