@@ -35,11 +35,14 @@ const config = {
     '!**/taming-transformers/{data,assets}',
     '!**/stable-diffusion-stability-ai/assets',
     '!**/env/{share,include,conda-meta,man,ssl}',
-    '!**/env/lib/tcl*',
     '!**/site-packages/**/__pycache__',
     '!**/site-packages/torch/include',
     '!**/site-packages/torch/lib/*.lib',
     '!**/site-packages/pandas/tests',
+    // mac
+    '!**/env/lib/tcl*',
+    // windows
+    '!**/env/Library/lib/tcl*',
     ...ignoreSitePackages,
   ],
   asarUnpack: ['webui/**/*'],
