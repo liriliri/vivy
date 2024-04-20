@@ -19,6 +19,7 @@ import startWith from 'licia/startWith'
 import toNum from 'licia/toNum'
 import { isDev } from '../../common/util'
 import isStrBlank from 'licia/isStrBlank'
+import fs from 'fs-extra'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -32,15 +33,24 @@ let cuda: string[] = []
 let subprocess: ChildProcessByStdio<null, Readable, Readable>
 
 export async function start() {
-  const appDir = resolveUnpack('webui/stable-diffusion-webui')
+  let appDir = resolveUnpack('webui/stable-diffusion-webui')
+
+  const webUIPath = settingsStore.get('webUIPath')
+  let useCustomWebUI = false
+  if (!isStrBlank(webUIPath) && (await fs.pathExists(webUIPath))) {
+    appDir = webUIPath
+    useCustomWebUI = true
+  }
 
   let PATH = process.env.PATH
-  if (isWindows) {
-    const binPath = resolveUnpack('webui/installer_files/env')
-    PATH = `${binPath};${PATH}`
-  } else {
-    const binPath = resolveUnpack('webui/installer_files/env/bin')
-    PATH = `${binPath}:${PATH}`
+  if (!useCustomWebUI) {
+    if (isWindows) {
+      const binPath = resolveUnpack('webui/installer_files/env')
+      PATH = `${binPath};${PATH}`
+    } else {
+      const binPath = resolveUnpack('webui/installer_files/env/bin')
+      PATH = `${binPath}:${PATH}`
+    }
   }
 
   const env = {
@@ -96,41 +106,46 @@ export async function start() {
     args.push('--upcast-sampling')
   }
 
-  if (store.get('cuda') && store.get('devices')) {
-    cuda = store.get('cuda')
-    devices = store.get('devices')
-  } else {
-    const result: any = JSON.parse(
-      await spawn('python', ['-u', 'devices.py'], {
-        cwd: appDir,
-        windowsHide: true,
-        env,
-      })
-    )
+  if (!useCustomWebUI) {
+    if (store.get('cuda') && store.get('devices')) {
+      cuda = store.get('cuda')
+      devices = store.get('devices')
+    } else {
+      const result: any = JSON.parse(
+        await spawn('python', ['-u', 'devices.py'], {
+          cwd: appDir,
+          windowsHide: true,
+          env,
+        })
+      )
 
-    cuda = result.cuda
-    store.set('cuda', cuda)
-    devices = result.devices
-    store.set('devices', devices)
-  }
+      cuda = result.cuda
+      store.set('cuda', cuda)
+      devices = result.devices
+      store.set('devices', devices)
+    }
 
-  let device = settingsStore.get('device')
-  if (!device || !contain(devices, device)) {
-    device = devices[0]
-    settingsStore.set('device', device)
-  }
+    let device = settingsStore.get('device')
+    if (!device || !contain(devices, device)) {
+      device = devices[0]
+      settingsStore.set('device', device)
+    }
 
-  if (device === 'cpu') {
-    args.push('--use-cpu', 'all')
+    if (device === 'cpu') {
+      args.push('--use-cpu', 'all')
+    } else if (isMac()) {
+      args.push('--use-cpu', 'interrogate')
+    }
+
+    if (startWith(device, 'cuda')) {
+      args.push('--device-id', device.slice(5))
+    }
+
+    if (device === 'cpu' || isMac()) {
+      args.push('--no-half-vae', '--no-half')
+    }
   } else if (isMac()) {
     args.push('--use-cpu', 'interrogate')
-  }
-
-  if (startWith(device, 'cuda')) {
-    args.push('--device-id', device.slice(5))
-  }
-
-  if (device === 'cpu' || isMac()) {
     args.push('--no-half-vae', '--no-half')
   }
 

@@ -16,6 +16,7 @@ import Style from './Settings.module.scss'
 import each from 'licia/each'
 import SettingPath from '../../../components/SettingPath'
 import isEmpty from 'licia/isEmpty'
+import isStrBlank from 'licia/isStrBlank'
 
 interface IProps {
   visible: boolean
@@ -31,10 +32,15 @@ export default observer(function Settings(props: IProps) {
   }
 
   const deviceOptions: any = {}
+  let deviceDisabled = false
   each(store.settings.devices, (device) => {
     deviceOptions[device.name] = device.id
   })
-  if (isEmpty(store.settings.devices)) {
+  if (
+    isEmpty(store.settings.devices) ||
+    !isStrBlank(store.settings.webUIPath)
+  ) {
+    deviceDisabled = true
     deviceOptions[t('empty')] = 'empty'
   }
 
@@ -72,7 +78,7 @@ export default observer(function Settings(props: IProps) {
           keyName="device"
           value={store.settings.device}
           title={t('device')}
-          disabled={isEmpty(store.settings.devices)}
+          disabled={deviceDisabled}
           options={deviceOptions}
         />
         <SettingPath
@@ -81,6 +87,17 @@ export default observer(function Settings(props: IProps) {
           onChange={(val) => {
             notify(t('requireReload'))
             store.settings.set('modelPath', val)
+          }}
+          options={{
+            properties: ['openDirectory'],
+          }}
+        />
+        <SettingPath
+          title={t('webUIPath')}
+          value={store.settings.webUIPath}
+          onChange={(val) => {
+            notify(t('requireReload'))
+            store.settings.set('webUIPath', val)
           }}
           options={{
             properties: ['openDirectory'],

@@ -166,6 +166,7 @@
   "copyMetadata": "Copy Metadata",
   "apply": "Apply",
   "customArgs": "Custom Arguments",
+  "webUIPath": "Stable Diffusion web UI Path",
 
   "character": "Character",
   "camera": "Camera",
