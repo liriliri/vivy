@@ -8,6 +8,7 @@ import LunaSetting, {
   LunaSettingCheckbox,
   LunaSettingTitle,
   LunaSettingSeparator,
+  LunaSettingInput,
 } from 'luna-setting/react'
 import { notify, t } from '../../../lib/util'
 import store from '../../../main/store'
@@ -84,6 +85,11 @@ export default observer(function Settings(props: IProps) {
           options={{
             properties: ['openDirectory'],
           }}
+        />
+        <LunaSettingInput
+          keyName="customArgs"
+          title={t('customArgs')}
+          value={store.settings.customArgs}
         />
         <LunaSettingCheckbox
           keyName="enableWebUI"

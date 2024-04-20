@@ -72,6 +72,14 @@
   border-color: var(--vivy-color-border);
 }
 
+.luna-setting-item-input {
+  input {
+    background: var(--vivy-color-bg-container);
+    border-color: var(--vivy-color-border);
+    color: var(--vivy-color-text);
+  }
+}
+
 .luna-image-viewer {
   border: none;
   background: var(--vivy-color-bg-container);

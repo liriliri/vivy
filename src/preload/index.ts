@@ -22,6 +22,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.body.classList.add('hide-cet-menubar')
   }
   updateTheme()
+  mainObj.on('updateTheme', updateTheme)
 })
 
 async function updateTheme() {
@@ -120,8 +121,6 @@ const mainObj = {
   off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
 }
 contextBridge.exposeInMainWorld('main', mainObj)
-
-mainObj.on('updateTheme', updateTheme)
 
 const preloadObj = {
   setTitle: (title: string) => {

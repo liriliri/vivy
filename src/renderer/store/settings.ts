@@ -11,6 +11,7 @@ export class Settings {
   translator = 'bing'
   enableWebUI = false
   modelPath = ''
+  customArgs = ''
   device = ''
   devices: IDevice[] = []
   constructor() {
@@ -19,6 +20,7 @@ export class Settings {
       theme: observable,
       enableWebUI: observable,
       modelPath: observable,
+      customArgs: observable,
       device: observable,
       devices: observable,
       set: action,
@@ -32,6 +34,7 @@ export class Settings {
       'theme',
       'enableWebUI',
       'modelPath',
+      'customArgs',
       'device',
       'devices',
     ]

@@ -18,6 +18,7 @@ import upperCase from 'licia/upperCase'
 import startWith from 'licia/startWith'
 import toNum from 'licia/toNum'
 import { isDev } from '../../common/util'
+import isStrBlank from 'licia/isStrBlank'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -133,6 +134,11 @@ export async function start() {
     args.push('--no-half-vae', '--no-half')
   }
 
+  const customArgs = settingsStore.get('customArgs')
+  if (!isStrBlank(customArgs)) {
+    args.push(...customArgs.split(/\s+/))
+  }
+
   subprocess = childProcess.spawn('python', args, {
     cwd: appDir,
     windowsHide: true,
@@ -220,7 +226,7 @@ export function getCpuAndRam(): Promise<{
   ram: number
 }> {
   return new Promise((resolve, reject) => {
-    if (!subprocess) {
+    if (isDead) {
       return resolve({
         cpu: 0,
         ram: 0,
