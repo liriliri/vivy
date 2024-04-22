@@ -179,6 +179,9 @@ export async function start() {
   })
   subprocess.on('error', (err) => {
     console.log('Stable Diffusion web UI error', err)
+    if (!subprocess.pid) {
+      isDead = true
+    }
     window.sendAll('webUIError')
   })
 
