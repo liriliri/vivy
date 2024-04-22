@@ -1,3 +1,9 @@
+## v0.11.0 (22 Apr 2024)
+
+* feat: custom web UI arguments
+* feat: custom web UI and python path
+* chore: remove useless files
+
 ## v0.10.0 (15 Apr 2024)
 
 * feat: use model from model manager

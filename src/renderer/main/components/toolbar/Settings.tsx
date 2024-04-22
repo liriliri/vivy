@@ -17,11 +17,14 @@ import each from 'licia/each'
 import SettingPath from '../../../components/SettingPath'
 import isEmpty from 'licia/isEmpty'
 import isStrBlank from 'licia/isStrBlank'
+import debounce from 'licia/debounce'
 
 interface IProps {
   visible: boolean
   onClose?: () => void
 }
+
+const debounceNotify = debounce(notify, 1000)
 
 export default observer(function Settings(props: IProps) {
   const onChange = (key, val) => {
@@ -85,7 +88,7 @@ export default observer(function Settings(props: IProps) {
           title={t('modelPath')}
           value={store.settings.modelPath}
           onChange={(val) => {
-            notify(t('requireReload'))
+            debounceNotify(t('requireReload'))
             store.settings.set('modelPath', val)
           }}
           options={{
@@ -96,7 +99,7 @@ export default observer(function Settings(props: IProps) {
           title={t('webUIPath')}
           value={store.settings.webUIPath}
           onChange={(val) => {
-            notify(t('requireReload'))
+            debounceNotify(t('requireReload'))
             store.settings.set('webUIPath', val)
           }}
           options={{
@@ -107,7 +110,7 @@ export default observer(function Settings(props: IProps) {
           title={t('pythonPath')}
           value={store.settings.pythonPath}
           onChange={(val) => {
-            notify(t('requireReload'))
+            debounceNotify(t('requireReload'))
             store.settings.set('pythonPath', val)
           }}
           options={{

@@ -21,8 +21,9 @@ export default function (props: IProps) {
     }
   }
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(e.target.value)
+  }
 
   return (
     <LunaSettingHtml setting={props.setting}>

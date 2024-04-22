@@ -21,7 +21,6 @@ import { isDev } from '../../common/util'
 import isStrBlank from 'licia/isStrBlank'
 import fs from 'fs-extra'
 import trim from 'licia/trim'
-import { set } from 'mobx'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
