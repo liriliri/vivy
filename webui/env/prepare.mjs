@@ -22,10 +22,11 @@ async function main() {
     PATH,
   }
 
+  extend(env, {
+    COMMANDLINE_ARGS: '--skip-torch-cuda-test',
+  })
   if (platform === 'osx') {
     extend(env, {
-      COMMANDLINE_ARGS:
-        '--skip-torch-cuda-test --upcast-sampling --no-half-vae --no-half --use-cpu interrogate',
       TORCH_COMMAND: 'pip install torch==2.1.0 torchvision==0.16.0',
       PYTORCH_ENABLE_MPS_FALLBACK: '1',
     })

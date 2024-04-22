@@ -167,6 +167,7 @@
   "apply": "Apply",
   "customArgs": "Custom Arguments",
   "webUIPath": "Stable Diffusion web UI Path",
+  "pythonPath": "Python Path",
 
   "character": "Character",
   "camera": "Camera",

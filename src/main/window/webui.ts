@@ -20,6 +20,8 @@ import toNum from 'licia/toNum'
 import { isDev } from '../../common/util'
 import isStrBlank from 'licia/isStrBlank'
 import fs from 'fs-extra'
+import trim from 'licia/trim'
+import { set } from 'mobx'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -80,9 +82,12 @@ export async function start() {
     '--skip-python-version-check',
     '--skip-torch-cuda-test',
     '--skip-version-check',
-    '--skip-load-model-at-start',
     '--no-hashing',
   ]
+
+  if (!useCustomWebUI) {
+    args.push('--skip-load-dat-model-at-start')
+  }
 
   args.push('--data-dir', getUserDataPath(''))
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
@@ -94,7 +99,9 @@ export async function start() {
   args.push('--realesrgan-models-path', model.getDir(ModelType.RealESRGAN))
   args.push('--scunet-models-path', model.getDir(ModelType.ScuNET))
   args.push('--embeddings-dir', model.getDir(ModelType.Embedding))
-  args.push('--dat-models-path', model.getDir(ModelType.DAT))
+  if (!useCustomWebUI) {
+    args.push('--dat-models-path', model.getDir(ModelType.DAT))
+  }
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')
@@ -151,19 +158,30 @@ export async function start() {
 
   const customArgs = settingsStore.get('customArgs')
   if (!isStrBlank(customArgs)) {
-    args.push(...customArgs.split(/\s+/))
+    args.push(...trim(customArgs).split(/\s+/))
   }
 
-  subprocess = childProcess.spawn('python', args, {
+  let python = 'python'
+  if (useCustomWebUI && !isStrBlank(settingsStore.get('pythonPath'))) {
+    python = settingsStore.get('pythonPath')
+  }
+
+  extend(process.env, env)
+  subprocess = childProcess.spawn(python, args, {
     cwd: appDir,
     windowsHide: true,
     stdio: ['inherit', 'pipe', 'pipe'],
-    env,
   })
   subprocess.stdout.on('data', (data) => process.stdout.write(data))
   subprocess.stderr.on('data', (data) => process.stderr.write(data))
-  subprocess.on('exit', () => (isDead = true))
-  subprocess.on('error', () => window.sendAll('webUIError'))
+  subprocess.on('exit', (code, signal) => {
+    console.log('Stable Diffusion web UI exit', code, signal)
+    isDead = true
+  })
+  subprocess.on('error', (err) => {
+    console.log('Stable Diffusion web UI error', err)
+    window.sendAll('webUIError')
+  })
 
   app.on('will-quit', () => subprocess.kill())
 }
@@ -241,7 +259,7 @@ export function getCpuAndRam(): Promise<{
   ram: number
 }> {
   return new Promise((resolve, reject) => {
-    if (isDead) {
+    if (isDead || !subprocess.pid) {
       return resolve({
         cpu: 0,
         ram: 0,

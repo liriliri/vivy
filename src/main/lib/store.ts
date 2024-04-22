@@ -68,6 +68,7 @@ export const getSettingsStore = memoize(function () {
     enableWebUI: false,
     modelPath: getUserDataPath('models'),
     webUIPath: '',
+    pythonPath: '',
     translator: 'bing',
     customArgs: '',
   })

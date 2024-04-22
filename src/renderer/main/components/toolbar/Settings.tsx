@@ -103,6 +103,17 @@ export default observer(function Settings(props: IProps) {
             properties: ['openDirectory'],
           }}
         />
+        <SettingPath
+          title={t('pythonPath')}
+          value={store.settings.pythonPath}
+          onChange={(val) => {
+            notify(t('requireReload'))
+            store.settings.set('pythonPath', val)
+          }}
+          options={{
+            properties: ['openFile'],
+          }}
+        />
         <LunaSettingInput
           keyName="customArgs"
           title={t('customArgs')}

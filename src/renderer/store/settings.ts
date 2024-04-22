@@ -12,6 +12,7 @@ export class Settings {
   enableWebUI = false
   modelPath = ''
   webUIPath = ''
+  pythonPath = ''
   customArgs = ''
   device = ''
   devices: IDevice[] = []
@@ -22,6 +23,7 @@ export class Settings {
       enableWebUI: observable,
       modelPath: observable,
       webUIPath: observable,
+      pythonPath: observable,
       customArgs: observable,
       device: observable,
       devices: observable,
@@ -37,6 +39,7 @@ export class Settings {
       'enableWebUI',
       'modelPath',
       'webUIPath',
+      'pythonPath',
       'customArgs',
       'device',
       'devices',

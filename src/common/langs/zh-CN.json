@@ -167,6 +167,7 @@
   "apply": "应用",
   "customArgs": "自定义参数",
   "webUIPath": "Stable Diffusion web UI 位置",
+  "pythonPath": "Python 位置",
 
   "character": "角色",
   "camera": "镜头",
