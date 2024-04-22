@@ -85,7 +85,7 @@ export async function start() {
   ]
 
   if (!useCustomWebUI) {
-    args.push('--skip-load-dat-model-at-start')
+    args.push('--skip-load-model-at-start')
   }
 
   args.push('--data-dir', getUserDataPath(''))
