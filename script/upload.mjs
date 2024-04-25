@@ -23,7 +23,7 @@ const client = new S3Client({
 
 let Key = `VIVY-${version}-arm64.dmg`
 if (isWindows) {
-  Key = `VIVY-${version}-win.zip`
+  Key = `VIVY-${version}-win.7z`
 }
 
 const listObjects = new ListObjectsCommand({

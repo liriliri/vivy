@@ -56,7 +56,7 @@ const config = {
   win: {
     target: [
       {
-        target: 'zip',
+        target: '7z',
       },
     ],
   },
