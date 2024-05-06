@@ -5,8 +5,14 @@ import contain from 'licia/contain'
 import map from 'licia/map'
 import each from 'licia/each'
 import * as webui from '../../lib/webui'
-import { IImage, IUpscaleImgOptions } from './types'
-import { Task, TaskStatus, GenTask, UpscaleImgTask } from './task'
+import { IFaceRestorationOptions, IImage, IUpscaleImgOptions } from './types'
+import {
+  Task,
+  TaskStatus,
+  GenTask,
+  UpscaleImgTask,
+  FaceRestorationTask,
+} from './task'
 import { UI } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
@@ -194,6 +200,15 @@ class Store extends BaseStore {
     }
 
     const task = new UpscaleImgTask(options)
+    this.tasks = [...this.tasks, task]
+    this.doCreateTask()
+  }
+  async createFaceRestorationTask(options: IFaceRestorationOptions) {
+    if (!this.isWebUIReady) {
+      return
+    }
+
+    const task = new FaceRestorationTask(options)
     this.tasks = [...this.tasks, task]
     this.doCreateTask()
   }

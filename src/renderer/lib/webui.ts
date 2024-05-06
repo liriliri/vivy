@@ -104,9 +104,12 @@ type ExtraSingleOptions = {
   image: string
   upscaling_resize_w: number
   upscaling_resize_h: number
-  upscaler1: string
-  upscaler2: string
-  extras_upscaler_2_visibility: number
+  upscaler1?: string
+  upscaler2?: string
+  extras_upscaler_2_visibility?: number
+  gfpgan_visibility?: number
+  codeformer_visibility?: number
+  codeformer_weight?: number
 }
 
 type Sampler = {
@@ -273,15 +276,15 @@ export async function extraSingle(
       image: options.image,
       resize_mode: 0,
       show_extras_results: true,
-      gfpgan_visibility: 0,
-      codeformer_visibility: 0,
-      codeformer_weight: 0,
+      gfpgan_visibility: options.gfpgan_visibility || 0,
+      codeformer_visibility: options.codeformer_visibility || 0,
+      codeformer_weight: options.codeformer_weight || 0,
       upscaling_resize: 2,
-      upscaling_resize_w: options.upscaling_resize_w,
-      upscaling_resize_h: options.upscaling_resize_h,
+      upscaling_resize_w: options.upscaling_resize_w || 0,
+      upscaling_resize_h: options.upscaling_resize_h || 0,
       upscaling_resize_crop: true,
-      upscaler_1: options.upscaler1,
-      upscaler_2: options.upscaler2,
+      upscaler_1: options.upscaler1 || 'None',
+      upscaler_2: options.upscaler2 || 'None',
       extras_upscaler_2_visibility: options.extras_upscaler_2_visibility || 0,
       upscale_first: false,
     }

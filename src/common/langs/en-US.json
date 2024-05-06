@@ -168,6 +168,10 @@
   "customArgs": "Custom Arguments",
   "webUIPath": "Stable Diffusion web UI Path",
   "pythonPath": "Python Path",
+  "faceRestoration": "Face Restoration",
+  "gfpganVisibility": "GFPGAN Visibility",
+  "codeFormerVisibility": "CodeFormer Visibility",
+  "codeFormerWeight": "CodeFormer Weight",
 
   "character": "Character",
   "camera": "Camera",

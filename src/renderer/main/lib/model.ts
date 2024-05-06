@@ -24,6 +24,12 @@ const urls: types.PlainObj<string> = {
     'https://github.com/cszn/KAIR/releases/download/v1.0/scunet_color_real_psnr.pth',
   deepdanbooru:
     'https://github.com/AUTOMATIC1111/TorchDeepDanbooru/releases/download/v1/model-resnet_custom_v3.pt',
+  FaceXLib:
+    'https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth',
+  CodeFormer:
+    'https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/codeformer.pth',
+  GFPGAN:
+    'https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth',
 }
 
 ;(async function () {

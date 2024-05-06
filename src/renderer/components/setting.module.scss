@@ -139,6 +139,16 @@
   }
 }
 
+:global(.platform-windows) {
+  .item-number {
+    .range-container {
+      .range-track {
+        top: 6px;
+      }
+    }
+  }
+}
+
 .item-input {
   input {
     @include input();

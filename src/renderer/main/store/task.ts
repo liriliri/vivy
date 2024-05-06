@@ -1,6 +1,11 @@
 import Emitter from 'licia/Emitter'
 import uuid from 'licia/uuid'
-import { IImage, IGenOptions, IUpscaleImgOptions } from './types'
+import {
+  IImage,
+  IGenOptions,
+  IUpscaleImgOptions,
+  IFaceRestorationOptions,
+} from './types'
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import * as webui from '../../lib/webui'
 import { toDataUrl } from '../../lib/util'
@@ -258,5 +263,47 @@ export class UpscaleImgTask extends Task {
         }
       })
     }
+  }
+}
+
+export class FaceRestorationTask extends Task {
+  private faceRestorationOptions: IFaceRestorationOptions
+  constructor(faceRestorationOptions: IFaceRestorationOptions) {
+    super()
+
+    makeObservable(this, {
+      run: action,
+    })
+
+    this.faceRestorationOptions = faceRestorationOptions
+
+    this.images.push({
+      id: uuid(),
+      data: '',
+      info: {
+        mime: 'image/png',
+        width: faceRestorationOptions.width,
+        height: faceRestorationOptions.height,
+        size: 0,
+      },
+    })
+  }
+  async run() {
+    const { faceRestorationOptions } = this
+    this.status = TaskStatus.Generating
+    const result = await webui.extraSingle({
+      image: faceRestorationOptions.image,
+      upscaling_resize_w: faceRestorationOptions.width,
+      upscaling_resize_h: faceRestorationOptions.height,
+      gfpgan_visibility: faceRestorationOptions.gfpganVisibility,
+      codeformer_visibility: faceRestorationOptions.codeFormerVisibility,
+      codeformer_weight: faceRestorationOptions.codeFormerWeight,
+    })
+    this.progress = 100
+    this.status = TaskStatus.Success
+    const image = this.images[0]
+    image.data = result.images[0]
+    image.info.size = base64.decode(image.data).length
+    this.emit('success', this.images)
   }
 }

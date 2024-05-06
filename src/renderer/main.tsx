@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { lazy } from 'react'
-import { i18n, t } from './lib/util'
+import { getPlatform, i18n, t } from './lib/util'
 import { isDev } from '../common/util'
 import hotKey from 'licia/hotkey'
 import getUrlParam from 'licia/getUrlParam'
@@ -81,5 +81,8 @@ if (isDev()) {
   i18n.locale(language)
   LunaModal.i18n.locale(language)
   LunaPainter.i18n.locale(language)
+
+  document.body.classList.add(`platform-${getPlatform()}`)
+
   renderApp()
 })()

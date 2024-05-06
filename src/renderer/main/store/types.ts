@@ -44,3 +44,12 @@ export interface IUpscaleImgOptions {
   upscaler2: string
   upscaler2Visibility: number
 }
+
+export interface IFaceRestorationOptions {
+  image: string
+  width: number
+  height: number
+  gfpganVisibility: number
+  codeFormerVisibility: number
+  codeFormerWeight: number
+}

@@ -11,6 +11,8 @@ export enum ModelType {
   Deepdanbooru = 'Deepdanbooru',
   VAE = 'VAE',
   DAT = 'DAT',
+  CodeFormer = 'Codeformer',
+  GFPGAN = 'GFPGAN',
 }
 
 export const modelTypes = {

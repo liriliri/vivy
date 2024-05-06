@@ -97,6 +97,7 @@ export async function start() {
   args.push('--esrgan-models-path', model.getDir(ModelType.ESRGAN))
   args.push('--realesrgan-models-path', model.getDir(ModelType.RealESRGAN))
   args.push('--scunet-models-path', model.getDir(ModelType.ScuNET))
+  args.push('--codeformer-models-path', model.getDir(ModelType.CodeFormer))
   args.push('--embeddings-dir', model.getDir(ModelType.Embedding))
   if (!useCustomWebUI) {
     args.push('--dat-models-path', model.getDir(ModelType.DAT))

@@ -168,6 +168,10 @@
   "customArgs": "自定义参数",
   "webUIPath": "Stable Diffusion web UI 位置",
   "pythonPath": "Python 位置",
+  "faceRestoration": "人脸修复",
+  "gfpganVisibility": "GFPGAN 可见度",
+  "codeFormerVisibility": "CodeFormer 可见度",
+  "codeFormerWeight": "CodeFormer 权重",
 
   "character": "角色",
   "camera": "镜头",

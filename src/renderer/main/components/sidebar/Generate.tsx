@@ -1,7 +1,7 @@
 import className from 'licia/className'
 import Style from './Generate.module.scss'
 import store from '../../store'
-import { t } from '../../../lib/util'
+import { getPlatform, t } from '../../../lib/util'
 import { observer } from 'mobx-react-lite'
 import clamp from 'licia/clamp'
 import toStr from 'licia/toStr'
@@ -33,7 +33,10 @@ export default observer(function Generate() {
 
     const offset = $(batchSizeRef.current!).offset()
     contextMenu(
-      { clientX: offset.left, clientY: offset.top + offset.height + 5 },
+      {
+        clientX: offset.left,
+        clientY: offset.top + offset.height + (getPlatform() === 'mac' ? 5 : 0),
+      },
       template
     )
   }

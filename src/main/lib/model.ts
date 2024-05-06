@@ -34,6 +34,8 @@ ensureDir(ModelType.ScuNET)
 ensureDir(ModelType.Embedding)
 ensureDir(ModelType.SwinIR)
 ensureDir(ModelType.VAE)
+ensureDir(ModelType.CodeFormer)
+ensureDir(ModelType.GFPGAN)
 
 export function getDir(type: ModelType) {
   if (type === ModelType.BLIP) {
@@ -41,6 +43,9 @@ export function getDir(type: ModelType) {
   }
   if (type === ModelType.Deepdanbooru) {
     return path.join(getUserDataPath('models'), 'torch_deepdanbooru')
+  }
+  if (type === ModelType.GFPGAN) {
+    return path.join(getUserDataPath('models'), 'GFPGAN')
   }
 
   const modelPath = settingsStore.get('modelPath')

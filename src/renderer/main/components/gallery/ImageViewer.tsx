@@ -21,12 +21,15 @@ import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
 import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
+import FaceRestorationModal from './FaceRestorationModal'
 
 export default observer(function () {
   const { project } = store
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
+  const [faceRestorationModalVisible, setFaceRestorationModalVisible] =
+    useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
 
@@ -122,6 +125,12 @@ export default observer(function () {
           onClick={() => setUpscaleModalVisible(true)}
         />
         <ToolbarIcon
+          icon="face"
+          title={t('faceRestoration')}
+          disabled={!hasSelectedImage}
+          onClick={() => setFaceRestorationModalVisible(true)}
+        />
+        <ToolbarIcon
           icon="magic"
           title={t('interrogate')}
           disabled={!hasSelectedImage}
@@ -169,6 +178,13 @@ export default observer(function () {
           visible={upscaleModalVisible}
           image={project.selectedImage}
           onClose={() => setUpscaleModalVisible(false)}
+        />
+      )}
+      {project.selectedImage && (
+        <FaceRestorationModal
+          visible={faceRestorationModalVisible}
+          image={project.selectedImage}
+          onClose={() => setFaceRestorationModalVisible(false)}
         />
       )}
       {project.selectedImage && (

@@ -63,6 +63,7 @@ export default observer(function UpscaleModal(props: IProps) {
       notify(t('modelMissingErr'))
       return
     }
+
     store.createUpscaleImgTask({
       image: props.image.data,
       width,
@@ -71,6 +72,7 @@ export default observer(function UpscaleModal(props: IProps) {
       upscaler2,
       upscaler2Visibility,
     })
+
     if (props.onClose) {
       props.onClose()
     }
