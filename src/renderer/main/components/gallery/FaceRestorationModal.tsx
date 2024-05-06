@@ -18,7 +18,7 @@ interface IProps {
 
 export default observer(function FaceRestorationModal(props: IProps) {
   const [gfpganVisibility, setGfpganVisibility] = useState(0)
-  const [codeFormerVisibility, setCodeFormerVisibility] = useState(0)
+  const [codeFormerVisibility, setCodeFormerVisibility] = useState(1)
   const [codeFormerWeight, setCodeFormerWeight] = useState(0)
 
   const onClick = async () => {
@@ -27,7 +27,8 @@ export default observer(function FaceRestorationModal(props: IProps) {
     const faceXLib = gfpgan || codeFormer
     const checkGfpgan = !gfpgan || (await checkGfpganModel())
     const checkCodeFormer = !codeFormer || (await checkCodeFormerModel())
-    const checkFaceXLib = !faceXLib || (await checkFaceXLibModel())
+    // const checkFaceXLib = !faceXLib || (await checkFaceXLibModel())
+    const checkFaceXLib = true
 
     if (!checkGfpgan || !checkCodeFormer || !checkFaceXLib) {
       notify(t('modelMissingErr'))
@@ -98,13 +99,19 @@ export default observer(function FaceRestorationModal(props: IProps) {
 })
 
 async function checkFaceXLibModel() {
-  const param = {
-    url: getModelUrl('FaceXLib'),
+  const param1 = {
+    url: getModelUrl('FaceXLibParsing'),
     fileName: 'parsing_parsenet.pth',
     type: ModelType.GFPGAN,
   }
 
-  return await downloadModel(param)
+  const param2 = {
+    url: getModelUrl('FaceXLibDectection'),
+    fileName: 'detection_Resnet50_Final.pth',
+    type: ModelType.GFPGAN,
+  }
+
+  return (await downloadModel(param1)) && (await downloadModel(param2))
 }
 
 async function checkGfpganModel() {
