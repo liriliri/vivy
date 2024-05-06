@@ -23,12 +23,11 @@ export default observer(function FaceRestorationModal(props: IProps) {
 
   const onClick = async () => {
     const gfpgan = gfpganVisibility > 0
-    const codeFormer = codeFormerVisibility > 0
-    const faceXLib = gfpgan || codeFormer
     const checkGfpgan = !gfpgan || (await checkGfpganModel())
+    const codeFormer = codeFormerVisibility > 0
     const checkCodeFormer = !codeFormer || (await checkCodeFormerModel())
-    // const checkFaceXLib = !faceXLib || (await checkFaceXLibModel())
-    const checkFaceXLib = true
+    const faceXLib = gfpgan || codeFormer
+    const checkFaceXLib = !faceXLib || (await checkFaceXLibModel())
 
     if (!checkGfpgan || !checkCodeFormer || !checkFaceXLib) {
       notify(t('modelMissingErr'))
