@@ -28,10 +28,8 @@ export default observer(function () {
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
-  const [
-    faceRestorationModalVisible,
-    setFaceRestorationModalVisible,
-  ] = useState(false)
+  const [faceRestorationModalVisible, setFaceRestorationModalVisible] =
+    useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
 

@@ -210,6 +210,7 @@ export async function txt2img(
     send_images: true,
     save_images: false,
     sampler_name: options.sampler_name,
+    scheduler: 'automatic',
     use_deprecated_controlnet: false,
   })
   return new StableDiffusionResult(response)
@@ -238,6 +239,7 @@ export async function img2img(
     seed_resize_from_h: 0,
     seed_resize_from_w: 0,
     sampler_name: options.sampler_name,
+    scheduler: 'automatic',
     batch_size: options.batch_size ?? 1,
     n_iter: 1,
     steps: options.steps,

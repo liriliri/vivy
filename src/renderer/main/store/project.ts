@@ -91,6 +91,9 @@ export class Project {
     runInAction(() => {
       this.samplers = map(samplers, (sampler) => sampler.name)
     })
+    if (!contain(this.samplers, this.genOptions.sampler)) {
+      this.setGenOption('sampler', this.samplers[0])
+    }
     setMainStore('samplers', this.samplers)
   }
   setPrompt(prompt: string) {

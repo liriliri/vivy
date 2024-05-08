@@ -80,8 +80,7 @@ export default observer(function InterrogateModal(props: IProps) {
 
 const modelParams = {
   clip: {
-    url:
-      'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_caption_capfilt_large.pth',
+    url: 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_caption_capfilt_large.pth',
     fileName: 'model_base_caption_capfilt_large.pth',
     type: ModelType.BLIP,
   },

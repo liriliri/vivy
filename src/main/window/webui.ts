@@ -83,10 +83,7 @@ export async function start() {
     '--skip-version-check',
     '--no-hashing',
   ]
-
-  if (!useCustomWebUI) {
-    args.push('--skip-load-model-at-start')
-  }
+  args.push('--skip-load-model-at-start')
 
   args.push('--data-dir', getUserDataPath(''))
   args.push('--ckpt-dir', model.getDir(ModelType.StableDiffusion))
@@ -99,9 +96,7 @@ export async function start() {
   args.push('--scunet-models-path', model.getDir(ModelType.ScuNET))
   args.push('--codeformer-models-path', model.getDir(ModelType.CodeFormer))
   args.push('--embeddings-dir', model.getDir(ModelType.Embedding))
-  if (!useCustomWebUI) {
-    args.push('--dat-models-path', model.getDir(ModelType.DAT))
-  }
+  args.push('--dat-models-path', model.getDir(ModelType.DAT))
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')
