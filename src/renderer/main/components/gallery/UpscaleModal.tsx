@@ -25,6 +25,7 @@ export default observer(function UpscaleModal(props: IProps) {
   const [upscaler1, setUpscaler1] = useState('None')
   const [upscaler2, setUpscaler2] = useState('None')
   const [upscaler2Visibility, setUpscaler2Visibility] = useState(0.7)
+  const ratio = props.image.info.width / props.image.info.height
 
   useEffect(() => {
     if (props.visible) {
@@ -91,14 +92,20 @@ export default observer(function UpscaleModal(props: IProps) {
           title={t('width')}
           min={64}
           max={2048}
-          onChange={(val) => setWidth(val)}
+          onChange={(val) => {
+            setWidth(val)
+            setHeight(Math.round(val / ratio))
+          }}
         />
         <Number
           value={height}
           title={t('height')}
           min={64}
           max={2048}
-          onChange={(val) => setHeight(val)}
+          onChange={(val) => {
+            setHeight(val)
+            setWidth(Math.round(val * ratio))
+          }}
         />
       </Row>
       <Row className="modal-setting-row">
