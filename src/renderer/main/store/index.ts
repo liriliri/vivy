@@ -56,6 +56,8 @@ class Store extends BaseStore {
       models: observable,
       vaes: observable,
       upscalers: observable,
+      controlTypes: observable,
+      controlModules: observable,
       options: observable,
       ui: observable,
       settings: observable,

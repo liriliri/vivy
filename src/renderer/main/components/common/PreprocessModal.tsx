@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t, toDataUrl } from '../../../lib/util'
-import { Row, Select } from '../../../components/setting'
+import { Number, Row, Select } from '../../../components/setting'
 import { useEffect, useState } from 'react'
 import className from 'licia/className'
 import { IImage } from '../../store/types'
@@ -15,6 +15,7 @@ import ToolbarIcon from '../../../components/ToolbarIcon'
 import LunaImageViewer from 'luna-image-viewer/react'
 import { LoadingCircle } from '../../../components/loading'
 import * as webui from '../../../lib/webui'
+import clamp from 'licia/clamp'
 
 interface IProps {
   visible: boolean
@@ -26,17 +27,22 @@ export default observer(function PreprocessModal(props: IProps) {
   const [controlType, setControlType] = useState('All')
   const [preprocessor, setPreprocessor] = useState('none')
   const [isProcessing, setIsProcessing] = useState(false)
+  const [resolution, setResolution] = useState(512)
   const [processedImage, setProcessedImage] = useState<string>('')
 
   useEffect(() => {
     if (props.visible) {
       setProcessedImage('')
+      const width = props.image.info.width
+      setResolution(clamp(width, 64, 512))
     }
   }, [props.visible])
 
   let controlTypes: any = {}
   let controlTypeDisabled = false
-  const preprocessors: any = {}
+  const preprocessors: any = {
+    [t('empty')]: 'empty',
+  }
   if (!isEmpty(store.controlTypes)) {
     each(store.controlTypes, (controlType, name) => {
       const value = name
@@ -69,6 +75,7 @@ export default observer(function PreprocessModal(props: IProps) {
       const image = await webui.preprocess({
         controlnet_module: preprocessor,
         controlnet_input_images: [props.image.data],
+        controlnet_processor_res: resolution,
       })
       setProcessedImage(image)
     } catch (e) {
@@ -103,7 +110,11 @@ export default observer(function PreprocessModal(props: IProps) {
           title={t('controlType')}
           options={controlTypes}
           disabled={controlTypeDisabled}
-          onChange={(val) => setControlType(val)}
+          onChange={(val) => {
+            setControlType(val)
+            const controlType = store.controlTypes[val]
+            setPreprocessor(controlType.default_option)
+          }}
         />
         <Select
           value={preprocessor}
@@ -111,6 +122,15 @@ export default observer(function PreprocessModal(props: IProps) {
           options={preprocessors}
           disabled={controlTypeDisabled}
           onChange={(val) => setPreprocessor(val)}
+        />
+        <Number
+          value={resolution}
+          title={t('width')}
+          min={64}
+          max={2048}
+          step={8}
+          range={true}
+          onChange={(val) => setResolution(val)}
         />
       </Row>
       <div
