@@ -3,16 +3,17 @@ import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t, toDataUrl } from '../../../lib/util'
 import { Number, Row, Select } from '../../../components/setting'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import className from 'licia/className'
 import { IImage } from '../../store/types'
 import store from '../../store'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import Style from './PreprocessModal.module.scss'
-import LunaToolbar from 'luna-toolbar/react'
+import LunaToolbar, { LunaToolbarSeparator } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import LunaImageViewer from 'luna-image-viewer/react'
+import ImageViewer from 'luna-image-viewer'
 import { LoadingCircle } from '../../../components/loading'
 import * as webui from '../../../lib/webui'
 import clamp from 'licia/clamp'
@@ -29,6 +30,7 @@ export default observer(function PreprocessModal(props: IProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [resolution, setResolution] = useState(512)
   const [processedImage, setProcessedImage] = useState<string>('')
+  const imageViewerRef = useRef<ImageViewer>()
 
   useEffect(() => {
     if (props.visible) {
@@ -101,8 +103,28 @@ export default observer(function PreprocessModal(props: IProps) {
       <div className={Style.image}>
         <LunaToolbar className={Style.toolbar}>
           <ToolbarIcon icon="save" title={t('save')} onClick={() => {}} />
+          <LunaToolbarSeparator />
+          <ToolbarIcon
+            icon="reset"
+            title={t('reset')}
+            onClick={() => imageViewerRef.current?.reset()}
+          />
+          <ToolbarIcon
+            icon="rotate-left"
+            title={t('rotateLeft')}
+            onClick={() => imageViewerRef.current?.rotate(-90)}
+          />
+          <ToolbarIcon
+            icon="rotate-right"
+            title={t('rotateRight')}
+            onClick={() => imageViewerRef.current?.rotate(90)}
+          />
         </LunaToolbar>
-        <LunaImageViewer className={Style.imageBody} image={image} />
+        <LunaImageViewer
+          className={Style.imageBody}
+          image={image}
+          onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
+        />
       </div>
       <Row className="modal-setting-row">
         <Select

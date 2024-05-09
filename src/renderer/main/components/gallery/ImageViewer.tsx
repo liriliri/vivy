@@ -23,6 +23,7 @@ import PreprocessModal from '../common/PreprocessModal'
 import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
 import FaceRestorationModal from './FaceRestorationModal'
+import contextMenu from '../../../lib/contextMenu'
 
 export default observer(function () {
   const { project } = store
@@ -52,6 +53,27 @@ export default observer(function () {
   const onCrop = (canvas: HTMLCanvasElement) => {
     const { data } = parseDataUrl(canvas.toDataURL('image/png'))
     store.project.addFiles([convertBin(data, 'Blob')])
+  }
+
+  const onContextMenu = (e: React.MouseEvent) => {
+    const imageViewer = imageViewerRef.current!
+
+    const template: any[] = [
+      {
+        label: t('reset'),
+        click: () => imageViewer.reset(),
+      },
+      {
+        label: t('rotateLeft'),
+        click: () => imageViewer.rotate(-90),
+      },
+      {
+        label: t('rotateRight'),
+        click: () => imageViewer.rotate(90),
+      },
+    ]
+
+    contextMenu(e, template)
   }
 
   let image = store.theme === 'dark' ? defaultDarkImage : defaultImage
@@ -96,22 +118,6 @@ export default observer(function () {
           title={t('imageInfo')}
           onClick={() => setImageInfoModalVisible(true)}
           disabled={!toBool(project.selectedImage?.info.prompt)}
-        />
-        <LunaToolbarSeparator />
-        <ToolbarIcon
-          icon="reset"
-          title={t('reset')}
-          onClick={() => imageViewerRef.current?.reset()}
-        />
-        <ToolbarIcon
-          icon="rotate-left"
-          title={t('rotateLeft')}
-          onClick={() => imageViewerRef.current?.rotate(-90)}
-        />
-        <ToolbarIcon
-          icon="rotate-right"
-          title={t('rotateRight')}
-          onClick={() => imageViewerRef.current?.rotate(90)}
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
@@ -160,11 +166,13 @@ export default observer(function () {
           }}
         />
       </LunaToolbar>
-      <LunaImageViewer
-        className={Style.body}
-        image={image}
-        onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
-      ></LunaImageViewer>
+      <div className={Style.body} onContextMenu={onContextMenu}>
+        <LunaImageViewer
+          className={Style.body}
+          image={image}
+          onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
+        ></LunaImageViewer>
+      </div>
       {hasArrow && arrowLeft}
       {hasArrow && arrowRight}
       {project.selectedImage && (
