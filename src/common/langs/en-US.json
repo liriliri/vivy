@@ -172,6 +172,7 @@
   "gfpganVisibility": "GFPGAN Visibility",
   "codeFormerVisibility": "CodeFormer Visibility",
   "codeFormerWeight": "CodeFormer Weight",
+  "preprocess": "Preprocess",
 
   "character": "Character",
   "camera": "Camera",

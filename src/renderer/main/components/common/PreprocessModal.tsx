@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t } from '../../../lib/util'
-import { downloadModels, getModelUrl } from '../../lib/model'
+import { getModelUrl } from '../../lib/model'
 import { Row, Number } from '../../../components/setting'
 import { useState } from 'react'
 import className from 'licia/className'
@@ -16,7 +16,7 @@ interface IProps {
   onClose?: () => void
 }
 
-export default observer(function FaceRestorationModal(props: IProps) {
+export default observer(function PreprocessModal(props: IProps) {
   const [gfpganVisibility, setGfpganVisibility] = useState(0)
   const [codeFormerVisibility, setCodeFormerVisibility] = useState(1)
   const [codeFormerWeight, setCodeFormerWeight] = useState(0)
@@ -50,7 +50,7 @@ export default observer(function FaceRestorationModal(props: IProps) {
 
   return createPortal(
     <LunaModal
-      title={t('faceRestoration')}
+      title={t('preprocess')}
       visible={props.visible}
       width={500}
       onClose={props.onClose}
@@ -110,7 +110,7 @@ async function checkFaceXLibModel() {
     type: ModelType.GFPGAN,
   }
 
-  return await downloadModels([param1, param2])
+  return (await downloadModel(param1)) && (await downloadModel(param2))
 }
 
 async function checkGfpganModel() {
@@ -120,7 +120,7 @@ async function checkGfpganModel() {
     type: ModelType.GFPGAN,
   }
 
-  return await downloadModels([param])
+  return await downloadModel(param)
 }
 
 async function checkCodeFormerModel() {
@@ -130,5 +130,15 @@ async function checkCodeFormerModel() {
     type: ModelType.CodeFormer,
   }
 
-  return await downloadModels([param])
+  return await downloadModel(param)
+}
+
+async function downloadModel(param: any) {
+  if (!(await main.isModelExists(param.type, param.fileName))) {
+    main.downloadModel(param)
+    main.showDownload()
+    return false
+  }
+
+  return true
 }

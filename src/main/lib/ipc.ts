@@ -17,6 +17,7 @@ import * as window from './window'
 import contextMenu from './contextMenu'
 import each from 'licia/each'
 import { getMemStore } from './store'
+import uuid from 'licia/uuid'
 
 const memStore = getMemStore()
 
@@ -31,7 +32,10 @@ export function init() {
   ipcMain.handle('showDownload', () => download.showWin())
   ipcMain.handle('showModel', () => model.showWin())
   ipcMain.handle('downloadModel', (_, options) =>
-    download.downloadModel(options)
+    download.downloadModel({
+      id: uuid(),
+      ...options,
+    })
   )
   let cpuAndRamCache: any = null
   ipcMain.handle('getCpuAndRam', async () => {

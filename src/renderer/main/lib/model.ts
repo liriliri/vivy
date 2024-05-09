@@ -1,6 +1,7 @@
 import types from 'licia/types'
 import each from 'licia/each'
 import contain from 'licia/contain'
+import { ModelType } from '../../../common/types'
 
 const urls: types.PlainObj<string> = {
   'v1-5-pruned-emaonly':
@@ -49,4 +50,28 @@ const urls: types.PlainObj<string> = {
 
 export function getModelUrl(name: string) {
   return urls[name]
+}
+
+interface ModelParam {
+  url: string
+  fileName: string
+  type: ModelType
+}
+
+export async function downloadModels(params: ModelParam[]) {
+  let allExist = true
+
+  for (let i = 0, len = params.length; i < len; i++) {
+    const param = params[i]
+    if (!(await main.isModelExists(param.type, param.fileName))) {
+      await main.downloadModel(param)
+      allExist = false
+    }
+  }
+
+  if (!allExist) {
+    main.showDownload()
+  }
+
+  return allExist
 }

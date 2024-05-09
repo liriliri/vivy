@@ -291,14 +291,21 @@ export class FaceRestorationTask extends Task {
   async run() {
     const { faceRestorationOptions } = this
     this.status = TaskStatus.Generating
-    const result = await webui.extraSingle({
-      image: faceRestorationOptions.image,
-      upscaling_resize_w: faceRestorationOptions.width,
-      upscaling_resize_h: faceRestorationOptions.height,
-      gfpgan_visibility: faceRestorationOptions.gfpganVisibility,
-      codeformer_visibility: faceRestorationOptions.codeFormerVisibility,
-      codeformer_weight: faceRestorationOptions.codeFormerWeight,
-    })
+    let result: webui.StableDiffusionResult
+    try {
+      result = await webui.extraSingle({
+        image: faceRestorationOptions.image,
+        upscaling_resize_w: faceRestorationOptions.width,
+        upscaling_resize_h: faceRestorationOptions.height,
+        gfpgan_visibility: faceRestorationOptions.gfpganVisibility,
+        codeformer_visibility: faceRestorationOptions.codeFormerVisibility,
+        codeformer_weight: faceRestorationOptions.codeFormerWeight,
+      })
+    } catch (e) {
+      this.status = TaskStatus.Fail
+      this.emit('fail')
+      return
+    }
     this.progress = 100
     this.status = TaskStatus.Success
     const image = this.images[0]

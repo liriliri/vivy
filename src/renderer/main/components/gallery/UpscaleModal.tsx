@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t } from '../../../lib/util'
-import { getModelUrl } from '../../lib/model'
+import { downloadModels, getModelUrl } from '../../lib/model'
 import { Row, Number, Select } from '../../../components/setting'
 import { useEffect, useState } from 'react'
 import className from 'licia/className'
@@ -200,15 +200,9 @@ async function checkUpscalerModel(upscaler: string) {
   }
 
   const param = upscalerParams[upscaler]
-
-  if (!(await main.isModelExists(param.type, param.fileName))) {
-    if (!param.url) {
-      param.url = getModelUrl(upscaler)
-    }
-    main.downloadModel(param)
-    main.showDownload()
-    return false
+  if (!param.url) {
+    param.url = getModelUrl(upscaler)
   }
 
-  return true
+  return await downloadModels([param])
 }

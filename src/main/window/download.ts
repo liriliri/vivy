@@ -12,6 +12,7 @@ import now from 'licia/now'
 import some from 'licia/some'
 import fs from 'fs-extra'
 import remove from 'licia/remove'
+import Readiness from 'licia/Readiness'
 
 const store = getDownloadStore()
 
@@ -56,12 +57,14 @@ export function showWin() {
 let downloadModelOptions: IDownloadModelOptions | null = null
 
 interface IDownloadModelOptions {
+  id: string
   url: string
   fileName: string
   path?: string
   type: ModelType
 }
 
+const readiness = new Readiness()
 export async function downloadModel(options: IDownloadModelOptions) {
   const mainWin = window.getWin('main')
   if (!mainWin) {
@@ -70,6 +73,10 @@ export async function downloadModel(options: IDownloadModelOptions) {
 
   if (some(downloads, (download) => download.url === options.url)) {
     return
+  }
+
+  if (downloadModelOptions) {
+    await readiness.ready(downloadModelOptions.id)
   }
 
   downloadModelOptions = options
@@ -83,6 +90,8 @@ export async function downloadModel(options: IDownloadModelOptions) {
     await fs.unlink(p)
   }
   mainWin.webContents.downloadURL(options.url)
+
+  return readiness.ready(options.id)
 }
 
 interface IDownload {
@@ -106,6 +115,7 @@ export function init() {
     if (!downloadModelOptions) {
       return
     }
+    readiness.signal(downloadModelOptions.id)
 
     const p = downloadModelOptions.path || ''
 

@@ -172,6 +172,7 @@
   "gfpganVisibility": "GFPGAN 可见度",
   "codeFormerVisibility": "CodeFormer 可见度",
   "codeFormerWeight": "CodeFormer 权重",
+  "preprocess": "预处理",
 
   "character": "角色",
   "camera": "镜头",

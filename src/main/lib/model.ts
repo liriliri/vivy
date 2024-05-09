@@ -44,9 +44,6 @@ export function getDir(type: ModelType) {
   if (type === ModelType.Deepdanbooru) {
     return path.join(getUserDataPath('models'), 'torch_deepdanbooru')
   }
-  if (type === ModelType.GFPGAN) {
-    return path.join(getUserDataPath('models'), 'GFPGAN')
-  }
 
   const modelPath = settingsStore.get('modelPath')
 

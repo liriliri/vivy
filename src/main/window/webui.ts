@@ -97,6 +97,7 @@ export async function start() {
   args.push('--codeformer-models-path', model.getDir(ModelType.CodeFormer))
   args.push('--embeddings-dir', model.getDir(ModelType.Embedding))
   args.push('--dat-models-path', model.getDir(ModelType.DAT))
+  args.push('--gfpgan-models-path', model.getDir(ModelType.GFPGAN))
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')

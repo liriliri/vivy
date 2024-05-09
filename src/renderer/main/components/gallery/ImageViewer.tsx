@@ -19,6 +19,7 @@ import { parseDataUrl, t, toDataUrl } from '../../../lib/util'
 import { getImageName } from '../../lib/util'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
+import PreprocessModal from '../common/PreprocessModal'
 import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
 import FaceRestorationModal from './FaceRestorationModal'
@@ -30,6 +31,7 @@ export default observer(function () {
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
   const [faceRestorationModalVisible, setFaceRestorationModalVisible] =
     useState(false)
+  const [proprocessModalVisible, setProprocessModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
 
@@ -131,6 +133,12 @@ export default observer(function () {
           onClick={() => setFaceRestorationModalVisible(true)}
         />
         <ToolbarIcon
+          icon="explode"
+          title={t('preprocess')}
+          disabled={!hasSelectedImage}
+          onClick={() => setProprocessModalVisible(true)}
+        />
+        <ToolbarIcon
           icon="magic"
           title={t('interrogate')}
           disabled={!hasSelectedImage}
@@ -185,6 +193,13 @@ export default observer(function () {
           visible={faceRestorationModalVisible}
           image={project.selectedImage}
           onClose={() => setFaceRestorationModalVisible(false)}
+        />
+      )}
+      {project.selectedImage && (
+        <PreprocessModal
+          visible={proprocessModalVisible}
+          image={project.selectedImage}
+          onClose={() => setProprocessModalVisible(false)}
         />
       )}
       {project.selectedImage && (
