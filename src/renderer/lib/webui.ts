@@ -57,6 +57,22 @@ export type StableDiffusionLora = {
   metadata: any
 }
 
+export type ControlTypes = types.PlainObj<{
+  module_list: string[]
+  default_option: string
+}>
+
+export type ControlModules = types.PlainObj<{
+  model_free: false
+  sliders: Array<{
+    name: string
+    value: number
+    min: number
+    max: number
+    step: number
+  }>
+}>
+
 type ApiRawResponse = {
   image?: string
   images?: string[]
@@ -110,6 +126,11 @@ type ExtraSingleOptions = {
   gfpgan_visibility?: number
   codeformer_visibility?: number
   codeformer_weight?: number
+}
+
+type PreprocessOptions = {
+  controlnet_module: string
+  controlnet_input_images: string[]
 }
 
 type Sampler = {
@@ -393,4 +414,26 @@ export async function interrogate(image: string, model: string) {
 export async function getMemory(): Promise<Memory> {
   const response = await api.get<Memory>('/sdapi/v1/memory')
   return response.data
+}
+
+export async function getControlTypes(): Promise<ControlTypes> {
+  const response = await api.get<{
+    control_types: ControlTypes
+  }>('/controlnet/control_types')
+  return response.data.control_types
+}
+
+export async function getControlModules(): Promise<ControlModules> {
+  const response = await api.get<{
+    module_detail: ControlModules
+  }>('/controlnet/module_list')
+  return response.data.module_detail
+}
+
+export async function preprocess(options: PreprocessOptions): Promise<string> {
+  const response = await api.post<{ images: string[] }>(
+    '/controlnet/detect',
+    options
+  )
+  return response.data.images[0]
 }

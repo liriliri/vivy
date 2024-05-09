@@ -1,14 +1,20 @@
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
-import { notify, t } from '../../../lib/util'
-import { getModelUrl } from '../../lib/model'
-import { Row, Number } from '../../../components/setting'
-import { useState } from 'react'
+import { notify, t, toDataUrl } from '../../../lib/util'
+import { Row, Select } from '../../../components/setting'
+import { useEffect, useState } from 'react'
 import className from 'licia/className'
-import { ModelType } from '../../../../common/types'
 import { IImage } from '../../store/types'
 import store from '../../store'
+import isEmpty from 'licia/isEmpty'
+import each from 'licia/each'
+import Style from './PreprocessModal.module.scss'
+import LunaToolbar from 'luna-toolbar/react'
+import ToolbarIcon from '../../../components/ToolbarIcon'
+import LunaImageViewer from 'luna-image-viewer/react'
+import { LoadingCircle } from '../../../components/loading'
+import * as webui from '../../../lib/webui'
 
 interface IProps {
   visible: boolean
@@ -17,128 +23,107 @@ interface IProps {
 }
 
 export default observer(function PreprocessModal(props: IProps) {
-  const [gfpganVisibility, setGfpganVisibility] = useState(0)
-  const [codeFormerVisibility, setCodeFormerVisibility] = useState(1)
-  const [codeFormerWeight, setCodeFormerWeight] = useState(0)
+  const [controlType, setControlType] = useState('All')
+  const [preprocessor, setPreprocessor] = useState('none')
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [processedImage, setProcessedImage] = useState<string>('')
+
+  useEffect(() => {
+    if (props.visible) {
+      setProcessedImage('')
+    }
+  }, [props.visible])
+
+  let controlTypes: any = {}
+  let controlTypeDisabled = false
+  const preprocessors: any = {}
+  if (!isEmpty(store.controlTypes)) {
+    each(store.controlTypes, (controlType, name) => {
+      const value = name
+      if (value === 'All') {
+        name = t('all')
+      }
+      controlTypes[name] = value
+    })
+    const moduleList = store.controlTypes[controlType].module_list
+    each(moduleList, (name) => {
+      const value = name
+      if (value === 'none') {
+        name = t('none')
+      }
+      preprocessors[name] = value
+    })
+  } else {
+    controlTypeDisabled = true
+    controlTypes = {
+      [t('empty')]: 'empty',
+    }
+  }
 
   const onClick = async () => {
-    const gfpgan = gfpganVisibility > 0
-    const checkGfpgan = !gfpgan || (await checkGfpganModel())
-    const codeFormer = codeFormerVisibility > 0
-    const checkCodeFormer = !codeFormer || (await checkCodeFormerModel())
-    const faceXLib = gfpgan || codeFormer
-    const checkFaceXLib = !faceXLib || (await checkFaceXLibModel())
-
-    if (!checkGfpgan || !checkCodeFormer || !checkFaceXLib) {
-      notify(t('modelMissingErr'))
+    if (isProcessing || !store.isWebUIReady || preprocessor === 'none') {
       return
     }
-
-    store.createFaceRestorationTask({
-      image: props.image.data,
-      width: props.image.info.width,
-      height: props.image.info.height,
-      codeFormerVisibility,
-      gfpganVisibility,
-      codeFormerWeight,
-    })
-
-    if (props.onClose) {
-      props.onClose()
+    setIsProcessing(true)
+    try {
+      const image = await webui.preprocess({
+        controlnet_module: preprocessor,
+        controlnet_input_images: [props.image.data],
+      })
+      setProcessedImage(image)
+    } catch (e) {
+      notify(t('generateErr'))
     }
+    setIsProcessing(false)
+  }
+
+  let image = ''
+  if (processedImage) {
+    image = toDataUrl(processedImage, 'image/png')
+  } else {
+    image = toDataUrl(props.image.data, props.image.info.mime)
   }
 
   return createPortal(
     <LunaModal
       title={t('preprocess')}
       visible={props.visible}
-      width={500}
+      width={640}
       onClose={props.onClose}
     >
+      <div className={Style.image}>
+        <LunaToolbar className={Style.toolbar}>
+          <ToolbarIcon icon="save" title={t('save')} onClick={() => {}} />
+        </LunaToolbar>
+        <LunaImageViewer className={Style.imageBody} image={image} />
+      </div>
       <Row className="modal-setting-row">
-        <Number
-          value={gfpganVisibility}
-          title={t('gfpganVisibility')}
-          min={0}
-          max={1}
-          step={0.01}
-          range={true}
-          onChange={(val) => setGfpganVisibility(val)}
+        <Select
+          value={controlType}
+          title={t('controlType')}
+          options={controlTypes}
+          disabled={controlTypeDisabled}
+          onChange={(val) => setControlType(val)}
         />
-      </Row>
-      <Row className="modal-setting-row">
-        <Number
-          value={codeFormerVisibility}
-          title={t('codeFormerVisibility')}
-          min={0}
-          max={1}
-          step={0.01}
-          range={true}
-          onChange={(val) => setCodeFormerVisibility(val)}
-        />
-        <Number
-          value={codeFormerWeight}
-          title={t('codeFormerWeight')}
-          min={0}
-          max={1}
-          step={0.01}
-          range={true}
-          onChange={(val) => setCodeFormerWeight(val)}
+        <Select
+          value={preprocessor}
+          title={t('preprocessor')}
+          options={preprocessors}
+          disabled={controlTypeDisabled}
+          onChange={(val) => setPreprocessor(val)}
         />
       </Row>
       <div
         className={className('modal-button', 'button', 'primary')}
         onClick={onClick}
       >
-        {t('generate')}
+        {isProcessing ? (
+          <LoadingCircle className={Style.loading} />
+        ) : (
+          t('generate')
+        )}
       </div>
     </LunaModal>,
     document.body
   )
 })
-
-async function checkFaceXLibModel() {
-  const param1 = {
-    url: getModelUrl('FaceXLibParsing'),
-    fileName: 'parsing_parsenet.pth',
-    type: ModelType.GFPGAN,
-  }
-
-  const param2 = {
-    url: getModelUrl('FaceXLibDectection'),
-    fileName: 'detection_Resnet50_Final.pth',
-    type: ModelType.GFPGAN,
-  }
-
-  return (await downloadModel(param1)) && (await downloadModel(param2))
-}
-
-async function checkGfpganModel() {
-  const param = {
-    url: getModelUrl('GFPGAN'),
-    fileName: 'GFPGANv1.4.pth',
-    type: ModelType.GFPGAN,
-  }
-
-  return await downloadModel(param)
-}
-
-async function checkCodeFormerModel() {
-  const param = {
-    url: getModelUrl('CodeFormer'),
-    fileName: 'codeformer-v0.1.0.pth',
-    type: ModelType.CodeFormer,
-  }
-
-  return await downloadModel(param)
-}
-
-async function downloadModel(param: any) {
-  if (!(await main.isModelExists(param.type, param.fileName))) {
-    main.downloadModel(param)
-    main.showDownload()
-    return false
-  }
-
-  return true
-}

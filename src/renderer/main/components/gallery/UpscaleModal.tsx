@@ -35,6 +35,7 @@ export default observer(function UpscaleModal(props: IProps) {
   }, [props.visible])
 
   let upscalers: any = {}
+  let upscalerDisabled = false
   if (!isEmpty(store.upscalers)) {
     each(store.upscalers, (upscaler) => {
       if (
@@ -51,6 +52,7 @@ export default observer(function UpscaleModal(props: IProps) {
       }
     })
   } else {
+    upscalerDisabled = true
     upscalers = {
       [t('empty')]: 'empty',
     }
@@ -113,7 +115,7 @@ export default observer(function UpscaleModal(props: IProps) {
           value={upscaler1}
           title={t('upscaler') + ' 1'}
           options={upscalers}
-          disabled={isEmpty(upscalers)}
+          disabled={upscalerDisabled}
           onChange={(val) => setUpscaler1(val)}
         />
       </Row>
@@ -122,6 +124,7 @@ export default observer(function UpscaleModal(props: IProps) {
           value={upscaler2}
           title={t('upscaler') + ' 2'}
           options={upscalers}
+          disabled={upscalerDisabled}
           onChange={(val) => setUpscaler2(val)}
         />
         <Number

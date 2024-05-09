@@ -173,6 +173,9 @@
   "codeFormerVisibility": "CodeFormer Visibility",
   "codeFormerWeight": "CodeFormer Weight",
   "preprocess": "Preprocess",
+  "controlType": "Control Type",
+  "all": "All",
+  "preprocessor": "Preprocessor",
 
   "character": "Character",
   "camera": "Camera",

@@ -173,6 +173,9 @@
   "codeFormerVisibility": "CodeFormer 可见度",
   "codeFormerWeight": "CodeFormer 权重",
   "preprocess": "预处理",
+  "controlType": "控制类型",
+  "all": "全部",
+  "preprocessor": "预处理器",
 
   "character": "角色",
   "camera": "镜头",

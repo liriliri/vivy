@@ -39,6 +39,8 @@ class Store extends BaseStore {
   models: string[] = []
   vaes: string[] = []
   upscalers: string[] = []
+  controlTypes: webui.ControlTypes = {}
+  controlModules: webui.ControlModules = {}
   tasks: Task[] = []
   statusbarDesc = ''
   ui = new UI()
@@ -83,6 +85,7 @@ class Store extends BaseStore {
       await this.fetchModels()
       await this.fetchVaes()
       await this.fetchUpscalers()
+      await this.fetchControls()
     } else {
       this.showWebUIErr()
     }
@@ -136,6 +139,14 @@ class Store extends BaseStore {
       this.upscalers = map(upscalers, (upscaler) => upscaler.name)
     })
     setMainStore('upscalers', this.upscalers)
+  }
+  async fetchControls() {
+    const controlTypes = await webui.getControlTypes()
+    const controlModules = await webui.getControlModules()
+    runInAction(() => {
+      this.controlTypes = controlTypes
+      this.controlModules = controlModules
+    })
   }
   async fetchModels() {
     const models = await webui.getSdModels()
