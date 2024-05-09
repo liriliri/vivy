@@ -17,6 +17,9 @@ import ImageViewer from 'luna-image-viewer'
 import { LoadingCircle } from '../../../components/loading'
 import * as webui from '../../../lib/webui'
 import clamp from 'licia/clamp'
+import toBool from 'licia/toBool'
+import convertBin from 'licia/convertBin'
+import download from 'licia/download'
 
 interface IProps {
   visible: boolean
@@ -86,6 +89,13 @@ export default observer(function PreprocessModal(props: IProps) {
     setIsProcessing(false)
   }
 
+  const save = () => {
+    if (processedImage) {
+      const blob = convertBin(processedImage, 'Blob')
+      download(blob, `${t('untitled')}.png`, 'image/png')
+    }
+  }
+
   let image = ''
   if (processedImage) {
     image = toDataUrl(processedImage, 'image/png')
@@ -102,7 +112,12 @@ export default observer(function PreprocessModal(props: IProps) {
     >
       <div className={Style.image}>
         <LunaToolbar className={Style.toolbar}>
-          <ToolbarIcon icon="save" title={t('save')} onClick={() => {}} />
+          <ToolbarIcon
+            icon="save"
+            title={t('save')}
+            disabled={toBool(processedImage)}
+            onClick={save}
+          />
           <LunaToolbarSeparator />
           <ToolbarIcon
             icon="reset"
