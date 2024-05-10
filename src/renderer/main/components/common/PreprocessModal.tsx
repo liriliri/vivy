@@ -59,7 +59,7 @@ export default observer(function PreprocessModal(props: IProps) {
 
   let controlTypes: any = {}
   let controlTypeDisabled = false
-  const preprocessors: any = {
+  let preprocessors: any = {
     [t('empty')]: 'empty',
   }
   if (!isEmpty(store.controlTypes)) {
@@ -70,7 +70,9 @@ export default observer(function PreprocessModal(props: IProps) {
       }
       controlTypes[name] = value
     })
+
     const moduleList = store.controlTypes[controlType].module_list
+    preprocessors = {}
     each(moduleList, (name) => {
       const value = name
       if (value === 'none') {

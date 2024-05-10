@@ -98,6 +98,11 @@ export async function start() {
   args.push('--embeddings-dir', model.getDir(ModelType.Embedding))
   args.push('--dat-models-path', model.getDir(ModelType.DAT))
   args.push('--gfpgan-models-path', model.getDir(ModelType.GFPGAN))
+  args.push('--controlnet-dir', model.getDir(ModelType.ControlNet))
+  args.push(
+    '--controlnet-annotator-models-path',
+    model.getDir(ModelType.ControlNet)
+  )
 
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')

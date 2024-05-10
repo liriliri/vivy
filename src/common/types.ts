@@ -13,6 +13,7 @@ export enum ModelType {
   DAT = 'DAT',
   CodeFormer = 'Codeformer',
   GFPGAN = 'GFPGAN',
+  ControlNet = 'ControlNet',
 }
 
 export const modelTypes = {

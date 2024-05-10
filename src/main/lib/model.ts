@@ -36,6 +36,7 @@ ensureDir(ModelType.SwinIR)
 ensureDir(ModelType.VAE)
 ensureDir(ModelType.CodeFormer)
 ensureDir(ModelType.GFPGAN)
+ensureDir(ModelType.ControlNet)
 
 export function getDir(type: ModelType) {
   if (type === ModelType.BLIP) {
