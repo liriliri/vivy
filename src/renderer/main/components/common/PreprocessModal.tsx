@@ -10,7 +10,10 @@ import store from '../../store'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import Style from './PreprocessModal.module.scss'
-import LunaToolbar, { LunaToolbarSeparator } from 'luna-toolbar/react'
+import LunaToolbar, {
+  LunaToolbarButton,
+  LunaToolbarSeparator,
+} from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import LunaImageViewer from 'luna-image-viewer/react'
 import ImageViewer from 'luna-image-viewer'
@@ -20,6 +23,8 @@ import clamp from 'licia/clamp'
 import toBool from 'licia/toBool'
 import convertBin from 'licia/convertBin'
 import download from 'licia/download'
+import CopyButton from '../../../components/CopyButton'
+import { copyData } from '../../lib/util'
 
 interface IProps {
   visible: boolean
@@ -136,6 +141,12 @@ export default observer(function PreprocessModal(props: IProps) {
             disabled={!hasProcessedImage}
             onClick={save}
           />
+          <LunaToolbarButton disabled={!hasProcessedImage} onClick={() => {}}>
+            <CopyButton
+              className="toolbar-icon"
+              onClick={() => copyData(processedImage.data, 'image/png')}
+            />
+          </LunaToolbarButton>
           <LunaToolbarSeparator />
           <ToolbarIcon
             icon="reset"
