@@ -427,7 +427,7 @@ export async function getControlTypes(): Promise<ControlTypes> {
 export async function getControlModules(): Promise<ControlModules> {
   const response = await api.get<{
     module_detail: ControlModules
-  }>('/controlnet/module_list')
+  }>('/controlnet/module_list?alias_names=true')
   return response.data.module_detail
 }
 
