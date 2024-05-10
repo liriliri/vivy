@@ -52,7 +52,11 @@ export default observer(function InterrogateModal(props: IProps) {
       title={t('interrogate')}
       visible={props.visible}
       width={640}
-      onClose={props.onClose}
+      onClose={() => {
+        if (!isInterrogating) {
+          props.onClose()
+        }
+      }}
     >
       <TextGroup title={t('prompt')} content={prompt} />
       <Row className="modal-setting-row">

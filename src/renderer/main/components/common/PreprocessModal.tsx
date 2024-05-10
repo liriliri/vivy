@@ -24,7 +24,7 @@ import download from 'licia/download'
 interface IProps {
   visible: boolean
   image: IImage
-  onClose?: () => void
+  onClose: () => void
 }
 
 export default observer(function PreprocessModal(props: IProps) {
@@ -32,12 +32,21 @@ export default observer(function PreprocessModal(props: IProps) {
   const [preprocessor, setPreprocessor] = useState('none')
   const [isProcessing, setIsProcessing] = useState(false)
   const [resolution, setResolution] = useState(512)
-  const [processedImage, setProcessedImage] = useState<string>('')
+  const [processedImage, setProcessedImage] = useState<{
+    data: string
+    preprocessor: string
+  }>({
+    data: '',
+    preprocessor: 'none',
+  })
   const imageViewerRef = useRef<ImageViewer>()
 
   useEffect(() => {
     if (props.visible) {
-      setProcessedImage('')
+      setProcessedImage({
+        data: '',
+        preprocessor: 'none',
+      })
       const width = props.image.info.width
       setResolution(clamp(width, 64, 512))
     }
@@ -82,7 +91,10 @@ export default observer(function PreprocessModal(props: IProps) {
         controlnet_input_images: [props.image.data],
         controlnet_processor_res: resolution,
       })
-      setProcessedImage(image)
+      setProcessedImage({
+        data: image,
+        preprocessor,
+      })
     } catch (e) {
       notify(t('generateErr'))
     }
@@ -90,32 +102,38 @@ export default observer(function PreprocessModal(props: IProps) {
   }
 
   const save = () => {
-    if (processedImage) {
-      const blob = convertBin(processedImage, 'Blob')
-      download(blob, `${t('untitled')}.png`, 'image/png')
+    if (processedImage.data) {
+      const blob = convertBin(processedImage.data, 'Blob')
+      download(blob, `${processedImage.preprocessor}.png`, 'image/png')
     }
   }
 
   let image = ''
-  if (processedImage) {
-    image = toDataUrl(processedImage, 'image/png')
+  if (processedImage.data) {
+    image = toDataUrl(processedImage.data, 'image/png')
   } else {
     image = toDataUrl(props.image.data, props.image.info.mime)
   }
+
+  const hasProcessedImage = toBool(processedImage.data)
 
   return createPortal(
     <LunaModal
       title={t('preprocess')}
       visible={props.visible}
       width={640}
-      onClose={props.onClose}
+      onClose={() => {
+        if (!isProcessing) {
+          props.onClose()
+        }
+      }}
     >
       <div className={Style.image}>
         <LunaToolbar className={Style.toolbar}>
           <ToolbarIcon
             icon="save"
             title={t('save')}
-            disabled={toBool(processedImage)}
+            disabled={!hasProcessedImage}
             onClick={save}
           />
           <LunaToolbarSeparator />

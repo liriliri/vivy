@@ -16,7 +16,7 @@ import { IImage } from '../../store/types'
 interface IProps {
   visible: boolean
   image: IImage
-  onClose?: () => void
+  onClose: () => void
 }
 
 export default observer(function UpscaleModal(props: IProps) {
