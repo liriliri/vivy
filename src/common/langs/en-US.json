@@ -176,6 +176,7 @@
   "controlType": "Control Type",
   "all": "All",
   "preprocessor": "Preprocessor",
+  "originalSize": "Original Size",
 
   "character": "Character",
   "camera": "Camera",

@@ -64,6 +64,10 @@ export default observer(function () {
         click: () => imageViewer.reset(),
       },
       {
+        label: t('originalSize'),
+        click: () => imageViewer.zoomTo(1),
+      },
+      {
         label: t('rotateLeft'),
         click: () => imageViewer.rotate(-90),
       },

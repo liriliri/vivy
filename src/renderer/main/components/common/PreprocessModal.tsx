@@ -143,6 +143,11 @@ export default observer(function PreprocessModal(props: IProps) {
             onClick={() => imageViewerRef.current?.reset()}
           />
           <ToolbarIcon
+            icon="original"
+            title={t('originalSize')}
+            onClick={() => imageViewerRef.current?.zoomTo(1)}
+          />
+          <ToolbarIcon
             icon="rotate-left"
             title={t('rotateLeft')}
             onClick={() => imageViewerRef.current?.rotate(-90)}

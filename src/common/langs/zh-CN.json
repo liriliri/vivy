@@ -176,6 +176,7 @@
   "controlType": "控制类型",
   "all": "全部",
   "preprocessor": "预处理器",
+  "originalSize": "原始尺寸",
 
   "character": "角色",
   "camera": "镜头",
