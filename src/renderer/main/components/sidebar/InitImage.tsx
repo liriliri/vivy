@@ -22,6 +22,7 @@ import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
+import PreprocessModal from '../common/PreprocessModal'
 import CropModal from '../common/CropModal'
 import contextMenu from '../../../lib/contextMenu'
 import convertBin from 'licia/convertBin'
@@ -35,6 +36,7 @@ export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
+  const [preprocessModalVisible, setProprocessModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
   const [newImageModalVisible, setNewImageModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
@@ -258,10 +260,16 @@ export default observer(function InitImage() {
             title={t('mask')}
             onClick={() => main.showPainter('mask')}
           />
+          <LunaToolbarSeparator />
           <ToolbarIcon
             icon="crop"
             title={t('crop')}
             onClick={() => setCropModalVisible(true)}
+          />
+          <ToolbarIcon
+            icon="explode"
+            title={t('preprocess')}
+            onClick={() => setProprocessModalVisible(true)}
           />
           <ToolbarIcon
             icon="magic"
@@ -296,6 +304,11 @@ export default observer(function InitImage() {
           visible={imageInfoModalVisible}
           image={project.initImage}
           onClose={() => setImageInfoModalVisible(false)}
+        />
+        <PreprocessModal
+          visible={preprocessModalVisible}
+          image={project.initImage}
+          onClose={() => setProprocessModalVisible(false)}
         />
         <InterrogateModal
           visible={interrogateModalVisible}
