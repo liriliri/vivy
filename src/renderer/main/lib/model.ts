@@ -41,8 +41,6 @@ const urls: types.PlainObj<string> = {
     each(urls, (url, key) => {
       if (contain(url, 'huggingface.co')) {
         urls[key] = url.replace('huggingface.co', 'hf-mirror.com')
-      } else if (contain(url, 'github.com') && contain(url, 'releases/download')) {
-        urls[key] = url.replace('github.com', '521github.com')
       }
     })
   }

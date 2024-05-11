@@ -177,6 +177,8 @@
   "all": "All",
   "preprocessor": "Preprocessor",
   "originalSize": "Original Size",
+  "copyDownloadUrl": "Copy Download URL",
+  "copySavePath": "Copy Save Path",
 
   "character": "Character",
   "camera": "Camera",

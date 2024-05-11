@@ -177,6 +177,8 @@
   "all": "全部",
   "preprocessor": "预处理器",
   "originalSize": "原始尺寸",
+  "copyDownloadUrl": "复制下载地址",
+  "copySavePath": "复制存储路径",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

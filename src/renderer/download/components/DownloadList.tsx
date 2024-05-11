@@ -7,6 +7,8 @@ import className from 'licia/className'
 import store from '../store'
 import { t } from '../../lib/util'
 import LunaModal from 'luna-modal'
+import copy from 'licia/copy'
+import contextMenu from '../../lib/contextMenu'
 
 export default observer(function DownloadList() {
   const downloads = map(store.downloads, (download) => {
@@ -16,11 +18,27 @@ export default observer(function DownloadList() {
     const isProgressing = download.state === 'progressing'
     const isInterrupted = download.state === 'interrupted'
 
+    const onContextMenu = (e: React.MouseEvent) => {
+      const template: any[] = [
+        {
+          label: t('copyDownloadUrl'),
+          click: () => copy(download.url),
+        },
+        {
+          label: t('copySavePath'),
+          click: () => copy(download.path),
+        },
+      ]
+
+      contextMenu(e, template)
+    }
+
     return (
       <div
         className={className(Style.item, {
           [Style.interrupted]: isInterrupted,
         })}
+        onContextMenu={onContextMenu}
         key={download.id}
       >
         {isProgressing && (
