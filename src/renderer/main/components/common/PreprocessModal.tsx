@@ -25,7 +25,8 @@ import convertBin from 'licia/convertBin'
 import download from 'licia/download'
 import CopyButton from '../../../components/CopyButton'
 import { copyData } from '../../lib/util'
-import camelCase from 'licia/camelCase'
+import startWith from 'licia/startWith'
+import contain from 'licia/contain'
 
 interface IProps {
   visible: boolean
@@ -81,9 +82,27 @@ export default observer(function PreprocessModal(props: IProps) {
   }
   if (!isEmpty(store.controlTypes)) {
     each(store.controlTypes, (controlType, name) => {
+      if (
+        contain(
+          [
+            'IP-Adapter',
+            'Inpaint',
+            'Instant-ID',
+            'InstructP2P',
+            'Reference',
+            'Revision',
+            'T2I-Adapter',
+          ],
+          name
+        )
+      ) {
+        return
+      }
       const value = name
       if (value === 'All') {
         name = t('all')
+      } else {
+        name = t(name) || name
       }
       controlTypes[name] = value
     })
@@ -91,6 +110,16 @@ export default observer(function PreprocessModal(props: IProps) {
     const moduleList = store.controlTypes[controlType].module_list
     preprocessors = {}
     each(moduleList, (name) => {
+      if (
+        startWith(name, 'ip-adapter') ||
+        startWith(name, 'inpaint') ||
+        startWith(name, 'instant_id') ||
+        startWith(name, 'reference') ||
+        startWith(name, 'revision') ||
+        startWith(name, 't2ia')
+      ) {
+        return
+      }
       const value = name
       if (value === 'none') {
         name = t('none')
@@ -240,10 +269,7 @@ export default observer(function PreprocessModal(props: IProps) {
         {preprocessorParmas[1] && (
           <Number
             value={thresholdA}
-            title={
-              t(camelCase(preprocessorParmas[1].name)) ||
-              preprocessorParmas[1].name
-            }
+            title={t(preprocessorParmas[1].name) || preprocessorParmas[1].name}
             min={preprocessorParmas[1].min}
             max={preprocessorParmas[1].max}
             step={preprocessorParmas[1].step}
@@ -254,10 +280,7 @@ export default observer(function PreprocessModal(props: IProps) {
         {preprocessorParmas[2] && (
           <Number
             value={thresholdB}
-            title={
-              t(camelCase(preprocessorParmas[2].name)) ||
-              preprocessorParmas[2].name
-            }
+            title={t(preprocessorParmas[2].name) || preprocessorParmas[2].name}
             min={preprocessorParmas[2].min}
             max={preprocessorParmas[2].max}
             step={preprocessorParmas[2].step}
