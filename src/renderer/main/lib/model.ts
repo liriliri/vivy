@@ -2,6 +2,9 @@ import types from 'licia/types'
 import each from 'licia/each'
 import contain from 'licia/contain'
 import { ModelType } from '../../../common/types'
+import isArr from 'licia/isArr'
+import toArr from 'licia/toArr'
+import startWith from 'licia/startWith'
 
 const urls: types.PlainObj<string> = {
   'v1-5-pruned-emaonly':
@@ -33,6 +36,40 @@ const urls: types.PlainObj<string> = {
     'https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/codeformer.pth',
   GFPGAN:
     'https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth',
+  AnnotatorDepthMidas:
+    'https://huggingface.co/lllyasviel/ControlNet/resolve/main/annotator/ckpts/dpt_hybrid-midas-501f0c75.pt',
+  AnnotatorDepthZoe:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/ZoeD_M12_N.pt',
+  AnnotatorDepthLeres:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/res101.pth',
+  AnnotatorDepthLeres2:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/latest_net_G.pth',
+  AnnotatorLineartRealistic:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/sk_model.pth',
+  AnnotatorLineartCoarse:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/sk_model2.pth',
+  AnnotatorLineartAnimeDenoise:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/erika.pth',
+  AnnotatorLineartAnime:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/netG.pth',
+  AnnotatorMLSD:
+    'https://huggingface.co/lllyasviel/ControlNet/resolve/main/annotator/ckpts/mlsd_large_512_fp32.pth',
+  AnnotatorNormalMapBae:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/scannet.pt',
+  AnnotatorNormalMapDshine:
+    'https://huggingface.co/bdsqlsz/qinglong_controlnet-lllite/resolve/main/Annotators/dsine.pt',
+  AnnotatorOpenPoseBody:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/body_pose_model.pth',
+  AnnotatorOpenPoseHand:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/hand_pose_model.pth',
+  AnnotatorOpenPoseFace:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/facenet.pth',
+  AnnotatorDensePose:
+    'https://huggingface.co/LayerNorm/DensePose-TorchScript-with-hint-image/resolve/main/densepose_r50_fpn_dl.torchscript',
+  AnnotatorPidinet:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/table5_pidinet.pth',
+  AnnotatorHed:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/ControlNetHED.pth',
 }
 
 ;(async function () {
@@ -165,6 +202,10 @@ export async function checkUpscalerModel(upscaler: string) {
   upscalerParams['ScuNET'] = upscalerParams['ScuNET GAN']
 
   const param = upscalerParams[upscaler]
+  if (!param) {
+    return true
+  }
+
   if (!param.url) {
     param.url = getModelUrl(upscaler)
   }
@@ -189,4 +230,110 @@ export async function checkInterrogateModel(model: string) {
   const param = modelParams[model]
 
   return downloadModels([param])
+}
+
+export async function checkPreprocessModel(preprocessor: string) {
+  let param: any
+
+  const params = {
+    depth_midas: {
+      url: getModelUrl('AnnotatorDepthMidas'),
+      fileName: 'midas/dpt_hybrid-midas-501f0c75.pt',
+    },
+    depth_zoe: {
+      url: getModelUrl('AnnotatorDepthZoe'),
+      fileName: 'zoedepth/ZoeD_M12_N.pt',
+    },
+    lineart_realistic: {
+      url: getModelUrl('AnnotatorLineartRealistic'),
+      fileName: 'lineart/sk_model.pth',
+    },
+    lineart_coarse: {
+      url: getModelUrl('AnnotatorLineartCoarse'),
+      fileName: 'lineart/sk_model2.pth',
+    },
+    lineart_anime_denoise: {
+      url: getModelUrl('AnnotatorLineartAnimeDenoise'),
+      fileName: 'manga_line/erika.pth',
+    },
+    lineart_anime: {
+      url: getModelUrl('AnnotatorLineartAnime'),
+      fileName: 'lineart_anime/netG.pth',
+    },
+    mlsd: {
+      url: getModelUrl('AnnotatorMLSD'),
+      fileName: 'mlsd/mlsd_large_512_fp32.pth',
+    },
+    normal_bae: {
+      url: getModelUrl('AnnotatorNormalMapBae'),
+      fileName: 'normal_bae/scannet.pt',
+    },
+    normal_dsine: {
+      url: getModelUrl('AnnotatorNormalMapDshine'),
+      fileName: 'normal_dsine/dsine.pt',
+    },
+    scribble_pidinet: {},
+    scribble_hed: {},
+  }
+  param = params[preprocessor]
+
+  if (contain(['scribble_pidinet', 'softedge_pidinet'], preprocessor)) {
+    param = {
+      url: getModelUrl('AnnotatorPidinet'),
+      fileName: 'pidinet/table5_pidinet.pth',
+    }
+  } else if (contain(['scribble_hed', 'softedge_hed'], preprocessor)) {
+    param = {
+      url: getModelUrl('AnnotatorHed'),
+      fileName: 'hed/ControlNetHED.pth',
+    }
+  }
+
+  if (startWith(preprocessor, 'openpose')) {
+    param = [
+      {
+        url: getModelUrl('AnnotatorOpenPoseBody'),
+        fileName: 'openpose/body_pose_model.pth',
+      },
+      {
+        url: getModelUrl('AnnotatorOpenPoseHand'),
+        fileName: 'openpose/hand_pose_model.pth',
+      },
+      {
+        url: getModelUrl('AnnotatorOpenPoseFace'),
+        fileName: 'openpose/facenet.pth',
+      },
+    ]
+  } else if (startWith(preprocessor, 'densepose')) {
+    param = [
+      {
+        url: getModelUrl('AnnotatorDensePose'),
+        fileName: 'densepose/densepose_r50_fpn_dl.torchscript',
+      },
+    ]
+  }
+  if (startWith(preprocessor, 'depth_leres')) {
+    param = [
+      {
+        url: getModelUrl('AnnotatorDepthLeres'),
+        fileName: 'leres/res101.pth',
+      },
+      {
+        url: getModelUrl('AnnotatorDepthLeres2'),
+        fileName: 'leres/latest_net_G.pth',
+      },
+    ]
+  }
+
+  if (!param) {
+    return true
+  }
+
+  if (!isArr(param)) {
+    param = toArr(param)
+  }
+  each(param, (param: any) => {
+    param.type = ModelType.ControlNet
+  })
+  return downloadModels(param)
 }

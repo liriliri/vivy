@@ -27,6 +27,7 @@ import CopyButton from '../../../components/CopyButton'
 import { copyData } from '../../lib/util'
 import startWith from 'licia/startWith'
 import contain from 'licia/contain'
+import { checkPreprocessModel } from '../../lib/model'
 
 interface IProps {
   visible: boolean
@@ -123,6 +124,8 @@ export default observer(function PreprocessModal(props: IProps) {
       const value = name
       if (value === 'none') {
         name = t('none')
+      } else {
+        name = t(name) || name
       }
       preprocessors[name] = value
     })
@@ -137,6 +140,12 @@ export default observer(function PreprocessModal(props: IProps) {
     if (isProcessing || !store.isWebUIReady || preprocessor === 'none') {
       return
     }
+
+    if (!(await checkPreprocessModel(preprocessor))) {
+      notify(t('modelMissingErr'))
+      return
+    }
+
     setIsProcessing(true)
     try {
       const options: any = {
