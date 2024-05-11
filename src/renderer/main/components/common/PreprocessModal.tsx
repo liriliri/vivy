@@ -25,6 +25,7 @@ import convertBin from 'licia/convertBin'
 import download from 'licia/download'
 import CopyButton from '../../../components/CopyButton'
 import { copyData } from '../../lib/util'
+import camelCase from 'licia/camelCase'
 
 interface IProps {
   visible: boolean
@@ -37,6 +38,8 @@ export default observer(function PreprocessModal(props: IProps) {
   const [preprocessor, setPreprocessor] = useState('none')
   const [isProcessing, setIsProcessing] = useState(false)
   const [resolution, setResolution] = useState(512)
+  const [thresholdA, setThresholdA] = useState(0)
+  const [thresholdB, setThresholdB] = useState(0)
   const [processedImage, setProcessedImage] = useState<{
     data: string
     preprocessor: string
@@ -56,6 +59,20 @@ export default observer(function PreprocessModal(props: IProps) {
       setResolution(clamp(width, 64, 512))
     }
   }, [props.visible])
+
+  const preprocessorParmas = store.controlModules[preprocessor]?.sliders || []
+  if (preprocessorParmas[1]) {
+    const param = preprocessorParmas[1]
+    if (thresholdA < param.min || thresholdA > param.max) {
+      setThresholdA(param.value)
+    }
+  }
+  if (preprocessorParmas[2]) {
+    const param = preprocessorParmas[2]
+    if (thresholdB < param.min || thresholdB > param.max) {
+      setThresholdB(param.value)
+    }
+  }
 
   let controlTypes: any = {}
   let controlTypeDisabled = false
@@ -93,11 +110,20 @@ export default observer(function PreprocessModal(props: IProps) {
     }
     setIsProcessing(true)
     try {
-      const image = await webui.preprocess({
+      const options: any = {
         controlnet_module: preprocessor,
         controlnet_input_images: [props.image.data],
-        controlnet_processor_res: resolution,
-      })
+      }
+      if (preprocessorParmas[0]) {
+        options.controlnet_processor_res = resolution
+      }
+      if (preprocessorParmas[1]) {
+        options.controlnet_threshold_a = thresholdA
+      }
+      if (preprocessorParmas[2]) {
+        options.controlnet_threshold_b = thresholdB
+      }
+      const image = await webui.preprocess(options)
       setProcessedImage({
         data: image,
         preprocessor,
@@ -115,6 +141,12 @@ export default observer(function PreprocessModal(props: IProps) {
     }
   }
 
+  const onControlTypeChange = (val: string) => {
+    setControlType(val)
+    const controlType = store.controlTypes[val]
+    setPreprocessor(controlType.default_option)
+  }
+
   let image = ''
   if (processedImage.data) {
     image = toDataUrl(processedImage.data, 'image/png')
@@ -128,7 +160,7 @@ export default observer(function PreprocessModal(props: IProps) {
     <LunaModal
       title={t('preprocess')}
       visible={props.visible}
-      width={640}
+      width={720}
       onClose={() => {
         if (!isProcessing) {
           props.onClose()
@@ -183,11 +215,7 @@ export default observer(function PreprocessModal(props: IProps) {
           title={t('controlType')}
           options={controlTypes}
           disabled={controlTypeDisabled}
-          onChange={(val) => {
-            setControlType(val)
-            const controlType = store.controlTypes[val]
-            setPreprocessor(controlType.default_option)
-          }}
+          onChange={onControlTypeChange}
         />
         <Select
           value={preprocessor}
@@ -196,15 +224,47 @@ export default observer(function PreprocessModal(props: IProps) {
           disabled={controlTypeDisabled}
           onChange={(val) => setPreprocessor(val)}
         />
-        <Number
-          value={resolution}
-          title={t('width')}
-          min={64}
-          max={2048}
-          step={8}
-          range={true}
-          onChange={(val) => setResolution(val)}
-        />
+      </Row>
+      <Row className="modal-setting-row">
+        {preprocessorParmas[0] && (
+          <Number
+            value={resolution}
+            title={t('width')}
+            min={preprocessorParmas[0].min}
+            max={preprocessorParmas[0].max}
+            step={preprocessorParmas[0].step}
+            range={true}
+            onChange={(val) => setResolution(val)}
+          />
+        )}
+        {preprocessorParmas[1] && (
+          <Number
+            value={thresholdA}
+            title={
+              t(camelCase(preprocessorParmas[1].name)) ||
+              preprocessorParmas[1].name
+            }
+            min={preprocessorParmas[1].min}
+            max={preprocessorParmas[1].max}
+            step={preprocessorParmas[1].step}
+            range={true}
+            onChange={(val) => setThresholdA(val)}
+          />
+        )}
+        {preprocessorParmas[2] && (
+          <Number
+            value={thresholdB}
+            title={
+              t(camelCase(preprocessorParmas[2].name)) ||
+              preprocessorParmas[2].name
+            }
+            min={preprocessorParmas[2].min}
+            max={preprocessorParmas[2].max}
+            step={preprocessorParmas[2].step}
+            range={true}
+            onChange={(val) => setThresholdB(val)}
+          />
+        )}
       </Row>
       <div
         className={className('modal-button', 'button', 'primary')}

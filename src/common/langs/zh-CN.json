@@ -177,6 +177,8 @@
   "all": "全部",
   "preprocessor": "预处理器",
   "originalSize": "原始尺寸",
+  "lowThreshold": "低阈值",
+  "highThreshold": "高阈值",
 
   "character": "角色",
   "camera": "镜头",

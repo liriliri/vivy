@@ -131,7 +131,9 @@ type ExtraSingleOptions = {
 type PreprocessOptions = {
   controlnet_module: string
   controlnet_input_images: string[]
-  controlnet_processor_res: number
+  controlnet_processor_res?: number
+  controlnet_threshold_a?: number
+  controlnet_threshold_b?: number
 }
 
 type Sampler = {
