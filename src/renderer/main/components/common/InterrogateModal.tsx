@@ -9,9 +9,8 @@ import { LoadingCircle } from '../../../components/loading'
 import * as webui from '../../../lib/webui'
 import Style from './InterrogateModal.module.scss'
 import { Row, Select } from '../../../components/setting'
-import { ModelType } from '../../../../common/types'
 import store from '../../store'
-import { getModelUrl } from '../../lib/model'
+import { checkInterrogateModel } from '../../lib/model'
 
 interface IProps {
   visible: boolean
@@ -81,30 +80,3 @@ export default observer(function InterrogateModal(props: IProps) {
     document.body
   )
 })
-
-const modelParams = {
-  clip: {
-    url: 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_caption_capfilt_large.pth',
-    fileName: 'model_base_caption_capfilt_large.pth',
-    type: ModelType.BLIP,
-  },
-  deepdanbooru: {
-    fileName: 'model-resnet_custom_v3.pt',
-    type: ModelType.Deepdanbooru,
-  },
-}
-
-async function checkInterrogateModel(model: string) {
-  const param = modelParams[model]
-
-  if (!(await main.isModelExists(param.type, param.fileName))) {
-    if (!param.url) {
-      param.url = getModelUrl(model)
-    }
-    main.downloadModel(param)
-    main.showDownload()
-    return false
-  }
-
-  return true
-}

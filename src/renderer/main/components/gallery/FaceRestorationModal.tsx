@@ -2,11 +2,14 @@ import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t } from '../../../lib/util'
-import { downloadModels, getModelUrl } from '../../lib/model'
+import {
+  checkCodeFormerModel,
+  checkFaceXLibModel,
+  checkGfpganModel,
+} from '../../lib/model'
 import { Row, Number } from '../../../components/setting'
 import { useState } from 'react'
 import className from 'licia/className'
-import { ModelType } from '../../../../common/types'
 import { IImage } from '../../store/types'
 import store from '../../store'
 
@@ -96,39 +99,3 @@ export default observer(function FaceRestorationModal(props: IProps) {
     document.body
   )
 })
-
-async function checkFaceXLibModel() {
-  const param1 = {
-    url: getModelUrl('FaceXLibParsing'),
-    fileName: 'parsing_parsenet.pth',
-    type: ModelType.GFPGAN,
-  }
-
-  const param2 = {
-    url: getModelUrl('FaceXLibDectection'),
-    fileName: 'detection_Resnet50_Final.pth',
-    type: ModelType.GFPGAN,
-  }
-
-  return await downloadModels([param1, param2])
-}
-
-async function checkGfpganModel() {
-  const param = {
-    url: getModelUrl('GFPGAN'),
-    fileName: 'GFPGANv1.4.pth',
-    type: ModelType.GFPGAN,
-  }
-
-  return await downloadModels([param])
-}
-
-async function checkCodeFormerModel() {
-  const param = {
-    url: getModelUrl('CodeFormer'),
-    fileName: 'codeformer-v0.1.0.pth',
-    type: ModelType.CodeFormer,
-  }
-
-  return await downloadModels([param])
-}

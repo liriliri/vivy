@@ -2,14 +2,13 @@ import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
 import { notify, t } from '../../../lib/util'
-import { downloadModels, getModelUrl } from '../../lib/model'
+import { checkUpscalerModel } from '../../lib/model'
 import { Row, Number, Select } from '../../../components/setting'
 import { useEffect, useState } from 'react'
 import className from 'licia/className'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import store from '../../store'
-import { ModelType } from '../../../../common/types'
 import contain from 'licia/contain'
 import { IImage } from '../../store/types'
 
@@ -26,6 +25,21 @@ export default observer(function UpscaleModal(props: IProps) {
   const [upscaler2, setUpscaler2] = useState('None')
   const [upscaler2Visibility, setUpscaler2Visibility] = useState(0.7)
   const ratio = props.image.info.width / props.image.info.height
+  const supportedUpscalers = [
+    'None',
+    'Lanczos',
+    'Nearest',
+    'ESRGAN_4x',
+    'LDSR',
+    'R-ESRGAN 4x+',
+    'R-ESRGAN 4x+ Anime6B',
+    'ScuNET GAN',
+    'ScuNET PSNR',
+    'SwinIR 4x',
+    'DAT x2',
+    'DAT x3',
+    'DAT x4',
+  ]
 
   useEffect(() => {
     if (props.visible) {
@@ -38,10 +52,7 @@ export default observer(function UpscaleModal(props: IProps) {
   let upscalerDisabled = false
   if (!isEmpty(store.upscalers)) {
     each(store.upscalers, (upscaler) => {
-      if (
-        contain(upscalersWithoutModel, upscaler) ||
-        upscalerParams[upscaler]
-      ) {
+      if (contain(supportedUpscalers, upscaler)) {
         let name = upscaler
         if (name === 'SwinIR_4x') {
           name = 'SwinIR 4x'
@@ -147,65 +158,3 @@ export default observer(function UpscaleModal(props: IProps) {
     document.body
   )
 })
-
-const upscalerParams: any = {
-  ESRGAN_4x: {
-    fileName: 'ESRGAN_4x.pth',
-    type: ModelType.ESRGAN,
-  },
-  LDSR: {
-    url: 'https://heibox.uni-heidelberg.de/f/578df07c8fc04ffbadf3/?dl=1',
-    fileName: 'model.ckpt',
-    type: ModelType.LDSR,
-  },
-  'R-ESRGAN 4x+': {
-    fileName: 'RealESRGAN_x4plus.pth',
-    type: ModelType.RealESRGAN,
-  },
-  'R-ESRGAN 4x+ Anime6B': {
-    fileName: 'RealESRGAN_x4plus_anime_6B.pth',
-    type: ModelType.RealESRGAN,
-  },
-  'ScuNET GAN': {
-    fileName: 'ScuNET.pth',
-    type: ModelType.ScuNET,
-  },
-  'ScuNET PSNR': {
-    fileName: 'ScuNET.pth',
-    type: ModelType.ScuNET,
-  },
-  'SwinIR 4x': {
-    fileName: 'SwinIR_4x.pth',
-    type: ModelType.SwinIR,
-  },
-  'DAT x2': {
-    fileName: 'DAT_x2.pth',
-    type: ModelType.DAT,
-  },
-  'DAT x3': {
-    fileName: 'DAT_x3.pth',
-    type: ModelType.DAT,
-  },
-  'DAT x4': {
-    fileName: 'DAT_x4.pth',
-    type: ModelType.DAT,
-  },
-}
-
-upscalerParams['SwinIR_4x'] = upscalerParams['SwinIR 4x']
-upscalerParams['ScuNET'] = upscalerParams['ScuNET GAN']
-
-const upscalersWithoutModel = ['None', 'Lanczos', 'Nearest']
-
-async function checkUpscalerModel(upscaler: string) {
-  if (contain(upscalersWithoutModel, upscaler)) {
-    return true
-  }
-
-  const param = upscalerParams[upscaler]
-  if (!param.url) {
-    param.url = getModelUrl(upscaler)
-  }
-
-  return await downloadModels([param])
-}
