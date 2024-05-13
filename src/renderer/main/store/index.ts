@@ -184,7 +184,7 @@ class Store extends BaseStore {
       this.isWebUIReady = true
     })
   }
-  async createGenTask() {
+  createGenTask = async () => {
     const { project } = this
 
     if (!(await this.checkModel())) {

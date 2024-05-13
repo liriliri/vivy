@@ -8,11 +8,25 @@ import toStr from 'licia/toStr'
 import $ from 'licia/$'
 import contextMenu from '../../../lib/contextMenu'
 import { useRef } from 'react'
+import times from 'licia/times'
 
 export default observer(function Generate() {
   const batchSizeRef = useRef<HTMLDivElement>(null)
   const { project } = store
   const { genOptions } = project
+
+  const onGenerateContextMenu = function (e: React.MouseEvent) {
+    const template: any[] = []
+    for (let i = 1; i < 11; i++) {
+      const n = i * 10
+      template.push({
+        label: toStr(n),
+        click: () => times(n, store.createGenTask),
+      })
+    }
+
+    contextMenu(e, template)
+  }
 
   function setBatchSize(size: number) {
     size = clamp(size, 1, 8)
@@ -47,6 +61,7 @@ export default observer(function Generate() {
         className={className(Style.generateButton, 'button', 'primary')}
         onMouseDown={(e) => e.preventDefault()}
         onClick={() => store.createGenTask()}
+        onContextMenu={onGenerateContextMenu}
       >
         {t('generate')}
       </div>
