@@ -15,6 +15,7 @@ import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 import LunaNotification, { INotifyOptions } from 'luna-notification'
 import { isObservable, toJS } from 'mobx'
 import detectOs from 'licia/detectOs'
+import slugify from 'licia/slugify'
 
 const suggestionsZhCNLines = suggestionsZhCN.split('\n')
 
@@ -137,4 +138,14 @@ export function getPlatform() {
     return 'mac'
   }
   return os
+}
+
+export function slugifyFileName(name: string) {
+  let ret = slugify(name)
+
+  if (getPlatform() === 'windows') {
+    ret = ret.replace(/[/\\:*?"<>]/g, '-')
+  }
+
+  return ret
 }

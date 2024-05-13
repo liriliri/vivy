@@ -1,10 +1,9 @@
 import { IImage } from '../../main/store/types'
-import slugify from 'licia/slugify'
 import truncate from 'licia/truncate'
 import loadImg from 'licia/loadImg'
 import convertBin from 'licia/convertBin'
 import isArrBuffer from 'licia/isArrBuffer'
-import { parseDataUrl } from '../../lib/util'
+import { parseDataUrl, slugifyFileName } from '../../lib/util'
 
 export function getImageName(image: IImage) {
   const ext = image.info.mime === 'image/jpeg' ? '.jpg' : '.png'
@@ -14,7 +13,7 @@ export function getImageName(image: IImage) {
       ellipsis: '',
       separator: ',',
     })
-    return `${slugify(name)}-${image.info.seed}${ext}`
+    return `${slugifyFileName(name)}-${image.info.seed}${ext}`
   }
 
   return `${image.id}${ext}`
