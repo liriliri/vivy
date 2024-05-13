@@ -70,6 +70,14 @@ const urls: types.PlainObj<string> = {
     'https://huggingface.co/lllyasviel/Annotators/resolve/main/table5_pidinet.pth',
   AnnotatorHed:
     'https://huggingface.co/lllyasviel/Annotators/resolve/main/ControlNetHED.pth',
+  AnnotatorAnimeFaceSegment:
+    'https://huggingface.co/bdsqlsz/qinglong_controlnet-lllite/resolve/main/Annotators/UNet.pth',
+  AnnotatorOneformerAde20k:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/250_16_swin_l_oneformer_ade20k_160k.pth',
+  AnnotatorOneformerCoco:
+    'https://huggingface.co/lllyasviel/Annotators/resolve/main/150_16_swin_l_oneformer_coco_100ep.pth',
+  AnnotatorUniformer:
+    'https://huggingface.co/lllyasviel/ControlNet/resolve/main/annotator/ckpts/upernet_global_small.pth',
 }
 
 ;(async function () {
@@ -272,9 +280,27 @@ export async function checkPreprocessModel(preprocessor: string) {
       url: getModelUrl('AnnotatorNormalMapDshine'),
       fileName: 'normal_dsine/dsine.pt',
     },
-    scribble_pidinet: {},
-    scribble_hed: {},
+    seg_anime_face: {
+      url: getModelUrl('AnnotatorAnimeFaceSegment'),
+      fileName: 'anime_face_segment/UNet.pth',
+    },
+    seg_ofade20k: {
+      url: getModelUrl('AnnotatorOneformerAde20k'),
+      fileName: 'oneformer/250_16_swin_l_oneformer_ade20k_160k.pth',
+    },
+    seg_ofcoco: {
+      url: getModelUrl('AnnotatorOneformerCoco'),
+      fileName: 'oneformer/150_16_swin_l_oneformer_coco_100ep.pth',
+    },
   }
+  params['seg_ufade20k'] = [
+    params.seg_ofade20k,
+    {
+      url: getModelUrl('AnnotatorUniformer'),
+      fileName: 'uniformer/upernet_global_small.pth',
+    },
+  ]
+
   param = params[preprocessor]
 
   if (contain(['scribble_pidinet', 'softedge_pidinet'], preprocessor)) {
