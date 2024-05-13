@@ -15,7 +15,7 @@ import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
-import { parseDataUrl, t, toDataUrl } from '../../../lib/util'
+import { getPlatform, parseDataUrl, t, toDataUrl } from '../../../lib/util'
 import { getImageName } from '../../lib/util'
 import ImageInfoModal from '../common/ImageInfoModal'
 import InterrogateModal from '../common/InterrogateModal'
@@ -56,9 +56,25 @@ export default observer(function () {
   }
 
   const onContextMenu = (e: React.MouseEvent) => {
+    if (!project.selectedImage) {
+      return
+    }
+
     const imageViewer = imageViewerRef.current!
 
     const template: any[] = [
+      {
+        label: t(
+          getPlatform() === 'mac' ? 'openWithPreview' : 'openWithImageViewer'
+        ),
+        click: () => {
+          const image = project.selectedImage!
+          main.openImage(image.data, getImageName(image))
+        },
+      },
+      {
+        type: 'separator',
+      },
       {
         label: t('reset'),
         click: () => imageViewer.reset(),

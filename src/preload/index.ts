@@ -114,6 +114,9 @@ const mainObj = {
       template
     )
   },
+  openImage: (data: string, name: string) => {
+    ipcRenderer.invoke('openImage', data, name)
+  },
   sendToWindow: (name: string, channel: string, ...args: any[]) => {
     ipcRenderer.invoke('sendToWindow', name, channel, ...args)
   },

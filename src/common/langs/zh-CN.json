@@ -179,6 +179,8 @@
   "originalSize": "原始尺寸",
   "copyDownloadUrl": "复制下载地址",
   "copySavePath": "复制存储路径",
+  "openWithPreview": "使用“预览”打开",
+  "openWithImageViewer": "使用图片查看器打开",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

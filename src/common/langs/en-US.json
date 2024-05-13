@@ -179,6 +179,8 @@
   "originalSize": "Original Size",
   "copyDownloadUrl": "Copy Download URL",
   "copySavePath": "Copy Save Path",
+  "openWithPreview": "Open with Preview",
+  "openWithImageViewer": "Open with Image Viewer",
 
   "character": "Character",
   "camera": "Camera",

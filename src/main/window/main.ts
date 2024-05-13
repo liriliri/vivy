@@ -1,12 +1,14 @@
 import path from 'path'
 import { isDev } from '../../common/util'
-import { BrowserWindow, ipcMain, app, clipboard } from 'electron'
+import { BrowserWindow, ipcMain, app, clipboard, shell } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import * as window from '../lib/window'
 import * as webui from './webui'
 import * as model from '../lib/model'
 import convertBin from 'licia/convertBin'
+import os from 'os'
+import fs from 'fs-extra'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -91,6 +93,12 @@ function initIpc() {
     if (!image.isEmpty()) {
       return convertBin(image.toPNG(), 'base64')
     }
+  })
+
+  ipcMain.handle('openImage', async (_, data: string, name: string) => {
+    const p = path.join(os.tmpdir(), name)
+    await fs.writeFile(p, Buffer.from(data, 'base64'))
+    shell.openPath(p)
   })
 
   ipcMain.handle('getWebUIPort', () => webui.getPort())
