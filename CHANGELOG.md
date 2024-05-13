@@ -1,3 +1,9 @@
+## v0.12.0 (13 May 2024)
+
+* feat: face restoration
+* feat: image preprocessor
+* feat: upgrade Stable Diffusion web UI to 1.9.3
+
 ## v0.11.0 (22 Apr 2024)
 
 * feat: custom web UI arguments

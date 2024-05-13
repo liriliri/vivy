@@ -1,6 +1,6 @@
 {
   "name": "VIVY",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Stable diffusion desktop application",
   "main": "dist/main/index.js",
   "scripts": {
