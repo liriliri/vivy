@@ -203,6 +203,7 @@
   "MLSD Distance Threshold": "距离阈值",
   "Gamma Correction": "Gamma 矫正",
   "Down Sampling Rate": "向下采样率",
+  "controlNetUnit": "控制单元",
 
   "character": "角色",
   "camera": "镜头",

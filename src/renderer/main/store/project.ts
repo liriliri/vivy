@@ -1,7 +1,7 @@
 import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { VivyFile } from '../lib/vivyFile'
 import { t, toDataUrl, notify, setMainStore, setMemStore } from '../../lib/util'
-import { blurAll, renderImageMask } from '../lib/util'
+import { blurAll, renderImageMask, toImage } from '../lib/util'
 import { IImage, IGenOptions, IImageInfo } from './types'
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
@@ -11,8 +11,6 @@ import idxOf from 'licia/idxOf'
 import hotkey from 'licia/hotkey'
 import clone from 'licia/clone'
 import extend from 'licia/extend'
-import isStr from 'licia/isStr'
-import isFile from 'licia/isFile'
 import convertBin from 'licia/convertBin'
 import uuid from 'licia/uuid'
 import startWith from 'licia/startWith'
@@ -26,6 +24,7 @@ import contain from 'licia/contain'
 import * as webui from '../../lib/webui'
 import LunaModal from 'luna-modal'
 import splitPath from 'licia/splitPath'
+import range from 'licia/range'
 
 export class Project {
   prompt = ''
@@ -39,6 +38,9 @@ export class Project {
   initImagePreview: string | null = null
   samplers: string[] = []
   genOptions: IGenOptions = clone(defGenOptions)
+  controlNetUnits: ControlNetUnit[] = map(range(3), () => {
+    return new ControlNetUnit()
+  })
   private selectedImageIndex = -1
   private vivyFile: VivyFile | null = null
   constructor() {
@@ -46,6 +48,7 @@ export class Project {
       prompt: observable,
       negativePrompt: observable,
       genOptions: observable,
+      controlNetUnits: observable,
       path: observable,
       isSave: observable,
       samplers: observable,
@@ -401,42 +404,11 @@ export class Project {
     await this.save()
   }
   async setInitImage(data: IImage | Blob | string, mime = '') {
-    let buf = new ArrayBuffer(0)
-    if (isFile(data)) {
-      buf = await convertBin.blobToArrBuffer(data)
-    } else if (isStr(data)) {
-      buf = convertBin(data, 'ArrayBuffer')
+    const image = await toImage(data, mime)
+    if (!image) {
+      return
     }
-    if (buf.byteLength > 0) {
-      if (!mime) {
-        const type = fileType(buf)
-        if (type) {
-          mime = type.mime
-        }
-      }
-
-      if (!startWith(mime, 'image/')) {
-        return
-      }
-
-      const base64Data = convertBin(buf, 'base64')
-      const imageInfo = await parseImage(base64Data, mime)
-      runInAction(() => {
-        this.initImage = {
-          id: uuid(),
-          data: base64Data,
-          info: {
-            size: buf.byteLength,
-            mime,
-            ...imageInfo,
-          },
-        }
-      })
-    } else {
-      runInAction(() => {
-        this.initImage = data as IImage
-      })
-    }
+    runInAction(() => (this.initImage = image))
 
     const { info } = this.initImage!
     this.setGenOption('width', info.width)
@@ -557,7 +529,35 @@ export class Project {
   }
 }
 
-const defGenOptions = {
+class ControlNetUnit {
+  image: IImage | null = null
+  type = 'Canny'
+  guidanceStart = 0
+  guidanceEnd = 1
+  preprocessor = 'none'
+  constructor() {
+    makeObservable(this, {
+      image: observable,
+      type: observable,
+      guidanceStart: observable,
+      guidanceEnd: observable,
+      preprocessor: observable,
+      deleteImage: action,
+    })
+  }
+  async setImage(data: IImage | Blob | string, mime = '') {
+    const image = await toImage(data, mime)
+    if (!image) {
+      return
+    }
+    runInAction(() => (this.image = image))
+  }
+  deleteImage() {
+    this.image = null
+  }
+}
+
+const defGenOptions: IGenOptions = {
   sampler: 'Euler a',
   steps: 20,
   seed: -1,

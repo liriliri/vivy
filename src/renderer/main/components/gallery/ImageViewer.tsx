@@ -32,7 +32,7 @@ export default observer(function () {
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
   const [faceRestorationModalVisible, setFaceRestorationModalVisible] =
     useState(false)
-  const [proprocessModalVisible, setProprocessModalVisible] = useState(false)
+  const [preprocessModalVisible, setPreprocessModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
 
@@ -162,7 +162,7 @@ export default observer(function () {
           icon="explode"
           title={t('preprocess')}
           disabled={!hasSelectedImage}
-          onClick={() => setProprocessModalVisible(true)}
+          onClick={() => setPreprocessModalVisible(true)}
         />
         <ToolbarIcon
           icon="magic"
@@ -225,9 +225,9 @@ export default observer(function () {
       )}
       {project.selectedImage && (
         <PreprocessModal
-          visible={proprocessModalVisible}
+          visible={preprocessModalVisible}
           image={project.selectedImage}
-          onClose={() => setProprocessModalVisible(false)}
+          onClose={() => setPreprocessModalVisible(false)}
         />
       )}
       {project.selectedImage && (

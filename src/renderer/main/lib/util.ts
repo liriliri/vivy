@@ -4,6 +4,12 @@ import loadImg from 'licia/loadImg'
 import convertBin from 'licia/convertBin'
 import isArrBuffer from 'licia/isArrBuffer'
 import { parseDataUrl, slugifyFileName } from '../../lib/util'
+import isFile from 'licia/isFile'
+import isStr from 'licia/isStr'
+import fileType from 'licia/fileType'
+import startWith from 'licia/startWith'
+import { parseImage } from './genData'
+import uuid from 'licia/uuid'
 
 export function getImageName(image: IImage) {
   const ext = image.info.mime === 'image/jpeg' ? '.jpg' : '.png'
@@ -151,4 +157,39 @@ export function copyData(buf: any, mime: string) {
       }),
     }),
   ])
+}
+
+export async function toImage(data: IImage | Blob | string, mime = '') {
+  let buf = new ArrayBuffer(0)
+  if (isFile(data)) {
+    buf = await convertBin.blobToArrBuffer(data)
+  } else if (isStr(data)) {
+    buf = convertBin(data, 'ArrayBuffer')
+  }
+  if (buf.byteLength > 0) {
+    if (!mime) {
+      const type = fileType(buf)
+      if (type) {
+        mime = type.mime
+      }
+    }
+
+    if (!startWith(mime, 'image/')) {
+      return
+    }
+
+    const base64Data = convertBin(buf, 'base64')
+    const imageInfo = await parseImage(base64Data, mime)
+    return {
+      id: uuid(),
+      data: base64Data,
+      info: {
+        size: buf.byteLength,
+        mime,
+        ...imageInfo,
+      },
+    } as IImage
+  } else {
+    return data as IImage
+  }
 }

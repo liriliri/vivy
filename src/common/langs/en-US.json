@@ -181,6 +181,7 @@
   "copySavePath": "Copy Save Path",
   "openWithPreview": "Open with Preview",
   "openWithImageViewer": "Open with Image Viewer",
+  "controlNetUnit": "Control Net Unit",
 
   "character": "Character",
   "camera": "Camera",

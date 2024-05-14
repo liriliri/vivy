@@ -131,7 +131,7 @@ export default observer(function () {
   }
 
   return (
-    <div className={Style.genOptions}>
+    <>
       <Row>
         <InitImage />
       </Row>
@@ -211,6 +211,6 @@ export default observer(function () {
           />
         </StatusbarDesc>
       </Row>
-    </div>
+    </>
   )
 })

@@ -36,7 +36,7 @@ export default observer(function InitImage() {
   const imageViewerRef = useRef<ImageViewer>()
   const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
-  const [preprocessModalVisible, setProprocessModalVisible] = useState(false)
+  const [preprocessModalVisible, setPreprocessModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
   const [newImageModalVisible, setNewImageModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
@@ -174,7 +174,7 @@ export default observer(function InitImage() {
 
   const onDragLeave = () => setDropHighlight(false)
 
-  const onDragOver = (e) => {
+  const onDragOver = (e: React.DragEvent) => {
     e.preventDefault()
     setDropHighlight(true)
   }
@@ -269,7 +269,7 @@ export default observer(function InitImage() {
           <ToolbarIcon
             icon="explode"
             title={t('preprocess')}
-            onClick={() => setProprocessModalVisible(true)}
+            onClick={() => setPreprocessModalVisible(true)}
           />
           <ToolbarIcon
             icon="magic"
@@ -308,7 +308,7 @@ export default observer(function InitImage() {
         <PreprocessModal
           visible={preprocessModalVisible}
           image={project.initImage}
-          onClose={() => setProprocessModalVisible(false)}
+          onClose={() => setPreprocessModalVisible(false)}
         />
         <InterrogateModal
           visible={interrogateModalVisible}

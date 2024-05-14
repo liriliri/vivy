@@ -5,6 +5,7 @@ import { useCallback, useRef, useState } from 'react'
 import GenOptions from './GenOptions'
 import Prompt from './Prompt'
 import Generate from './Generate'
+import ControlNet from './ControlNet'
 
 export default observer(function () {
   const sidebarRef = useRef<HTMLDivElement>(null)
@@ -57,7 +58,10 @@ export default observer(function () {
         <Prompt />
         <Generate />
       </div>
-      <GenOptions />
+      <div className={Style.generateOptions}>
+        <GenOptions />
+        <ControlNet />
+      </div>
     </div>
   )
 })
