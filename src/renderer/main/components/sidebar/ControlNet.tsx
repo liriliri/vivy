@@ -7,7 +7,7 @@ import { useRef, useState } from 'react'
 import toStr from 'licia/toStr'
 import { isFileDrop, notify, t, toDataUrl } from '../../../lib/util'
 import toNum from 'licia/toNum'
-import { Row } from '../../../components/setting'
+import { Number, Row, Select } from '../../../components/setting'
 import className from 'licia/className'
 import InitImageStyle from './InitImage.module.scss'
 import { toJS } from 'mobx'
@@ -22,6 +22,9 @@ import ImageViewer from 'luna-image-viewer'
 import contextMenu from '../../../lib/contextMenu'
 import { copyData } from '../../lib/util'
 import PreprocessModal from '../common/PreprocessModal'
+import each from 'licia/each'
+import startWith from 'licia/startWith'
+import isEmpty from 'licia/isEmpty'
 
 export default observer(function ControlNet() {
   const { controlNetUnits } = store.project
@@ -125,6 +128,40 @@ export default observer(function ControlNet() {
     setDropHighlight(true)
   }
 
+  let controlTypes: any = {}
+  let controlTypeDisabled = false
+  let preprocessors: any = {
+    [t('empty')]: 'empty',
+  }
+
+  if (!isEmpty(store.controlTypes)) {
+    each(store.controlTypes, (controlType, name) => {
+      if (name === 'All') {
+        return
+      }
+      const value = name
+      name = t(name) || name
+      controlTypes[name] = value
+    })
+
+    const moduleList = store.controlTypes[selectedUnit.type].module_list
+    preprocessors = {}
+    each(moduleList, (name) => {
+      const value = name
+      if (value === 'none') {
+        name = t('none')
+      } else {
+        name = t(name) || name
+      }
+      preprocessors[name] = value
+    })
+  } else {
+    controlTypeDisabled = true
+    controlTypes = {
+      [t('empty')]: 'empty',
+    }
+  }
+
   let image = (
     <div
       className={className(InitImageStyle.empty, 'button', {
@@ -147,6 +184,7 @@ export default observer(function ControlNet() {
     </div>
   )
 
+  let controlOptions: JSX.Element | null = null
   if (selectedUnit.image) {
     image = (
       <div
@@ -201,6 +239,62 @@ export default observer(function ControlNet() {
         />
       </div>
     )
+
+    controlOptions = (
+      <>
+        <Row>
+          <Select
+            value={selectedUnit.type}
+            title={t('controlType')}
+            options={controlTypes}
+            disabled={controlTypeDisabled}
+            onChange={(val) => {
+              selectedUnit.setType(val)
+              const controlType = store.controlTypes[val]
+              selectedUnit.setPreprocessor(controlType.default_option)
+            }}
+          />
+          <Number
+            value={selectedUnit.weight}
+            title={t('controlWeight')}
+            min={0}
+            max={2}
+            step={0.01}
+            range={true}
+            onChange={(val) => selectedUnit.setWeight(val)}
+          />
+        </Row>
+        <Row>
+          <Number
+            value={selectedUnit.guidanceStart}
+            title={t('guidanceStart')}
+            min={0}
+            max={1}
+            step={0.01}
+            range={true}
+            onChange={(val) => selectedUnit.setGuidanceStart(val)}
+          />
+          <Number
+            value={selectedUnit.guidanceEnd}
+            title={t('guidanceEnd')}
+            min={0}
+            max={1}
+            step={0.01}
+            range={true}
+            onChange={(val) => selectedUnit.setGuidanceEnd(val)}
+          />
+        </Row>
+        <Row>
+          <Select
+            value={selectedUnit.preprocessor}
+            title={t('preprocessor')}
+            options={preprocessors}
+            disabled={controlTypeDisabled}
+            onChange={(val) => selectedUnit.setPreprocessor(val)}
+          />
+        </Row>
+      </>
+    )
   }
 
   return (
@@ -213,6 +307,7 @@ export default observer(function ControlNet() {
         {tabItems}
       </LunaTab>
       <Row>{image}</Row>
+      {controlOptions}
     </>
   )
 })

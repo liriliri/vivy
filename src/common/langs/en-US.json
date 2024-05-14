@@ -182,6 +182,9 @@
   "openWithPreview": "Open with Preview",
   "openWithImageViewer": "Open with Image Viewer",
   "controlNetUnit": "Control Net Unit",
+  "controlWeight": "Control Weight",
+  "guidanceStart": "Guidance Start",
+  "guidanceEnd": "Guidance End",
 
   "character": "Character",
   "camera": "Camera",

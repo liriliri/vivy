@@ -181,6 +181,9 @@
   "copySavePath": "复制存储路径",
   "openWithPreview": "使用“预览”打开",
   "openWithImageViewer": "使用图片查看器打开",
+  "controlWeight": "控制权重",
+  "guidanceStart": "引导介入步数",
+  "guidanceEnd": "引导终止步数",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

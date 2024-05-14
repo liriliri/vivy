@@ -534,7 +534,8 @@ class ControlNetUnit {
   type = 'Canny'
   guidanceStart = 0
   guidanceEnd = 1
-  preprocessor = 'none'
+  preprocessor = 'canny'
+  weight = 1
   constructor() {
     makeObservable(this, {
       image: observable,
@@ -543,6 +544,11 @@ class ControlNetUnit {
       guidanceEnd: observable,
       preprocessor: observable,
       deleteImage: action,
+      setType: action,
+      setWeight: action,
+      setGuidanceStart: action,
+      setGuidanceEnd: action,
+      setPreprocessor: action,
     })
   }
   async setImage(data: IImage | Blob | string, mime = '') {
@@ -554,6 +560,21 @@ class ControlNetUnit {
   }
   deleteImage() {
     this.image = null
+  }
+  setType(type: string) {
+    this.type = type
+  }
+  setWeight(weight: number) {
+    this.weight = weight
+  }
+  setGuidanceStart(guidanceStart: number) {
+    this.guidanceStart = guidanceStart
+  }
+  setGuidanceEnd(guidanceEnd: number) {
+    this.guidanceEnd = guidanceEnd
+  }
+  setPreprocessor(preprocessor: string) {
+    this.preprocessor = preprocessor
   }
 }
 
