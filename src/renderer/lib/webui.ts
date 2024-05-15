@@ -59,6 +59,7 @@ export type StableDiffusionLora = {
 
 export type ControlTypes = types.PlainObj<{
   module_list: string[]
+  model_list: string[]
   default_option: string
 }>
 
@@ -92,6 +93,7 @@ type Txt2ImgOptions = {
   height: number
   seed: number
   override_settings: types.PlainObj<any>
+  alwayson_scripts: Record<string, unknown>
 }
 
 type Img2ImgOptions = {
@@ -114,6 +116,7 @@ type Img2ImgOptions = {
   inpaint_full_res: boolean
   inpaint_full_res_padding: number
   override_settings: types.PlainObj<any>
+  alwayson_scripts: Record<string, unknown>
 }
 
 type ExtraSingleOptions = {
@@ -235,6 +238,7 @@ export async function txt2img(
     save_images: false,
     sampler_name: options.sampler_name,
     scheduler: 'automatic',
+    alwayson_scripts: options.alwayson_scripts,
     use_deprecated_controlnet: false,
   })
   return new StableDiffusionResult(response)
@@ -287,7 +291,7 @@ export async function img2img(
     script_name: null,
     send_images: true,
     save_images: false,
-    alwayson_scripts: {},
+    alwayson_scripts: options.alwayson_scripts,
     use_deprecated_controlnet: false,
   })
   return new StableDiffusionResult(response)

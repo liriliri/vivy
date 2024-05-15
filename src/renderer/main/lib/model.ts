@@ -80,6 +80,8 @@ const urls: types.PlainObj<string> = {
     'https://huggingface.co/lllyasviel/Annotators/resolve/main/150_16_swin_l_oneformer_coco_100ep.pth',
   AnnotatorUniformer:
     'https://huggingface.co/lllyasviel/ControlNet/resolve/main/annotator/ckpts/upernet_global_small.pth',
+  ControlNetCanny:
+    'https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_canny_fp16.safetensors',
 }
 
 ;(async function () {
@@ -366,4 +368,21 @@ export function checkPreprocessModel(preprocessor: string) {
     param.type = ModelType.ControlNet
   })
   return param
+}
+
+export function checkControlNetModel(type: string) {
+  const params = {
+    Canny: {
+      url: getModelUrl('ControlNetCanny'),
+      fileName: 'control_v11p_sd15_canny_fp16.safetensors',
+      type: ModelType.ControlNet,
+    },
+  }
+
+  const param = params[type]
+  if (!param) {
+    return []
+  }
+
+  return [param]
 }

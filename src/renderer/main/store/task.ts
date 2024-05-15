@@ -5,6 +5,7 @@ import {
   IGenOptions,
   IUpscaleImgOptions,
   IFaceRestorationOptions,
+  IControlNetUnit,
 } from './types'
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import * as webui from '../../lib/webui'
@@ -14,6 +15,8 @@ import base64 from 'licia/base64'
 import trim from 'licia/trim'
 import startWith from 'licia/startWith'
 import toNum from 'licia/toNum'
+import isEmpty from 'licia/isEmpty'
+import map from 'licia/map'
 
 export enum TaskStatus {
   Wait,
@@ -47,12 +50,14 @@ export class GenTask extends Task {
   private negativePrompt: string
   private initImage: string | null
   private mask: string | null
+  private controlNetUnits: IControlNetUnit[]
   constructor(
     prompt,
     negativePrompt,
     initImage: string | null,
     mask: string | null,
-    genOptions: IGenOptions
+    genOptions: IGenOptions,
+    controlNetUnits: IControlNetUnit[]
   ) {
     super()
 
@@ -66,6 +71,7 @@ export class GenTask extends Task {
     this.genOptions = genOptions
     this.initImage = initImage
     this.mask = mask
+    this.controlNetUnits = controlNetUnits
     for (let i = 0; i < genOptions.batchSize; i++) {
       this.images[i] = {
         id: uuid(),
@@ -85,10 +91,33 @@ export class GenTask extends Task {
     }
   }
   async run() {
-    const { genOptions, prompt, negativePrompt } = this
+    const { genOptions, prompt, negativePrompt, controlNetUnits } = this
     this.status = TaskStatus.Generating
     this.getProgress()
     let result: webui.StableDiffusionResult
+    const alwayson_scripts: any = {}
+    if (!isEmpty(controlNetUnits)) {
+      const controlTypes = await webui.getControlTypes()
+      alwayson_scripts.controlnet = {
+        args: map(controlNetUnits, (unit) => {
+          const modelList = controlTypes[unit.type].model_list
+          const model = modelList[1] || 'None'
+
+          return {
+            enabled: true,
+            image: unit.image,
+            model,
+            module: unit.preprocessor,
+            weight: unit.weight,
+            guidance_start: unit.guidanceStart,
+            guidance_end: unit.guidanceEnd,
+            processor_res: unit.resolution,
+            threshold_a: unit.thresholdA,
+            threshold_b: unit.thresholdB,
+          }
+        }),
+      }
+    }
     try {
       if (this.initImage) {
         result = await webui.img2img({
@@ -110,6 +139,7 @@ export class GenTask extends Task {
           inpainting_fill: genOptions.inpaintFill,
           inpaint_full_res: genOptions.inpaintFull,
           inpaint_full_res_padding: genOptions.inpaintFullPadding,
+          alwayson_scripts,
           override_settings: {
             CLIP_stop_at_last_layers: genOptions.clipSkip,
           },
@@ -125,6 +155,7 @@ export class GenTask extends Task {
           width: genOptions.width,
           height: genOptions.height,
           seed: genOptions.seed,
+          alwayson_scripts,
           override_settings: {
             CLIP_stop_at_last_layers: genOptions.clipSkip,
           },

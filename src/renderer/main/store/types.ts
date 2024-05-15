@@ -36,6 +36,18 @@ export interface IGenOptions {
   clipSkip: number
 }
 
+export interface IControlNetUnit {
+  image: string
+  type: string
+  guidanceStart: number
+  guidanceEnd: number
+  weight: number
+  preprocessor: string
+  resolution: number
+  thresholdA: number
+  thresholdB: number
+}
+
 export interface IUpscaleImgOptions {
   image: string
   width: number

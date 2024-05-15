@@ -9,11 +9,34 @@ import $ from 'licia/$'
 import contextMenu from '../../../lib/contextMenu'
 import { useRef } from 'react'
 import times from 'licia/times'
+import {
+  IModelParam,
+  checkControlNetModel,
+  checkPreprocessModel,
+  downloadModels,
+} from '../../lib/model'
 
 export default observer(function Generate() {
   const batchSizeRef = useRef<HTMLDivElement>(null)
   const { project } = store
   const { genOptions } = project
+
+  const createTask = async () => {
+    const { controlNetUnits } = project
+    const models: Array<IModelParam[]> = []
+    for (let i = 0, len = controlNetUnits.length; i < len; i++) {
+      const unit = controlNetUnits[i]
+      if (unit.image) {
+        models.push(checkControlNetModel(unit.type))
+        models.push(checkPreprocessModel(unit.preprocessor))
+      }
+    }
+    if (!(await downloadModels(...models))) {
+      return
+    }
+
+    store.createGenTask()
+  }
 
   const onGenerateContextMenu = function (e: React.MouseEvent) {
     const template: any[] = []
@@ -21,7 +44,7 @@ export default observer(function Generate() {
       const n = i * 10
       template.push({
         label: toStr(n),
-        click: () => times(n, store.createGenTask),
+        click: () => times(n, createTask),
       })
     }
 
@@ -60,7 +83,7 @@ export default observer(function Generate() {
       <div
         className={className(Style.generateButton, 'button', 'primary')}
         onMouseDown={(e) => e.preventDefault()}
-        onClick={() => store.createGenTask()}
+        onClick={createTask}
         onContextMenu={onGenerateContextMenu}
       >
         {t('generate')}

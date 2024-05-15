@@ -5,7 +5,12 @@ import contain from 'licia/contain'
 import map from 'licia/map'
 import each from 'licia/each'
 import * as webui from '../../lib/webui'
-import { IFaceRestorationOptions, IImage, IUpscaleImgOptions } from './types'
+import {
+  IControlNetUnit,
+  IFaceRestorationOptions,
+  IImage,
+  IUpscaleImgOptions,
+} from './types'
 import {
   Task,
   TaskStatus,
@@ -195,12 +200,30 @@ class Store extends BaseStore {
       project.deleteInitImageMask()
     }
 
+    const controlNetUnits: IControlNetUnit[] = []
+    each(project.controlNetUnits, (unit) => {
+      if (unit.image) {
+        controlNetUnits.push({
+          image: unit.image.data,
+          type: unit.type,
+          preprocessor: unit.preprocessor,
+          guidanceStart: unit.guidanceStart,
+          guidanceEnd: unit.guidanceEnd,
+          weight: unit.weight,
+          resolution: unit.resolution,
+          thresholdA: unit.thresholdA,
+          thresholdB: unit.thresholdB,
+        })
+      }
+    })
+
     const task = new GenTask(
       project.prompt,
       project.negativePrompt,
       project.initImage ? project.initImage.data : null,
       project.initImageMask,
-      clone(project.genOptions)
+      clone(project.genOptions),
+      controlNetUnits
     )
     runInAction(() => {
       this.tasks = [...this.tasks, task]
