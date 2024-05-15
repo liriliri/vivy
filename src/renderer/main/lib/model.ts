@@ -82,6 +82,10 @@ const urls: types.PlainObj<string> = {
     'https://huggingface.co/lllyasviel/ControlNet/resolve/main/annotator/ckpts/upernet_global_small.pth',
   ControlNetCanny:
     'https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_canny_fp16.safetensors',
+  ControlNetLineart:
+    'https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_lineart_fp16.safetensors',
+  ControlNetOpenPose:
+    'https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11p_sd15_openpose_fp16.safetensors',
 }
 
 ;(async function () {
@@ -375,6 +379,16 @@ export function checkControlNetModel(type: string) {
     Canny: {
       url: getModelUrl('ControlNetCanny'),
       fileName: 'control_v11p_sd15_canny_fp16.safetensors',
+      type: ModelType.ControlNet,
+    },
+    Lineart: {
+      url: getModelUrl('ControlNetLineart'),
+      fileName: 'control_v11p_sd15_lineart_fp16.safetensors',
+      type: ModelType.ControlNet,
+    },
+    OpenPose: {
+      url: getModelUrl('ControlNetOpenPose'),
+      fileName: 'control_v11p_sd15_openpose_fp16.safetensors',
       type: ModelType.ControlNet,
     },
   }
