@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
-import { notify, t } from '../../../lib/util'
-import { checkUpscalerModel } from '../../lib/model'
+import { t } from '../../../lib/util'
+import { checkUpscalerModel, downloadModels } from '../../lib/model'
 import { Row, Number, Select } from '../../../components/setting'
 import { useEffect, useState } from 'react'
 import className from 'licia/className'
@@ -71,10 +71,11 @@ export default observer(function UpscaleModal(props: IProps) {
 
   const onClick = async () => {
     if (
-      !(await checkUpscalerModel(upscaler1)) ||
-      !(await checkUpscalerModel(upscaler2))
+      !(await downloadModels(
+        checkUpscalerModel(upscaler1),
+        checkUpscalerModel(upscaler2)
+      ))
     ) {
-      notify(t('modelMissingErr'))
       return
     }
 

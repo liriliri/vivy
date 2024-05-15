@@ -27,7 +27,7 @@ import CopyButton from '../../../components/CopyButton'
 import { copyData } from '../../lib/util'
 import startWith from 'licia/startWith'
 import contain from 'licia/contain'
-import { checkPreprocessModel } from '../../lib/model'
+import { checkPreprocessModel, downloadModels } from '../../lib/model'
 
 interface IProps {
   visible: boolean
@@ -62,15 +62,15 @@ export default observer(function PreprocessModal(props: IProps) {
     }
   }, [props.visible])
 
-  const preprocessorParmas = store.controlModules[preprocessor]?.sliders || []
-  if (preprocessorParmas[1]) {
-    const param = preprocessorParmas[1]
+  const preprocessorParams = store.controlModules[preprocessor]?.sliders || []
+  if (preprocessorParams[1]) {
+    const param = preprocessorParams[1]
     if (thresholdA < param.min || thresholdA > param.max) {
       setThresholdA(param.value)
     }
   }
-  if (preprocessorParmas[2]) {
-    const param = preprocessorParmas[2]
+  if (preprocessorParams[2]) {
+    const param = preprocessorParams[2]
     if (thresholdB < param.min || thresholdB > param.max) {
       setThresholdB(param.value)
     }
@@ -141,8 +141,7 @@ export default observer(function PreprocessModal(props: IProps) {
       return
     }
 
-    if (!(await checkPreprocessModel(preprocessor))) {
-      notify(t('modelMissingErr'))
+    if (!(await downloadModels(checkPreprocessModel(preprocessor)))) {
       return
     }
 
@@ -152,13 +151,13 @@ export default observer(function PreprocessModal(props: IProps) {
         controlnet_module: preprocessor,
         controlnet_input_images: [props.image.data],
       }
-      if (preprocessorParmas[0]) {
+      if (preprocessorParams[0]) {
         options.controlnet_processor_res = resolution
       }
-      if (preprocessorParmas[1]) {
+      if (preprocessorParams[1]) {
         options.controlnet_threshold_a = thresholdA
       }
-      if (preprocessorParmas[2]) {
+      if (preprocessorParams[2]) {
         options.controlnet_threshold_b = thresholdB
       }
       const image = await webui.preprocess(options)
@@ -264,35 +263,35 @@ export default observer(function PreprocessModal(props: IProps) {
         />
       </Row>
       <Row className="modal-setting-row">
-        {preprocessorParmas[0] && (
+        {preprocessorParams[0] && (
           <Number
             value={resolution}
             title={t('width')}
-            min={preprocessorParmas[0].min}
-            max={preprocessorParmas[0].max}
-            step={preprocessorParmas[0].step}
+            min={preprocessorParams[0].min}
+            max={preprocessorParams[0].max}
+            step={preprocessorParams[0].step}
             range={true}
             onChange={(val) => setResolution(val)}
           />
         )}
-        {preprocessorParmas[1] && (
+        {preprocessorParams[1] && (
           <Number
             value={thresholdA}
-            title={t(preprocessorParmas[1].name) || preprocessorParmas[1].name}
-            min={preprocessorParmas[1].min}
-            max={preprocessorParmas[1].max}
-            step={preprocessorParmas[1].step}
+            title={t(preprocessorParams[1].name) || preprocessorParams[1].name}
+            min={preprocessorParams[1].min}
+            max={preprocessorParams[1].max}
+            step={preprocessorParams[1].step}
             range={true}
             onChange={(val) => setThresholdA(val)}
           />
         )}
-        {preprocessorParmas[2] && (
+        {preprocessorParams[2] && (
           <Number
             value={thresholdB}
-            title={t(preprocessorParmas[2].name) || preprocessorParmas[2].name}
-            min={preprocessorParmas[2].min}
-            max={preprocessorParmas[2].max}
-            step={preprocessorParmas[2].step}
+            title={t(preprocessorParams[2].name) || preprocessorParams[2].name}
+            min={preprocessorParams[2].min}
+            max={preprocessorParams[2].max}
+            step={preprocessorParams[2].step}
             range={true}
             onChange={(val) => setThresholdB(val)}
           />

@@ -2,7 +2,7 @@ import LunaModal from 'luna-modal/react'
 import { observer } from 'mobx-react-lite'
 import { createPortal } from 'react-dom'
 import { IImage } from 'renderer/main/store/types'
-import { notify, t } from '../../../lib/util'
+import { t } from '../../../lib/util'
 import TextGroup from './TextGroup'
 import { useEffect, useState } from 'react'
 import { LoadingCircle } from '../../../components/loading'
@@ -10,7 +10,7 @@ import * as webui from '../../../lib/webui'
 import Style from './InterrogateModal.module.scss'
 import { Row, Select } from '../../../components/setting'
 import store from '../../store'
-import { checkInterrogateModel } from '../../lib/model'
+import { checkInterrogateModel, downloadModels } from '../../lib/model'
 
 interface IProps {
   visible: boolean
@@ -32,8 +32,7 @@ export default observer(function InterrogateModal(props: IProps) {
   }, [props.visible])
 
   const interrogate = async () => {
-    if (!(await checkInterrogateModel(model))) {
-      notify(t('modelMissingErr'))
+    if (!(await downloadModels(checkInterrogateModel(model)))) {
       return
     }
     if (isInterrogating || !store.isWebUIReady) {

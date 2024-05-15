@@ -536,6 +536,9 @@ class ControlNetUnit {
   guidanceEnd = 1
   preprocessor = 'canny'
   weight = 1
+  resolution = 512
+  thresholdA = 0
+  thresholdB = 0
   constructor() {
     makeObservable(this, {
       image: observable,
@@ -543,12 +546,19 @@ class ControlNetUnit {
       guidanceStart: observable,
       guidanceEnd: observable,
       preprocessor: observable,
+      weight: observable,
+      resolution: observable,
+      thresholdA: observable,
+      thresholdB: observable,
       deleteImage: action,
       setType: action,
       setWeight: action,
       setGuidanceStart: action,
       setGuidanceEnd: action,
       setPreprocessor: action,
+      setResolution: action,
+      setThresholdA: action,
+      setThresholdB: action,
     })
   }
   async setImage(data: IImage | Blob | string, mime = '') {
@@ -575,6 +585,15 @@ class ControlNetUnit {
   }
   setPreprocessor(preprocessor: string) {
     this.preprocessor = preprocessor
+  }
+  setResolution(resolution: number) {
+    this.resolution = resolution
+  }
+  setThresholdA(thresholdA: number) {
+    this.thresholdA = thresholdA
+  }
+  setThresholdB(thresholdB: number) {
+    this.thresholdB = thresholdB
   }
 }
 

@@ -4,7 +4,9 @@ import contain from 'licia/contain'
 import { ModelType } from '../../../common/types'
 import isArr from 'licia/isArr'
 import toArr from 'licia/toArr'
+import flatten from 'licia/flatten'
 import startWith from 'licia/startWith'
+import { notify, t } from '../../lib/util'
 
 const urls: types.PlainObj<string> = {
   'v1-5-pruned-emaonly':
@@ -95,31 +97,33 @@ export function getModelUrl(name: string) {
   return urls[name]
 }
 
-interface ModelParam {
+export interface IModelParam {
   url: string
   fileName: string
   type: ModelType
 }
 
-export async function downloadModels(params: ModelParam[]) {
+export async function downloadModels(...params: Array<IModelParam[]>) {
   let allExist = true
 
-  for (let i = 0, len = params.length; i < len; i++) {
-    const param = params[i]
-    if (!(await main.isModelExists(param.type, param.fileName))) {
-      await main.downloadModel(param)
-      allExist = false
-    }
-  }
+  const models = flatten(params)
 
-  if (!allExist) {
-    main.showDownload()
+  for (let i = 0, len = models.length; i < len; i++) {
+    const model = models[i]
+    if (!(await main.isModelExists(model.type, model.fileName))) {
+      if (allExist) {
+        allExist = false
+        notify(t('modelMissingErr'))
+        main.showDownload()
+      }
+      await main.downloadModel(model)
+    }
   }
 
   return allExist
 }
 
-export async function checkFaceXLibModel() {
+export function checkFaceXLibModel() {
   const param1 = {
     url: getModelUrl('FaceXLibParsing'),
     fileName: 'parsing_parsenet.pth',
@@ -132,34 +136,34 @@ export async function checkFaceXLibModel() {
     type: ModelType.GFPGAN,
   }
 
-  return await downloadModels([param1, param2])
+  return [param1, param2]
 }
 
-export async function checkGfpganModel() {
-  const param = {
-    url: getModelUrl('GFPGAN'),
-    fileName: 'GFPGANv1.4.pth',
-    type: ModelType.GFPGAN,
-  }
-
-  return await downloadModels([param])
+export function checkGfpganModel() {
+  return [
+    {
+      url: getModelUrl('GFPGAN'),
+      fileName: 'GFPGANv1.4.pth',
+      type: ModelType.GFPGAN,
+    },
+  ]
 }
 
-export async function checkCodeFormerModel() {
-  const param = {
-    url: getModelUrl('CodeFormer'),
-    fileName: 'codeformer-v0.1.0.pth',
-    type: ModelType.CodeFormer,
-  }
-
-  return await downloadModels([param])
+export function checkCodeFormerModel() {
+  return [
+    {
+      url: getModelUrl('CodeFormer'),
+      fileName: 'codeformer-v0.1.0.pth',
+      type: ModelType.CodeFormer,
+    },
+  ]
 }
 
 const upscalersWithoutModel = ['None', 'Lanczos', 'Nearest']
 
-export async function checkUpscalerModel(upscaler: string) {
+export function checkUpscalerModel(upscaler: string) {
   if (contain(upscalersWithoutModel, upscaler)) {
-    return true
+    return []
   }
 
   const upscalerParams: any = {
@@ -211,17 +215,17 @@ export async function checkUpscalerModel(upscaler: string) {
 
   const param = upscalerParams[upscaler]
   if (!param) {
-    return true
+    return []
   }
 
   if (!param.url) {
     param.url = getModelUrl(upscaler)
   }
 
-  return await downloadModels([param])
+  return [param]
 }
 
-export async function checkInterrogateModel(model: string) {
+export function checkInterrogateModel(model: string) {
   const modelParams = {
     clip: {
       url: 'https://storage.googleapis.com/sfr-vision-language-research/BLIP/models/model_base_caption_capfilt_large.pth',
@@ -237,10 +241,10 @@ export async function checkInterrogateModel(model: string) {
 
   const param = modelParams[model]
 
-  return downloadModels([param])
+  return [param]
 }
 
-export async function checkPreprocessModel(preprocessor: string) {
+export function checkPreprocessModel(preprocessor: string) {
   let param: any
 
   const params = {
@@ -352,7 +356,7 @@ export async function checkPreprocessModel(preprocessor: string) {
   }
 
   if (!param) {
-    return true
+    return []
   }
 
   if (!isArr(param)) {
@@ -361,5 +365,5 @@ export async function checkPreprocessModel(preprocessor: string) {
   each(param, (param: any) => {
     param.type = ModelType.ControlNet
   })
-  return downloadModels(param)
+  return param
 }

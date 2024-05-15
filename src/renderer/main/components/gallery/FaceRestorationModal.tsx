@@ -1,11 +1,13 @@
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
-import { notify, t } from '../../../lib/util'
+import { t } from '../../../lib/util'
 import {
+  IModelParam,
   checkCodeFormerModel,
   checkFaceXLibModel,
   checkGfpganModel,
+  downloadModels,
 } from '../../lib/model'
 import { Row, Number } from '../../../components/setting'
 import { useState } from 'react'
@@ -25,15 +27,19 @@ export default observer(function FaceRestorationModal(props: IProps) {
   const [codeFormerWeight, setCodeFormerWeight] = useState(0)
 
   const onClick = async () => {
+    const models: Array<IModelParam[]> = []
     const gfpgan = gfpganVisibility > 0
-    const checkGfpgan = !gfpgan || (await checkGfpganModel())
+    if (gfpgan) {
+      models.push(checkGfpganModel())
+    }
     const codeFormer = codeFormerVisibility > 0
-    const checkCodeFormer = !codeFormer || (await checkCodeFormerModel())
-    const faceXLib = gfpgan || codeFormer
-    const checkFaceXLib = !faceXLib || (await checkFaceXLibModel())
-
-    if (!checkGfpgan || !checkCodeFormer || !checkFaceXLib) {
-      notify(t('modelMissingErr'))
+    if (codeFormer) {
+      models.push(checkCodeFormerModel())
+    }
+    if (gfpgan || codeFormer) {
+      models.push(checkFaceXLibModel())
+    }
+    if (!(await downloadModels(...models))) {
       return
     }
 

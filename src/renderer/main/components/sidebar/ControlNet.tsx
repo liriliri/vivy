@@ -23,7 +23,6 @@ import contextMenu from '../../../lib/contextMenu'
 import { copyData } from '../../lib/util'
 import PreprocessModal from '../common/PreprocessModal'
 import each from 'licia/each'
-import startWith from 'licia/startWith'
 import isEmpty from 'licia/isEmpty'
 
 export default observer(function ControlNet() {
@@ -240,6 +239,61 @@ export default observer(function ControlNet() {
       </div>
     )
 
+    const preprocessorParams =
+      store.controlModules[selectedUnit.preprocessor]?.sliders || []
+    if (preprocessorParams[1]) {
+      const param = preprocessorParams[1]
+      if (
+        selectedUnit.thresholdA < param.min ||
+        selectedUnit.thresholdA > param.max
+      ) {
+        selectedUnit.setThresholdA(param.value)
+      }
+    }
+    if (preprocessorParams[2]) {
+      const param = preprocessorParams[2]
+      if (
+        selectedUnit.thresholdB < param.min ||
+        selectedUnit.thresholdB > param.max
+      ) {
+        selectedUnit.setThresholdB(param.value)
+      }
+    }
+
+    let preprecessorThresholds: JSX.Element | null = null
+    if (preprocessorParams[1] || preprocessorParams[2]) {
+      preprecessorThresholds = (
+        <Row>
+          {preprocessorParams[1] && (
+            <Number
+              value={selectedUnit.thresholdA}
+              title={
+                t(preprocessorParams[1].name) || preprocessorParams[1].name
+              }
+              min={preprocessorParams[1].min}
+              max={preprocessorParams[1].max}
+              step={preprocessorParams[1].step}
+              range={true}
+              onChange={(val) => selectedUnit.setThresholdA(val)}
+            />
+          )}
+          {preprocessorParams[2] && (
+            <Number
+              value={selectedUnit.thresholdB}
+              title={
+                t(preprocessorParams[2].name) || preprocessorParams[2].name
+              }
+              min={preprocessorParams[2].min}
+              max={preprocessorParams[2].max}
+              step={preprocessorParams[2].step}
+              range={true}
+              onChange={(val) => selectedUnit.setThresholdB(val)}
+            />
+          )}
+        </Row>
+      )
+    }
+
     controlOptions = (
       <>
         <Row>
@@ -292,7 +346,19 @@ export default observer(function ControlNet() {
             disabled={controlTypeDisabled}
             onChange={(val) => selectedUnit.setPreprocessor(val)}
           />
+          {preprocessorParams[0] && (
+            <Number
+              value={selectedUnit.resolution}
+              title={t('width')}
+              min={preprocessorParams[0].min}
+              max={preprocessorParams[0].max}
+              step={preprocessorParams[0].step}
+              range={true}
+              onChange={(val) => selectedUnit.setResolution(val)}
+            />
+          )}
         </Row>
+        {preprecessorThresholds}
       </>
     )
   }
