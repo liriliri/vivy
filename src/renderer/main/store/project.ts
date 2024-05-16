@@ -27,6 +27,8 @@ import splitPath from 'licia/splitPath'
 import range from 'licia/range'
 import isNum from 'licia/isNum'
 
+const CONTROL_NET_UNIT_COUNT = 3
+
 export class Project {
   prompt = ''
   negativePrompt = ''
@@ -39,7 +41,7 @@ export class Project {
   initImagePreview: string | null = null
   samplers: string[] = []
   genOptions: IGenOptions = clone(defGenOptions)
-  controlNetUnits: ControlNetUnit[] = map(range(3), () => {
+  controlNetUnits: ControlNetUnit[] = map(range(CONTROL_NET_UNIT_COUNT), () => {
     return new ControlNetUnit()
   })
   selectedControlNetUnit = this.controlNetUnits[0]
@@ -73,6 +75,7 @@ export class Project {
       deleteAllImages: action,
       moveImageLeft: action,
       moveImageRight: action,
+      selectControlNetUnit: action,
     })
 
     this.init()
@@ -364,13 +367,11 @@ export class Project {
       this.negativePrompt = json.negativePrompt
     })
 
-    runInAction(() => {
-      for (let i = 0; i < 3; i++) {
-        const json =
-          vivyFile.controlNetUnits[i] || JSON.stringify(defControlNetUnit)
-        this.controlNetUnits[i].parseFromJSON(json)
-      }
-    })
+    for (let i = 0; i < CONTROL_NET_UNIT_COUNT; i++) {
+      const json = vivyFile.controlNetUnits[i]
+      const unit = this.controlNetUnits[i]
+      await unit.parseFromJSON(json || JSON.stringify(defControlNetUnit))
+    }
 
     this.setPrompt(json.prompt)
 
@@ -537,6 +538,7 @@ export class Project {
           negativePrompt: this.negativePrompt,
           initImage: this.initImage,
           initImageMask: this.initImageMask,
+          controlNetUnits: map(this.controlNetUnits, (unit) => unit.toJSON()),
           genOptions: clone(this.genOptions),
         }
       },
@@ -585,7 +587,6 @@ class ControlNetUnit {
       setThresholdB: action,
       setResizeMode: action,
       setControlMode: action,
-      parseFromJSON: action,
     })
   }
   async setImage(data: IImage | Blob | string, mime = '') {
@@ -643,12 +644,12 @@ class ControlNetUnit {
       controlMode: this.controlMode,
     }
   }
-  parseFromJSON(json: string) {
+  async parseFromJSON(json: string) {
     const data = JSON.parse(json)
     if (data.image) {
-      this.setImage(data.image)
+      await this.setImage(data.image)
     } else {
-      this.image = null
+      runInAction(() => (this.image = null))
     }
     this.setType(data.type)
     this.setGuidanceStart(data.guidanceStart)
