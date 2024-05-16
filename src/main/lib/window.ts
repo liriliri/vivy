@@ -8,9 +8,11 @@ import path from 'path'
 import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 import { colorBgContainer, colorBgContainerDark } from '../../common/theme'
 import { getTheme } from './util'
+import isWindows from 'licia/isWindows'
 
 interface IWinOptions {
   name: string
+  maximized?: boolean
   customTitlebar?: boolean
   minWidth?: number
   minHeight?: number
@@ -32,6 +34,7 @@ export function create(opts: IWinOptions) {
   defaults(opts, {
     customTitlebar: true,
     preload: true,
+    maximized: false,
     minWidth: 1280,
     minHeight: 850,
     width: 1280,
@@ -74,10 +77,15 @@ export function create(opts: IWinOptions) {
     win.setMenu(null)
   }
   const onSavePos = () => {
-    if (!win.isMaximized() && !win.isFullScreen()) {
+    if (!win.isFullScreen()) {
       winOptions.onSavePos()
     }
   }
+
+  if (winOptions.maximized && isWindows) {
+    win.maximize()
+  }
+
   win.on('resize', onSavePos)
   win.on('moved', onSavePos)
   win.once('ready-to-show', () => win.show())

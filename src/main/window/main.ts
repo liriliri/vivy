@@ -34,7 +34,13 @@ export function showWin() {
     minWidth: 1280,
     minHeight: 850,
     ...store.get('bounds'),
-    onSavePos: () => store.set('bounds', win?.getBounds()),
+    maximized: store.get('maximized'),
+    onSavePos: () => {
+      if (win) {
+        store.set('bounds', win.getBounds())
+        store.set('maximized', win.isMaximized())
+      }
+    },
     menu: true,
   })
   win.on('close', (e) => {
