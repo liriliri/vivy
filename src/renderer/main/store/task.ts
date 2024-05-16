@@ -114,6 +114,8 @@ export class GenTask extends Task {
             processor_res: unit.resolution,
             threshold_a: unit.thresholdA,
             threshold_b: unit.thresholdB,
+            resize_mode: unit.resizeMode,
+            control_mode: unit.controlMode,
           }
         }),
       }

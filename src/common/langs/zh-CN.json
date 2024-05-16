@@ -181,9 +181,14 @@
   "copySavePath": "复制存储路径",
   "openWithPreview": "使用“预览”打开",
   "openWithImageViewer": "使用图片查看器打开",
+  "controlNetUnit": "控制单元",
   "controlWeight": "控制权重",
   "guidanceStart": "引导介入步数",
   "guidanceEnd": "引导终止步数",
+  "controlMode": "控制模式",
+  "balanced": "平衡",
+  "promptImportant": "偏重提示词",
+  "controlImportant": "偏重控制单元",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",
@@ -206,7 +211,6 @@
   "MLSD Distance Threshold": "距离阈值",
   "Gamma Correction": "Gamma 矫正",
   "Down Sampling Rate": "向下采样率",
-  "controlNetUnit": "控制单元",
 
   "character": "角色",
   "camera": "镜头",

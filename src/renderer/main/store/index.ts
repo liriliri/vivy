@@ -216,6 +216,8 @@ class Store extends BaseStore {
           resolution: unit.resolution,
           thresholdA: unit.thresholdA,
           thresholdB: unit.thresholdB,
+          controlMode: unit.controlMode,
+          resizeMode: unit.resizeMode,
         })
       }
     })

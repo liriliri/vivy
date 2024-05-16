@@ -203,6 +203,11 @@ export default observer(function ControlNet() {
             title={t('preprocess')}
             onClick={() => store.preprocessModal.show(selectedUnit.image!)}
           />
+          <ToolbarIcon
+            icon="magic"
+            title={t('interrogate')}
+            onClick={() => store.interrogateModal.show(selectedUnit.image!)}
+          />
           <LunaToolbarSpace />
           <ToolbarIcon
             icon="delete"
@@ -326,6 +331,28 @@ export default observer(function ControlNet() {
             step={0.01}
             range={true}
             onChange={(val) => selectedUnit.setGuidanceEnd(val)}
+          />
+        </Row>
+        <Row>
+          <Select
+            value={toStr(selectedUnit.resizeMode)}
+            title={t('resizeMode')}
+            options={{
+              [t('justResize')]: '0',
+              [t('cropAndResize')]: '1',
+              [t('resizeAndFill')]: '2',
+            }}
+            onChange={(val) => selectedUnit.setResizeMode(toNum(val))}
+          />
+          <Select
+            value={toStr(selectedUnit.controlMode)}
+            title={t('controlMode')}
+            options={{
+              [t('balanced')]: '0',
+              [t('promptImportant')]: '1',
+              [t('controlImportant')]: '2',
+            }}
+            onChange={(val) => selectedUnit.setControlMode(toNum(val))}
           />
         </Row>
         <Row>

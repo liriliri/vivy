@@ -548,6 +548,8 @@ class ControlNetUnit {
   resolution = 512
   thresholdA = 0
   thresholdB = 0
+  resizeMode = 1
+  controlMode = 0
   constructor() {
     makeObservable(this, {
       image: observable,
@@ -559,6 +561,8 @@ class ControlNetUnit {
       resolution: observable,
       thresholdA: observable,
       thresholdB: observable,
+      resizeMode: observable,
+      controlMode: observable,
       deleteImage: action,
       setType: action,
       setWeight: action,
@@ -568,6 +572,8 @@ class ControlNetUnit {
       setResolution: action,
       setThresholdA: action,
       setThresholdB: action,
+      setResizeMode: action,
+      setControlMode: action,
     })
   }
   async setImage(data: IImage | Blob | string, mime = '') {
@@ -603,6 +609,12 @@ class ControlNetUnit {
   }
   setThresholdB(thresholdB: number) {
     this.thresholdB = thresholdB
+  }
+  setResizeMode(resizeMode: number) {
+    this.resizeMode = resizeMode
+  }
+  setControlMode(controlMode: number) {
+    this.controlMode = controlMode
   }
 }
 

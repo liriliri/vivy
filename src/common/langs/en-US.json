@@ -185,6 +185,10 @@
   "controlWeight": "Control Weight",
   "guidanceStart": "Guidance Start",
   "guidanceEnd": "Guidance End",
+  "controlMode": "Control Mode",
+  "balanced": "Balanced",
+  "promptImportant": "My prompt is more important",
+  "controlImportant": "ControlNet is more important",
 
   "character": "Character",
   "camera": "Camera",

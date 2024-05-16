@@ -46,6 +46,8 @@ export interface IControlNetUnit {
   resolution: number
   thresholdA: number
   thresholdB: number
+  controlMode: number
+  resizeMode: number
 }
 
 export interface IUpscaleImgOptions {
