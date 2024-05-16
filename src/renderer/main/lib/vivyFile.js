@@ -20,6 +20,7 @@ export const VivyFile = $root.VivyFile = (() => {
      * @property {string|null} [initImageMask] VivyFile initImageMask
      * @property {Array.<IImage>|null} [images] VivyFile images
      * @property {number|null} [selectedImage] VivyFile selectedImage
+     * @property {Array.<string>|null} [controlNetUnits] VivyFile controlNetUnits
      */
 
     /**
@@ -32,6 +33,7 @@ export const VivyFile = $root.VivyFile = (() => {
      */
     function VivyFile(properties) {
         this.images = [];
+        this.controlNetUnits = [];
         if (properties)
             for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
@@ -93,6 +95,14 @@ export const VivyFile = $root.VivyFile = (() => {
      * @instance
      */
     VivyFile.prototype.selectedImage = 0;
+
+    /**
+     * VivyFile controlNetUnits.
+     * @member {Array.<string>} controlNetUnits
+     * @memberof VivyFile
+     * @instance
+     */
+    VivyFile.prototype.controlNetUnits = $util.emptyArray;
 
     // OneOf field names bound to virtual getters and setters
     let $oneOfFields;
@@ -158,6 +168,9 @@ export const VivyFile = $root.VivyFile = (() => {
                 $root.Image.encode(message.images[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
         if (message.selectedImage != null && Object.hasOwnProperty.call(message, "selectedImage"))
             writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.selectedImage);
+        if (message.controlNetUnits != null && message.controlNetUnits.length)
+            for (let i = 0; i < message.controlNetUnits.length; ++i)
+                writer.uint32(/* id 8, wireType 2 =*/66).string(message.controlNetUnits[i]);
         return writer;
     };
 
@@ -220,6 +233,12 @@ export const VivyFile = $root.VivyFile = (() => {
                 }
             case 7: {
                     message.selectedImage = reader.uint32();
+                    break;
+                }
+            case 8: {
+                    if (!(message.controlNetUnits && message.controlNetUnits.length))
+                        message.controlNetUnits = [];
+                    message.controlNetUnits.push(reader.string());
                     break;
                 }
             default:
@@ -292,6 +311,13 @@ export const VivyFile = $root.VivyFile = (() => {
         if (message.selectedImage != null && message.hasOwnProperty("selectedImage"))
             if (!$util.isInteger(message.selectedImage))
                 return "selectedImage: integer expected";
+        if (message.controlNetUnits != null && message.hasOwnProperty("controlNetUnits")) {
+            if (!Array.isArray(message.controlNetUnits))
+                return "controlNetUnits: array expected";
+            for (let i = 0; i < message.controlNetUnits.length; ++i)
+                if (!$util.isString(message.controlNetUnits[i]))
+                    return "controlNetUnits: string[] expected";
+        }
         return null;
     };
 
@@ -332,6 +358,13 @@ export const VivyFile = $root.VivyFile = (() => {
         }
         if (object.selectedImage != null)
             message.selectedImage = object.selectedImage >>> 0;
+        if (object.controlNetUnits) {
+            if (!Array.isArray(object.controlNetUnits))
+                throw TypeError(".VivyFile.controlNetUnits: array expected");
+            message.controlNetUnits = [];
+            for (let i = 0; i < object.controlNetUnits.length; ++i)
+                message.controlNetUnits[i] = String(object.controlNetUnits[i]);
+        }
         return message;
     };
 
@@ -348,8 +381,10 @@ export const VivyFile = $root.VivyFile = (() => {
         if (!options)
             options = {};
         let object = {};
-        if (options.arrays || options.defaults)
+        if (options.arrays || options.defaults) {
             object.images = [];
+            object.controlNetUnits = [];
+        }
         if (options.defaults) {
             object.prompt = "";
             object.negativePrompt = "";
@@ -379,6 +414,11 @@ export const VivyFile = $root.VivyFile = (() => {
         }
         if (message.selectedImage != null && message.hasOwnProperty("selectedImage"))
             object.selectedImage = message.selectedImage;
+        if (message.controlNetUnits && message.controlNetUnits.length) {
+            object.controlNetUnits = [];
+            for (let j = 0; j < message.controlNetUnits.length; ++j)
+                object.controlNetUnits[j] = message.controlNetUnits[j];
+        }
         return object;
     };
 

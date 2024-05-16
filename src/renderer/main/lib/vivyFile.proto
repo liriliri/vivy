@@ -8,6 +8,7 @@ message VivyFile {
   optional string init_image_mask = 5;
   repeated Image images = 6;
   uint32 selectedImage = 7;
+  repeated string control_net_units = 8;
 }
 
 message Image {

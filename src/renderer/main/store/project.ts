@@ -364,6 +364,14 @@ export class Project {
       this.negativePrompt = json.negativePrompt
     })
 
+    runInAction(() => {
+      for (let i = 0; i < 3; i++) {
+        const json =
+          vivyFile.controlNetUnits[i] || JSON.stringify(defControlNetUnit)
+        this.controlNetUnits[i].parseFromJSON(json)
+      }
+    })
+
     this.setPrompt(json.prompt)
 
     runInAction(() => {
@@ -395,6 +403,9 @@ export class Project {
     vivyFile.prompt = this.prompt
     vivyFile.initImage = this.initImage
     vivyFile.initImageMask = this.initImageMask
+    vivyFile.controlNetUnits = map(this.controlNetUnits, (unit) =>
+      JSON.stringify(unit.toJSON())
+    )
 
     const data = VivyFile.encode(vivyFile).finish()
     await node.writeFile(this.path, data, 'utf8')
@@ -574,6 +585,7 @@ class ControlNetUnit {
       setThresholdB: action,
       setResizeMode: action,
       setControlMode: action,
+      parseFromJSON: action,
     })
   }
   async setImage(data: IImage | Blob | string, mime = '') {
@@ -616,6 +628,39 @@ class ControlNetUnit {
   setControlMode(controlMode: number) {
     this.controlMode = controlMode
   }
+  toJSON() {
+    return {
+      image: this.image?.data || null,
+      type: this.type,
+      guidanceStart: this.guidanceStart,
+      guidanceEnd: this.guidanceEnd,
+      preprocessor: this.preprocessor,
+      weight: this.weight,
+      resolution: this.resolution,
+      thresholdA: this.thresholdA,
+      thresholdB: this.thresholdB,
+      resizeMode: this.resizeMode,
+      controlMode: this.controlMode,
+    }
+  }
+  parseFromJSON(json: string) {
+    const data = JSON.parse(json)
+    if (data.image) {
+      this.setImage(data.image)
+    } else {
+      this.image = null
+    }
+    this.setType(data.type)
+    this.setGuidanceStart(data.guidanceStart)
+    this.setGuidanceEnd(data.guidanceEnd)
+    this.setPreprocessor(data.preprocessor)
+    this.setWeight(data.weight)
+    this.setResolution(data.resolution)
+    this.setThresholdA(data.thresholdA)
+    this.setThresholdB(data.thresholdB)
+    this.setResizeMode(data.resizeMode)
+    this.setControlMode(data.controlMode)
+  }
 }
 
 const defGenOptions: IGenOptions = {
@@ -634,4 +679,18 @@ const defGenOptions: IGenOptions = {
   inpaintFull: false,
   inpaintFullPadding: 0,
   clipSkip: 1,
+}
+
+const defControlNetUnit = {
+  image: null,
+  type: 'Canny',
+  guidanceStart: 0,
+  guidanceEnd: 1,
+  preprocessor: 'canny',
+  weight: 1,
+  resolution: 512,
+  thresholdA: 0,
+  thresholdB: 0,
+  resizeMode: 1,
+  controlMode: 0,
 }

@@ -23,6 +23,9 @@ export interface IVivyFile {
 
     /** VivyFile selectedImage */
     selectedImage?: (number|null);
+
+    /** VivyFile controlNetUnits */
+    controlNetUnits?: (string[]|null);
 }
 
 /** Represents a VivyFile. */
@@ -54,6 +57,9 @@ export class VivyFile implements IVivyFile {
 
     /** VivyFile selectedImage. */
     public selectedImage: number;
+
+    /** VivyFile controlNetUnits. */
+    public controlNetUnits: string[];
 
     /** VivyFile _initImage. */
     public _initImage?: "initImage";
