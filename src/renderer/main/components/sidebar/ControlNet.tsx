@@ -24,6 +24,7 @@ import { copyData } from '../../lib/util'
 import PreprocessModal from '../common/PreprocessModal'
 import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
+import clamp from 'licia/clamp'
 
 export default observer(function ControlNet() {
   const { controlNetUnits } = store.project
@@ -243,20 +244,16 @@ export default observer(function ControlNet() {
       store.controlModules[selectedUnit.preprocessor]?.sliders || []
     if (preprocessorParams[1]) {
       const param = preprocessorParams[1]
-      if (
-        selectedUnit.thresholdA < param.min ||
-        selectedUnit.thresholdA > param.max
-      ) {
-        selectedUnit.setThresholdA(param.value)
+      const value = clamp(selectedUnit.thresholdA, param.min, param.max)
+      if (value !== selectedUnit.thresholdA) {
+        selectedUnit.setThresholdA(value)
       }
     }
     if (preprocessorParams[2]) {
       const param = preprocessorParams[2]
-      if (
-        selectedUnit.thresholdB < param.min ||
-        selectedUnit.thresholdB > param.max
-      ) {
-        selectedUnit.setThresholdB(param.value)
+      const value = clamp(selectedUnit.thresholdB, param.min, param.max)
+      if (value !== selectedUnit.thresholdB) {
+        selectedUnit.setThresholdB(value)
       }
     }
 

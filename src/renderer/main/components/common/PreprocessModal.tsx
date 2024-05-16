@@ -65,14 +65,16 @@ export default observer(function PreprocessModal(props: IProps) {
   const preprocessorParams = store.controlModules[preprocessor]?.sliders || []
   if (preprocessorParams[1]) {
     const param = preprocessorParams[1]
-    if (thresholdA < param.min || thresholdA > param.max) {
-      setThresholdA(param.value)
+    const value = clamp(param.value, param.min, param.max)
+    if (value !== thresholdA) {
+      setThresholdA(value)
     }
   }
   if (preprocessorParams[2]) {
     const param = preprocessorParams[2]
-    if (thresholdB < param.min || thresholdB > param.max) {
-      setThresholdB(param.value)
+    const value = clamp(param.value, param.min, param.max)
+    if (value !== thresholdB) {
+      setThresholdB(value)
     }
   }
 
