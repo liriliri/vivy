@@ -344,24 +344,24 @@ export default observer(function ControlNet() {
         </Row>
         <Row>
           <Select
-            value={toStr(selectedUnit.resizeMode)}
+            value={selectedUnit.resizeMode}
             title={t('resizeMode')}
             options={{
-              [t('justResize')]: '0',
-              [t('cropAndResize')]: '1',
-              [t('resizeAndFill')]: '2',
+              [t('justResize')]: 'Just Resize',
+              [t('cropAndResize')]: 'Crop and Resize',
+              [t('resizeAndFill')]: 'Resize and Fill',
             }}
-            onChange={(val) => selectedUnit.setResizeMode(toNum(val))}
+            onChange={(val) => selectedUnit.setResizeMode(val)}
           />
           <Select
-            value={toStr(selectedUnit.controlMode)}
+            value={selectedUnit.controlMode}
             title={t('controlMode')}
             options={{
-              [t('balanced')]: '0',
-              [t('promptImportant')]: '1',
-              [t('controlImportant')]: '2',
+              [t('balanced')]: 'Balanced',
+              [t('promptImportant')]: 'My prompt is more important',
+              [t('controlImportant')]: 'ControlNet is more important',
             }}
-            onChange={(val) => selectedUnit.setControlMode(toNum(val))}
+            onChange={(val) => selectedUnit.setControlMode(val)}
           />
         </Row>
         <Row>

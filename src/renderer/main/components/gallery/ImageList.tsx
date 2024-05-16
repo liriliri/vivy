@@ -18,6 +18,8 @@ import LunaModal from 'luna-modal'
 import last from 'licia/last'
 import contextMenu from '../../../lib/contextMenu'
 import { getImageName, copyData } from '../../lib/util'
+import map from 'licia/map'
+import range from 'licia/range'
 
 export default observer(function () {
   const { project } = store
@@ -256,6 +258,12 @@ function Image(props: { image: IImage }) {
 
   const dragImg = new window.Image()
 
+  const setControlNetImage = (idx: number) => {
+    const { project } = store
+    project.controlNetUnits[idx].setImage(image)
+    project.selectControlNetUnit(idx)
+  }
+
   const onContextMenu = (e: React.MouseEvent) => {
     contextMenu(e, [
       {
@@ -264,6 +272,14 @@ function Image(props: { image: IImage }) {
           store.project.setInitImage(image)
         },
       },
+      ...map(range(3), (val) => {
+        return {
+          label: `${t('controlNetUnit')} ${val + 1}`,
+          click() {
+            setControlNetImage(val)
+          },
+        }
+      }),
       {
         label: t('copy'),
         click: () => copyData(image.data, image.info.mime),

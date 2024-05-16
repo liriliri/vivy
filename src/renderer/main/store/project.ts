@@ -561,8 +561,8 @@ class ControlNetUnit {
   resolution = 512
   thresholdA = 0
   thresholdB = 0
-  resizeMode = 1
-  controlMode = 0
+  resizeMode = 'Crop and Resize'
+  controlMode = 'Balanced'
   constructor() {
     makeObservable(this, {
       image: observable,
@@ -598,6 +598,7 @@ class ControlNetUnit {
   }
   deleteImage() {
     this.image = null
+    this.parseFromJSON(JSON.stringify(defControlNetUnit))
   }
   setType(type: string) {
     this.type = type
@@ -623,10 +624,10 @@ class ControlNetUnit {
   setThresholdB(thresholdB: number) {
     this.thresholdB = thresholdB
   }
-  setResizeMode(resizeMode: number) {
+  setResizeMode(resizeMode: string) {
     this.resizeMode = resizeMode
   }
-  setControlMode(controlMode: number) {
+  setControlMode(controlMode: string) {
     this.controlMode = controlMode
   }
   toJSON() {
@@ -692,6 +693,6 @@ const defControlNetUnit = {
   resolution: 512,
   thresholdA: 0,
   thresholdB: 0,
-  resizeMode: 1,
-  controlMode: 0,
+  resizeMode: 'Crop and Resize',
+  controlMode: 'Balanced',
 }

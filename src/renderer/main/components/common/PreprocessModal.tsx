@@ -13,6 +13,7 @@ import Style from './PreprocessModal.module.scss'
 import LunaToolbar, {
   LunaToolbarButton,
   LunaToolbarSeparator,
+  LunaToolbarSpace,
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import LunaImageViewer from 'luna-image-viewer/react'
@@ -28,6 +29,8 @@ import { copyData } from '../../lib/util'
 import startWith from 'licia/startWith'
 import contain from 'licia/contain'
 import { checkPreprocessModel, downloadModels } from '../../lib/model'
+import map from 'licia/map'
+import range from 'licia/range'
 
 interface IProps {
   visible: boolean
@@ -44,9 +47,11 @@ export default observer(function PreprocessModal(props: IProps) {
   const [thresholdB, setThresholdB] = useState(0)
   const [processedImage, setProcessedImage] = useState<{
     data: string
+    type: string
     preprocessor: string
   }>({
     data: '',
+    type: 'All',
     preprocessor: 'none',
   })
   const imageViewerRef = useRef<ImageViewer>()
@@ -55,6 +60,7 @@ export default observer(function PreprocessModal(props: IProps) {
     if (props.visible) {
       setProcessedImage({
         data: '',
+        type: 'All',
         preprocessor: 'none',
       })
       const width = props.image.info.width
@@ -165,6 +171,7 @@ export default observer(function PreprocessModal(props: IProps) {
       const image = await webui.preprocess(options)
       setProcessedImage({
         data: image,
+        type: controlType,
         preprocessor,
       })
     } catch (e) {
@@ -186,12 +193,39 @@ export default observer(function PreprocessModal(props: IProps) {
     setPreprocessor(controlType.default_option)
   }
 
+  const setControlNetImage = (idx: number) => {
+    const { project } = store
+    const unit = project.controlNetUnits[idx]
+    unit.setImage(processedImage.data)
+    unit.setType(processedImage.type)
+    unit.setPreprocessor('none')
+    project.selectControlNetUnit(idx)
+  }
+
   let image = ''
   if (processedImage.data) {
     image = toDataUrl(processedImage.data, 'image/png')
   } else {
     image = toDataUrl(props.image.data, props.image.info.mime)
   }
+
+  const controlNetUnitBtns = map(range(3), (val) => {
+    return (
+      <LunaToolbarButton
+        key={val}
+        disabled={!toBool(processedImage.data)}
+        state="hover"
+        onClick={() => setControlNetImage(val)}
+      >
+        <span
+          className={Style.toolbarNumber}
+          title={`${t('controlNetUnit')} ${val + 1}`}
+        >
+          {val + 1}
+        </span>
+      </LunaToolbarButton>
+    )
+  })
 
   const hasProcessedImage = toBool(processedImage.data)
 
@@ -241,6 +275,8 @@ export default observer(function PreprocessModal(props: IProps) {
             title={t('rotateRight')}
             onClick={() => imageViewerRef.current?.rotate(90)}
           />
+          <LunaToolbarSpace />
+          {controlNetUnitBtns}
         </LunaToolbar>
         <LunaImageViewer
           className={Style.imageBody}

@@ -65,7 +65,7 @@
     "luna-painter": "^0.4.0",
     "luna-performance-monitor": "^0.4.2",
     "luna-setting": "^1.0.1",
-    "luna-tab": "^0.3.0",
+    "luna-tab": "^0.3.2",
     "luna-toolbar": "^0.5.7",
     "mobx": "^6.9.0",
     "mobx-react-lite": "^4.0.2",
