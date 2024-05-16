@@ -100,6 +100,14 @@ export default observer(function InitImage() {
         click: () => imageViewer.zoomTo(1),
       },
       {
+        label: t('zoomIn'),
+        click: () => imageViewer.zoom(0.1),
+      },
+      {
+        label: t('zoomOut'),
+        click: () => imageViewer.zoom(-0.1),
+      },
+      {
         label: t('rotateLeft'),
         click: () => imageViewer.rotate(-90),
       },
@@ -291,6 +299,7 @@ export default observer(function InitImage() {
         >
           <LunaImageViewer
             image={project.initImagePreview!}
+            zoomOnWheel={false}
             onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
           ></LunaImageViewer>
         </div>
