@@ -1,6 +1,7 @@
 import { action, makeObservable, observable } from 'mobx'
 import extend from 'licia/extend'
 import { setMainStore } from '../../lib/util'
+import { IImage } from './types'
 
 export class UI {
   imageListHeight = 181
@@ -46,5 +47,25 @@ export class UI {
   }
   toggle(key) {
     this.set(key, !this[key])
+  }
+}
+
+export class ImageModal {
+  visible = false
+  image: IImage | null = null
+  constructor() {
+    makeObservable(this, {
+      visible: observable,
+      image: observable,
+      show: action,
+      close: action,
+    })
+  }
+  show(image: IImage) {
+    this.image = image
+    this.visible = true
+  }
+  close() {
+    this.visible = false
   }
 }

@@ -18,7 +18,7 @@ import {
   UpscaleImgTask,
   FaceRestorationTask,
 } from './task'
-import { UI } from './ui'
+import { UI, ImageModal } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
 import { notify, setMainStore, t } from '../../lib/util'
@@ -51,6 +51,9 @@ class Store extends BaseStore {
   ui = new UI()
   settings = new Settings()
   project = new Project()
+  imageInfoModal = new ImageModal()
+  interrogateModal = new ImageModal()
+  preprocessModal = new ImageModal()
   constructor() {
     super()
 

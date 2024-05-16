@@ -20,9 +20,6 @@ import LunaToolbar, {
 } from 'luna-toolbar/react'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
-import ImageInfoModal from '../common/ImageInfoModal'
-import InterrogateModal from '../common/InterrogateModal'
-import PreprocessModal from '../common/PreprocessModal'
 import CropModal from '../common/CropModal'
 import contextMenu from '../../../lib/contextMenu'
 import convertBin from 'licia/convertBin'
@@ -34,9 +31,6 @@ export default observer(function InitImage() {
 
   const initImageRef = useRef<HTMLDivElement>(null)
   const imageViewerRef = useRef<ImageViewer>()
-  const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
-  const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
-  const [preprocessModalVisible, setPreprocessModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
   const [newImageModalVisible, setNewImageModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)
@@ -246,7 +240,7 @@ export default observer(function InitImage() {
           <ToolbarIcon
             icon="info"
             title={t('imageInfo')}
-            onClick={() => setImageInfoModalVisible(true)}
+            onClick={() => store.imageInfoModal.show(project.initImage!)}
             disabled={!toBool(project.initImage?.info.prompt)}
           />
           <LunaToolbarSeparator />
@@ -269,12 +263,12 @@ export default observer(function InitImage() {
           <ToolbarIcon
             icon="explode"
             title={t('preprocess')}
-            onClick={() => setPreprocessModalVisible(true)}
+            onClick={() => store.preprocessModal.show(project.initImage!)}
           />
           <ToolbarIcon
             icon="magic"
             title={t('interrogate')}
-            onClick={() => setInterrogateModalVisible(true)}
+            onClick={() => store.interrogateModal.show(project.initImage!)}
           />
           <LunaToolbarSpace />
           <ToolbarIcon
@@ -300,21 +294,6 @@ export default observer(function InitImage() {
             onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
           ></LunaImageViewer>
         </div>
-        <ImageInfoModal
-          visible={imageInfoModalVisible}
-          image={project.initImage}
-          onClose={() => setImageInfoModalVisible(false)}
-        />
-        <PreprocessModal
-          visible={preprocessModalVisible}
-          image={project.initImage}
-          onClose={() => setPreprocessModalVisible(false)}
-        />
-        <InterrogateModal
-          visible={interrogateModalVisible}
-          image={project.initImage}
-          onClose={() => setInterrogateModalVisible(false)}
-        />
         <CropModal
           visible={cropModalVisible}
           image={project.initImage}

@@ -25,6 +25,7 @@ import * as webui from '../../lib/webui'
 import LunaModal from 'luna-modal'
 import splitPath from 'licia/splitPath'
 import range from 'licia/range'
+import isNum from 'licia/isNum'
 
 export class Project {
   prompt = ''
@@ -41,6 +42,7 @@ export class Project {
   controlNetUnits: ControlNetUnit[] = map(range(3), () => {
     return new ControlNetUnit()
   })
+  selectedControlNetUnit = this.controlNetUnits[0]
   private selectedImageIndex = -1
   private vivyFile: VivyFile | null = null
   constructor() {
@@ -49,6 +51,7 @@ export class Project {
       negativePrompt: observable,
       genOptions: observable,
       controlNetUnits: observable,
+      selectedControlNetUnit: observable,
       path: observable,
       isSave: observable,
       samplers: observable,
@@ -185,6 +188,12 @@ export class Project {
       this.selectedImage = image
       this.selectedImageIndex = -1
     }
+  }
+  selectControlNetUnit(unit: ControlNetUnit | number) {
+    if (isNum(unit)) {
+      unit = this.controlNetUnits[unit]
+    }
+    this.selectedControlNetUnit = unit
   }
   selectPrevImage = () => {
     const { selectedImage, images } = this

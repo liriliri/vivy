@@ -21,16 +21,14 @@ import openFile from 'licia/openFile'
 import ImageViewer from 'luna-image-viewer'
 import contextMenu from '../../../lib/contextMenu'
 import { copyData } from '../../lib/util'
-import PreprocessModal from '../common/PreprocessModal'
 import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
 import clamp from 'licia/clamp'
 
 export default observer(function ControlNet() {
-  const { controlNetUnits } = store.project
-  const [selectedUnit, setSelectedUnit] = useState(controlNetUnits[0])
+  const { controlNetUnits, selectedControlNetUnit: selectedUnit } =
+    store.project
   const [dropHighlight, setDropHighlight] = useState(false)
-  const [preprocessModalVisible, setPreprocessModalVisible] = useState(false)
   const imageViewerRef = useRef<ImageViewer>()
 
   const tabItems = map(controlNetUnits, (unit, idx) => {
@@ -203,7 +201,7 @@ export default observer(function ControlNet() {
           <ToolbarIcon
             icon="explode"
             title={t('preprocess')}
-            onClick={() => setPreprocessModalVisible(true)}
+            onClick={() => store.preprocessModal.show(selectedUnit.image!)}
           />
           <LunaToolbarSpace />
           <ToolbarIcon
@@ -232,11 +230,6 @@ export default observer(function ControlNet() {
             onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
           ></LunaImageViewer>
         </div>
-        <PreprocessModal
-          visible={preprocessModalVisible}
-          image={selectedUnit.image}
-          onClose={() => setPreprocessModalVisible(false)}
-        />
       </div>
     )
 
@@ -365,7 +358,9 @@ export default observer(function ControlNet() {
       <LunaTab
         className={Style.tab}
         height={30}
-        onSelect={(idx) => setSelectedUnit(controlNetUnits[toNum(idx)])}
+        onSelect={(idx) => {
+          store.project.selectControlNetUnit(toNum(idx))
+        }}
       >
         {tabItems}
       </LunaTab>

@@ -17,9 +17,6 @@ import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { getPlatform, parseDataUrl, t, toDataUrl } from '../../../lib/util'
 import { getImageName } from '../../lib/util'
-import ImageInfoModal from '../common/ImageInfoModal'
-import InterrogateModal from '../common/InterrogateModal'
-import PreprocessModal from '../common/PreprocessModal'
 import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
 import FaceRestorationModal from './FaceRestorationModal'
@@ -28,12 +25,9 @@ import contextMenu from '../../../lib/contextMenu'
 export default observer(function () {
   const { project } = store
   const imageViewerRef = useRef<ImageViewer>()
-  const [imageInfoModalVisible, setImageInfoModalVisible] = useState(false)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
   const [faceRestorationModalVisible, setFaceRestorationModalVisible] =
     useState(false)
-  const [preprocessModalVisible, setPreprocessModalVisible] = useState(false)
-  const [interrogateModalVisible, setInterrogateModalVisible] = useState(false)
   const [cropModalVisible, setCropModalVisible] = useState(false)
 
   const save = () => {
@@ -136,7 +130,7 @@ export default observer(function () {
         <ToolbarIcon
           icon="info"
           title={t('imageInfo')}
-          onClick={() => setImageInfoModalVisible(true)}
+          onClick={() => store.imageInfoModal.show(project.selectedImage!)}
           disabled={!toBool(project.selectedImage?.info.prompt)}
         />
         <LunaToolbarSeparator />
@@ -162,13 +156,13 @@ export default observer(function () {
           icon="explode"
           title={t('preprocess')}
           disabled={!hasSelectedImage}
-          onClick={() => setPreprocessModalVisible(true)}
+          onClick={() => store.preprocessModal.show(project.selectedImage!)}
         />
         <ToolbarIcon
           icon="magic"
           title={t('interrogate')}
           disabled={!hasSelectedImage}
-          onClick={() => setInterrogateModalVisible(true)}
+          onClick={() => store.interrogateModal.show(project.selectedImage!)}
         />
         <LunaToolbarSpace />
         <ToolbarIcon
@@ -196,20 +190,6 @@ export default observer(function () {
       {hasArrow && arrowLeft}
       {hasArrow && arrowRight}
       {project.selectedImage && (
-        <ImageInfoModal
-          visible={imageInfoModalVisible}
-          image={project.selectedImage}
-          onClose={() => setImageInfoModalVisible(false)}
-        />
-      )}
-      {project.selectedImage && (
-        <InterrogateModal
-          visible={interrogateModalVisible}
-          image={project.selectedImage}
-          onClose={() => setInterrogateModalVisible(false)}
-        />
-      )}
-      {project.selectedImage && (
         <UpscaleModal
           visible={upscaleModalVisible}
           image={project.selectedImage}
@@ -221,13 +201,6 @@ export default observer(function () {
           visible={faceRestorationModalVisible}
           image={project.selectedImage}
           onClose={() => setFaceRestorationModalVisible(false)}
-        />
-      )}
-      {project.selectedImage && (
-        <PreprocessModal
-          visible={preprocessModalVisible}
-          image={project.selectedImage}
-          onClose={() => setPreprocessModalVisible(false)}
         />
       )}
       {project.selectedImage && (

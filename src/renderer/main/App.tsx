@@ -11,6 +11,10 @@ import icon from '../assets/img/icon.png'
 import store from './store'
 import { autorun } from 'mobx'
 import splitPath from 'licia/splitPath'
+import ImageInfoModal from './components/common/ImageInfoModal'
+import InterrogateModal from './components/common/InterrogateModal'
+import PreprocessModal from './components/common/PreprocessModal'
+import { observer } from 'mobx-react-lite'
 
 autorun(() => {
   const { path, isSave } = store.project
@@ -21,7 +25,7 @@ autorun(() => {
   preload.setTitle(name + (isSave ? '' : ' •'))
 })
 
-export default function App() {
+export default observer(function App() {
   const [aboutVisible, setAboutVisible] = useState(false)
 
   useEffect(() => {
@@ -32,6 +36,8 @@ export default function App() {
     }
   }, [])
 
+  const { imageInfoModal, interrogateModal, preprocessModal } = store
+
   return (
     <>
       <Toolbar />
@@ -40,6 +46,27 @@ export default function App() {
         <Gallery />
       </div>
       <Statusbar />
+      {imageInfoModal.image && (
+        <ImageInfoModal
+          visible={imageInfoModal.visible}
+          image={imageInfoModal.image}
+          onClose={() => imageInfoModal.close()}
+        />
+      )}
+      {interrogateModal.image && (
+        <InterrogateModal
+          visible={interrogateModal.visible}
+          image={interrogateModal.image}
+          onClose={() => interrogateModal.close()}
+        />
+      )}
+      {preprocessModal.image && (
+        <PreprocessModal
+          visible={preprocessModal.visible}
+          image={preprocessModal.image}
+          onClose={() => preprocessModal.close()}
+        />
+      )}
       {createPortal(
         <LunaModal
           title={t('aboutVivy')}
@@ -59,4 +86,4 @@ export default function App() {
       )}
     </>
   )
-}
+})
