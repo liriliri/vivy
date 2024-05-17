@@ -130,3 +130,21 @@ export function sendTo(name: string, channel: string, ...args: any[]) {
 export function getWin(name: string) {
   return wins[name]
 }
+
+export function savePos(
+  win: BrowserWindow | null,
+  store: any,
+  maximized = false
+) {
+  if (!win) {
+    return
+  }
+
+  const isMaximized = win.isMaximized()
+  if (!isWindows || !isMaximized) {
+    store.set('bounds', win.getBounds())
+  }
+  if (isWindows && maximized) {
+    store.set('maximized', isMaximized)
+  }
+}

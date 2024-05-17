@@ -247,7 +247,8 @@ export function showWin() {
     minWidth: 1280,
     preload: false,
     ...store.get('bounds'),
-    onSavePos: () => store.set('bounds', win?.getBounds()),
+    maximized: store.get('maximized'),
+    onSavePos: () => window.savePos(win, store, true),
   })
   win.on('close', () => {
     win?.destroy()

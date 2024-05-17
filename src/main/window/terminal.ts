@@ -28,7 +28,7 @@ export function showWin() {
     minWidth: 960,
     minHeight: 640,
     ...store.get('bounds'),
-    onSavePos: () => store.set('bounds', win?.getBounds()),
+    onSavePos: () => window.savePos(win, store),
   })
 
   win.on('close', () => {
