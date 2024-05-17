@@ -97,11 +97,11 @@ export class GenTask extends Task {
     let result: webui.StableDiffusionResult
     const alwayson_scripts: any = {}
     if (!isEmpty(controlNetUnits)) {
+      await webui.refreshControlModels()
       const controlTypes = await webui.getControlTypes()
       alwayson_scripts.controlnet = {
         args: map(controlNetUnits, (unit) => {
-          const modelList = controlTypes[unit.type].model_list
-          const model = modelList[1] || 'None'
+          const model = controlTypes[unit.type].default_model || 'None'
 
           return {
             enabled: true,

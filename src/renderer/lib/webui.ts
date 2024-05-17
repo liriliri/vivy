@@ -61,6 +61,7 @@ export type ControlTypes = types.PlainObj<{
   module_list: string[]
   model_list: string[]
   default_option: string
+  default_model: string
 }>
 
 export type ControlModules = types.PlainObj<{
@@ -435,6 +436,12 @@ export async function getControlModules(): Promise<ControlModules> {
     module_detail: ControlModules
   }>('/controlnet/module_list?alias_names=true')
   return response.data.module_detail
+}
+
+export async function refreshControlModels() {
+  await api.get<{
+    module_list: string[]
+  }>('/controlnet/model_list?update=true')
 }
 
 export async function preprocess(options: PreprocessOptions): Promise<string> {
