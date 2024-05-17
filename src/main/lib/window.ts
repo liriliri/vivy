@@ -9,6 +9,7 @@ import { attachTitlebarToWindow } from 'custom-electron-titlebar/main'
 import { colorBgContainer, colorBgContainerDark } from '../../common/theme'
 import { getTheme } from './util'
 import isWindows from 'licia/isWindows'
+import debounce from 'licia/debounce'
 
 interface IWinOptions {
   name: string
@@ -76,19 +77,21 @@ export function create(opts: IWinOptions) {
   if (!winOptions.menu) {
     win.setMenu(null)
   }
-  const onSavePos = () => {
+
+  const onSavePos = debounce(() => {
     if (!win.isFullScreen()) {
       winOptions.onSavePos()
     }
-  }
+  }, 1000)
 
-  if (winOptions.maximized && isWindows) {
-    win.maximize()
-  }
-
-  win.on('resize', onSavePos)
-  win.on('moved', onSavePos)
-  win.once('ready-to-show', () => win.show())
+  win.once('ready-to-show', () => {
+    if (winOptions.maximized && isWindows) {
+      win.maximize()
+    }
+    win.show()
+    win.on('resize', onSavePos)
+    win.on('moved', onSavePos)
+  })
   win.on('show', () => visibleWins.push(win))
   win.on('focus', () => (focusedWin = win))
   win.on('hide', () => remove(visibleWins, (window) => window === win))

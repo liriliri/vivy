@@ -37,8 +37,11 @@ export function showWin() {
     maximized: store.get('maximized'),
     onSavePos: () => {
       if (win) {
-        store.set('bounds', win.getBounds())
-        store.set('maximized', win.isMaximized())
+        const isMaximized = win.isMaximized()
+        store.set('maximized', isMaximized)
+        if (!isMaximized) {
+          store.set('bounds', win.getBounds())
+        }
       }
     },
     menu: true,

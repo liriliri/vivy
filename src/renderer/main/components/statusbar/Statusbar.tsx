@@ -31,7 +31,7 @@ export default observer(function () {
   const [ramUsage, setRamUsage] = useState(0)
 
   useEffect(() => {
-    let timer: NodeJS.Timer | null = null
+    let timer: NodeJS.Timeout | null = null
 
     async function updateCpuAndMem() {
       timer = null

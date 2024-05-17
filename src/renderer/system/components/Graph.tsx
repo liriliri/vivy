@@ -27,7 +27,7 @@ export default observer(function Graph() {
   }, [])
 
   useEffect(() => {
-    let timer: NodeJS.Timer | null = null
+    let timer: NodeJS.Timeout | null = null
 
     async function updateCpuAndRam() {
       timer = null
