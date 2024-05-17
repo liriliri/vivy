@@ -253,14 +253,14 @@ export default observer(function ControlNet() {
       const param = preprocessorParams[1]
       const value = clamp(selectedUnit.thresholdA, param.min, param.max)
       if (value !== selectedUnit.thresholdA) {
-        selectedUnit.setThresholdA(value)
+        selectedUnit.setThresholdA(param.value)
       }
     }
     if (preprocessorParams[2]) {
       const param = preprocessorParams[2]
       const value = clamp(selectedUnit.thresholdB, param.min, param.max)
       if (value !== selectedUnit.thresholdB) {
-        selectedUnit.setThresholdB(value)
+        selectedUnit.setThresholdB(param.value)
       }
     }
 
