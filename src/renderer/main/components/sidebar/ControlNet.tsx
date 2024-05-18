@@ -24,6 +24,7 @@ import { copyData } from '../../lib/util'
 import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
 import clamp from 'licia/clamp'
+import contain from 'licia/contain'
 
 export default observer(function ControlNet() {
   const { controlNetUnits, selectedControlNetUnit: selectedUnit } =
@@ -142,7 +143,7 @@ export default observer(function ControlNet() {
 
   if (!isEmpty(store.controlTypes)) {
     each(store.controlTypes, (controlType, name) => {
-      if (name === 'All') {
+      if (contain(['All', 'SparseCtrl', 'Revision'], name)) {
         return
       }
       const value = name
