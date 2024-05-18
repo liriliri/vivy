@@ -103,7 +103,7 @@ const urls: types.PlainObj<string> = {
   ControlNetTile:
     'https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11u_sd15_tile_fp16.safetensors',
   ControlNetRecolor:
-    'https://huggingface.co/lllyasviel/sd_control_collection/resolve/main/ioclab_sd15_recolor.safetensors',  
+    'https://huggingface.co/lllyasviel/sd_control_collection/resolve/main/ioclab_sd15_recolor.safetensors',
 }
 
 ;(async function () {
@@ -441,7 +441,7 @@ export function checkControlNetModel(type: string) {
     Recolor: {
       url: getModelUrl('ControlNetRecolor'),
       fileName: 'ioclab_sd15_recolor.safetensors',
-    }
+    },
   }
 
   const param = params[type]
