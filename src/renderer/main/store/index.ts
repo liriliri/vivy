@@ -83,6 +83,14 @@ class Store extends BaseStore {
     if (upscalers) {
       runInAction(() => (this.upscalers = upscalers))
     }
+    const controlTypes = await main.getMainStore('controlTypes')
+    if (controlTypes) {
+      runInAction(() => (this.controlTypes = controlTypes))
+    }
+    const controlModules = await main.getMainStore('controlModules')
+    if (controlModules) {
+      runInAction(() => (this.controlModules = controlModules))
+    }
 
     const ready = await webui.wait()
     if (ready) {
@@ -155,7 +163,9 @@ class Store extends BaseStore {
     const controlModules = await webui.getControlModules()
     runInAction(() => {
       this.controlTypes = controlTypes
+      setMainStore('controlTypes', controlTypes)
       this.controlModules = controlModules
+      setMainStore('controlModules', controlModules)
     })
   }
   async fetchModels() {
