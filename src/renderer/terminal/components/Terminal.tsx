@@ -17,6 +17,9 @@ import {
 } from '../../../common/theme'
 import store from '../store'
 import 'xterm/css/xterm.css'
+import contextMenu from '../../lib/contextMenu'
+import { t } from '../../lib/util'
+import copy from 'licia/copy'
 
 export default observer(function () {
   const terminalRef = useRef<HTMLDivElement>(null)
@@ -59,6 +62,40 @@ export default observer(function () {
     }
   }, [])
 
+  const onContextMenu = (e: React.MouseEvent) => {
+    const term = termRef.current!
+    const template: any[] = [
+      {
+        label: t('copy'),
+        click: () => {
+          if (term.hasSelection()) {
+            copy(term.getSelection())
+            term.focus()
+          }
+        },
+      },
+      {
+        label: t('selectAll'),
+        click: () => {
+          term.selectAll()
+        },
+      },
+      {
+        type: 'separator',
+      },
+      {
+        label: t('clear'),
+        click: () => {
+          main.clearLogs()
+          term.clear()
+          term.focus()
+        },
+      },
+    ]
+
+    contextMenu(e, template)
+  }
+
   const theme = getTheme(store.theme === 'dark')
   if (termRef.current) {
     termRef.current.options.theme = theme
@@ -66,7 +103,11 @@ export default observer(function () {
 
   return (
     <div className={Style.terminalContainer}>
-      <div className={Style.terminal} ref={terminalRef} />
+      <div
+        className={Style.terminal}
+        ref={terminalRef}
+        onContextMenu={onContextMenu}
+      />
     </div>
   )
 })

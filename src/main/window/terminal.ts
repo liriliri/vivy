@@ -79,4 +79,5 @@ export function init() {
 
 function initIpc() {
   ipcMain.handle('getLogs', () => logs)
+  ipcMain.handle('clearLogs', () => (logs.length = 0))
 }
