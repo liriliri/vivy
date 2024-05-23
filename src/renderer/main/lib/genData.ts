@@ -19,6 +19,7 @@ interface IGenData {
   steps?: number
   seed?: number
   sampler?: string
+  scheduler?: string
   cfgScale?: number
   model?: string
   clipSkip?: number
@@ -145,6 +146,9 @@ function parseA1111(text: string): ISDGenData {
           break
         case 'Model':
           genData.model = val
+          break
+        case 'Schedule type':
+          genData.scheduler = val
           break
         case 'Size':
           if (contain(val, 'x')) {

@@ -29,4 +29,5 @@ message ImageInfo {
   optional uint32 cfgScale = 9;
   optional uint32 seed = 10;
   optional uint32 clip_skip = 11;
+  optional string scheduler = 12;
 }

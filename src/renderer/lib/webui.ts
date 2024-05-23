@@ -90,6 +90,7 @@ type Txt2ImgOptions = {
   steps: number
   cfg_scale: number
   sampler_name: string
+  scheduler: string
   width: number
   height: number
   seed: number
@@ -107,6 +108,7 @@ type Img2ImgOptions = {
   steps: number
   cfg_scale: number
   sampler_name: string
+  scheduler: string
   width: number
   height: number
   seed: number
@@ -144,6 +146,11 @@ type Sampler = {
   name: string
   aliases: string[]
   options: Record<string, unknown>
+}
+
+export type Scheduler = {
+  name: string
+  label: string
 }
 
 type Upscaler = {
@@ -238,7 +245,7 @@ export async function txt2img(
     send_images: true,
     save_images: false,
     sampler_name: options.sampler_name,
-    scheduler: 'automatic',
+    scheduler: options.scheduler,
     alwayson_scripts: options.alwayson_scripts,
     use_deprecated_controlnet: false,
   })
@@ -268,7 +275,7 @@ export async function img2img(
     seed_resize_from_h: 0,
     seed_resize_from_w: 0,
     sampler_name: options.sampler_name,
-    scheduler: 'automatic',
+    scheduler: options.scheduler,
     batch_size: options.batch_size ?? 1,
     n_iter: 1,
     steps: options.steps,
@@ -392,6 +399,11 @@ export async function setOptions(options: Partial<Options>) {
 
 export async function getSamplers(): Promise<Sampler[]> {
   const response = await api.get<Sampler[]>('/sdapi/v1/samplers')
+  return response.data
+}
+
+export async function getSchedulers(): Promise<Scheduler[]> {
+  const response = await api.get<Scheduler[]>('/sdapi/v1/schedulers')
   return response.data
 }
 

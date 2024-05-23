@@ -289,6 +289,9 @@ export interface IImageInfo {
 
     /** ImageInfo clipSkip */
     clipSkip?: (number|null);
+
+    /** ImageInfo scheduler */
+    scheduler?: (string|null);
 }
 
 /** Represents an ImageInfo. */
@@ -333,6 +336,9 @@ export class ImageInfo implements IImageInfo {
     /** ImageInfo clipSkip. */
     public clipSkip?: (number|null);
 
+    /** ImageInfo scheduler. */
+    public scheduler?: (string|null);
+
     /** ImageInfo _prompt. */
     public _prompt?: "prompt";
 
@@ -353,6 +359,9 @@ export class ImageInfo implements IImageInfo {
 
     /** ImageInfo _clipSkip. */
     public _clipSkip?: "clipSkip";
+
+    /** ImageInfo _scheduler. */
+    public _scheduler?: "scheduler";
 
     /**
      * Creates a new ImageInfo instance using the specified properties.

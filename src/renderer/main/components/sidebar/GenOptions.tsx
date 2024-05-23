@@ -28,6 +28,20 @@ export default observer(function () {
     }
   }
 
+  let schedulers: any = {}
+  if (!isEmpty(project.schedulers)) {
+    each(project.schedulers, ({ label, name }) => {
+      if (label === 'Automatic') {
+        label = t('automatic')
+      }
+      schedulers[label] = name
+    })
+  } else {
+    schedulers = {
+      [t('empty')]: 'empty',
+    }
+  }
+
   let img2imgOptions: JSX.Element | null = null
   if (project.initImage) {
     img2imgOptions = (
@@ -138,13 +152,6 @@ export default observer(function () {
       {img2imgOptions}
       {maskOptions}
       <Row>
-        <Select
-          value={genOptions.sampler}
-          title={t('samplingMethod')}
-          options={samplers}
-          disabled={isEmpty(samplers)}
-          onChange={(val) => project.setGenOption('sampler', val)}
-        />
         <StatusbarDesc
           className={SettingStyle.item}
           desc={t('samplingStepsDesc')}
@@ -153,10 +160,27 @@ export default observer(function () {
             value={genOptions.steps}
             title={t('samplingSteps')}
             min={1}
+            range={true}
             max={50}
             onChange={(val) => project.setGenOption('steps', val)}
           />
         </StatusbarDesc>
+      </Row>
+      <Row>
+        <Select
+          value={genOptions.sampler}
+          title={t('samplingMethod')}
+          options={samplers}
+          disabled={isEmpty(project.samplers)}
+          onChange={(val) => project.setGenOption('sampler', val)}
+        />
+        <Select
+          value={genOptions.scheduler}
+          title={t('scheduleType')}
+          options={schedulers}
+          disabled={isEmpty(project.schedulers)}
+          onChange={(val) => project.setGenOption('scheduler', val)}
+        />
       </Row>
       <Row>
         <Number

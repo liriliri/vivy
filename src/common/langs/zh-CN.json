@@ -192,6 +192,7 @@
   "vramOptimization": "显存优化",
   "medVram": "中等显存（4GB 以上）",
   "lowVram": "低显存（不足 4GB）",
+  "scheduleType": "调度类型",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

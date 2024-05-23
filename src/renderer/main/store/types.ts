@@ -7,6 +7,7 @@ export interface IImageInfo {
   negativePrompt?: string
   steps?: number
   sampler?: string
+  scheduler?: string
   cfgScale?: number
   seed?: number
   clipSkip?: number
@@ -20,6 +21,7 @@ export interface IImage {
 
 export interface IGenOptions {
   sampler: string
+  scheduler: string
   seed: number
   width: number
   height: number

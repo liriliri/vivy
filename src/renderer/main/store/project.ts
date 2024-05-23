@@ -26,6 +26,7 @@ import LunaModal from 'luna-modal'
 import splitPath from 'licia/splitPath'
 import range from 'licia/range'
 import isNum from 'licia/isNum'
+import some from 'licia/some'
 
 const CONTROL_NET_UNIT_COUNT = 3
 
@@ -40,6 +41,7 @@ export class Project {
   initImageMask: string | null = null
   initImagePreview: string | null = null
   samplers: string[] = []
+  schedulers: webui.Scheduler[] = []
   genOptions: IGenOptions = clone(defGenOptions)
   controlNetUnits: ControlNetUnit[] = map(range(CONTROL_NET_UNIT_COUNT), () => {
     return new ControlNetUnit()
@@ -57,6 +59,7 @@ export class Project {
       path: observable,
       isSave: observable,
       samplers: observable,
+      schedulers: observable,
       initImage: observable,
       initImageMask: observable,
       initImagePreview: observable,
@@ -83,9 +86,13 @@ export class Project {
   }
   async init() {
     const samplers = await main.getMainStore('samplers')
-
     if (samplers) {
       runInAction(() => (this.samplers = samplers))
+    }
+
+    const schedulers = await main.getMainStore('schedulers')
+    if (schedulers) {
+      runInAction(() => (this.schedulers = schedulers))
     }
 
     const path = await main.getMainStore('projectPath')
@@ -104,6 +111,25 @@ export class Project {
       this.setGenOption('sampler', this.samplers[0])
     }
     setMainStore('samplers', this.samplers)
+  }
+  async fetchSchedulers() {
+    const schedulers = await webui.getSchedulers()
+    runInAction(() => {
+      this.schedulers = map(schedulers, (scheduler) => {
+        return {
+          name: scheduler.name,
+          label: scheduler.label,
+        }
+      })
+    })
+    if (
+      !some(this.schedulers, (scheduler) => {
+        return scheduler.name === this.genOptions.scheduler
+      })
+    ) {
+      this.setGenOption('scheduler', 'automatic')
+    }
+    setMainStore('schedulers', this.schedulers)
   }
   setPrompt(prompt: string) {
     if (this.prompt === prompt) {
@@ -667,6 +693,7 @@ class ControlNetUnit {
 
 const defGenOptions: IGenOptions = {
   sampler: 'Euler a',
+  scheduler: 'automatic',
   steps: 20,
   seed: -1,
   width: 512,

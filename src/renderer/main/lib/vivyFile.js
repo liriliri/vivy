@@ -723,6 +723,7 @@ export const ImageInfo = $root.ImageInfo = (() => {
      * @property {number|null} [cfgScale] ImageInfo cfgScale
      * @property {number|null} [seed] ImageInfo seed
      * @property {number|null} [clipSkip] ImageInfo clipSkip
+     * @property {string|null} [scheduler] ImageInfo scheduler
      */
 
     /**
@@ -828,6 +829,14 @@ export const ImageInfo = $root.ImageInfo = (() => {
      */
     ImageInfo.prototype.clipSkip = null;
 
+    /**
+     * ImageInfo scheduler.
+     * @member {string|null|undefined} scheduler
+     * @memberof ImageInfo
+     * @instance
+     */
+    ImageInfo.prototype.scheduler = null;
+
     // OneOf field names bound to virtual getters and setters
     let $oneOfFields;
 
@@ -909,6 +918,17 @@ export const ImageInfo = $root.ImageInfo = (() => {
     });
 
     /**
+     * ImageInfo _scheduler.
+     * @member {"scheduler"|undefined} _scheduler
+     * @memberof ImageInfo
+     * @instance
+     */
+    Object.defineProperty(ImageInfo.prototype, "_scheduler", {
+        get: $util.oneOfGetter($oneOfFields = ["scheduler"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
      * Creates a new ImageInfo instance using the specified properties.
      * @function create
      * @memberof ImageInfo
@@ -954,6 +974,8 @@ export const ImageInfo = $root.ImageInfo = (() => {
             writer.uint32(/* id 10, wireType 0 =*/80).uint32(message.seed);
         if (message.clipSkip != null && Object.hasOwnProperty.call(message, "clipSkip"))
             writer.uint32(/* id 11, wireType 0 =*/88).uint32(message.clipSkip);
+        if (message.scheduler != null && Object.hasOwnProperty.call(message, "scheduler"))
+            writer.uint32(/* id 12, wireType 2 =*/98).string(message.scheduler);
         return writer;
     };
 
@@ -1030,6 +1052,10 @@ export const ImageInfo = $root.ImageInfo = (() => {
                 }
             case 11: {
                     message.clipSkip = reader.uint32();
+                    break;
+                }
+            case 12: {
+                    message.scheduler = reader.string();
                     break;
                 }
             default:
@@ -1115,6 +1141,11 @@ export const ImageInfo = $root.ImageInfo = (() => {
             if (!$util.isInteger(message.clipSkip))
                 return "clipSkip: integer expected";
         }
+        if (message.scheduler != null && message.hasOwnProperty("scheduler")) {
+            properties._scheduler = 1;
+            if (!$util.isString(message.scheduler))
+                return "scheduler: string expected";
+        }
         return null;
     };
 
@@ -1152,6 +1183,8 @@ export const ImageInfo = $root.ImageInfo = (() => {
             message.seed = object.seed >>> 0;
         if (object.clipSkip != null)
             message.clipSkip = object.clipSkip >>> 0;
+        if (object.scheduler != null)
+            message.scheduler = String(object.scheduler);
         return message;
     };
 
@@ -1216,6 +1249,11 @@ export const ImageInfo = $root.ImageInfo = (() => {
             object.clipSkip = message.clipSkip;
             if (options.oneofs)
                 object._clipSkip = "clipSkip";
+        }
+        if (message.scheduler != null && message.hasOwnProperty("scheduler")) {
+            object.scheduler = message.scheduler;
+            if (options.oneofs)
+                object._scheduler = "scheduler";
         }
         return object;
     };

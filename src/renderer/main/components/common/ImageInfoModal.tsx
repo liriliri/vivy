@@ -22,11 +22,14 @@ export default observer(function ImageInfoModal(props: IProps) {
 
   const data: any = []
   const addData = (parameter, value) => data.push({ parameter, value })
+  if (info.steps) {
+    addData(t('samplingSteps'), info.steps)
+  }
   if (info.sampler) {
     addData(t('samplingMethod'), info.sampler)
   }
-  if (info.steps) {
-    addData(t('samplingSteps'), info.steps)
+  if (info.scheduler) {
+    addData(t('scheduleType'), info.scheduler)
   }
   if (info.cfgScale) {
     addData(t('cfgScale'), info.cfgScale)
@@ -56,6 +59,9 @@ export default observer(function ImageInfoModal(props: IProps) {
     }
     if (info.sampler) {
       parameters.push(`Sampler: ${info.sampler}`)
+    }
+    if (info.scheduler) {
+      parameters.push(`Schedule type: ${info.scheduler}`)
     }
     if (info.cfgScale) {
       parameters.push(`CFG scale: ${info.cfgScale}`)

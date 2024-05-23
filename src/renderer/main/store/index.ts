@@ -99,6 +99,7 @@ class Store extends BaseStore {
       })
       await this.settings.getDevices()
       await this.project.fetchSamplers()
+      await this.project.fetchSchedulers()
       await this.fetchOptions()
       await this.fetchModels()
       await this.fetchVaes()

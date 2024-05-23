@@ -181,7 +181,7 @@
   "copySavePath": "Copy Save Path",
   "openWithPreview": "Open with Preview",
   "openWithImageViewer": "Open with Image Viewer",
-  "controlNetUnit": "Control Net Unit",
+  "controlNetUnit": "ControlNet Unit",
   "controlWeight": "Control Weight",
   "guidanceStart": "Guidance Start",
   "guidanceEnd": "Guidance End",
@@ -192,6 +192,7 @@
   "vramOptimization": "VRAM Optimization",
   "medVram": "Medium VRAM (Above 4GB)",
   "lowVram": "Low VRAM (Below 4GB)",
+  "scheduleType": "Schedule Type",
 
   "character": "Character",
   "camera": "Camera",
