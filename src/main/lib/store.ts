@@ -71,6 +71,7 @@ export const getSettingsStore = memoize(function () {
     pythonPath: '',
     translator: 'bing',
     customArgs: '',
+    vramOptimization: 'none',
   })
 })
 

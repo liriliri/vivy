@@ -189,6 +189,9 @@
   "balanced": "平衡",
   "promptImportant": "偏重提示词",
   "controlImportant": "偏重控制单元",
+  "vramOptimization": "显存优化",
+  "medVram": "中等显存（4GB 以上）",
+  "lowVram": "低显存（不足 4GB）",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

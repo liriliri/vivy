@@ -189,6 +189,9 @@
   "balanced": "Balanced",
   "promptImportant": "My prompt is more important",
   "controlImportant": "ControlNet is more important",
+  "vramOptimization": "VRAM Optimization",
+  "medVram": "Medium VRAM (Above 4GB)",
+  "lowVram": "Low VRAM (Below 4GB)",
 
   "character": "Character",
   "camera": "Camera",

@@ -104,6 +104,13 @@ export async function start() {
     model.getDir(ModelType.ControlNet)
   )
 
+  const vramOptimization = settingsStore.get('vramOptimization')
+  if (vramOptimization === 'medium') {
+    args.push('--medvram')
+  } else if (vramOptimization === 'low') {
+    args.push('--lowvram')
+  }
+
   if (!settingsStore.get('enableWebUI')) {
     args.push('--nowebui')
   } else if (isDev()) {

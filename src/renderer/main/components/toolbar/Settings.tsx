@@ -28,7 +28,9 @@ const debounceNotify = debounce(notify, 1000)
 
 export default observer(function Settings(props: IProps) {
   const onChange = (key, val) => {
-    if (contain(['language', 'enableWebUI', 'device'], key)) {
+    if (
+      contain(['language', 'enableWebUI', 'device', 'vramOptimization'], key)
+    ) {
       notify(t('requireReload'))
     }
     store.settings.set(key, val)
@@ -83,6 +85,16 @@ export default observer(function Settings(props: IProps) {
           title={t('device')}
           disabled={deviceDisabled}
           options={deviceOptions}
+        />
+        <LunaSettingSelect
+          keyName="vramOptimization"
+          value={store.settings.vramOptimization}
+          title={t('vramOptimization')}
+          options={{
+            [t('none')]: 'none',
+            [t('medVram')]: 'medium',
+            [t('lowVram')]: 'low',
+          }}
         />
         <SettingPath
           title={t('modelPath')}

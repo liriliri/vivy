@@ -14,6 +14,7 @@ export class Settings {
   webUIPath = ''
   pythonPath = ''
   customArgs = ''
+  vramOptimization = 'none'
   device = ''
   devices: IDevice[] = []
   constructor() {
@@ -25,6 +26,7 @@ export class Settings {
       webUIPath: observable,
       pythonPath: observable,
       customArgs: observable,
+      vramOptimization: observable,
       device: observable,
       devices: observable,
       set: action,
@@ -41,6 +43,7 @@ export class Settings {
       'webUIPath',
       'pythonPath',
       'customArgs',
+      'vramOptimization',
       'device',
       'devices',
     ]
