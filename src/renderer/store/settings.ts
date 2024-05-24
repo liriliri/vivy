@@ -15,6 +15,8 @@ export class Settings {
   pythonPath = ''
   customArgs = ''
   vramOptimization = 'none'
+  proxyMode = 'system'
+  proxyHost = ''
   device = ''
   devices: IDevice[] = []
   constructor() {
@@ -27,6 +29,8 @@ export class Settings {
       pythonPath: observable,
       customArgs: observable,
       vramOptimization: observable,
+      proxyHost: observable,
+      proxyMode: observable,
       device: observable,
       devices: observable,
       set: action,
@@ -44,6 +48,8 @@ export class Settings {
       'pythonPath',
       'customArgs',
       'vramOptimization',
+      'proxyMode',
+      'proxyHost',
       'device',
       'devices',
     ]

@@ -193,6 +193,12 @@
   "medVram": "中等显存（4GB 以上）",
   "lowVram": "低显存（不足 4GB）",
   "scheduleType": "调度类型",
+  "network": "网络",
+  "proxyMode": "代理模式",
+  "proxyDirect": "直连",
+  "proxySystem": "系统代理",
+  "proxyManual": "手动代理",
+  "proxyHost": "代理主机",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

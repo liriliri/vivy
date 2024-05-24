@@ -193,6 +193,12 @@
   "medVram": "Medium VRAM (Above 4GB)",
   "lowVram": "Low VRAM (Below 4GB)",
   "scheduleType": "Schedule Type",
+  "network": "Network",
+  "proxyMode": "Proxy Mode",
+  "proxyDirect": "Direct",
+  "proxySystem": "System",
+  "proxyManual": "Manual",
+  "proxyHost": "Proxy Host",
 
   "character": "Character",
   "camera": "Camera",

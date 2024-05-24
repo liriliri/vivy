@@ -151,6 +151,23 @@ export default observer(function Settings(props: IProps) {
           }}
         />
         <LunaSettingSeparator />
+        <LunaSettingTitle title={t('network')} />
+        <LunaSettingSeparator />
+        <LunaSettingSelect
+          keyName="proxyMode"
+          value={store.settings.proxyMode}
+          title={t('proxyMode')}
+          options={{
+            [t('proxyDirect')]: 'direct',
+            [t('proxySystem')]: 'system',
+            [t('proxyManual')]: 'fixed_servers',
+          }}
+        />
+        <LunaSettingInput
+          keyName="proxyHost"
+          title={t('proxyHost')}
+          value={store.settings.proxyHost}
+        />
         <LunaSettingButton
           description={t('restartVivy')}
           onClick={() => main.relaunch()}

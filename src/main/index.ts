@@ -7,6 +7,7 @@ import * as model from './lib/model'
 import * as main from './window/main'
 import * as language from './lib/language'
 import * as theme from './lib/theme'
+import * as proxy from './lib/proxy'
 import * as terminal from './window/terminal'
 import * as download from './window/download'
 import { setupTitlebar } from 'custom-electron-titlebar/main'
@@ -22,6 +23,7 @@ app.on('ready', () => {
   setupTitlebar()
   language.init()
   theme.init()
+  proxy.init()
   terminal.init()
   download.init()
   webui.start()

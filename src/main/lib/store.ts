@@ -72,6 +72,8 @@ export const getSettingsStore = memoize(function () {
     translator: 'bing',
     customArgs: '',
     vramOptimization: 'none',
+    proxyMode: 'system',
+    proxyHost: '',
   })
 })
 
