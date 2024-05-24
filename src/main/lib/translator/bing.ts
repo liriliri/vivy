@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../axios'
 
 export async function bing(text, from: string, to: string) {
   const { data: token } = await axios.get(tokenUrl, {
@@ -17,13 +17,6 @@ export async function bing(text, from: string, to: string) {
       'cache-control': 'no-cache',
       'content-type': 'application/json',
       pragma: 'no-cache',
-      'sec-ch-ua':
-        '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',
-      'sec-ch-ua-mobile': '?0',
-      'sec-ch-ua-platform': '"Windows"',
-      'sec-fetch-dest': 'empty',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-site': 'cross-site',
       Referer: 'https://appsumo.com/',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'User-Agent': ua,

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../axios'
 
 export async function google(text, from: string, to: string) {
   const { data } = await axios.get(url, {
