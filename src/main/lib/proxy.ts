@@ -1,24 +1,29 @@
-import { app } from 'electron'
+import { app, ProxyConfig, session } from 'electron'
 import { getSettingsStore } from './store'
 import isStrBlank from 'licia/isStrBlank'
 
 const store = getSettingsStore()
 
+function setProxy(proxyConfig: ProxyConfig) {
+  app.setProxy(proxyConfig)
+  session.defaultSession.setProxy(proxyConfig)
+}
+
 function updateProxy() {
   const mode = store.get('proxyMode')
   if (mode === 'system' || mode === 'direct') {
-    app.setProxy({
+    setProxy({
       mode,
     })
   } else if (mode === 'fixed_servers') {
     const host = store.get('proxyHost')
     if (!isStrBlank(host)) {
-      app.setProxy({
+      setProxy({
         mode,
         proxyRules: host,
       })
     } else {
-      app.setProxy({
+      setProxy({
         mode: 'system',
       })
     }

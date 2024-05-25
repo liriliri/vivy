@@ -42,6 +42,7 @@ export class Settings {
     const names = [
       'language',
       'theme',
+      'translator',
       'enableWebUI',
       'modelPath',
       'webUIPath',
