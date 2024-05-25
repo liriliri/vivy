@@ -235,10 +235,12 @@
   "hairStyle": "发型",
   "bangs": "刘海",
   "eyes": "眼睛",
+  "mouth": "嘴巴",
   "breasts": "胸部",
   "skin": "皮肤",
   "identity": "身份",
   "dress": "裙子",
+  "ornament": "装饰",
   "angle": "角度",
   "environment": "环境",
   "scene": "场景",
@@ -260,6 +262,9 @@
   "uniform": "制服",
   "style": "风格",
   "ear": "耳朵",
+  "fullBody": "全身",
+  "lowerBody": "下半身",
+  "upperBody": "上半身",
   "weather": "天气",
   "nature": "自然"
 }

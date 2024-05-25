@@ -24,7 +24,7 @@ shirt,衬衫
 black_hair,黑发
 hair_ornament,发饰
 red_eyes,红眼睛
-thighhighs,含过膝袜和裤袜
+thighhighs,过膝袜
 hat,帽子
 gloves,手套
 1boy,1个男性
@@ -55,7 +55,7 @@ blue_hair,蓝色头发
 standing,站立的
 purple_eyes,紫色的眼睛
 collarbone,锁骨
-panties,内裤|短裤|裤袜
+panties,内裤|短裤
 monochrome,单色画
 tail,尾巴
 jacket,夹克
@@ -77,12 +77,12 @@ flower,花
 ahoge,呆毛
 short_sleeves,短袖
 hair_bow,蝴蝶结发圈
-greyscale,纯黑白色|黑白照片化
+greyscale,黑白照片化
 hetero,异性恋
 white_hair,白发
 male_focus,男性特写
 heart,心|心形|爱心
-pantyhose,连裤袜|裤袜
+pantyhose,连裤袜
 bikini,比基尼
 sidelocks,披在耳前的发绺
 thighs,大腿
@@ -115,7 +115,7 @@ necktie,领带
 horns,角|有角的
 penis,阴茎
 shoes,鞋子
-glasses,眼镜|眼镜娘
+glasses,眼镜
 barefoot,裸足
 shorts,短裤
 serafuku,水手服

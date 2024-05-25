@@ -213,10 +213,12 @@
   "hairStyle": "Hair Style",
   "bangs": "Bangs",
   "eyes": "Eyes",
+  "mouth": "Mouth",
   "breasts": "Breasts",
   "skin": "Skin",
   "identity": "Identity",
   "dress": "Dress",
+  "ornament": "Ornament",
   "angle": "Angle",
   "environment": "Environment",
   "scene": "Scene",
@@ -238,6 +240,9 @@
   "uniform": "Uniform",
   "style": "Style",
   "ear": "Ear",
+  "fullBody": "Full Body",
+  "lowerBody": "Lower Body",
+  "upperBody": "Upper Body",
   "weather": "Weather",
   "nature": "Nature"
 }

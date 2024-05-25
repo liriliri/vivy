@@ -21,10 +21,12 @@
       "1980s_(style)",
       "magazine_cover",
       "comic",
-      "anime_coloring"
+      "anime_coloring",
+      "greyscale"
     ],
     "background": [
       "simple_background",
+      "white_background",
       "gradient_background",
       "floral_background",
       "starry_background",
@@ -45,10 +47,13 @@
   },
   "character": {
     "object": [
+      "solo",
       "1girl",
-      "1boy",
       "2girls",
+      "multiple_girls",
+      "1boy",
       "2boys",
+      "multiple_boys",
       "loli",
       "shota",
       "old_man",
@@ -94,7 +99,9 @@
       "looking_at_viewer",
       "looking_to_the_side"
     ],
+    "mouth": ["open_mouth", "closed_mouth", "tongue_out", "fang"],
     "expression": [
+      "blush",
       "smile",
       "smug",
       "evil_smile",
@@ -114,6 +121,7 @@
       "pink_hair",
       "purple_hair",
       "white_hair",
+      "silver_hair",
       "black_hair",
       "streaked_hair"
     ],
@@ -133,12 +141,14 @@
       "hime_cut",
       "curly_hair",
       "single_braid",
+      "braid",
       "drill_hair",
       "twin_drills",
       "bob_cut",
       "spiked_hair",
       "messy_hair",
-      "straight_hair"
+      "straight_hair",
+      "sidelocks"
     ],
     "bangs": [
       "blunt_bangs",
@@ -151,12 +161,18 @@
   },
   "body": {
     "figure": ["skinny", "plump", "tall", "petite", "chibi", "muscular"],
-    "ear": ["animal_ears", "cat_ears", "rabbit_ears", "fox_ears"],
-    "breasts": ["small_breasts", "medium_breasts", "large_breasts"],
+    "ear": [
+      "animal_ears",
+      "cat_ears",
+      "rabbit_ears",
+      "fox_ears",
+      "pointy_ears"
+    ],
+    "breasts": ["small_breasts", "medium_breasts", "large_breasts", "cleavage"],
     "skin": ["dark_skin", "shiny_skin", "white_skin", "tan"]
   },
   "clothing": {
-    "style": ["hanfu", "kimono", "lolita_fashion"],
+    "style": ["hanfu", "kimono", "lolita_fashion", "japanese_clothes"],
     "dress": [
       "dress",
       "white_dress",
@@ -170,6 +186,48 @@
       "armored_dress",
       "sailor_dress"
     ],
+    "ornament": [
+      "ribbon",
+      "hair_ornament",
+      "bow",
+      "jewelry",
+      "hair_bow",
+      "hairclip",
+      "hairband",
+      "necktie",
+      "bowtie",
+      "glasses",
+      "choker",
+      "belt",
+      "necklace"
+    ],
+    "upperBody": [
+      "shirt",
+      "long_sleeves",
+      "short_sleeves",
+      "sleeveless",
+      "bare_shoulders",
+      "jacket",
+      "detached_sleeves",
+      "open_clothes",
+      "gloves",
+      "hat",
+      "hood",
+      "scarf",
+      "cape"
+    ],
+    "lowerBody": [
+      "skirt",
+      "pleated_skirt",
+      "thighhighs",
+      "panties",
+      "pants",
+      "pantyhose",
+      "shorts",
+      "boots",
+      "socks"
+    ],
+    "fullBody": ["underwear"],
     "sportswear": ["gym_uniform", "tennis_uniform", "baseball_uniform"],
     "swimwear": [
       "swimsuit",
@@ -180,7 +238,7 @@
       "bikini_skirt",
       "frilled_bikini"
     ],
-    "uniform": ["school_uniform", "labcoat", "police_uniform"]
+    "uniform": ["school_uniform", "labcoat", "police_uniform", "serafuku"]
   },
   "action": {
     "posture": ["standing", "sitting", "lying", "kneeling"]
@@ -195,6 +253,8 @@
       "tree",
       "desert",
       "grass",
+      "sky",
+      "cloud",
       "flower_field",
       "rainbow"
     ]
