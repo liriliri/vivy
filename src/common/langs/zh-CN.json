@@ -266,5 +266,6 @@
   "lowerBody": "下半身",
   "upperBody": "上半身",
   "weather": "天气",
-  "nature": "自然"
+  "nature": "自然",
+  "hand": "手"
 }

@@ -233,7 +233,7 @@ sweater,毛衣
 white_thighhighs,白色长筒袜
 speech_bubble,对话框|会话气泡
 two-tone_hair,双色头发
-leotard,紧身连身衣裤|芭蕾服
+leotard,紧身连身衣裤
 red_ribbon,红色丝带
 two_side_up,小型双股辫
 english_text,英语
@@ -261,7 +261,7 @@ official_alternate_costume,官方替代服装
 streaked_hair,有其他颜色条纹的头发
 see-through,半透明的|可透过看到里层衣物|因沾湿而变透明
 orange_eyes,橙色的眼镜
-hand_on_hip,手叉着腰|手搁在腰上
+hand_on_hip,手叉着腰
 gradient,(身体或肢体)倾斜
 gun,枪
 shiny_skin,有光泽的皮肤
@@ -289,7 +289,7 @@ black_pantyhose,黑色连裤袜
 fur_trim,皮草款式|毛皮镶边
 bare_arms,裸臂
 pubic_hair,阴毛
-hands_up,双手朝上|双手抬起|双手举起
+hands_up,双手举起
 one-piece_swimsuit,一体式泳衣
 gradient_background,渐变色(效果)的背景
 symbol-shaped_pupils,符号形瞳孔

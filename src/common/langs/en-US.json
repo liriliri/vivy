@@ -244,5 +244,6 @@
   "lowerBody": "Lower Body",
   "upperBody": "Upper Body",
   "weather": "Weather",
-  "nature": "Nature"
+  "nature": "Nature",
+  "hand": "Hand"
 }

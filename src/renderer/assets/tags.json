@@ -97,7 +97,8 @@
       "heterochromia",
       "star-shaped_pupils",
       "looking_at_viewer",
-      "looking_to_the_side"
+      "looking_to_the_side",
+      "looking_at_another"
     ],
     "mouth": ["open_mouth", "closed_mouth", "tongue_out", "fang"],
     "expression": [
@@ -109,7 +110,8 @@
       "crying",
       "despair",
       "angry",
-      "shy"
+      "shy",
+      "grin"
     ]
   },
   "hair": {
@@ -123,7 +125,8 @@
       "white_hair",
       "silver_hair",
       "black_hair",
-      "streaked_hair"
+      "streaked_hair",
+      "two-tone_hair"
     ],
     "hairStyle": [
       "short_hair",
@@ -144,11 +147,13 @@
       "braid",
       "drill_hair",
       "twin_drills",
+      "twin_braids",
       "bob_cut",
       "spiked_hair",
       "messy_hair",
       "straight_hair",
-      "sidelocks"
+      "sidelocks",
+      "side_ponytail"
     ],
     "bangs": [
       "blunt_bangs",
@@ -169,7 +174,7 @@
       "pointy_ears"
     ],
     "breasts": ["small_breasts", "medium_breasts", "large_breasts", "cleavage"],
-    "skin": ["dark_skin", "shiny_skin", "white_skin", "tan"]
+    "skin": ["dark_skin", "shiny_skin", "white_skin", "tan", "mole"]
   },
   "clothing": {
     "style": ["hanfu", "kimono", "lolita_fashion", "japanese_clothes"],
@@ -199,7 +204,9 @@
       "glasses",
       "choker",
       "belt",
-      "necklace"
+      "necklace",
+      "bracelet",
+      "maid_headdress"
     ],
     "upperBody": [
       "shirt",
@@ -213,8 +220,13 @@
       "gloves",
       "hat",
       "hood",
+      "hoodie",
       "scarf",
-      "cape"
+      "cape",
+      "vest",
+      "sweater",
+      "coat",
+      "crop_top"
     ],
     "lowerBody": [
       "skirt",
@@ -225,9 +237,13 @@
       "pantyhose",
       "shorts",
       "boots",
-      "socks"
+      "socks",
+      "high_heels",
+      "white_legwear",
+      "kneehighs",
+      "short_shorts"
     ],
-    "fullBody": ["underwear"],
+    "fullBody": ["underwear", "apron", "leotard"],
     "sportswear": ["gym_uniform", "tennis_uniform", "baseball_uniform"],
     "swimwear": [
       "swimsuit",
@@ -238,10 +254,17 @@
       "bikini_skirt",
       "frilled_bikini"
     ],
-    "uniform": ["school_uniform", "labcoat", "police_uniform", "serafuku"]
+    "uniform": [
+      "school_uniform",
+      "labcoat",
+      "police_uniform",
+      "serafuku",
+      "armor"
+    ]
   },
   "action": {
-    "posture": ["standing", "sitting", "lying", "kneeling"]
+    "posture": ["standing", "sitting", "lying", "kneeling"],
+    "hand": ["holding", "arm_up", "hand_on_hip", "hands_up"]
   },
   "environment": {
     "season": ["spring_(season)", "summer", "autumn", "winter"],
