@@ -316,10 +316,20 @@ class Store extends BaseStore {
     main.on('refreshModel', async (_, type: ModelType) => {
       switch (type) {
         case ModelType.StableDiffusion:
-          console.log('refresh')
           await webui.refreshCheckpoints()
           await this.fetchModels()
           await this.fetchOptions()
+          break
+        case ModelType.VAE:
+          await webui.refreshVae()
+          await this.fetchVaes()
+          await this.fetchOptions()
+          break
+        case ModelType.Embedding:
+          await webui.refreshEmbeddings()
+          break
+        case ModelType.Lora:
+          await webui.refreshLoras()
           break
       }
     })

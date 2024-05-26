@@ -420,6 +420,18 @@ export async function refreshCheckpoints() {
   await api.post('/sdapi/v1/refresh-checkpoints')
 }
 
+export async function refreshVae() {
+  await api.post('/sdapi/v1/refresh-vae')
+}
+
+export async function refreshEmbeddings() {
+  await api.post('/sdapi/v1/refresh-embeddings')
+}
+
+export async function refreshLoras() {
+  await api.post('/sdapi/v1/refresh-loras')
+}
+
 export async function interrogate(image: string, model: string) {
   const response = await api.post<{ caption: string }>(
     '/sdapi/v1/interrogate',

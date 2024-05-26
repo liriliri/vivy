@@ -61,7 +61,7 @@ const fileExts = {
   [ModelType.ScuNET]: ['.pth'],
   [ModelType.Embedding]: ['.safetensors', '.pt'],
   [ModelType.SwinIR]: ['.pth'],
-  [ModelType.VAE]: ['.ckpt', '.pt'],
+  [ModelType.VAE]: ['.ckpt', '.pt', '.safetensors'],
 }
 
 export function getFileExt(type: ModelType) {
