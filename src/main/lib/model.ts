@@ -7,12 +7,13 @@ import contain from 'licia/contain'
 import { IModel, ModelType, modelTypes } from '../../common/types'
 import { shell } from 'electron'
 import { glob } from 'glob'
-import chokidar from 'chokidar'
+import watcher from '@parcel/watcher'
 import debounce from 'licia/debounce'
 import startWith from 'licia/startWith'
 import mime from 'licia/mime'
 import * as window from './window'
 import { getUserDataPath, replaceExt } from './util'
+import now from 'licia/now'
 
 const settingsStore = getSettingsStore()
 
@@ -122,8 +123,10 @@ export async function deleteModel(type: ModelType, name: string) {
 export async function addModel(type: ModelType, filePath: string) {
   const dir = getDir(type)
   const { name } = splitPath(filePath)
-  await fs.copy(filePath, path.resolve(dir, name))
-  window.sendAll('refreshModel', type)
+  const target = path.resolve(dir, name)
+  const tmp = path.resolve(dir, name + '.tmp')
+  await fs.copy(filePath, tmp)
+  await fs.rename(tmp, target)
 }
 
 export async function setModelPreview(
@@ -146,28 +149,30 @@ export async function setModelPreview(
 }
 
 export function init() {
-  chokidar.watch(settingsStore.get('modelPath')).on(
-    'all',
-    debounce((event, path) => {
-      if (!contain(['add', 'unlink'], event)) {
-        return
+  watcher.subscribe(settingsStore.get('modelPath'), (err, events) => {
+    for (let i = 0, len = events.length; i < len; i++) {
+      const { type, path } = events[i]
+      if (!contain(['create', 'delete'], type)) {
+        continue
       }
-      let type: ModelType | null = null
+      let t: ModelType | null = null
 
       for (const i in modelTypes) {
         const modelType = modelTypes[i]
         if (startWith(path, getDir(modelType))) {
-          type = modelType
+          t = modelType
           break
         }
       }
-      if (type) {
-        const exts = getFileExt(type)
+
+      if (t) {
+        const exts = getFileExt(t)
         const { ext } = splitPath(path)
         if (contain(exts, ext)) {
-          window.sendAll('refreshModel', type)
+          window.sendAll('refreshModel', t)
+          break
         }
       }
-    }, 1000)
-  )
+    }
+  })
 }

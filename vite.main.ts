@@ -15,7 +15,7 @@ export default defineConfig({
       formats: ['cjs'],
     },
     rollupOptions: {
-      external: ['chokidar', ...builtins],
+      external: ['@parcel/watcher', ...builtins],
     },
   },
   resolve: {

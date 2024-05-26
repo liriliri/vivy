@@ -158,7 +158,11 @@ class Store {
     }
   }
   private bindEvent() {
-    main.on('refreshModel', this.refresh)
+    main.on('refreshModel', (_, type: ModelType) => {
+      if (type === this.selectedType) {
+        this.refresh()
+      }
+    })
 
     window.addEventListener('resize', this.updateListHeight)
   }

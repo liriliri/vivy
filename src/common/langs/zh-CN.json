@@ -199,6 +199,8 @@
   "proxySystem": "系统代理",
   "proxyManual": "手动代理",
   "proxyHost": "代理主机",
+  "modelCopying": "模型复制中",
+  "modelCopied": "模型复制完成",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

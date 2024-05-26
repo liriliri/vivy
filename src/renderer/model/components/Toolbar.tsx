@@ -8,7 +8,7 @@ import LunaToolbar, {
 import Style from './Toolbar.module.scss'
 import store from '../store'
 import { ModelType, modelTypes } from '../../../common/types'
-import { t } from '../../lib/util'
+import { notify, t } from '../../lib/util'
 import ToolbarIcon from '../../components/ToolbarIcon'
 import toBool from 'licia/toBool'
 import { observer } from 'mobx-react-lite'
@@ -37,7 +37,9 @@ export default observer(function Toolbar() {
     if (isEmpty(filePaths)) {
       return
     }
+    notify(t('modelCopying'))
     await main.addModel(store.selectedType, filePaths[0])
+    notify(t('modelCopied'))
   }
 
   const deleteModel = async () => {

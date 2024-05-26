@@ -316,6 +316,7 @@ class Store extends BaseStore {
     main.on('refreshModel', async (_, type: ModelType) => {
       switch (type) {
         case ModelType.StableDiffusion:
+          console.log('refresh')
           await webui.refreshCheckpoints()
           await this.fetchModels()
           await this.fetchOptions()

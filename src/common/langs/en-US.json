@@ -199,6 +199,8 @@
   "proxySystem": "System",
   "proxyManual": "Manual",
   "proxyHost": "Proxy Host",
+  "modelCopying": "Model Copying",
+  "modelCopied": "Model Copied",
 
   "character": "Character",
   "camera": "Camera",
