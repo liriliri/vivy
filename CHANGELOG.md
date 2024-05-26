@@ -1,3 +1,9 @@
+## v0.14.0 (27 May 2024)
+
+* feat: vram optimization setting
+* feat: schedule type
+* feat: proxy setting
+
 ## v0.13.0 (19 May 2024)
 
 * feat: control net
