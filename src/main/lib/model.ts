@@ -8,12 +8,11 @@ import { IModel, ModelType, modelTypes } from '../../common/types'
 import { shell } from 'electron'
 import { glob } from 'glob'
 import watcher from '@parcel/watcher'
-import debounce from 'licia/debounce'
 import startWith from 'licia/startWith'
 import mime from 'licia/mime'
 import * as window from './window'
 import { getUserDataPath, replaceExt } from './util'
-import now from 'licia/now'
+import isWindows from 'licia/isWindows'
 
 const settingsStore = getSettingsStore()
 
@@ -149,30 +148,36 @@ export async function setModelPreview(
 }
 
 export function init() {
-  watcher.subscribe(settingsStore.get('modelPath'), (err, events) => {
-    for (let i = 0, len = events.length; i < len; i++) {
-      const { type, path } = events[i]
-      if (!contain(['create', 'delete'], type)) {
-        continue
-      }
-      let t: ModelType | null = null
+  watcher.subscribe(
+    settingsStore.get('modelPath'),
+    (err, events) => {
+      for (let i = 0, len = events.length; i < len; i++) {
+        const { type, path } = events[i]
+        if (!contain(['create', 'delete'], type)) {
+          continue
+        }
+        let t: ModelType | null = null
 
-      for (const i in modelTypes) {
-        const modelType = modelTypes[i]
-        if (startWith(path, getDir(modelType))) {
-          t = modelType
-          break
+        for (const i in modelTypes) {
+          const modelType = modelTypes[i]
+          if (startWith(path, getDir(modelType))) {
+            t = modelType
+            break
+          }
+        }
+
+        if (t) {
+          const exts = getFileExt(t)
+          const { ext } = splitPath(path)
+          if (contain(exts, ext)) {
+            window.sendAll('refreshModel', t)
+            break
+          }
         }
       }
-
-      if (t) {
-        const exts = getFileExt(t)
-        const { ext } = splitPath(path)
-        if (contain(exts, ext)) {
-          window.sendAll('refreshModel', t)
-          break
-        }
-      }
+    },
+    {
+      backend: isWindows ? 'windows' : 'fs-events',
     }
-  })
+  )
 }
