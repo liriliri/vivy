@@ -59,7 +59,7 @@ export default observer(function ControlNet() {
     if (image) {
       selectedUnit.setImage(image, 'image/png')
     } else {
-      notify(t('noClipboardImage'))
+      notify(t('noClipboardImage'), { icon: 'warning' })
     }
   }
 

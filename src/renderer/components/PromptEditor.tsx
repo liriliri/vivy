@@ -271,7 +271,7 @@ export const translatePrompt = async (editor: editor.IStandaloneCodeEditor) => {
   try {
     setSelectionValue(editor, await main.translate(value), 'translate')
   } catch (e) {
-    notify(t('translateErr'))
+    notify(t('translateErr'), { icon: 'error' })
   }
 }
 

@@ -287,7 +287,7 @@ class Store extends BaseStore {
             this.doCreateTask()
           })
           task.on('fail', () => {
-            notify(t('generateErr'))
+            notify(t('generateErr'), { icon: 'error' })
             this.doCreateTask()
           })
           task.run()

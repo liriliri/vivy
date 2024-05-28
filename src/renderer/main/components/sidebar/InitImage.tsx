@@ -54,7 +54,7 @@ export default observer(function InitImage() {
     if (image) {
       project.setInitImage(image, 'image/png')
     } else {
-      notify(t('noClipboardImage'))
+      notify(t('noClipboardImage'), { icon: 'warning' })
     }
   }
 

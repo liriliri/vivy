@@ -78,10 +78,10 @@ export default observer(function () {
           if (imageInfo.prompt) {
             store.project.setGenOptions(imageInfo)
           } else {
-            notify(t('importErr'))
+            notify(t('importErr'), { icon: 'error' })
           }
         } else {
-          notify(t('importErr'))
+          notify(t('importErr'), { icon: 'error' })
         }
       }
     })

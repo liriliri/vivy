@@ -175,7 +175,7 @@ export default observer(function PreprocessModal(props: IProps) {
         preprocessor,
       })
     } catch (e) {
-      notify(t('generateErr'))
+      notify(t('generateErr'), { icon: 'error' })
     }
     setIsProcessing(false)
   }

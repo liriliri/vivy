@@ -137,7 +137,7 @@ export async function downloadModels(...params: Array<IModelParam[]>) {
     if (!(await main.isModelExists(model.type, model.fileName))) {
       if (allExist) {
         allExist = false
-        notify(t('modelMissingErr'))
+        notify(t('modelMissingErr'), { icon: 'warning' })
         main.showDownload()
       }
       await main.downloadModel(model)

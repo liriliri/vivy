@@ -76,7 +76,7 @@ export default observer(function () {
           'base64'
         )
       }
-      notify(t('saveSuccess'))
+      notify(t('saveSuccess'), { icon: 'success' })
     }
   }
 

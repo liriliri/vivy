@@ -71,7 +71,7 @@ export default observer(function ModelPreview() {
       return
     }
     if (!mime || !startWith(mime, 'image/')) {
-      notify(t('unsupportedFormat'))
+      notify(t('unsupportedFormat'), { icon: 'warning' })
       return
     }
 

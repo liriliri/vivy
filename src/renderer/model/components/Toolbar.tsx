@@ -39,7 +39,7 @@ export default observer(function Toolbar() {
     }
     notify(t('modelCopying'))
     await main.addModel(store.selectedType, filePaths[0])
-    notify(t('modelCopied'))
+    notify(t('modelCopied'), { icon: 'success' })
   }
 
   const deleteModel = async () => {

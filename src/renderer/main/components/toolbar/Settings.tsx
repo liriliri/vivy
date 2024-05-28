@@ -24,14 +24,16 @@ interface IProps {
   onClose?: () => void
 }
 
-const debounceNotify = debounce(notify, 1000)
+const notifyRequireReload = debounce(() => {
+  notify(t('requireReload'), { icon: 'info' })
+}, 1000)
 
 export default observer(function Settings(props: IProps) {
   const onChange = (key, val) => {
     if (
       contain(['language', 'enableWebUI', 'device', 'vramOptimization'], key)
     ) {
-      notify(t('requireReload'))
+      notifyRequireReload()
     }
     store.settings.set(key, val)
   }
@@ -100,7 +102,7 @@ export default observer(function Settings(props: IProps) {
           title={t('modelPath')}
           value={store.settings.modelPath}
           onChange={(val) => {
-            debounceNotify(t('requireReload'))
+            notifyRequireReload()
             store.settings.set('modelPath', val)
           }}
           options={{
@@ -111,7 +113,7 @@ export default observer(function Settings(props: IProps) {
           title={t('webUIPath')}
           value={store.settings.webUIPath}
           onChange={(val) => {
-            debounceNotify(t('requireReload'))
+            notifyRequireReload()
             store.settings.set('webUIPath', val)
           }}
           options={{
@@ -122,7 +124,7 @@ export default observer(function Settings(props: IProps) {
           title={t('pythonPath')}
           value={store.settings.pythonPath}
           onChange={(val) => {
-            debounceNotify(t('requireReload'))
+            notifyRequireReload()
             store.settings.set('pythonPath', val)
           }}
           options={{
