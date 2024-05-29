@@ -1,10 +1,10 @@
-import { defineConfig } from 'vite'
+import { defineConfig, UserConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'fs-extra'
 import { fileURLToPath } from 'url'
 import path from 'path'
 
-export default defineConfig(async ({}) => {
+export default defineConfig(async (): Promise<UserConfig> => {
   const __dirname = path.dirname(fileURLToPath(import.meta.url))
   const pkg = await fs.readJSON(path.resolve(__dirname, 'package.json'))
   return {
@@ -29,6 +29,10 @@ export default defineConfig(async ({}) => {
     },
     define: {
       VIVY_VERSION: JSON.stringify(pkg.version),
+    },
+    // @ts-ignore
+    test: {
+      environment: 'jsdom',
     },
   }
 })
