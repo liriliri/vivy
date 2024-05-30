@@ -79,6 +79,7 @@ export default {
     )
   },
   updateMenu: () => ipcRenderer.invoke('updateMenu'),
+  getOpenProjectPath: () => ipcRenderer.invoke('getOpenProjectPath'),
   openImage: (data: string, name: string) => {
     ipcRenderer.invoke('openImage', data, name)
   },

@@ -9,6 +9,8 @@ import * as model from '../lib/model'
 import convertBin from 'licia/convertBin'
 import os from 'os'
 import fs from 'fs-extra'
+import { isMac } from '../lib/util'
+import endWith from 'licia/endWith'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -50,6 +52,19 @@ export function showWin() {
   } else {
     win.loadFile(path.resolve(__dirname, '../renderer/index.html'))
   }
+}
+
+let openProjectPath = ''
+if (isMac()) {
+  app.on('open-file', (_, path) => {
+    if (!endWith(path, '.vivy')) {
+      return
+    }
+    openProjectPath = path
+    if (app.isReady()) {
+      window.sendTo('main', 'openProject', path)
+    }
+  })
 }
 
 function initIpc() {
@@ -105,6 +120,12 @@ function initIpc() {
   ipcMain.handle('getWebUIPort', () => webui.getPort())
   ipcMain.handle('isWebUIRunning', () => webui.isRunning())
   ipcMain.handle('getDevices', () => webui.getDevices())
+
+  ipcMain.handle('getOpenProjectPath', () => {
+    if (isMac()) {
+      return openProjectPath
+    }
+  })
 
   ipcMain.handle('relaunch', () => {
     webui.quit()

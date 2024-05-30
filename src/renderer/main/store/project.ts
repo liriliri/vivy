@@ -96,11 +96,16 @@ export class Project {
       runInAction(() => (this.schedulers = schedulers))
     }
 
-    const path = await main.getMainStore('projectPath')
-    if (path && node.existsSync(path)) {
-      this.open(path)
+    this.new()
+
+    const openProjectPath = await main.getOpenProjectPath()
+    if (openProjectPath) {
+      this.open(openProjectPath)
     } else {
-      this.new()
+      const path = await main.getMainStore('projectPath')
+      if (path && node.existsSync(path)) {
+        this.open(path)
+      }
     }
   }
   async fetchSamplers() {
