@@ -27,6 +27,7 @@ import splitPath from 'licia/splitPath'
 import range from 'licia/range'
 import isNum from 'licia/isNum'
 import some from 'licia/some'
+import unique from 'licia/unique'
 
 const CONTROL_NET_UNIT_COUNT = 3
 
@@ -342,13 +343,19 @@ export class Project {
         return
       }
       path = filePaths[0]
+    } else if (!node.existsSync(path)) {
+      LunaModal.alert(t('pathNotExists', { path }))
+      return
+    } else if (path === this.path) {
+      return
     }
 
-    this.setPath(path!)
     const data = await node.readFile(path!)
 
     try {
       await this.load(VivyFile.decode(data))
+      this.setPath(path!)
+      this.updateRecent()
     } catch (e) {
       notify(
         t('openProjectErr', {
@@ -416,6 +423,7 @@ export class Project {
         return
       }
       this.setPath(filePath)
+      this.updateRecent()
     }
 
     const vivyFile = this.vivyFile!
@@ -498,6 +506,13 @@ export class Project {
 
     return true
   }
+  private async updateRecent() {
+    let recentProjects = await main.getMainStore('recentProjects')
+    recentProjects.push(this.path)
+    recentProjects = unique(recentProjects).slice(0, 10)
+    await main.setMainStore('recentProjects', recentProjects)
+    main.updateMenu()
+  }
   private async renderInitImage() {
     const { initImage, initImageMask } = this
 
@@ -546,7 +561,7 @@ export class Project {
     main.on('saveProject', this.save)
     main.on('saveAsProject', this.saveAs)
     main.on('newProject', this.new)
-    main.on('openProject', () => this.open())
+    main.on('openProject', (_, path) => this.open(path))
 
     hotkey.on('left', this.selectPrevImage)
     hotkey.on('right', this.selectNextImage)

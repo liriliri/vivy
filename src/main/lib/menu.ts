@@ -1,4 +1,4 @@
-import { Menu, MenuItemConstructorOptions, app, shell } from 'electron'
+import { Menu, MenuItemConstructorOptions, app, ipcMain, shell } from 'electron'
 import * as webui from '../window/webui'
 import * as prompt from '../window/prompt'
 import * as model from '../window/model'
@@ -6,12 +6,16 @@ import * as download from '../window/download'
 import * as system from '../window/system'
 import * as terminal from '../window/terminal'
 import * as window from '../lib/window'
-import { isMac } from './util'
+import { isMac, tildify } from './util'
 import { t } from './language'
 import upperCase from 'licia/upperCase'
-import { getSettingsStore } from './store'
+import { getSettingsStore, getMainStore } from './store'
+import each from 'licia/each'
+import isEmpty from 'licia/isEmpty'
+import fs from 'fs-extra'
 
 const settingsStore = getSettingsStore()
+const mainStore = getMainStore()
 
 function getTemplate(): MenuItemConstructorOptions[] {
   const hideMenu = isMac()
@@ -82,6 +86,37 @@ function getTemplate(): MenuItemConstructorOptions[] {
     ],
   }
 
+  const recentProjects = mainStore.get('recentProjects')
+  const openRecentMenu: any = {
+    label: t('openRecent'),
+    submenu: [
+      {
+        label: t('clearRecent') + '...',
+        click() {
+          mainStore.set('recentProjects', [])
+          updateMenu()
+        },
+      },
+    ],
+  }
+
+  if (!isEmpty(recentProjects)) {
+    openRecentMenu.submenu.unshift({
+      type: 'separator',
+    })
+    each(recentProjects, (project: string) => {
+      if (!fs.existsSync(project)) {
+        return
+      }
+      openRecentMenu.submenu.unshift({
+        label: tildify(project),
+        click() {
+          window.sendTo('main', 'openProject', project)
+        },
+      })
+    })
+  }
+
   const file = {
     label: t('file'),
     submenu: [
@@ -99,6 +134,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
           window.sendTo('main', 'openProject')
         },
       },
+      openRecentMenu,
       {
         type: 'separator',
       },
@@ -195,8 +231,12 @@ function getTemplate(): MenuItemConstructorOptions[] {
   return template
 }
 
-export function init() {
-  const menu = Menu.buildFromTemplate(getTemplate())
+function updateMenu() {
+  Menu.setApplicationMenu(Menu.buildFromTemplate(getTemplate()))
+}
 
-  Menu.setApplicationMenu(menu)
+export function init() {
+  updateMenu()
+
+  ipcMain.handle('updateMenu', () => updateMenu())
 }

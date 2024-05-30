@@ -16,6 +16,7 @@ export const getMainStore = memoize(function () {
       width: 1280,
       height: 850,
     },
+    recentProjects: [],
   })
 })
 

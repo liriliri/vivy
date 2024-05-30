@@ -78,6 +78,7 @@ export default {
       template
     )
   },
+  updateMenu: () => ipcRenderer.invoke('updateMenu'),
   openImage: (data: string, name: string) => {
     ipcRenderer.invoke('openImage', data, name)
   },

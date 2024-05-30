@@ -201,6 +201,9 @@
   "proxyHost": "代理主机",
   "modelCopying": "模型复制中",
   "modelCopied": "模型复制完成",
+  "openRecent": "最近打开的工程",
+  "clearRecent": "清除最近打开的",
+  "pathNotExists": "不存在文件路径 “{{path}}”",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",

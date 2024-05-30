@@ -201,6 +201,9 @@
   "proxyHost": "Proxy Host",
   "modelCopying": "Model Copying",
   "modelCopied": "Model Copied",
+  "openRecent": "Open Recent",
+  "clearRecent": "Clear Recently Opened",
+  "pathNotExists": "The path '{{path}}' does not exists",
 
   "character": "Character",
   "camera": "Camera",
