@@ -16,6 +16,7 @@ await $`npm run build:renderer`
 
 await fs.copy('build', 'dist/build')
 await fs.copy('webui/env', 'dist/webui/env')
+await fs.copy('webui/script', 'dist/webui/script')
 await $`./dist/webui/env/install.mjs`
 cd('webui/stable-diffusion-webui')
 await $`git archive --format=zip --output=stable-diffusion-webui.zip origin/vivy`

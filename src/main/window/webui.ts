@@ -35,6 +35,7 @@ let subprocess: ChildProcessByStdio<null, Readable, Readable>
 
 export async function start() {
   let appDir = resolveUnpack('webui/stable-diffusion-webui')
+  const scriptDir = resolveUnpack('webui/script')
 
   const webUIPath = settingsStore.get('webUIPath')
   let useCustomWebUI = false
@@ -128,7 +129,7 @@ export async function start() {
     } else {
       const result: any = JSON.parse(
         await spawn('python', ['-u', 'devices.py'], {
-          cwd: appDir,
+          cwd: scriptDir,
           windowsHide: true,
           env,
         })
