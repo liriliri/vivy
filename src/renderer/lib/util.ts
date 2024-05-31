@@ -14,8 +14,8 @@ import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 import LunaNotification, { INotifyOptions } from 'luna-notification'
 import { isObservable, toJS } from 'mobx'
-import detectOs from 'licia/detectOs'
 import slugify from 'licia/slugify'
+import isWindows from 'licia/isWindows'
 
 const suggestionsZhCNLines = suggestionsZhCN.split('\n')
 
@@ -132,18 +132,10 @@ export async function setMemStore(name: string, val: any) {
   await main.setMemStore(name, isObservable(val) ? toJS(val) : val)
 }
 
-export function getPlatform() {
-  const os = detectOs()
-  if (os === 'os x') {
-    return 'mac'
-  }
-  return os
-}
-
 export function slugifyFileName(name: string) {
   let ret = slugify(name)
 
-  if (getPlatform() === 'windows') {
+  if (isWindows) {
     ret = ret.replace(/[/\\:*?"<>]/g, '-')
   }
 

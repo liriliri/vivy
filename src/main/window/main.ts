@@ -9,7 +9,7 @@ import * as model from '../lib/model'
 import convertBin from 'licia/convertBin'
 import os from 'os'
 import fs from 'fs-extra'
-import { isMac } from '../lib/util'
+import isMac from 'licia/isMac'
 import endWith from 'licia/endWith'
 
 const store = getMainStore()
@@ -55,7 +55,7 @@ export function showWin() {
 }
 
 let openProjectPath = ''
-if (isMac()) {
+if (isMac) {
   app.on('open-file', (_, path) => {
     if (!endWith(path, '.vivy')) {
       return
@@ -122,7 +122,7 @@ function initIpc() {
   ipcMain.handle('getDevices', () => webui.getDevices())
 
   ipcMain.handle('getOpenProjectPath', () => {
-    if (isMac()) {
+    if (isMac) {
       return openProjectPath
     }
   })

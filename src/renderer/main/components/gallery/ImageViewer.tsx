@@ -15,12 +15,13 @@ import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
-import { getPlatform, parseDataUrl, t, toDataUrl } from '../../../lib/util'
+import { parseDataUrl, t, toDataUrl } from '../../../lib/util'
 import { getImageName } from '../../lib/util'
 import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
 import FaceRestorationModal from './FaceRestorationModal'
 import contextMenu from '../../../lib/contextMenu'
+import isMac from 'licia/isMac'
 
 export default observer(function () {
   const { project } = store
@@ -58,9 +59,7 @@ export default observer(function () {
 
     const template: any[] = [
       {
-        label: t(
-          getPlatform() === 'mac' ? 'openWithPreview' : 'openWithImageViewer'
-        ),
+        label: t(isMac ? 'openWithPreview' : 'openWithImageViewer'),
         click: () => {
           const image = project.selectedImage!
           main.openImage(image.data, getImageName(image))

@@ -6,7 +6,8 @@ import * as download from '../window/download'
 import * as system from '../window/system'
 import * as terminal from '../window/terminal'
 import * as window from '../lib/window'
-import { isMac, tildify } from './util'
+import tildify from 'licia/tildify'
+import isMac from 'licia/isMac'
 import { t } from './language'
 import upperCase from 'licia/upperCase'
 import { getSettingsStore, getMainStore } from './store'
@@ -18,7 +19,7 @@ const settingsStore = getSettingsStore()
 const mainStore = getMainStore()
 
 function getTemplate(): MenuItemConstructorOptions[] {
-  const hideMenu = isMac()
+  const hideMenu = isMac
     ? [
         {
           type: 'separator',
@@ -122,14 +123,14 @@ function getTemplate(): MenuItemConstructorOptions[] {
     submenu: [
       {
         label: t('new') + '...',
-        accelerator: isMac() ? 'Cmd+N' : 'Ctrl+N',
+        accelerator: isMac ? 'Cmd+N' : 'Ctrl+N',
         click() {
           window.sendTo('main', 'newProject')
         },
       },
       {
         label: t('open') + '...',
-        accelerator: isMac() ? 'Cmd+O' : 'Ctrl+O',
+        accelerator: isMac ? 'Cmd+O' : 'Ctrl+O',
         click() {
           window.sendTo('main', 'openProject')
         },
@@ -140,14 +141,14 @@ function getTemplate(): MenuItemConstructorOptions[] {
       },
       {
         label: t('save'),
-        accelerator: isMac() ? 'Cmd+S' : 'Ctrl+S',
+        accelerator: isMac ? 'Cmd+S' : 'Ctrl+S',
         click() {
           window.sendTo('main', 'saveProject')
         },
       },
       {
         label: t('saveAs') + '...',
-        accelerator: isMac() ? 'Shift+Cmd+S' : 'Shift+Ctrl+S',
+        accelerator: isMac ? 'Shift+Cmd+S' : 'Shift+Ctrl+S',
         click() {
           window.sendTo('main', 'saveAsProject')
         },
@@ -221,7 +222,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
   }
 
   const template = [tools, help]
-  if (isMac()) {
+  if (isMac) {
     template.unshift(vivy, file, edit)
   } else {
     template.unshift(file)

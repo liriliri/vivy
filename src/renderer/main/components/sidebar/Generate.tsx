@@ -1,7 +1,7 @@
 import className from 'licia/className'
 import Style from './Generate.module.scss'
 import store from '../../store'
-import { getPlatform, t } from '../../../lib/util'
+import { t } from '../../../lib/util'
 import { observer } from 'mobx-react-lite'
 import clamp from 'licia/clamp'
 import toStr from 'licia/toStr'
@@ -15,6 +15,7 @@ import {
   checkPreprocessModel,
   downloadModels,
 } from '../../lib/model'
+import isMac from 'licia/isMac'
 
 export default observer(function Generate() {
   const batchSizeRef = useRef<HTMLDivElement>(null)
@@ -72,7 +73,7 @@ export default observer(function Generate() {
     contextMenu(
       {
         clientX: offset.left,
-        clientY: offset.top + offset.height + (getPlatform() === 'mac' ? 5 : 0),
+        clientY: offset.top + offset.height + (isMac ? 5 : 0),
       },
       template
     )

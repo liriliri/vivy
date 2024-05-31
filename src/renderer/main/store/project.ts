@@ -96,16 +96,15 @@ export class Project {
       runInAction(() => (this.schedulers = schedulers))
     }
 
+    const path = await main.getMainStore('projectPath')
+
     this.new()
 
     const openProjectPath = await main.getOpenProjectPath()
     if (openProjectPath) {
       this.open(openProjectPath)
-    } else {
-      const path = await main.getMainStore('projectPath')
-      if (path && node.existsSync(path)) {
-        this.open(path)
-      }
+    } else if (path && node.existsSync(path)) {
+      this.open(path)
     }
   }
   async fetchSamplers() {
@@ -320,6 +319,7 @@ export class Project {
   setPath(path: string) {
     this.path = path
     setMainStore('projectPath', path)
+    console.log('set project path', path)
   }
   new = async () => {
     if (!(await this.checkClose(t('closeUnsaveConfirm')))) {

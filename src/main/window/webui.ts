@@ -1,5 +1,6 @@
 import { BrowserWindow, app } from 'electron'
-import { resolveUnpack, isMac, getUserDataPath } from '../lib/util'
+import { resolveUnpack, getUserDataPath } from '../lib/util'
+import isMac from 'licia/isMac'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'
 import extend from 'licia/extend'
@@ -61,7 +62,7 @@ export async function start() {
     SD_WEBUI_RESTARTING: '1',
   }
 
-  if (isMac()) {
+  if (isMac) {
     extend(env, {
       PYTORCH_ENABLE_MPS_FALLBACK: '1',
     })
@@ -118,7 +119,7 @@ export async function start() {
     args.push('--no-gradio-queue')
   }
 
-  if (isMac()) {
+  if (isMac) {
     args.push('--upcast-sampling')
   }
 
@@ -149,7 +150,7 @@ export async function start() {
 
     if (device === 'cpu') {
       args.push('--use-cpu', 'all')
-    } else if (isMac()) {
+    } else if (isMac) {
       args.push('--use-cpu', 'interrogate')
     }
 
@@ -157,10 +158,10 @@ export async function start() {
       args.push('--device-id', device.slice(5))
     }
 
-    if (device === 'cpu' || isMac()) {
+    if (device === 'cpu' || isMac) {
       args.push('--no-half-vae', '--no-half')
     }
-  } else if (isMac()) {
+  } else if (isMac) {
     args.push('--use-cpu', 'interrogate')
     args.push('--no-half-vae', '--no-half')
   }

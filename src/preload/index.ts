@@ -2,7 +2,7 @@ import { contextBridge } from 'electron'
 import { Titlebar, TitlebarColor } from 'custom-electron-titlebar'
 import { colorBgContainer, colorBgContainerDark } from '../common/theme'
 import getUrlParam from 'licia/getUrlParam'
-import detectOs from 'licia/detectOs'
+import isMac from 'licia/isMac'
 import mainObj from './main'
 import nodeObj from './node'
 
@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   titleBar = new Titlebar({
     containerOverflow: 'hidden',
   })
-  if (getUrlParam('page') && detectOs() !== 'os x') {
+  if (getUrlParam('page') && !isMac) {
     document.body.classList.add('hide-cet-menubar')
   }
   updateTheme()

@@ -4,7 +4,6 @@ import { app, nativeTheme } from 'electron'
 import { fileURLToPath } from 'url'
 import { isDev } from '../../common/util'
 import splitPath from 'licia/splitPath'
-import os from 'os'
 
 // @ts-ignore
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -27,10 +26,6 @@ export function resolveUnpack(p) {
   return path
 }
 
-export function isMac() {
-  return process.platform === 'darwin'
-}
-
 export function getUserDataPath(p: string) {
   return path.resolve(app.getPath('appData'), 'vivy', p)
 }
@@ -46,15 +41,4 @@ export function getTheme() {
   }
 
   return nativeTheme.themeSource
-}
-
-const homeDir = os.homedir()
-export function tildify(p: string) {
-  const normalizedPath = path.normalize(p) + path.sep
-
-  return (
-    normalizedPath.startsWith(homeDir)
-      ? normalizedPath.replace(homeDir + path.sep, `~${path.sep}`)
-      : normalizedPath
-  ).slice(0, -1)
 }
