@@ -1,5 +1,3 @@
-import path from 'path'
-import { isDev } from '../../common/util'
 import { BrowserWindow, ipcMain } from 'electron'
 import { getTerminalStore } from '../lib/store'
 import * as window from '../lib/window'
@@ -36,15 +34,7 @@ export function showWin() {
     win = null
   })
 
-  if (isDev()) {
-    win.loadURL('http://localhost:8080/?page=terminal')
-  } else {
-    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
-      query: {
-        page: 'terminal',
-      },
-    })
-  }
+  window.loadPage(win, { page: 'terminal' })
 }
 
 const logs: string[] = []

@@ -54,6 +54,10 @@ function renderApp() {
       App = lazy(() => import('./painter/App.js') as Promise<any>)
       title = t(getUrlParam('mode') as string)
       break
+    case 'webui':
+      App = lazy(() => import('./webui/App.js') as Promise<any>)
+      title = 'Stable Diffusion web UI'
+      break
   }
   preload.setTitle(title)
 

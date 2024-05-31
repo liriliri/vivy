@@ -251,10 +251,8 @@ export function showWin() {
   }
   win = window.create({
     name: 'webui',
-    customTitlebar: false,
     minHeight: 850,
     minWidth: 1280,
-    preload: false,
     ...store.get('bounds'),
     maximized: store.get('maximized'),
     onSavePos: () => window.savePos(win, store, true),
@@ -263,7 +261,8 @@ export function showWin() {
     win?.destroy()
     win = null
   })
-  win.loadURL(`http://localhost:${getPort()}`)
+
+  window.loadPage(win, { page: 'webui' })
 }
 
 const cpuCount = os.cpus().length

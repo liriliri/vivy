@@ -1,5 +1,3 @@
-import path from 'path'
-import { isDev } from '../../common/util'
 import { BrowserWindow } from 'electron'
 import * as window from '../lib/window'
 import { getSettingsStore, getSystemStore } from '../lib/store'
@@ -38,13 +36,5 @@ export function showWin() {
     win = null
   })
 
-  if (isDev()) {
-    win.loadURL('http://localhost:8080/?page=system')
-  } else {
-    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
-      query: {
-        page: 'system',
-      },
-    })
-  }
+  window.loadPage(win, { page: 'system' })
 }

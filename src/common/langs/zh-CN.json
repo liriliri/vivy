@@ -87,6 +87,7 @@
   "empty": "空",
   "noModelsConfirm": "未检查到任何模型，至少需要添加一个模型。是否要下载基础模型？",
   "webUIErrConfirm": "Stable Diffusion web UI 出问题了。是否打开终端查看日志？",
+  "webUIErr": "Stable Diffusion web UI 出问题了",
   "requireReload": "需要重新启动",
   "translation": "翻译",
   "translationService": "翻译服务",

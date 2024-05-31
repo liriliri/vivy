@@ -1,6 +1,5 @@
 import { BrowserWindow, DownloadItem, ipcMain, session } from 'electron'
 import * as window from '../lib/window'
-import { isDev } from '../../common/util'
 import path from 'path'
 import { getDownloadStore } from '../lib/store'
 import { ModelType } from '../../common/types'
@@ -43,15 +42,7 @@ export function showWin() {
     win = null
   })
 
-  if (isDev()) {
-    win.loadURL('http://localhost:8080/?page=download')
-  } else {
-    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
-      query: {
-        page: 'download',
-      },
-    })
-  }
+  window.loadPage(win, { page: 'download' })
 }
 
 let downloadModelOptions: IDownloadModelOptions | null = null

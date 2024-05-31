@@ -1,5 +1,3 @@
-import path from 'path'
-import { isDev } from '../../common/util'
 import { BrowserWindow } from 'electron'
 import * as window from '../lib/window'
 import { getPromptStore } from '../lib/store'
@@ -27,13 +25,5 @@ export function showWin() {
     win = null
   })
 
-  if (isDev()) {
-    win.loadURL('http://localhost:8080/?page=prompt')
-  } else {
-    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
-      query: {
-        page: 'prompt',
-      },
-    })
-  }
+  window.loadPage(win, { page: 'prompt' })
 }

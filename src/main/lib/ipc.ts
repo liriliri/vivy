@@ -89,6 +89,9 @@ export function init() {
     window.sendAll('changeMemStore', name, val)
   })
 
+  ipcMain.handle('getWebUIPort', () => webui.getPort())
+  ipcMain.handle('isWebUIRunning', () => webui.isRunning())
+
   ipcMain.handle(
     'sendToWindow',
     (_, name: string, channel: string, ...args: any[]) => {

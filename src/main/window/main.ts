@@ -1,5 +1,4 @@
 import path from 'path'
-import { isDev } from '../../common/util'
 import { BrowserWindow, ipcMain, app, clipboard, shell } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
@@ -47,11 +46,7 @@ export function showWin() {
     }
   })
 
-  if (isDev()) {
-    win.loadURL('http://localhost:8080')
-  } else {
-    win.loadFile(path.resolve(__dirname, '../renderer/index.html'))
-  }
+  window.loadPage(win)
 }
 
 let openProjectPath = ''
@@ -117,8 +112,6 @@ function initIpc() {
     shell.openPath(p)
   })
 
-  ipcMain.handle('getWebUIPort', () => webui.getPort())
-  ipcMain.handle('isWebUIRunning', () => webui.isRunning())
   ipcMain.handle('getDevices', () => webui.getDevices())
 
   ipcMain.handle('getOpenProjectPath', () => {

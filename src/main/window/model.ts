@@ -1,5 +1,3 @@
-import path from 'path'
-import { isDev } from '../../common/util'
 import { BrowserWindow, ipcMain } from 'electron'
 import { getModelStore } from '../lib/store'
 import * as window from '../lib/window'
@@ -35,15 +33,7 @@ export function showWin() {
     win = null
   })
 
-  if (isDev()) {
-    win.loadURL('http://localhost:8080/?page=model')
-  } else {
-    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
-      query: {
-        page: 'model',
-      },
-    })
-  }
+  window.loadPage(win, { page: 'model' })
 }
 
 function initIpc() {

@@ -1,8 +1,6 @@
 import { BrowserWindow } from 'electron'
 import { getPainterStore } from '../lib/store'
 import * as window from '../lib/window'
-import { isDev } from '../../common/util'
-import path from 'path'
 
 const store = getPainterStore()
 
@@ -41,16 +39,7 @@ function loadUrl(mode: string) {
   currentMode = mode
 
   if (win) {
-    if (isDev()) {
-      win.loadURL(`http://localhost:8080/?page=painter&&mode=${mode}`)
-    } else {
-      win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
-        query: {
-          page: 'painter',
-          mode,
-        },
-      })
-    }
+    window.loadPage(win, { page: 'painter', mode })
   }
 }
 

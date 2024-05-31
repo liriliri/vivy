@@ -10,6 +10,9 @@ import { colorBgContainer, colorBgContainerDark } from '../../common/theme'
 import { getTheme } from './util'
 import isWindows from 'licia/isWindows'
 import debounce from 'licia/debounce'
+import { isDev } from '../../common/util'
+import isEmpty from 'licia/isEmpty'
+import query from 'licia/query'
 
 interface IWinOptions {
   name: string
@@ -124,6 +127,20 @@ export function sendTo(name: string, channel: string, ...args: any[]) {
   const win = getWin(name)
   if (win) {
     win.webContents.send(channel, ...args)
+  }
+}
+
+export function loadPage(win: BrowserWindow, q: types.PlainObj<string> = {}) {
+  if (isDev()) {
+    let url = 'http://localhost:8080/'
+    if (!isEmpty(q)) {
+      url += `?${query.stringify(q)}`
+    }
+    win.loadURL(url)
+  } else {
+    win.loadFile(path.resolve(__dirname, '../renderer/index.html'), {
+      query: q,
+    })
   }
 }
 
