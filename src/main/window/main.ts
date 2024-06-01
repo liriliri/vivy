@@ -10,6 +10,7 @@ import os from 'os'
 import fs from 'fs-extra'
 import isMac from 'licia/isMac'
 import endWith from 'licia/endWith'
+import { isDev } from '../../common/util'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -114,9 +115,29 @@ function initIpc() {
 
   ipcMain.handle('getDevices', () => webui.getDevices())
 
+  function getOpenProjectPathFromArgv(argv: string[]) {
+    for (let i = 0, len = argv.length; i < len; i++) {
+      const arg = argv[i]
+      if (endWith(arg, '.vivy')) {
+        return arg
+      }
+    }
+
+    return ''
+  }
+
   ipcMain.handle('getOpenProjectPath', () => {
     if (isMac) {
       return openProjectPath
+    }
+
+    return getOpenProjectPathFromArgv(process.argv)
+  })
+
+  app.on('second-instance', (_, argv) => {
+    const path = getOpenProjectPathFromArgv(argv)
+    if (path) {
+      window.sendTo('main', 'openProject', path)
     }
   })
 

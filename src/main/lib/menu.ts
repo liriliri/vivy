@@ -14,6 +14,7 @@ import { getSettingsStore, getMainStore } from './store'
 import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
 import fs from 'fs-extra'
+import isWindows from 'licia/isWindows'
 
 const settingsStore = getSettingsStore()
 const mainStore = getMainStore()
@@ -234,6 +235,9 @@ function getTemplate(): MenuItemConstructorOptions[] {
 
 function updateMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate(getTemplate()))
+  if (isWindows) {
+    window.sendTo('main', 'refreshMenu')
+  }
 }
 
 export function init() {
