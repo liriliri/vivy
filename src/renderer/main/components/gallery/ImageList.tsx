@@ -331,6 +331,7 @@ function Image(props: { image: IImage }) {
         }
       }}
       onClick={() => store.project.selectImage(image)}
+      onDoubleClick={() => main.openImage(image.data, getImageName(image))}
     >
       <img ref={imgRef} src={dataUrl} draggable={false} />
     </div>
