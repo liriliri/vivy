@@ -10,7 +10,6 @@ import os from 'os'
 import fs from 'fs-extra'
 import isMac from 'licia/isMac'
 import endWith from 'licia/endWith'
-import { isDev } from '../../common/util'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
