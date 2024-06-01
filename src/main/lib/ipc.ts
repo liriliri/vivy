@@ -27,6 +27,7 @@ export function init() {
   ipcMain.handle('showPainter', (_, mode: 'sketch' | 'mask') =>
     painter.showWin(mode)
   )
+  ipcMain.handle('showWebUI', () => webui.showWin())
   ipcMain.handle('closePainter', () => painter.closeWin())
   ipcMain.handle('showTerminal', () => terminal.showWin())
   ipcMain.handle('showDownload', () => download.showWin())

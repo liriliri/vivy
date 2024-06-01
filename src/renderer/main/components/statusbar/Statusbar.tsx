@@ -101,6 +101,15 @@ export default observer(function () {
       >
         <span className="icon-download"></span>
       </div>
+      {store.settings.enableWebUI && (
+        <div
+          className={className(Style.item, Style.button)}
+          title={'Stable Diffusion web UI'}
+          onClick={() => main.showWebUI()}
+        >
+          <span className="icon-web"></span>
+        </div>
+      )}
       {desc}
       <div className={Style.space}></div>
       {taskDuration}

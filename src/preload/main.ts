@@ -9,6 +9,7 @@ export default {
   showTerminal: () => ipcRenderer.invoke('showTerminal'),
   showDownload: () => ipcRenderer.invoke('showDownload'),
   getDownloads: () => ipcRenderer.invoke('getDownloads'),
+  showWebUI: () => ipcRenderer.invoke('showWebUI'),
   pauseDownload: (id: string) => ipcRenderer.invoke('pauseDownload', id),
   resumeDownload: (id: string) => ipcRenderer.invoke('resumeDownload', id),
   deleteDownload: (id: string) => ipcRenderer.invoke('deleteDownload', id),
