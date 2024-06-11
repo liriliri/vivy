@@ -26,7 +26,7 @@ export default function (props: IProps) {
   }
 
   return (
-    <LunaSettingHtml setting={props.setting}>
+    <LunaSettingHtml>
       <div className={Style.itemPath}>
         <div className="luna-setting-title">{props.title}</div>
         <div className="luna-setting-description"></div>
