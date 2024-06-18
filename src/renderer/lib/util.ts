@@ -1,7 +1,6 @@
 import types from 'licia/types'
 import I18n from 'licia/I18n'
 import defaults from 'licia/defaults'
-import isDataUrl from 'licia/isDataUrl'
 import suggestions from '../assets/suggestions.txt?raw'
 import each from 'licia/each'
 import map from 'licia/map'
@@ -31,22 +30,6 @@ export const i18n = new I18n('en-US', {
 
 export function t(path: string | string[], data?: types.PlainObj<any>) {
   return i18n.t(path, data)
-}
-
-export function parseDataUrl(dataUrl: string) {
-  const data = dataUrl.slice(dataUrl.indexOf('base64,') + 7)
-
-  return {
-    data,
-  }
-}
-
-export function toDataUrl(data: string, mime: string) {
-  if (isDataUrl(data)) {
-    return data
-  }
-
-  return `data:${mime};base64,${data}`
 }
 
 const suggestionLines = suggestions.split('\n')

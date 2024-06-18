@@ -1,11 +1,12 @@
 import LunaModal from 'luna-modal/react'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
-import { parseDataUrl, t } from '../../../lib/util'
+import { t } from '../../../lib/util'
 import { createImage } from '../../lib/util'
 import { Row, Number } from '../../../components/setting'
 import className from 'licia/className'
 import store from '../../store'
+import dataUrl from 'licia/dataUrl'
 
 interface IProps {
   visible: boolean
@@ -18,7 +19,7 @@ export default function NewImageModal(props: IProps) {
 
   const onClick = () => {
     const image = createImage(width, height)
-    store.project.setInitImage(parseDataUrl(image).data, 'image/png')
+    store.project.setInitImage(dataUrl.parse(image)!.data, 'image/png')
     props.onClose()
   }
 

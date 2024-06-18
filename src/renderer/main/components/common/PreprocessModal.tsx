@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
-import { notify, t, toDataUrl } from '../../../lib/util'
+import { notify, t } from '../../../lib/util'
 import { Number, Row, Select } from '../../../components/setting'
 import { useEffect, useRef, useState } from 'react'
 import className from 'licia/className'
@@ -31,6 +31,7 @@ import contain from 'licia/contain'
 import { checkPreprocessModel, downloadModels } from '../../lib/model'
 import map from 'licia/map'
 import range from 'licia/range'
+import dataUrl from 'licia/dataUrl'
 
 interface IProps {
   visible: boolean
@@ -204,9 +205,9 @@ export default observer(function PreprocessModal(props: IProps) {
 
   let image = ''
   if (processedImage.data) {
-    image = toDataUrl(processedImage.data, 'image/png')
+    image = dataUrl.stringify(processedImage.data, 'image/png')
   } else {
-    image = toDataUrl(props.image.data, props.image.info.mime)
+    image = dataUrl.stringify(props.image.data, props.image.info.mime)
   }
 
   const controlNetUnitBtns = map(range(3), (val) => {

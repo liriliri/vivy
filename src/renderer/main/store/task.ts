@@ -9,7 +9,6 @@ import {
 } from './types'
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import * as webui from '../../lib/webui'
-import { toDataUrl } from '../../lib/util'
 import { splitImage } from '../lib/util'
 import base64 from 'licia/base64'
 import trim from 'licia/trim'
@@ -17,6 +16,7 @@ import startWith from 'licia/startWith'
 import toNum from 'licia/toNum'
 import isEmpty from 'licia/isEmpty'
 import map from 'licia/map'
+import dataUrl from 'licia/dataUrl'
 
 export enum TaskStatus {
   Wait,
@@ -206,7 +206,7 @@ export class GenTask extends Task {
       if (current_image && current_image !== this.currentImage) {
         this.currentImage = current_image
         const images = await splitImage(
-          toDataUrl(current_image, 'image/png'),
+          dataUrl.stringify(current_image, 'image/png'),
           batchSize
         )
         for (let i = 0; i < batchSize; i++) {

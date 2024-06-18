@@ -3,8 +3,9 @@ import LunaCropper from 'luna-cropper/react'
 import Cropper from 'luna-cropper'
 import { createPortal } from 'react-dom'
 import { IImage } from '../../store/types'
-import { t, toDataUrl } from '../../../lib/util'
+import { t } from '../../../lib/util'
 import { useRef } from 'react'
+import dataUrl from 'licia/dataUrl'
 
 interface IProps {
   visible: boolean
@@ -31,7 +32,7 @@ export default function CropModal(props: IProps) {
       onClose={props.onClose}
     >
       <LunaCropper
-        image={toDataUrl(image.data, image.info.mime)}
+        image={dataUrl.stringify(image.data, image.info.mime)}
         style={{ height: 400 }}
         onCreate={(cropper) => (cropperRef.current = cropper)}
       />

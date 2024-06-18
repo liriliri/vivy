@@ -1,6 +1,6 @@
 import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { VivyFile } from '../lib/vivyFile'
-import { t, toDataUrl, notify, setMainStore, setMemStore } from '../../lib/util'
+import { t, notify, setMainStore, setMemStore } from '../../lib/util'
 import { blurAll, renderImageMask, toImage } from '../lib/util'
 import { IImage, IGenOptions, IImageInfo } from './types'
 import isEmpty from 'licia/isEmpty'
@@ -28,6 +28,7 @@ import range from 'licia/range'
 import isNum from 'licia/isNum'
 import some from 'licia/some'
 import unique from 'licia/unique'
+import dataUrl from 'licia/dataUrl'
 
 const CONTROL_NET_UNIT_COUNT = 3
 
@@ -526,7 +527,7 @@ export class Project {
       return
     }
 
-    const image = toDataUrl(initImage.data, initImage.info.mime)
+    const image = dataUrl.stringify(initImage.data, initImage.info.mime)
 
     if (initImageMask) {
       const preview = await renderImageMask(image, initImageMask)

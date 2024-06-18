@@ -15,13 +15,14 @@ import convertBin from 'licia/convertBin'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import defaultImage from '../../../assets/img/default.png'
 import defaultDarkImage from '../../../assets/img/default-dark.png'
-import { parseDataUrl, t, toDataUrl } from '../../../lib/util'
+import { t } from '../../../lib/util'
 import { getImageName } from '../../lib/util'
 import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
 import FaceRestorationModal from './FaceRestorationModal'
 import contextMenu from '../../../lib/contextMenu'
 import isMac from 'licia/isMac'
+import dataUrl from 'licia/dataUrl'
 
 export default observer(function () {
   const { project } = store
@@ -46,7 +47,7 @@ export default observer(function () {
   }
 
   const onCrop = (canvas: HTMLCanvasElement) => {
-    const { data } = parseDataUrl(canvas.toDataURL('image/png'))
+    const { data } = dataUrl.parse(canvas.toDataURL('image/png'))!
     store.project.addFiles([convertBin(data, 'Blob')])
   }
 
@@ -91,7 +92,7 @@ export default observer(function () {
 
   let image = store.theme === 'dark' ? defaultDarkImage : defaultImage
   if (project.selectedImage) {
-    image = toDataUrl(project.selectedImage.data, 'image/png')
+    image = dataUrl.stringify(project.selectedImage.data, 'image/png')
   }
 
   const arrowLeft = (

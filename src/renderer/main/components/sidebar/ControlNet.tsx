@@ -5,7 +5,7 @@ import map from 'licia/map'
 import store from '../../store'
 import { useRef, useState } from 'react'
 import toStr from 'licia/toStr'
-import { isFileDrop, notify, t, toDataUrl } from '../../../lib/util'
+import { isFileDrop, notify, t } from '../../../lib/util'
 import toNum from 'licia/toNum'
 import { Number, Row, Select } from '../../../components/setting'
 import className from 'licia/className'
@@ -25,6 +25,7 @@ import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
 import clamp from 'licia/clamp'
 import contain from 'licia/contain'
+import dataUrl from 'licia/dataUrl'
 
 export default observer(function ControlNet() {
   const { controlNetUnits, selectedControlNetUnit: selectedUnit } =
@@ -237,7 +238,7 @@ export default observer(function ControlNet() {
           onDragOver={onImageDragOver}
         >
           <LunaImageViewer
-            image={toDataUrl(
+            image={dataUrl.stringify(
               selectedUnit.image.data,
               selectedUnit.image.info.mime
             )}

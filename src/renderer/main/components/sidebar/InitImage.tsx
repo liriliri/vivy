@@ -5,13 +5,7 @@ import store from '../../store'
 import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
-import {
-  t,
-  notify,
-  toDataUrl,
-  isFileDrop,
-  parseDataUrl,
-} from '../../../lib/util'
+import { t, notify, isFileDrop } from '../../../lib/util'
 import { copyData } from '../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {
@@ -25,6 +19,7 @@ import contextMenu from '../../../lib/contextMenu'
 import convertBin from 'licia/convertBin'
 import NewImageModal from './NewImageModal'
 import { toJS } from 'mobx'
+import dataUrl from 'licia/dataUrl'
 
 export default observer(function InitImage() {
   const { project } = store
@@ -66,7 +61,7 @@ export default observer(function InitImage() {
       if (file) {
         const buf = await convertBin.blobToArrBuffer(file)
         project.setInitImageMask(
-          toDataUrl(convertBin(buf, 'base64'), file.type)
+          dataUrl.stringify(convertBin(buf, 'base64'), file.type)
         )
       }
     })
@@ -151,7 +146,7 @@ export default observer(function InitImage() {
   }
 
   const onCrop = (canvas: HTMLCanvasElement) => {
-    const { data } = parseDataUrl(canvas.toDataURL('image/png'))
+    const { data } = dataUrl.parse(canvas.toDataURL('image/png'))!
     store.project.updateInitImage(data, {
       width: canvas.width,
       height: canvas.height,

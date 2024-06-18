@@ -1,4 +1,3 @@
-import { toDataUrl } from '../../lib/util'
 import { loadImage } from './util'
 import trim from 'licia/trim'
 import map from 'licia/map'
@@ -13,6 +12,7 @@ import extract from 'png-chunks-extract'
 import replaceAll from 'licia/replaceAll'
 import exifr from 'exifr'
 import each from 'licia/each'
+import dataUrl from 'licia/dataUrl'
 
 interface IGenData {
   negativePrompt?: string
@@ -168,7 +168,7 @@ export async function parseImage(
   data: string,
   mime: string
 ): Promise<IImageGenData> {
-  const { width, height } = await loadImage(toDataUrl(data, mime))
+  const { width, height } = await loadImage(dataUrl.stringify(data, mime))
   const genData: IImageGenData = {
     width,
     height,

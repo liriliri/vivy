@@ -3,13 +3,14 @@ import truncate from 'licia/truncate'
 import loadImg from 'licia/loadImg'
 import convertBin from 'licia/convertBin'
 import isArrBuffer from 'licia/isArrBuffer'
-import { parseDataUrl, slugifyFileName } from '../../lib/util'
+import { slugifyFileName } from '../../lib/util'
 import isFile from 'licia/isFile'
 import isStr from 'licia/isStr'
 import fileType from 'licia/fileType'
 import startWith from 'licia/startWith'
 import { parseImage } from './genData'
 import uuid from 'licia/uuid'
+import dataUrl from 'licia/dataUrl'
 
 export function getImageName(image: IImage) {
   const ext = image.info.mime === 'image/jpeg' ? '.jpg' : '.png'
@@ -64,7 +65,7 @@ function getClippedRegion(image, x, y, width, height) {
 
   ctx!.drawImage(image, x, y, width, height, 0, 0, width, height)
 
-  const { data } = parseDataUrl(canvas.toDataURL())
+  const { data } = dataUrl.parse(canvas.toDataURL())!
 
   return data
 }

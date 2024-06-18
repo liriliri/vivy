@@ -1,6 +1,7 @@
 import { makeObservable, observable, runInAction } from 'mobx'
 import { IImage } from '../main/store/types'
-import { setMemStore, toDataUrl } from '../lib/util'
+import { setMemStore } from '../lib/util'
+import dataUrl from 'licia/dataUrl'
 
 class Store {
   image = ''
@@ -19,7 +20,7 @@ class Store {
     const initImage: IImage = await main.getMemStore('initImage')
     runInAction(() => {
       this.initImage = initImage
-      this.image = toDataUrl(initImage.data, initImage.info.mime)
+      this.image = dataUrl.stringify(initImage.data, initImage.info.mime)
     })
 
     const mask = await main.getMemStore('initImageMask')

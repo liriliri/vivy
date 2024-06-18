@@ -11,7 +11,7 @@ import openFile from 'licia/openFile'
 import { IImage } from '../../store/types'
 import { TaskStatus } from '../../store/task'
 import Style from './ImageList.module.scss'
-import { t, toDataUrl, notify, isFileDrop } from '../../../lib/util'
+import { t, notify, isFileDrop } from '../../../lib/util'
 import ToolbarIcon from '../../../components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
@@ -20,6 +20,7 @@ import contextMenu from '../../../lib/contextMenu'
 import { getImageName, copyData } from '../../lib/util'
 import map from 'licia/map'
 import range from 'licia/range'
+import dataUrl from 'licia/dataUrl'
 
 export default observer(function () {
   const { project } = store
@@ -44,7 +45,10 @@ export default observer(function () {
           <>
             <div className={Style.mask}></div>
             <div className={Style.progress}>{task.progress}%</div>
-            <img src={toDataUrl(image.data, 'image/png')} draggable={false} />
+            <img
+              src={dataUrl.stringify(image.data, 'image/png')}
+              draggable={false}
+            />
           </>
         )
       } else {
@@ -252,7 +256,7 @@ const ctx = canvas.getContext('2d')!
 
 function Image(props: { image: IImage }) {
   const { image } = props
-  const dataUrl = toDataUrl(image.data, 'image/png')
+  const src = dataUrl.stringify(image.data, 'image/png')
   const itemStyle = getItemStyle()
   const imgRef = useRef<HTMLImageElement>(null)
 
@@ -333,7 +337,7 @@ function Image(props: { image: IImage }) {
       onClick={() => store.project.selectImage(image)}
       onDoubleClick={() => main.openImage(image.data, getImageName(image))}
     >
-      <img ref={imgRef} src={dataUrl} draggable={false} />
+      <img ref={imgRef} src={src} draggable={false} />
     </div>
   )
 }
