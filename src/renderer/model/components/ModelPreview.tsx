@@ -1,6 +1,6 @@
 import store from '../store'
 import Style from './ModelPreview.module.scss'
-import { isFileDrop, notify, t, toDataUrl } from '../../lib/util'
+import { isFileDrop, notify, t } from '../../lib/util'
 import { observer } from 'mobx-react-lite'
 import LunaImageViewer from 'luna-image-viewer/react'
 import fileUrl from 'licia/fileUrl'
@@ -13,6 +13,7 @@ import startWith from 'licia/startWith'
 import openFile from 'licia/openFile'
 import isFile from 'licia/isFile'
 import isEmpty from 'licia/isEmpty'
+import dataUrl from 'licia/dataUrl'
 
 export default observer(function ModelPreview() {
   const modelPreviewRef = useRef<HTMLDivElement>(null)
@@ -75,7 +76,7 @@ export default observer(function ModelPreview() {
       return
     }
 
-    store.selectedModel.preview = toDataUrl(data, mime)
+    store.selectedModel.preview = dataUrl.stringify(data, mime)
     await main.setModelPreview(
       store.selectedType,
       store.selectedModel.name,
