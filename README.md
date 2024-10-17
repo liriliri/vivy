@@ -1,3 +1,3 @@
 # vivy
 
-Stable diffusion desktop application
+Stable diffusion desktop app.
