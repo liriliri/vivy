@@ -24,6 +24,7 @@ export default observer(function ModelList() {
           store.selectModel(model)
         }
       }}
+      selectable={true}
       onDeselect={() => store.selectModel()}
       columns={columns}
       minHeight={store.listHeight}

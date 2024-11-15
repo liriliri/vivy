@@ -25,7 +25,7 @@ class Store {
 
     const mask = await main.getMemStore('initImageMask')
     if (mask) {
-      runInAction(() => (this.mask = toDataUrl(mask, 'image/png')))
+      runInAction(() => (this.mask = mask))
     }
 
     this.isLoaded = true
