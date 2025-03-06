@@ -3,8 +3,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border-top: 1px solid var(--vivy-color-border);
-  background: var(--vivy-color-bg-container);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-container);
   max-height: calc(100vh - 202px);
   min-height: 100px;
   :global(.luna-image-viewer) {
@@ -13,7 +13,7 @@
     height: 100%;
   }
   &.highlight {
-    background: var(--vivy-color-primary-bg);
+    background: var(--color-primary-bg);
   }
 }
 

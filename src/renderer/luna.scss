@@ -1,9 +1,9 @@
 @import './theme';
 
 .luna-setting {
-  font-family: var(--vivy-font-family);
-  color: var(--vivy-color-text);
-  background: var(--vivy-color-bg-container);
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background: var(--color-bg-container);
 }
 
 .luna-setting-item {
@@ -19,12 +19,12 @@
 .luna-setting-item-select {
   .luna-setting-select {
     select {
-      color: var(--vivy-color-text);
-      border-color: var(--vivy-color-border);
-      background: var(--vivy-color-bg-container);
+      color: var(--color-text);
+      border-color: var(--color-border);
+      background: var(--color-bg-container);
     }
     &:after {
-      border-top-color: var(--vivy-color-text);
+      border-top-color: var(--color-text);
     }
   }
 }
@@ -32,15 +32,15 @@
 .luna-setting-item-button {
   button {
     color: #fff;
-    background: var(--vivy-color-primary);
+    background: var(--color-primary);
     border: none;
     padding: 2px 14px;
     font-size: 13px;
     &:hover {
-      background: var(--vivy-color-primary-hover);
+      background: var(--color-primary-hover);
     }
     &:active {
-      background: var(--vivy-color-primary-active);
+      background: var(--color-primary-active);
       border: none;
     }
   }
@@ -48,140 +48,140 @@
 
 .luna-setting-item-number {
   input[type='number'] {
-    background: var(--vivy-color-bg-container);
-    border-color: var(--vivy-color-border);
-    color: var(--vivy-color-text);
+    background: var(--color-bg-container);
+    border-color: var(--color-border);
+    color: var(--color-text);
   }
   .luna-setting-range-container {
     .luna-setting-range-track {
       .luna-setting-range-track-bar {
-        background: var(--vivy-color-border);
+        background: var(--color-border);
         .luna-setting-range-track-progress {
-          background: var(--vivy-color-primary);
+          background: var(--color-primary);
         }
       }
     }
     input::-webkit-slider-thumb {
-      border-color: var(--vivy-color-border);
-      background: var(--vivy-color-white);
+      border-color: var(--color-border);
+      background: var(--color-white);
     }
   }
 }
 
 .luna-setting-item-separator {
-  border-color: var(--vivy-color-border);
+  border-color: var(--color-border);
 }
 
 .luna-setting-item-input {
   input {
-    background: var(--vivy-color-bg-container);
-    border-color: var(--vivy-color-border);
-    color: var(--vivy-color-text);
+    background: var(--color-bg-container);
+    border-color: var(--color-border);
+    color: var(--color-text);
   }
 }
 
 .luna-image-viewer {
   border: none;
-  background: var(--vivy-color-bg-container);
+  background: var(--color-bg-container);
 }
 
 .luna-toolbar {
-  color: var(--vivy-color-text);
-  background: var(--vivy-color-bg-container);
-  border-bottom-color: var(--vivy-color-border);
+  color: var(--color-text);
+  background: var(--color-bg-container);
+  border-bottom-color: var(--color-border);
   .luna-toolbar-item-separator {
-    background: var(--vivy-color-border);
+    background: var(--color-border);
   }
   .luna-toolbar-item-button {
     button {
-      color: var(--vivy-color-text);
+      color: var(--color-text);
       &:hover,
       &.luna-toolbar-hover {
-        background: var(--vivy-color-fill-secondary);
-        border-color: var(--vivy-color-border);
+        background: var(--color-fill-secondary);
+        border-color: var(--color-border);
       }
       &:active,
       &.luna-toolbar-active {
-        border-color: var(--vivy-color-border);
-        background: var(--vivy-color-fill-tertiary);
+        border-color: var(--color-border);
+        background: var(--color-fill-tertiary);
       }
     }
   }
   .luna-toolbar-item-select {
     select {
-      color: var(--vivy-color-text);
-      background: var(--vivy-color-bg-container);
-      border-color: var(--vivy-color-border);
+      color: var(--color-text);
+      background: var(--color-bg-container);
+      border-color: var(--color-border);
     }
     &:after {
-      border-top-color: var(--vivy-color-text);
+      border-top-color: var(--color-text);
     }
   }
   .luna-toolbar-item-input {
     input {
-      background: var(--vivy-color-bg-container);
-      border-color: var(--vivy-color-border);
-      color: var(--vivy-color-text);
+      background: var(--color-bg-container);
+      border-color: var(--color-border);
+      color: var(--color-text);
     }
   }
   .luna-toolbar-item-number {
     input[type='number'] {
-      background: var(--vivy-color-bg-container);
-      border-color: var(--vivy-color-border);
-      color: var(--vivy-color-text);
+      background: var(--color-bg-container);
+      border-color: var(--color-border);
+      color: var(--color-text);
     }
   }
 }
 
 .luna-modal {
   top: 28px;
-  font-family: var(--vivy-font-family);
+  font-family: var(--font-family);
   z-index: $z-index-popup-base;
 }
 
 .luna-modal-body,
 .luna-modal-input {
-  color: var(--vivy-color-text);
-  background: var(--vivy-color-bg-container);
+  color: var(--color-text);
+  background: var(--color-bg-container);
 }
 
 .luna-modal-input {
   user-select: text !important;
-  border-color: var(--vivy-color-border);
+  border-color: var(--color-border);
 }
 
 .luna-modal-button-group {
   .luna-modal-secondary {
-    border-color: var(--vivy-color-border);
-    color: var(--vivy-color-text);
-    background: var(--vivy-color-bg-container);
+    border-color: var(--color-border);
+    color: var(--color-text);
+    background: var(--color-bg-container);
   }
   .luna-modal-primary {
-    background: var(--vivy-color-primary);
+    background: var(--color-primary);
   }
   .luna-modal-button {
     &:active {
       &::before {
-        background: var(--vivy-color-primary);
+        background: var(--color-primary);
       }
     }
   }
 }
 
 .luna-data-grid {
-  color: var(--vivy-color-text);
-  background: var(--vivy-color-bg-container);
-  border-color: var(--vivy-color-border);
+  color: var(--color-text);
+  background: var(--color-bg-container);
+  border-color: var(--color-border);
   &:focus {
     .luna-data-grid-data-container {
       .luna-data-grid-node.luna-data-grid-selected {
-        background: var(--vivy-color-primary);
+        background: var(--color-primary);
       }
     }
   }
   th,
   td {
-    border-color: var(--vivy-color-border);
+    border-color: var(--color-border);
   }
   th {
     background: var(--darker-background);
@@ -197,16 +197,16 @@
     .luna-data-grid-node.luna-data-grid-selected,
     .luna-data-grid-node.luna-data-grid-selectable:hover {
       color: #fff;
-      background: var(--vivy-color-primary);
+      background: var(--color-primary);
     }
     tr:nth-child(even) {
-      background: var(--vivy-color-fill-alter);
+      background: var(--color-fill-alter);
     }
   }
 }
 
 .luna-performance-monitor {
-  background: var(--vivy-color-bg-container) !important;
+  background: var(--color-bg-container) !important;
   box-shadow: none !important;
 }
 
@@ -216,84 +216,84 @@
 }
 
 .luna-notification-item {
-  font-family: var(--vivy-font-family);
+  font-family: var(--font-family);
   border-radius: 4px;
-  color: var(--vivy-color-text);
-  background: var(--vivy-color-bg-container);
-  box-shadow: var(--vivy-box-shadow);
+  color: var(--color-text);
+  background: var(--color-bg-container);
+  box-shadow: var(--box-shadow);
   padding: 5px 10px;
-  border: 1px solid var(--vivy-color-border);
+  border: 1px solid var(--color-border);
 }
 
 .luna-tab {
-  color: var(--vivy-color-text);
-  background: var(--vivy-color-bg-container);
+  color: var(--color-text);
+  background: var(--color-bg-container);
 }
 
 .luna-tab-tabs-container {
-  border-color: var(--vivy-color-border);
+  border-color: var(--color-border);
 }
 
 .luna-tab-item {
   &.luna-tab-selected,
   &:hover {
-    background: var(--vivy-color-fill-tertiary);
+    background: var(--color-fill-tertiary);
   }
 }
 
 .luna-tab-slider {
-  background: var(--vivy-color-primary);
+  background: var(--color-primary);
 }
 
 .luna-painter {
-  background: var(--vivy-color-bg-container);
-  border-color: var(--vivy-color-border);
-  color: var(--vivy-color-text);
+  background: var(--color-bg-container);
+  border-color: var(--color-border);
+  color: var(--color-text);
   .luna-painter-toolbar,
   .luna-painter-tool-box {
-    border-color: var(--vivy-color-border);
+    border-color: var(--color-border);
   }
   .luna-painter-tool {
     &:hover {
-      background: var(--vivy-color-fill-tertiary);
-      border-color: var(--vivy-color-border);
+      background: var(--color-fill-tertiary);
+      border-color: var(--color-border);
     }
     &.luna-painter-selected {
-      background: var(--vivy-color-fill-secondary);
-      border-color: var(--vivy-color-border);
+      background: var(--color-fill-secondary);
+      border-color: var(--color-border);
     }
   }
 }
 
 .luna-object-viewer {
-  color: var(--vivy-color-text);
+  color: var(--color-text);
   font-size: 12px !important;
 }
 .luna-object-viewer-null {
-  color: var(--vivy-color-text);
+  color: var(--color-text);
 }
 .luna-object-viewer-string,
 .luna-object-viewer-regexp {
-  color: var(--vivy-color-text);
+  color: var(--color-text);
 }
 .luna-object-viewer-number {
-  color: var(--vivy-color-text);
+  color: var(--color-text);
 }
 .luna-object-viewer-boolean {
-  color: var(--vivy-color-text);
+  color: var(--color-text);
 }
 .luna-object-viewer-special {
-  color: var(--vivy-color-text);
+  color: var(--color-text);
 }
 .luna-object-viewer-key,
 .luna-object-viewer-key-lighter {
-  color: var(--vivy-color-primary);
+  color: var(--color-primary);
 }
 .luna-object-viewer-expanded:before {
   border-color: transparent;
-  border-top-color: var(--vivy-color-text);
+  border-top-color: var(--color-text);
 }
 .luna-object-viewer-collapsed:before {
   border-top-color: transparent;
-  border-left-color: var(--vivy-color-text);
+  border-left-color: var(--color-text);
 }

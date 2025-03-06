@@ -1,6 +1,6 @@
 .image-list {
-  background: var(--vivy-color-bg-container);
-  border-top: 1px solid var(--vivy-color-border);
+  background: var(--color-bg-container);
+  border-top: 1px solid var(--color-border);
   position: relative;
   padding-top: 31px;
   min-height: 181px;
@@ -17,7 +17,7 @@
 }
 
 .toolbar {
-  background: var(--vivy-color-bg-container);
+  background: var(--color-bg-container);
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@
 }
 
 .highlight {
-  background: var(--vivy-color-primary-bg);
+  background: var(--color-primary-bg);
 }
 
 .no-images {
@@ -49,8 +49,8 @@
 .item {
   position: relative;
   float: left;
-  border: 1px solid var(--vivy-color-fill-tertiary);
-  background: var(--vivy-color-fill-tertiary);
+  border: 1px solid var(--color-fill-tertiary);
+  background: var(--color-fill-tertiary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,7 +65,7 @@
   .mask {
     position: absolute;
     opacity: 0.2;
-    background: var(--vivy-color-bg-container);
+    background: var(--color-bg-container);
     width: 100%;
     height: 100%;
     left: 0;
@@ -81,9 +81,9 @@
     z-index: 1;
   }
   &:hover {
-    background: var(--vivy-color-fill-secondary);
+    background: var(--color-fill-secondary);
   }
   &.selected {
-    border-color: var(--vivy-color-primary);
+    border-color: var(--color-primary);
   }
 }

@@ -8,10 +8,10 @@ body {
   margin: 0;
   overflow: hidden;
   font-size: 14px;
-  background-color: var(--vivy-color-bg-container);
-  font-family: var(--vivy-font-family);
+  background-color: var(--color-bg-container);
+  font-family: var(--font-family);
   user-select: none;
-  color: var(--vivy-color-text);
+  color: var(--color-text);
   cursor: default;
 }
 
@@ -22,7 +22,7 @@ body {
 
 @mixin prefix($declarations) {
   @each $property, $value in $declarations {
-    #{'--vivy-' + $property}: $value;
+    #{'--' + $property}: $value;
   }
 }
 
@@ -94,18 +94,18 @@ body {
   background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--vivy-color-fill-tertiary);
+  background-color: var(--color-fill-tertiary);
   background-clip: padding-box;
   border: solid transparent;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--vivy-color-fill-secondary);
+  background-color: var(--color-fill-secondary);
 }
 
 textarea {
   outline: none;
-  border: 1px solid var(--vivy-color-border);
+  border: 1px solid var(--color-border);
   border-radius: 4px;
 }
 
@@ -113,32 +113,32 @@ textarea {
   border: none;
   text-align: center;
   padding: 6px;
-  border-radius: var(--vivy-border-radius-s-m);
-  background: var(--vivy-color-fill-tertiary);
+  border-radius: var(--border-radius-s-m);
+  background: var(--color-fill-tertiary);
   &:hover {
-    background: var(--vivy-color-fill-secondary);
+    background: var(--color-fill-secondary);
   }
   &.disabled {
     pointer-events: none;
   }
   &.primary {
     color: #fff;
-    background: var(--vivy-color-primary);
+    background: var(--color-primary);
     &:hover {
-      background: var(--vivy-color-primary-hover);
+      background: var(--color-primary-hover);
     }
     &:active {
-      background: var(--vivy-color-primary-active);
+      background: var(--color-primary-active);
     }
   }
   &.success {
     color: #fff;
-    background: var(--vivy-color-success);
+    background: var(--color-success);
     &:hover {
-      background: var(--vivy-color-success-hover);
+      background: var(--color-success-hover);
     }
     &:active {
-      background: var(--vivy-color-success-active);
+      background: var(--color-success-active);
     }
   }
 }
@@ -206,7 +206,7 @@ textarea {
     }
     .cet-menubar-menu-container {
       border-radius: 0;
-      box-shadow: var(--vivy-box-shadow);
+      box-shadow: var(--box-shadow);
     }
     .cet-action-menu-item {
       margin: 0;

@@ -1,7 +1,7 @@
 .sidebar {
   position: relative;
-  background: var(--vivy-color-bg-container);
-  border-right: 1px solid var(--vivy-color-border);
+  background: var(--color-bg-container);
+  border-right: 1px solid var(--color-border);
   width: 400px;
   min-width: 350px;
   max-width: calc(100vw - 400px);
@@ -11,7 +11,7 @@
 .generate-basic {
   padding: 14px 8px;
   padding-top: 45px;
-  border-bottom: 1px solid var(--vivy-color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .generate-options {
