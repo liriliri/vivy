@@ -34,11 +34,3 @@ export function replaceExt(file, newExt) {
   const { ext } = splitPath(file)
   return file.replace(ext, newExt)
 }
-
-export function getTheme() {
-  if (nativeTheme.themeSource === 'system') {
-    return nativeTheme.shouldUseDarkColors ? 'dark' : 'light'
-  }
-
-  return nativeTheme.themeSource
-}
