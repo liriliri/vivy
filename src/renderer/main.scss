@@ -1,146 +1,57 @@
-@import './theme';
+@use 'sass:color';
+@use './theme' as *;
+@use '../share/renderer/mixin' as *;
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  overflow: hidden;
-  font-size: 14px;
-  background-color: var(--color-bg-container);
-  font-family: var(--font-family);
-  user-select: none;
-  color: var(--color-text);
-  cursor: default;
-}
-
-#app {
-  width: 100%;
-  height: 100%;
-}
-
-@mixin prefix($declarations) {
-  @each $property, $value in $declarations {
-    #{'--' + $property}: $value;
+@each $class in (':root', '.-theme-with-dark-background') {
+  #{$class} {
+    @if ($class == '.-theme-with-dark-background') {
+      color-scheme: dark;
+    }
+    @include theme-vars(
+      (
+        color-text,
+        color-primary,
+        color-primary-hover,
+        color-primary-active,
+        color-bg-container,
+        color-fill-secondary,
+        color-white,
+        color-success,
+        color-error,
+        color-error-bg,
+        color-fill-alter,
+        box-shadow,
+        color-bg-text-hover,
+        color-fill-tertiary,
+        color-success-hover,
+        color-success-active,
+        if(
+          $class == ':root',
+          (
+            color-primary-bg: color.adjust($color-primary, $lightness: 40%),
+            color-border: color.adjust($color-border, $lightness: 2%),
+            color-bg-container-darker:
+              color.adjust($color-bg-container, $lightness: -2%),
+            border-radius-x-s: #{$border-radius-x-s}px,
+            border-radius-s-m: #{$border-radius-s-m}px,
+          ),
+          (
+            color-primary-bg: color.adjust($color-primary, $lightness: -25%),
+            color-border: color.adjust($color-border-dark, $lightness: -8%),
+            color-bg-container-darker:
+              color.adjust($color-bg-container-dark, $lightness: -2%),
+          )
+        )
+      ),
+      if($class == ':root', 'light', 'dark')
+    );
   }
-}
-
-:root {
-  @include prefix(
-    (
-      font-family: $font-family,
-      color-text: $color-text,
-      color-primary: $color-primary,
-      color-primary-bg: lighten($color-primary, 60%),
-      color-primary-hover: $color-primary-hover,
-      color-primary-active: $color-primary-active,
-      color-border: lighten($color-border, 2%),
-      color-bg-container: $color-bg-container,
-      color-bg-container-darker: darken($color-bg-container, 2%),
-      color-fill-secondary: $color-fill-secondary,
-      color-white: $color-white,
-      color-success: $color-success,
-      color-error: $color-error,
-      color-error-bg: $color-error-bg,
-      color-fill-alter: $color-fill-alter,
-      box-shadow: $box-shadow,
-      color-bg-text-hover: $color-bg-text-hover,
-      color-fill-tertiary: $color-fill-tertiary,
-      color-success-hover: $color-success-hover,
-      color-success-active: $color-success-active,
-      border-radius-x-s: #{$border-radius-x-s}px,
-      border-radius-s-m: #{$border-radius-s-m}px,
-    )
-  );
-}
-
-.-theme-with-dark-background {
-  color-scheme: dark;
-  @include prefix(
-    (
-      color-text: $color-text-dark,
-      color-primary: $color-primary-dark,
-      color-primary-bg: darken($color-primary, 25%),
-      color-primary-hover: $color-primary-hover-dark,
-      color-primary-active: $color-primary-active-dark,
-      color-border: darken($color-border-dark, 8%),
-      color-bg-container: $color-bg-container-dark,
-      color-bg-container-darker: darken($color-bg-container-dark, 2%),
-      color-fill-secondary: $color-fill-secondary-dark,
-      color-success: $color-success-dark,
-      color-error: $color-error-dark,
-      color-error-bg: $color-error-bg-dark,
-      color-fill-alter: $color-fill-alter-dark,
-      box-shadow: $box-shadow-dark,
-      color-bg-text-hover: $color-bg-text-hover-dark,
-      color-fill-tertiary: $color-fill-tertiary-dark,
-      color-success-hover: $color-success-hover-dark,
-      color-success-active: $color-success-active-dark,
-    )
-  );
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background-clip: padding-box;
-  border: solid transparent;
-  border-width: 1px;
-}
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-fill-tertiary);
-  background-clip: padding-box;
-  border: solid transparent;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-fill-secondary);
 }
 
 textarea {
   outline: none;
   border: 1px solid var(--color-border);
   border-radius: 4px;
-}
-
-.button {
-  border: none;
-  text-align: center;
-  padding: 6px;
-  border-radius: var(--border-radius-s-m);
-  background: var(--color-fill-tertiary);
-  &:hover {
-    background: var(--color-fill-secondary);
-  }
-  &.disabled {
-    pointer-events: none;
-  }
-  &.primary {
-    color: #fff;
-    background: var(--color-primary);
-    &:hover {
-      background: var(--color-primary-hover);
-    }
-    &:active {
-      background: var(--color-primary-active);
-    }
-  }
-  &.success {
-    color: #fff;
-    background: var(--color-success);
-    &:hover {
-      background: var(--color-success-hover);
-    }
-    &:active {
-      background: var(--color-success-active);
-    }
-  }
 }
 
 .full-mode {
@@ -157,60 +68,8 @@ textarea {
   z-index: 500;
 }
 
-.hidden {
-  display: none;
-}
-
-.hide-cet-menubar {
-  .cet-menubar {
-    display: none;
-  }
-}
-
-.toolbar-icon {
-  display: flex;
-  width: 16px;
-  align-items: center;
-  justify-content: center;
-  span {
-    padding: 2px;
-  }
-}
-
-.modal-setting-row {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
 .modal-button {
   margin-top: 20px;
   width: 100%;
   padding: 12px 0;
-}
-
-.cet-titlebar {
-  .cet-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .cet-menubar {
-    .cet-menu-item-icon {
-      width: 0;
-    }
-    .cet-menubar-menu-button {
-      padding: 0;
-      .cet-menubar-menu-title {
-        padding: 0 8px;
-      }
-    }
-    .cet-menubar-menu-container {
-      border-radius: 0;
-      box-shadow: var(--box-shadow);
-    }
-    .cet-action-menu-item {
-      margin: 0;
-      border-radius: 0;
-    }
-  }
 }

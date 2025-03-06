@@ -1,6 +1,6 @@
 import path from 'path'
 import contain from 'licia/contain'
-import { app, nativeTheme } from 'electron'
+import { app } from 'electron'
 import { fileURLToPath } from 'url'
 import { isDev } from 'share/common/util'
 import splitPath from 'licia/splitPath'
