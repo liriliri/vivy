@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import { getTerminalStore } from '../lib/store'
-import * as window from '../lib/window'
+import * as window from 'share/main/lib/window'
 import isWindows from 'licia/isWindows'
 import contain from 'licia/contain'
 import isBuffer from 'licia/isBuffer'

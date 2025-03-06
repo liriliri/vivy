@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import { getModelStore } from '../lib/store'
-import * as window from '../lib/window'
+import * as window from 'share/main/lib/window'
 import { ModelType } from '../../common/types'
 import * as model from '../lib/model'
 

@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron'
-import * as window from '../lib/window'
+import * as window from 'share/main/lib/window'
 import { getPromptStore } from '../lib/store'
 
 const store = getPromptStore()

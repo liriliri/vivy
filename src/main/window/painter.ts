@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron'
 import { getPainterStore } from '../lib/store'
-import * as window from '../lib/window'
+import * as window from 'share/main/lib/window'
 
 const store = getPainterStore()
 

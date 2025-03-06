@@ -10,7 +10,7 @@ import { glob } from 'glob'
 import watcher from '@parcel/watcher'
 import startWith from 'licia/startWith'
 import mime from 'licia/mime'
-import * as window from './window'
+import * as window from 'share/main/lib/window'
 import { getUserDataPath, replaceExt } from './util'
 import isWindows from 'licia/isWindows'
 

@@ -1,5 +1,5 @@
 import { BrowserWindow, DownloadItem, ipcMain, session } from 'electron'
-import * as window from '../lib/window'
+import * as window from 'share/main/lib/window'
 import path from 'path'
 import { getDownloadStore } from '../lib/store'
 import { ModelType } from '../../common/types'

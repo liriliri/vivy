@@ -1,7 +1,7 @@
 import { ipcMain, nativeTheme } from 'electron'
 import { getSettingsStore } from './store'
 import { getTheme } from './util'
-import * as window from './window'
+import * as window from 'share/main/lib/window'
 
 type Theme = 'system' | 'light' | 'dark'
 

@@ -24,5 +24,8 @@ export default defineConfig({
   },
   resolve: {
     browserField: false,
+    alias: {
+      share: resolve(__dirname, 'src/share'),
+    },
   },
 })

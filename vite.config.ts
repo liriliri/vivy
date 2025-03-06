@@ -30,6 +30,11 @@ export default defineConfig(async (): Promise<UserConfig> => {
     define: {
       VIVY_VERSION: JSON.stringify(pkg.version),
     },
+    resolve: {
+      alias: {
+        share: path.resolve(__dirname, 'src/share'),
+      },
+    },
     // @ts-ignore
     test: {
       environment: 'jsdom',

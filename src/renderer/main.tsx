@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import { lazy } from 'react'
 import { i18n, t } from './lib/util'
-import { isDev } from '../common/util'
+import { isDev } from 'share/common/util'
 import hotKey from 'licia/hotkey'
 import getUrlParam from 'licia/getUrlParam'
 import './main.scss'
