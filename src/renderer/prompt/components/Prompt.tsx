@@ -13,11 +13,11 @@ import LunaToolbar, {
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
-import CopyButton from '../../components/CopyButton'
+import CopyButton from 'share/renderer/components/CopyButton'
 import { useRef, useState } from 'react'
 import className from 'licia/className'
 import { editor } from 'monaco-editor'
-import ToolbarIcon from '../../components/ToolbarIcon'
+import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
 import { t } from '../../../common/util'
 
 export default observer(function Prompt() {

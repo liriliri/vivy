@@ -9,7 +9,7 @@ import {
   checkGfpganModel,
   downloadModels,
 } from '../../lib/model'
-import { Row, Number } from '../../../components/setting'
+import { Row, Number } from 'share/renderer/components/setting'
 import { useState } from 'react'
 import className from 'licia/className'
 import { IImage } from '../../store/types'

@@ -11,8 +11,8 @@ import LunaToolbar, {
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
-import ToolbarIcon from '../../../components/ToolbarIcon'
-import CopyButton from '../../../components/CopyButton'
+import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
+import CopyButton from 'share/renderer/components/CopyButton'
 import PromptEditor, {
   copyPrompt,
   pastePrompt,

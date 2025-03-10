@@ -1,7 +1,7 @@
 import LunaToolbar from 'luna-toolbar/react'
 import { observer } from 'mobx-react-lite'
 import Style from './Toolbar.module.scss'
-import ToolbarIcon from '../../components/ToolbarIcon'
+import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
 import { t } from '../../../common/util'
 import AddDownloadModal from './AddDownloadModal'
 import { useState } from 'react'

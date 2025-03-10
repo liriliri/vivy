@@ -13,7 +13,7 @@ import LunaToolbar, {
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
-import ToolbarIcon from '../../../components/ToolbarIcon'
+import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
 import { useCallback, useRef, useState } from 'react'
 import CropModal from '../common/CropModal'
 import contextMenu from '../../../lib/contextMenu'

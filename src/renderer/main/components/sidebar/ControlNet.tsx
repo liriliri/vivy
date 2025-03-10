@@ -8,7 +8,7 @@ import toStr from 'licia/toStr'
 import { isFileDrop, notify } from '../../../lib/util'
 import { t } from '../../../../common/util'
 import toNum from 'licia/toNum'
-import { Number, Row, Select } from '../../../components/setting'
+import { Number, Row, Select } from 'share/renderer/components/setting'
 import className from 'licia/className'
 import InitImageStyle from './InitImage.module.scss'
 import { toJS } from 'mobx'
@@ -17,7 +17,7 @@ import LunaToolbar, {
   LunaToolbarSeparator,
   LunaToolbarSpace,
 } from 'luna-toolbar/react'
-import ToolbarIcon from '../../../components/ToolbarIcon'
+import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
 import openFile from 'licia/openFile'
 import ImageViewer from 'luna-image-viewer'
 import contextMenu from '../../../lib/contextMenu'

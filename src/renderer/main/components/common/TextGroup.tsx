@@ -1,5 +1,5 @@
 import Style from './TextGroup.module.scss'
-import CopyButton from '../../../components/CopyButton'
+import CopyButton from 'share/renderer/components/CopyButton'
 import copy from 'licia/copy'
 
 interface IProps {
