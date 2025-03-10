@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import { LoadingBar } from '../components/loading'
 import Style from './App.module.scss'
 import store from './store'
-import { t } from '../lib/util'
+import { t } from '../../common/util'
 import { useState } from 'react'
 
 export default observer(function App() {

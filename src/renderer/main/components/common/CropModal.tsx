@@ -3,7 +3,7 @@ import LunaCropper from 'luna-cropper/react'
 import Cropper from 'luna-cropper'
 import { createPortal } from 'react-dom'
 import { IImage } from '../../store/types'
-import { t } from '../../../lib/util'
+import { t } from '../../../../common/util'
 import { useRef } from 'react'
 import dataUrl from 'licia/dataUrl'
 

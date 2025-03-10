@@ -1,7 +1,7 @@
 import isEmpty from 'licia/isEmpty'
 import each from 'licia/each'
 import { observer } from 'mobx-react-lite'
-import { t } from '../../../lib/util'
+import { t } from '../../../../common/util'
 import store from '../../store'
 import { Select, Row, Number } from '../../../components/setting'
 import SettingStyle from '../../../components/setting.module.scss'

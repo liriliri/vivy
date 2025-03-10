@@ -1,6 +1,4 @@
 import types from 'licia/types'
-import I18n from 'licia/I18n'
-import defaults from 'licia/defaults'
 import suggestions from '../assets/suggestions.txt?raw'
 import each from 'licia/each'
 import map from 'licia/map'
@@ -8,29 +6,22 @@ import trim from 'licia/trim'
 import startWith from 'licia/startWith'
 import h from 'licia/h'
 import contain from 'licia/contain'
-import enUS from '../../common/langs/en-US.json'
-import zhCN from '../../common/langs/zh-CN.json'
 import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 import LunaNotification, { INotifyOptions } from 'luna-notification'
 import { isObservable, toJS } from 'mobx'
 import slugify from 'licia/slugify'
 import isWindows from 'licia/isWindows'
+import { i18n } from '../../common/util'
 
 const suggestionsZhCNLines = suggestionsZhCN.split('\n')
 
+const suggestionZhCN: types.PlainObj<string> = {}
 each(suggestionsZhCNLines, (line) => {
   const [key, translation] = line.split(',')
-  zhCN[`suggestion-${key}`] = translation
+  suggestionZhCN[`suggestion-${key}`] = translation
 })
 
-export const i18n = new I18n('en-US', {
-  'en-US': enUS,
-  'zh-CN': defaults(zhCN, enUS),
-})
-
-export function t(path: string | string[], data?: types.PlainObj<any>) {
-  return i18n.t(path, data)
-}
+i18n.set('zh-CN', suggestionZhCN)
 
 const suggestionLines = suggestions.split('\n')
 const suggestionDict = {}

@@ -1,6 +1,7 @@
 import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { VivyFile } from '../lib/vivyFile'
-import { t, notify, setMainStore, setMemStore } from '../../lib/util'
+import { notify, setMainStore, setMemStore } from '../../lib/util'
+import { t } from '../../../common/util'
 import { blurAll, renderImageMask, toImage } from '../lib/util'
 import { IImage, IGenOptions, IImageInfo } from './types'
 import isEmpty from 'licia/isEmpty'

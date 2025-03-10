@@ -1,7 +1,7 @@
 import LunaModal from 'luna-modal/react'
 import { observer } from 'mobx-react-lite'
 import { createPortal } from 'react-dom'
-import { t } from '../../../lib/util'
+import { t } from '../../../../common/util'
 import copy from 'licia/copy'
 import className from 'licia/className'
 import LunaDataGrid from 'luna-data-grid/react'

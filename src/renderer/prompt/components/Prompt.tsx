@@ -18,7 +18,7 @@ import { useRef, useState } from 'react'
 import className from 'licia/className'
 import { editor } from 'monaco-editor'
 import ToolbarIcon from '../../components/ToolbarIcon'
-import { t } from '../../lib/util'
+import { t } from '../../../common/util'
 
 export default observer(function Prompt() {
   const editorRef = useRef<editor.IStandaloneCodeEditor>()

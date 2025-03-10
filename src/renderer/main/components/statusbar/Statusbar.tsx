@@ -6,7 +6,7 @@ import truncate from 'licia/truncate'
 import store from '../../store'
 import { PropsWithChildren, useEffect, useState } from 'react'
 import ProgressBar from './ProgressBar'
-import { t } from '../../../lib/util'
+import { t } from '../../../../common/util'
 import now from 'licia/now'
 
 interface IStatusbarDescProps {

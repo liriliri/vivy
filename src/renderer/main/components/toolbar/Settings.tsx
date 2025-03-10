@@ -10,7 +10,8 @@ import LunaSetting, {
   LunaSettingSeparator,
   LunaSettingInput,
 } from 'luna-setting/react'
-import { notify, t } from '../../../lib/util'
+import { notify } from '../../../lib/util'
+import { t } from '../../../../common/util'
 import store from '../../../main/store'
 import Style from './Settings.module.scss'
 import each from 'licia/each'

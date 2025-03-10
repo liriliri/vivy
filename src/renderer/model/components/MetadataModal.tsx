@@ -1,7 +1,7 @@
 import LunaModal from 'luna-modal/react'
 import LunaObjectViewer from 'luna-object-viewer/react'
 import { createPortal } from 'react-dom'
-import { t } from '../../lib/util'
+import { t } from '../../../common/util'
 import store from '../store'
 import Style from './MetadataModal.module.scss'
 import className from 'licia/className'

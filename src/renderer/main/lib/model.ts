@@ -6,7 +6,8 @@ import isArr from 'licia/isArr'
 import toArr from 'licia/toArr'
 import flatten from 'licia/flatten'
 import startWith from 'licia/startWith'
-import { notify, t } from '../../lib/util'
+import { notify } from '../../lib/util'
+import { t } from '../../../common/util'
 
 const urls: types.PlainObj<string> = {
   'v1-5-pruned-emaonly':

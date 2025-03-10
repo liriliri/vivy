@@ -22,7 +22,7 @@ import {
   yellow8Dark,
 } from '../../common/theme'
 import * as prompt from '../lib/prompt'
-import { t } from '../lib/util'
+import { t } from '../../common/util'
 
 loader.config({ monaco })
 

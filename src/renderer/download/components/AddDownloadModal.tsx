@@ -1,7 +1,7 @@
 import LunaModal from 'luna-modal/react'
 import { observer } from 'mobx-react-lite'
 import { createPortal } from 'react-dom'
-import { t } from '../../lib/util'
+import { t } from '../../../common/util'
 import { Row, Textarea, Input, Select } from '../../components/setting'
 import { ModelType, modelTypes } from '../../../common/types'
 import className from 'licia/className'

@@ -1,7 +1,7 @@
 import LunaDataGrid from 'luna-data-grid/react'
 import Style from './ModelList.module.scss'
 import { observer } from 'mobx-react-lite'
-import { t } from '../../lib/util'
+import { t } from '../../../common/util'
 import store from '../store'
 import { IModel } from '../../../common/types'
 

@@ -1,7 +1,7 @@
 import LunaModal from 'luna-modal/react'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
-import { t } from '../../../lib/util'
+import { t } from '../../../../common/util'
 import { createImage } from '../../lib/util'
 import { Row, Number } from '../../../components/setting'
 import className from 'licia/className'
