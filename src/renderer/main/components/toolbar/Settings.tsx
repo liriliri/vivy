@@ -10,7 +10,7 @@ import LunaSetting, {
   LunaSettingSeparator,
   LunaSettingInput,
 } from 'luna-setting/react'
-import { notify } from '../../../lib/util'
+import { notify } from 'share/renderer/lib/util'
 import { t } from '../../../../common/util'
 import store from '../../../main/store'
 import Style from './Settings.module.scss'
@@ -155,7 +155,6 @@ export default observer(function Settings(props: IProps) {
         />
         <LunaSettingSeparator />
         <LunaSettingTitle title={t('network')} />
-        <LunaSettingSeparator />
         <LunaSettingSelect
           keyName="proxyMode"
           value={store.settings.proxyMode}

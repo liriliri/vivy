@@ -1,8 +1,7 @@
 import fs from 'fs-extra'
 import memoize from 'licia/memoize'
-import { getUserDataPath } from './util'
+import { getUserDataPath } from 'share/main/lib/util'
 import FileStore from 'licia/FileStore'
-import Store from 'licia/Store'
 
 fs.exists(getUserDataPath('data'), function (exists) {
   if (!exists) {
@@ -94,8 +93,4 @@ export const getPainterStore = memoize(function () {
       height: 640,
     },
   })
-})
-
-export const getMemStore = memoize(function () {
-  return new Store({})
 })

@@ -30,9 +30,9 @@ export default observer(function App() {
 
   useEffect(() => {
     const showAbout = () => setAboutVisible(true)
-    main.on('showAbout', showAbout)
+    const offShowAbout = main.on('showAbout', showAbout)
     return () => {
-      main.off('showAbout', showAbout)
+      offShowAbout()
     }
   }, [])
 

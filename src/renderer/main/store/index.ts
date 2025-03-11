@@ -21,14 +21,15 @@ import {
 import { UI, ImageModal } from './ui'
 import { Settings } from '../../store/settings'
 import LunaModal from 'luna-modal'
-import { notify, setMainStore } from '../../lib/util'
+import { setMainStore } from '../../lib/util'
+import { notify } from 'share/renderer/lib/util'
 import { t } from '../../../common/util'
 import { isEmptyMask } from '../lib/util'
 import { getModelUrl } from '../lib/model'
 import { ModelType } from '../../../common/types'
 import isEmpty from 'licia/isEmpty'
 import { Project } from './project'
-import BaseStore from '../../store/BaseStore'
+import BaseStore from 'share/renderer/store/BaseStore'
 
 interface IOptions {
   model: string
@@ -314,7 +315,7 @@ class Store extends BaseStore {
       main.quitApp()
     })
 
-    main.on('refreshModel', async (_, type: ModelType) => {
+    main.on('refreshModel', async (type: ModelType) => {
       switch (type) {
         case ModelType.StableDiffusion:
           await webui.refreshCheckpoints()
@@ -337,14 +338,14 @@ class Store extends BaseStore {
 
     main.on('webUIError', this.showWebUIErr)
 
-    main.on('setModel', async (_, model) => {
+    main.on('setModel', async (model) => {
       if (!isEmpty(this.tasks)) {
         return
       }
       await this.setOptions('model', model)
     })
 
-    main.on('setVae', async (_, vae) => {
+    main.on('setVae', async (vae) => {
       if (!isEmpty(this.tasks)) {
         return
       }

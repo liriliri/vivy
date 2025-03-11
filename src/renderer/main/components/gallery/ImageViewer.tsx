@@ -20,7 +20,7 @@ import { getImageName } from '../../lib/util'
 import CropModal from '../common/CropModal'
 import UpscaleModal from './UpscaleModal'
 import FaceRestorationModal from './FaceRestorationModal'
-import contextMenu from '../../../lib/contextMenu'
+import contextMenu from 'share/renderer/lib/contextMenu'
 import isMac from 'licia/isMac'
 import dataUrl from 'licia/dataUrl'
 

@@ -158,7 +158,7 @@ class Store {
     }
   }
   private bindEvent() {
-    main.on('refreshModel', (_, type: ModelType) => {
+    main.on('refreshModel', (type: ModelType) => {
       if (type === this.selectedType) {
         this.refresh()
       }

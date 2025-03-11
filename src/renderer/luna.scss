@@ -52,39 +52,21 @@
   }
 }
 
-.luna-data-grid {
-  color: var(--color-text);
-  background: var(--color-bg-container);
-  border-color: var(--color-border);
-  &:focus {
+@each $class in (':root', '.-theme-with-dark-background') {
+  #{$class} {
     .luna-data-grid-data-container {
-      .luna-data-grid-node.luna-data-grid-selected {
-        background: var(--color-primary);
+      .luna-data-grid-node.luna-data-grid-selected,
+      .luna-data-grid-node.luna-data-grid-selectable:hover {
+        background-color: if($class == ':root', #ddd, #393939);
+      }
+      tr:nth-child(even) {
+        background-color: if($class == ':root', #eff8fe, #03141f);
       }
     }
-  }
-  th,
-  td {
-    border-color: var(--color-border);
-  }
-  th {
-    background: var(--darker-background);
-    &.luna-data-grid-sortable {
-      &:hover,
-      &:active {
-        color: var(--select-foreground);
-        background: var(--highlight);
+    .luna-data-grid:focus {
+      .luna-data-grid-node.luna-data-grid-selectable.luna-data-grid-selected {
+        background-color: var(--color-primary);
       }
-    }
-  }
-  .luna-data-grid-data-container {
-    .luna-data-grid-node.luna-data-grid-selected,
-    .luna-data-grid-node.luna-data-grid-selectable:hover {
-      color: #fff;
-      background: var(--color-primary);
-    }
-    tr:nth-child(even) {
-      background: var(--color-fill-alter);
     }
   }
 }
@@ -99,33 +81,8 @@
 }
 
 .luna-notification-item {
-  font-family: var(--font-family);
   border-radius: 4px;
-  color: var(--color-text);
-  background: var(--color-bg-container);
-  box-shadow: var(--box-shadow);
   padding: 5px 10px;
-  border: 1px solid var(--color-border);
-}
-
-.luna-painter {
-  background: var(--color-bg-container);
-  border-color: var(--color-border);
-  color: var(--color-text);
-  .luna-painter-toolbar,
-  .luna-painter-tool-box {
-    border-color: var(--color-border);
-  }
-  .luna-painter-tool {
-    &:hover {
-      background: var(--color-fill-tertiary);
-      border-color: var(--color-border);
-    }
-    &.luna-painter-selected {
-      background: var(--color-fill-secondary);
-      border-color: var(--color-border);
-    }
-  }
 }
 
 .luna-object-viewer {

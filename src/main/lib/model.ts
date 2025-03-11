@@ -11,7 +11,8 @@ import watcher from '@parcel/watcher'
 import startWith from 'licia/startWith'
 import mime from 'licia/mime'
 import * as window from 'share/main/lib/window'
-import { getUserDataPath, replaceExt } from './util'
+import { replaceExt } from './util'
+import { getUserDataPath } from 'share/main/lib/util'
 import isWindows from 'licia/isWindows'
 
 const settingsStore = getSettingsStore()

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite'
 import clamp from 'licia/clamp'
 import toStr from 'licia/toStr'
 import $ from 'licia/$'
-import contextMenu from '../../../lib/contextMenu'
+import contextMenu from 'share/renderer/lib/contextMenu'
 import { useRef } from 'react'
 import times from 'licia/times'
 import {

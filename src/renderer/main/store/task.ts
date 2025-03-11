@@ -256,7 +256,7 @@ export class UpscaleImgTask extends Task {
   async run() {
     const { upscaleImgOptions } = this
     this.status = TaskStatus.Generating
-    main.on('addLog', this.getProgress)
+    const offAddLog = main.on('addLog', this.getProgress)
     const result = await webui.extraSingle({
       image: upscaleImgOptions.image,
       upscaling_resize_w: upscaleImgOptions.width,
@@ -267,7 +267,7 @@ export class UpscaleImgTask extends Task {
     })
     this.progress = 100
     this.status = TaskStatus.Success
-    main.off('addLog', this.getProgress)
+    offAddLog()
     const image = this.images[0]
     image.data = result.images[0]
     image.info.size = base64.decode(image.data).length

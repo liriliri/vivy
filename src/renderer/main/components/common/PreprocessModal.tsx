@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
-import { notify } from '../../../lib/util'
+import { notify } from 'share/renderer/lib/util'
 import { t } from '../../../../common/util'
 import { Number, Row, Select } from 'share/renderer/components/setting'
 import { useEffect, useRef, useState } from 'react'

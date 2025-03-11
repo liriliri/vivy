@@ -1,5 +1,5 @@
 import { BrowserWindow, app } from 'electron'
-import { resolveUnpack, getUserDataPath } from '../lib/util'
+import { resolveUnpack, getUserDataPath } from 'share/main/lib/util'
 import isMac from 'licia/isMac'
 import getFreePort from 'licia/getPort'
 import toStr from 'licia/toStr'

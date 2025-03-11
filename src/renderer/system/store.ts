@@ -1,4 +1,4 @@
-import BaseStore from '../store/BaseStore'
+import BaseStore from 'share/renderer/store/BaseStore'
 import { Settings } from '../store/settings'
 
 class Store extends BaseStore {

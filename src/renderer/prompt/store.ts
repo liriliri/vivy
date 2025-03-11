@@ -1,5 +1,5 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
-import BaseStore from '../store/BaseStore'
+import BaseStore from 'share/renderer/store/BaseStore'
 import tags from '../assets/tags.json'
 import keys from 'licia/keys'
 import * as prompt from '../lib/prompt'
@@ -9,7 +9,8 @@ import shuffle from 'licia/shuffle'
 import random from 'licia/random'
 import randomItem from 'licia/randomItem'
 import { editor } from 'monaco-editor'
-import { searchTags, setMemStore } from '../lib/util'
+import { searchTags } from '../lib/util'
+import { setMemStore } from 'share/renderer/lib/util'
 
 class Store extends BaseStore {
   prompt = ''
@@ -80,7 +81,7 @@ class Store extends BaseStore {
     this.search('')
   }
   private bindEvent() {
-    main.on('changeMemStore', (_, name, val) => {
+    main.on('changeMemStore', (name, val) => {
       if (name === 'prompt') {
         runInAction(() => {
           if (now() - this.setPromptTime < 500) {

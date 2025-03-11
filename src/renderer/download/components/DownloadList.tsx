@@ -8,7 +8,7 @@ import store from '../store'
 import { t } from '../../../common/util'
 import LunaModal from 'luna-modal'
 import copy from 'licia/copy'
-import contextMenu from '../../lib/contextMenu'
+import contextMenu from 'share/renderer/lib/contextMenu'
 
 export default observer(function DownloadList() {
   const downloads = map(store.downloads, (download) => {

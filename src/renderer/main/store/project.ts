@@ -1,6 +1,7 @@
 import { action, makeObservable, observable, reaction, runInAction } from 'mobx'
 import { VivyFile } from '../lib/vivyFile'
-import { notify, setMainStore, setMemStore } from '../../lib/util'
+import { setMainStore } from '../../lib/util'
+import { notify, setMemStore } from 'share/renderer/lib/util'
 import { t } from '../../../common/util'
 import { blurAll, renderImageMask, toImage } from '../lib/util'
 import { IImage, IGenOptions, IImageInfo } from './types'
@@ -543,7 +544,7 @@ export class Project {
     })
   }
   private bindEvent() {
-    main.on('changeMemStore', (_, name, val) => {
+    main.on('changeMemStore', (name, val) => {
       switch (name) {
         case 'prompt':
           if (this.prompt !== val) {
@@ -568,7 +569,7 @@ export class Project {
     main.on('saveProject', this.save)
     main.on('saveAsProject', this.saveAs)
     main.on('newProject', this.new)
-    main.on('openProject', (_, path) => this.open(path))
+    main.on('openProject', (path) => this.open(path))
 
     hotkey.on('left', this.selectPrevImage)
     hotkey.on('right', this.selectNextImage)

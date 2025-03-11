@@ -1,8 +1,9 @@
-import { ipcRenderer, OpenDialogOptions, SaveDialogOptions } from 'electron'
+import { ipcRenderer } from 'electron'
 import { ModelType } from '../common/types'
-import types from 'licia/types'
+import extend from 'licia/extend'
+import mainObj from 'share/preload/main'
 
-export default {
+export default extend(mainObj, {
   getWebUIPort: () => ipcRenderer.invoke('getWebUIPort'),
   isWebUIRunning: () => ipcRenderer.invoke('isWebUIRunning'),
   getDevices: () => ipcRenderer.invoke('getDevices'),
@@ -31,26 +32,15 @@ export default {
   clearLogs: () => ipcRenderer.invoke('clearLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
   setMainStore: (name, val) => ipcRenderer.invoke('setMainStore', name, val),
-  getMemStore: (name) => ipcRenderer.invoke('getMemStore', name),
-  setMemStore: (name, val) => ipcRenderer.invoke('setMemStore', name, val),
   getModelStore: (name) => ipcRenderer.invoke('getModelStore', name),
   setModelStore: (name, val) => ipcRenderer.invoke('setModelStore', name, val),
   getSettingsStore: (name) => ipcRenderer.invoke('getSettingsStore', name),
   setSettingsStore: (name, val) => {
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
-  getLanguage: () => ipcRenderer.invoke('getLanguage'),
-  getTheme: () => ipcRenderer.invoke('getTheme'),
   readClipboardImage: () => ipcRenderer.invoke('readClipboardImage'),
-  showOpenDialog: (options: OpenDialogOptions = {}) => {
-    return ipcRenderer.invoke('showOpenDialog', options)
-  },
-  showSaveDialog: (options: SaveDialogOptions = {}) => {
-    return ipcRenderer.invoke('showSaveDialog', options)
-  },
   getCpuAndRam: () => ipcRenderer.invoke('getCpuAndRam'),
   translate: (text) => ipcRenderer.invoke('translate', text),
-  relaunch: () => ipcRenderer.invoke('relaunch'),
   getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),
   openModelDir: (type: ModelType) => ipcRenderer.invoke('openModelDir', type),
   deleteModel: (type: ModelType, name: string) => {
@@ -71,22 +61,9 @@ export default {
   openFileInFolder: (path: string) =>
     ipcRenderer.invoke('openFileInFolder', path),
   quitApp: () => ipcRenderer.invoke('quitApp'),
-  showContextMenu: (x: number, y: number, template: any) => {
-    ipcRenderer.invoke(
-      'showContextMenu',
-      Math.round(x),
-      Math.round(y),
-      template
-    )
-  },
   updateMenu: () => ipcRenderer.invoke('updateMenu'),
   getOpenProjectPath: () => ipcRenderer.invoke('getOpenProjectPath'),
   openImage: (data: string, name: string) => {
     ipcRenderer.invoke('openImage', data, name)
   },
-  sendToWindow: (name: string, channel: string, ...args: any[]) => {
-    ipcRenderer.invoke('sendToWindow', name, channel, ...args)
-  },
-  on: (event: string, cb: types.AnyFn) => ipcRenderer.on(event, cb),
-  off: (event: string, cb: types.AnyFn) => ipcRenderer.off(event, cb),
-}
+})

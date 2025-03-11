@@ -1,6 +1,6 @@
 import { makeObservable, observable, runInAction } from 'mobx'
 import { IImage } from '../main/store/types'
-import { setMemStore } from '../lib/util'
+import { setMemStore } from 'share/renderer/lib/util'
 import dataUrl from 'licia/dataUrl'
 
 class Store {

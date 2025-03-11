@@ -1,6 +1,6 @@
 import store from '../store'
 import Style from './ModelPreview.module.scss'
-import { isFileDrop, notify } from '../../lib/util'
+import { notify, isFileDrop } from 'share/renderer/lib/util'
 import { t } from '../../../common/util'
 import { observer } from 'mobx-react-lite'
 import LunaImageViewer from 'luna-image-viewer/react'

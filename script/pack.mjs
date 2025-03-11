@@ -56,6 +56,7 @@ const config = {
     '!**/env/Library/lib/tcl*',
   ],
   asarUnpack: ['webui/**/*'],
+  artifactName: '${productName}-${version}-${os}-${arch}.${ext}',
   fileAssociations: {
     ext: 'vivy',
   },

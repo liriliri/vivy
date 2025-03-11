@@ -17,7 +17,7 @@ import {
 } from '../../../common/theme'
 import store from '../store'
 import 'xterm/css/xterm.css'
-import contextMenu from '../../lib/contextMenu'
+import contextMenu from 'share/renderer/lib/contextMenu'
 import { t } from '../../../common/util'
 import copy from 'licia/copy'
 
@@ -52,7 +52,7 @@ export default observer(function () {
     main.getLogs().then((logs: string[]) => {
       each(logs, (log) => write(log))
     })
-    main.on('addLog', (event, log) => write(log))
+    main.on('addLog', (log) => write(log))
 
     termRef.current = term
 

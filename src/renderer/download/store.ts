@@ -32,12 +32,12 @@ class Store {
     })
   }
   private bindEvent() {
-    main.on('addDownload', (event, download) => {
+    main.on('addDownload', (download) => {
       runInAction(() => {
         this.downloads.push(download)
       })
     })
-    main.on('updateDownload', (event, download) => {
+    main.on('updateDownload', (download) => {
       const { downloads } = this
       const { id } = download
       for (let i = 0, len = downloads.length; i < len; i++) {
@@ -49,7 +49,7 @@ class Store {
         }
       }
     })
-    main.on('deleteDownload', (event, id) => {
+    main.on('deleteDownload', (id) => {
       runInAction(() => {
         remove(this.downloads, (download) => download.id === id)
       })

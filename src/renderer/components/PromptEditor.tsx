@@ -4,7 +4,8 @@ import { editor } from 'monaco-editor'
 import * as monaco from 'monaco-editor'
 import map from 'licia/map'
 import copy from 'licia/copy'
-import { getSuggestions, notify } from '../lib/util'
+import { getSuggestions } from '../lib/util'
+import { notify } from 'share/renderer/lib/util'
 import {
   blue10,
   blue10Dark,

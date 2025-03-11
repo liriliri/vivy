@@ -139,10 +139,4 @@ function initIpc() {
       window.sendTo('main', 'openProject', path)
     }
   })
-
-  ipcMain.handle('relaunch', () => {
-    webui.quit()
-    app.relaunch()
-    app.exit()
-  })
 }

@@ -1,6 +1,6 @@
 import Painter, { Zoom, Hand } from 'luna-painter'
 import { IImage } from '../../main/store/types'
-import { setMemStore } from '../../lib/util'
+import { setMemStore } from 'share/renderer/lib/util'
 import debounce from 'licia/debounce'
 import LunaPainter from 'luna-painter/react'
 import dataUrl from 'licia/dataUrl'

@@ -1,5 +1,5 @@
 import { makeObservable, observable, runInAction } from 'mobx'
-import BaseStore from '../store/BaseStore'
+import BaseStore from 'share/renderer/store/BaseStore'
 import * as webui from '../lib/webui'
 
 class Store extends BaseStore {

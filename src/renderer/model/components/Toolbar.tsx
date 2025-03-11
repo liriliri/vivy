@@ -8,7 +8,7 @@ import LunaToolbar, {
 import Style from './Toolbar.module.scss'
 import store from '../store'
 import { ModelType, modelTypes } from '../../../common/types'
-import { notify } from '../../lib/util'
+import { notify } from 'share/renderer/lib/util'
 import { t } from '../../../common/util'
 import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
 import toBool from 'licia/toBool'
