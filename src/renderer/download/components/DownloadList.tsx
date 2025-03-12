@@ -98,7 +98,7 @@ export default observer(function DownloadList() {
               <div
                 className={Style.control}
                 onClick={() => {
-                  main.openFileInFolder(download.path)
+                  main.showItemInFolder(download.path)
                 }}
               >
                 <span className="icon-open-file"></span>

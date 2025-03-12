@@ -1,4 +1,4 @@
-import { Menu, MenuItemConstructorOptions, app, ipcMain, shell } from 'electron'
+import { Menu, MenuItemConstructorOptions, app, shell } from 'electron'
 import * as webui from '../window/webui'
 import * as prompt from '../window/prompt'
 import * as model from '../window/model'
@@ -15,6 +15,7 @@ import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
 import fs from 'fs-extra'
 import isWindows from 'licia/isWindows'
+import { handleEvent } from 'share/main/lib/util'
 
 const settingsStore = getSettingsStore()
 const mainStore = getMainStore()
@@ -243,5 +244,5 @@ function updateMenu() {
 export function init() {
   updateMenu()
 
-  ipcMain.handle('updateMenu', () => updateMenu())
+  handleEvent('updateMenu', () => updateMenu())
 }

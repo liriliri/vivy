@@ -1,6 +1,6 @@
 import { contextBridge } from 'electron'
 import mainObj from './main'
-import nodeObj from './node'
+import nodeObj from 'share/preload/node'
 import preloadObj from 'share/preload/preload'
 
 contextBridge.exposeInMainWorld('preload', preloadObj)

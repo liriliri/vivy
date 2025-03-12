@@ -1,4 +1,4 @@
-import { app, ipcMain, shell } from 'electron'
+import { app } from 'electron'
 import * as download from '../window/download'
 import * as webui from '../window/webui'
 import * as terminal from '../window/terminal'
@@ -9,28 +9,27 @@ import * as painter from '../window/painter'
 import each from 'licia/each'
 import uuid from 'licia/uuid'
 import * as ipc from 'share/main/lib/ipc'
+import { handleEvent } from 'share/main/lib/util'
 
 export function init() {
   ipc.init()
 
-  ipcMain.handle('showSystem', () => system.showWin())
-  ipcMain.handle('showPrompt', () => prompt.showWin())
-  ipcMain.handle('showPainter', (_, mode: 'sketch' | 'mask') =>
-    painter.showWin(mode)
-  )
-  ipcMain.handle('showWebUI', () => webui.showWin())
-  ipcMain.handle('closePainter', () => painter.closeWin())
-  ipcMain.handle('showTerminal', () => terminal.showWin())
-  ipcMain.handle('showDownload', () => download.showWin())
-  ipcMain.handle('showModel', () => model.showWin())
-  ipcMain.handle('downloadModel', (_, options) =>
+  handleEvent('showSystem', () => system.showWin())
+  handleEvent('showPrompt', () => prompt.showWin())
+  handleEvent('showPainter', (mode: 'sketch' | 'mask') => painter.showWin(mode))
+  handleEvent('showWebUI', () => webui.showWin())
+  handleEvent('closePainter', () => painter.closeWin())
+  handleEvent('showTerminal', () => terminal.showWin())
+  handleEvent('showDownload', () => download.showWin())
+  handleEvent('showModel', () => model.showWin())
+  handleEvent('downloadModel', (options) =>
     download.downloadModel({
       id: uuid(),
       ...options,
     })
   )
   let cpuAndRamCache: any = null
-  ipcMain.handle('getCpuAndRam', async () => {
+  handleEvent('getCpuAndRam', async () => {
     if (cpuAndRamCache) {
       return cpuAndRamCache
     }
@@ -56,13 +55,7 @@ export function init() {
 
     return cpuAndRamCache
   })
-  ipcMain.handle('openFile', (_, path: string) => {
-    shell.openPath(path)
-  })
-  ipcMain.handle('openFileInFolder', (_, path: string) => {
-    shell.showItemInFolder(path)
-  })
 
-  ipcMain.handle('getWebUIPort', () => webui.getPort())
-  ipcMain.handle('isWebUIRunning', () => webui.isRunning())
+  handleEvent('getWebUIPort', () => webui.getPort())
+  handleEvent('isWebUIRunning', () => webui.isRunning())
 }

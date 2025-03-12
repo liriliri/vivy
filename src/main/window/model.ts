@@ -1,8 +1,9 @@
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow } from 'electron'
 import { getModelStore } from '../lib/store'
 import * as window from 'share/main/lib/window'
 import { ModelType } from '../../common/types'
 import * as model from '../lib/model'
+import { handleEvent } from 'share/main/lib/util'
 
 const store = getModelStore()
 
@@ -37,19 +38,19 @@ export function showWin() {
 }
 
 function initIpc() {
-  ipcMain.handle('setModelStore', (_, name, val) => store.set(name, val))
-  ipcMain.handle('getModelStore', (_, name) => store.get(name))
-  ipcMain.handle('getModels', (_, type: ModelType) => model.getModels(type))
-  ipcMain.handle('openModelDir', (_, type: ModelType) => model.openDir(type))
-  ipcMain.handle('deleteModel', (_, type: ModelType, name: string) => {
+  handleEvent('setModelStore', (name, val) => store.set(name, val))
+  handleEvent('getModelStore', (name) => store.get(name))
+  handleEvent('getModels', (type: ModelType) => model.getModels(type))
+  handleEvent('openModelDir', (type: ModelType) => model.openDir(type))
+  handleEvent('deleteModel', (type: ModelType, name: string) => {
     return model.deleteModel(type, name)
   })
-  ipcMain.handle('addModel', (_, type: ModelType, filePath: string) => {
+  handleEvent('addModel', (type: ModelType, filePath: string) => {
     return model.addModel(type, filePath)
   })
-  ipcMain.handle(
+  handleEvent(
     'setModelPreview',
-    (_, type: ModelType, name: string, data: string, mimeType: string) => {
+    (type: ModelType, name: string, data: string, mimeType: string) => {
       return model.setModelPreview(type, name, data, mimeType)
     }
   )

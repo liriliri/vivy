@@ -1,5 +1,5 @@
 import path from 'path'
-import { BrowserWindow, ipcMain, app, clipboard, shell } from 'electron'
+import { BrowserWindow, app, clipboard, shell } from 'electron'
 import { getMainStore, getSettingsStore } from '../lib/store'
 import { bing, google, Language } from '../lib/translator'
 import * as window from 'share/main/lib/window'
@@ -10,6 +10,7 @@ import os from 'os'
 import fs from 'fs-extra'
 import isMac from 'licia/isMac'
 import endWith from 'licia/endWith'
+import { handleEvent } from 'share/main/lib/util'
 
 const store = getMainStore()
 const settingsStore = getSettingsStore()
@@ -63,17 +64,17 @@ if (isMac) {
 }
 
 function initIpc() {
-  ipcMain.handle('quitApp', () => {
+  handleEvent('quitApp', () => {
     quitApp = true
     app.quit()
   })
-  ipcMain.handle('setMainStore', (_, name, val) => store.set(name, val))
-  ipcMain.handle('getMainStore', (_, name) => store.get(name))
-  ipcMain.handle('isModelExists', (_, type, name) => model.exists(type, name))
+  handleEvent('setMainStore', (name, val) => store.set(name, val))
+  handleEvent('getMainStore', (name) => store.get(name))
+  handleEvent('isModelExists', (type, name) => model.exists(type, name))
   store.on('change', (name, val) => {
     window.sendAll('changeMainStore', name, val)
   })
-  ipcMain.handle('translate', async (_, text) => {
+  handleEvent('translate', async (text) => {
     let translator: typeof bing | null = null
     switch (settingsStore.get('translator')) {
       case 'bing':
@@ -91,28 +92,28 @@ function initIpc() {
     return text
   })
 
-  ipcMain.handle('setSettingsStore', (_, name, val) => {
+  handleEvent('setSettingsStore', (name, val) => {
     settingsStore.set(name, val)
   })
-  ipcMain.handle('getSettingsStore', (_, name) => settingsStore.get(name))
+  handleEvent('getSettingsStore', (name) => settingsStore.get(name))
   settingsStore.on('change', (name, val) =>
     window.sendAll('changeSettingsStore', name, val)
   )
 
-  ipcMain.handle('readClipboardImage', () => {
+  handleEvent('readClipboardImage', () => {
     const image = clipboard.readImage()
     if (!image.isEmpty()) {
       return convertBin(image.toPNG(), 'base64')
     }
   })
 
-  ipcMain.handle('openImage', async (_, data: string, name: string) => {
+  handleEvent('openImage', async (data: string, name: string) => {
     const p = path.join(os.tmpdir(), name)
     await fs.writeFile(p, Buffer.from(data, 'base64'))
     shell.openPath(p)
   })
 
-  ipcMain.handle('getDevices', () => webui.getDevices())
+  handleEvent('getDevices', () => webui.getDevices())
 
   function getOpenProjectPathFromArgv(argv: string[]) {
     for (let i = 0, len = argv.length; i < len; i++) {
@@ -125,7 +126,7 @@ function initIpc() {
     return ''
   }
 
-  ipcMain.handle('getOpenProjectPath', () => {
+  handleEvent('getOpenProjectPath', () => {
     if (isMac) {
       return openProjectPath
     }

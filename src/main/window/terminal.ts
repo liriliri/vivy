@@ -1,9 +1,10 @@
-import { BrowserWindow, ipcMain } from 'electron'
+import { BrowserWindow } from 'electron'
 import { getTerminalStore } from '../lib/store'
 import * as window from 'share/main/lib/window'
 import isWindows from 'licia/isWindows'
 import contain from 'licia/contain'
 import isBuffer from 'licia/isBuffer'
+import { handleEvent } from 'share/main/lib/util'
 
 const store = getTerminalStore()
 
@@ -68,6 +69,6 @@ export function init() {
 }
 
 function initIpc() {
-  ipcMain.handle('getLogs', () => logs)
-  ipcMain.handle('clearLogs', () => (logs.length = 0))
+  handleEvent('getLogs', () => logs)
+  handleEvent('clearLogs', () => (logs.length = 0))
 }

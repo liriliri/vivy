@@ -57,9 +57,6 @@ export default extend(mainObj, {
   ) => {
     return ipcRenderer.invoke('setModelPreview', type, name, data, mimeType)
   },
-  openFile: (path: string) => ipcRenderer.invoke('openFile', path),
-  openFileInFolder: (path: string) =>
-    ipcRenderer.invoke('openFileInFolder', path),
   quitApp: () => ipcRenderer.invoke('quitApp'),
   updateMenu: () => ipcRenderer.invoke('updateMenu'),
   getOpenProjectPath: () => ipcRenderer.invoke('getOpenProjectPath'),

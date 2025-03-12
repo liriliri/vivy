@@ -1,4 +1,4 @@
-import { BrowserWindow, DownloadItem, ipcMain, session } from 'electron'
+import { BrowserWindow, DownloadItem, session } from 'electron'
 import * as window from 'share/main/lib/window'
 import path from 'path'
 import { getDownloadStore } from '../lib/store'
@@ -12,6 +12,7 @@ import some from 'licia/some'
 import fs from 'fs-extra'
 import remove from 'licia/remove'
 import Readiness from 'licia/Readiness'
+import { handleEvent } from 'share/main/lib/util'
 
 const store = getDownloadStore()
 
@@ -176,22 +177,22 @@ function getDownload(id: string): IDownload | undefined {
 }
 
 function initIpc() {
-  ipcMain.handle('getDownloads', () =>
+  handleEvent('getDownloads', () =>
     map(downloads, (download) => cloneDownload(download))
   )
-  ipcMain.handle('pauseDownload', (_, id) => {
+  handleEvent('pauseDownload', (id) => {
     const download = getDownload(id)
     if (download) {
       download.downloadItem.pause()
     }
   })
-  ipcMain.handle('resumeDownload', (_, id) => {
+  handleEvent('resumeDownload', (id) => {
     const download = getDownload(id)
     if (download) {
       download.downloadItem.resume()
     }
   })
-  ipcMain.handle('deleteDownload', (_, id) => {
+  handleEvent('deleteDownload', (id) => {
     const download = getDownload(id)
     if (download) {
       if (download.state !== 'completed') {

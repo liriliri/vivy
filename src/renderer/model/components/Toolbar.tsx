@@ -71,7 +71,7 @@ export default observer(function Toolbar() {
           title={t('openDir')}
           onClick={() => {
             if (store.selectedModel) {
-              main.openFileInFolder(store.selectedModel.path)
+              main.showItemInFolder(store.selectedModel.path)
             } else {
               main.openModelDir(store.selectedType)
             }
