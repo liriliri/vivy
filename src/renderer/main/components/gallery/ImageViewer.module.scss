@@ -5,8 +5,8 @@
   flex: 1;
   overflow: hidden;
   &:hover {
-    .arrow-left,
-    .arrow-right {
+    .left,
+    .right {
       opacity: 1;
     }
   }
@@ -28,8 +28,8 @@
   height: 100%;
 }
 
-.arrow-left,
-.arrow-right {
+.left,
+.right {
   color: #fff;
   position: absolute;
   top: 50%;
@@ -46,26 +46,26 @@
   }
 }
 
-.icon-arrow-left,
-.icon-arrow-right {
+.icon-left,
+.icon-right {
   line-height: 36px;
   font-size: 30px;
 }
 
-.arrow-left {
+.left {
   left: 20px;
 }
 
-.icon-arrow-left {
+.icon-left {
   position: relative;
   left: 2px;
 }
 
-.arrow-right {
+.right {
   right: 20px;
 }
 
-.icon-arrow-right {
+.icon-right {
   position: relative;
   left: 5px;
 }

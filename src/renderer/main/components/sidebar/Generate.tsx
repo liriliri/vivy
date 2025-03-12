@@ -94,13 +94,13 @@ export default observer(function Generate() {
           className={className(Style.spinUpButton, 'button', 'primary')}
           onClick={() => setBatchSize(genOptions.batchSize + 1)}
         >
-          <span className="icon-arrow-up"></span>
+          <span className="icon-up"></span>
         </div>
         <div
           className={className(Style.spinDownButton, 'button', 'primary')}
           onClick={() => setBatchSize(genOptions.batchSize - 1)}
         >
-          <span className="icon-arrow-down"></span>
+          <span className="icon-down"></span>
         </div>
       </div>
       <div

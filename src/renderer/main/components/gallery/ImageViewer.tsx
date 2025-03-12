@@ -95,23 +95,19 @@ export default observer(function () {
     image = dataUrl.stringify(project.selectedImage.data, 'image/png')
   }
 
-  const arrowLeft = (
-    <div className={Style.arrowLeft} onClick={() => project.selectPrevImage()}>
-      <span
-        className={className(Style.iconArrowLeft, 'icon-arrow-left')}
-      ></span>
+  const leftButton = (
+    <div className={Style.left} onClick={() => project.selectPrevImage()}>
+      <span className={className(Style.iconLeft, 'icon-left')}></span>
     </div>
   )
 
-  const arrowRight = (
-    <div className={Style.arrowRight} onClick={() => project.selectNextImage()}>
-      <span
-        className={className(Style.iconArrowRight, 'icon-arrow-right')}
-      ></span>
+  const rightButton = (
+    <div className={Style.right} onClick={() => project.selectNextImage()}>
+      <span className={className(Style.iconRight, 'icon-right')}></span>
     </div>
   )
 
-  const hasArrow = project.selectedImage && project.images.length > 1
+  const hasButton = project.selectedImage && project.images.length > 1
   const hasSelectedImage = toBool(project.selectedImage)
 
   return (
@@ -187,8 +183,8 @@ export default observer(function () {
           onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
         ></LunaImageViewer>
       </div>
-      {hasArrow && arrowLeft}
-      {hasArrow && arrowRight}
+      {hasButton && leftButton}
+      {hasButton && rightButton}
       {project.selectedImage && (
         <UpscaleModal
           visible={upscaleModalVisible}

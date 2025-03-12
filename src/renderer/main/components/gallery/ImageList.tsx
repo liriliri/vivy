@@ -171,7 +171,7 @@ export default observer(function () {
         />
         <LunaToolbarSeparator />
         <ToolbarIcon
-          icon="left"
+          icon="arrow-left"
           title={t('moveLeft')}
           onClick={() => store.project.moveImageLeft()}
           disabled={
@@ -180,7 +180,7 @@ export default observer(function () {
           }
         />
         <ToolbarIcon
-          icon="right"
+          icon="arrow-right"
           title={t('moveRight')}
           onClick={() => store.project.moveImageRight()}
           disabled={
