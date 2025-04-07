@@ -29,7 +29,7 @@ export default function Sketch() {
     painter.renderCanvas()
 
     painter.on(
-      'canvasRender',
+      'renderCanvas',
       debounce(async () => {
         initImage.data = dataUrl.parse(
           painter.getCanvas().toDataURL(initImage.info.mime)

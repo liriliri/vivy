@@ -15,6 +15,7 @@ import ImageInfoModal from './components/common/ImageInfoModal'
 import InterrogateModal from './components/common/InterrogateModal'
 import PreprocessModal from './components/common/PreprocessModal'
 import { observer } from 'mobx-react-lite'
+import Modal from 'luna-modal'
 
 autorun(() => {
   const { path, isSave } = store.project
@@ -29,10 +30,24 @@ export default observer(function App() {
   const [aboutVisible, setAboutVisible] = useState(false)
 
   useEffect(() => {
-    const showAbout = () => setAboutVisible(true)
-    const offShowAbout = main.on('showAbout', showAbout)
+    const offShowAbout = main.on('showAbout', () => setAboutVisible(true))
+    const offUpdateError = main.on('updateError', () => {
+      Modal.alert(t('updateErr'))
+    })
+    const offUpdateNotAvailable = main.on('updateNotAvailable', () => {
+      Modal.alert(t('updateNotAvailable'))
+    })
+    const offUpdateAvailable = main.on('updateAvailable', async () => {
+      const result = await Modal.confirm(t('updateAvailable'))
+      if (result) {
+        main.openExternal('https://vivy.liriliri.io')
+      }
+    })
     return () => {
       offShowAbout()
+      offUpdateError()
+      offUpdateNotAvailable()
+      offUpdateAvailable()
     }
   }, [])
 

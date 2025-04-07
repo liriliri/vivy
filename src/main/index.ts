@@ -10,6 +10,7 @@ import * as theme from 'share/main/lib/theme'
 import * as proxy from './lib/proxy'
 import * as terminal from './window/terminal'
 import * as download from './window/download'
+import * as updater from 'share/main/lib/updater'
 import { setupTitlebar } from 'custom-electron-titlebar/main'
 
 if (!app.requestSingleInstanceLock()) {
@@ -31,6 +32,7 @@ app.on('ready', () => {
   menu.init()
   ipc.init()
   model.init()
+  updater.init()
 })
 
 app.on('second-instance', () => {

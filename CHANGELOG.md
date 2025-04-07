@@ -1,3 +1,7 @@
+## v1.0.0 (8 Apr 2025)
+
+* feat: adjust theme color scheme
+
 ## v0.15.0 (1 Jun 2024)
 
 * feat: open system previewer when double click

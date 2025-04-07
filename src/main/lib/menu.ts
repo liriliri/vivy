@@ -16,6 +16,8 @@ import isEmpty from 'licia/isEmpty'
 import fs from 'fs-extra'
 import isWindows from 'licia/isWindows'
 import { handleEvent } from 'share/main/lib/util'
+import * as language from 'share/main/lib/language'
+import * as updater from 'share/main/lib/updater'
 
 const settingsStore = getSettingsStore()
 const mainStore = getMainStore()
@@ -48,6 +50,12 @@ function getTemplate(): MenuItemConstructorOptions[] {
         label: t('aboutVivy'),
         click() {
           window.sendTo('main', 'showAbout')
+        },
+      },
+      {
+        label: `${t('checkUpdate')}...`,
+        click() {
+          updater.checkUpdate()
         },
       },
       ...hideMenu,
@@ -207,6 +215,26 @@ function getTemplate(): MenuItemConstructorOptions[] {
     role: 'help',
     label: t('help'),
     submenu: [
+      {
+        label: t('documentation'),
+        click() {
+          shell.openExternal(
+            `https://vivy.liriliri.io/${
+              language.get() === 'zh-CN' ? 'zh/' : ''
+            }guide/`
+          )
+        },
+      },
+      {
+        label: t('donate'),
+        click() {
+          const link =
+            language.get() === 'zh-CN'
+              ? 'http://surunzi.com/wechatpay.html'
+              : 'https://ko-fi.com/surunzi'
+          shell.openExternal(link)
+        },
+      },
       {
         label: t('reportIssue'),
         click() {

@@ -1,7 +1,7 @@
 {
   "name": "vivy",
   "productName": "VIVY",
-  "version": "0.15.0",
+  "version": "1.0.0",
   "description": "Stable diffusion desktop application",
   "main": "dist/main/index.js",
   "scripts": {
@@ -47,6 +47,7 @@
     "custom-electron-titlebar": "^4.2.7",
     "electron": "^30.5.1",
     "electron-builder": "^23.6.0",
+    "electron-updater": "^6.6.2",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "execa": "^7.1.1",

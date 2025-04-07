@@ -205,6 +205,12 @@
   "openRecent": "最近打开的工程",
   "clearRecent": "清除最近打开的",
   "pathNotExists": "不存在文件路径 “{{path}}”",
+  "documentation": "文档",
+  "donate": "捐赠",
+  "checkUpdate": "检查更新",
+  "updateNotAvailable": "当前没有可用的更新",
+  "updateAvailable": "有可用的更新，是否下载？",
+  "updateErr": "检查更新失败",
 
   "Canny": "Canny（边缘）",
   "Depth": "Depth（深度）",
