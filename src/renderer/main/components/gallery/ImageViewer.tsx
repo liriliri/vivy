@@ -13,8 +13,6 @@ import Style from './ImageViewer.module.scss'
 import className from 'licia/className'
 import convertBin from 'licia/convertBin'
 import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
-import defaultImage from '../../../assets/img/default.png'
-import defaultDarkImage from '../../../assets/img/default-dark.png'
 import { t } from '../../../../common/util'
 import { getImageName } from '../../lib/util'
 import CropModal from '../common/CropModal'
@@ -90,7 +88,7 @@ export default observer(function () {
     contextMenu(e, template)
   }
 
-  let image = store.theme === 'dark' ? defaultDarkImage : defaultImage
+  let image = ''
   if (project.selectedImage) {
     image = dataUrl.stringify(project.selectedImage.data, 'image/png')
   }
@@ -177,11 +175,13 @@ export default observer(function () {
         />
       </LunaToolbar>
       <div className={Style.body} onContextMenu={onContextMenu}>
-        <LunaImageViewer
-          className={Style.body}
-          image={image}
-          onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
-        ></LunaImageViewer>
+        {image && (
+          <LunaImageViewer
+            className={Style.body}
+            image={image}
+            onCreate={(imageViewer) => (imageViewerRef.current = imageViewer)}
+          ></LunaImageViewer>
+        )}
       </div>
       {hasButton && leftButton}
       {hasButton && rightButton}

@@ -60,7 +60,7 @@
         background-color: if($class == ':root', #ddd, #393939);
       }
       tr:nth-child(even) {
-        background-color: if($class == ':root', #eff8fe, #03141f);
+        background-color: if($class == ':root', #dddddd, #3e3e3e);
       }
     }
     .luna-data-grid:focus {
@@ -73,6 +73,7 @@
 
 .luna-performance-monitor {
   border: none;
+  background-color: var(--color-bg-container) !important;
 }
 
 .luna-notification {
