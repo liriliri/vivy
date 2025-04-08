@@ -77,7 +77,7 @@ const config = {
     electronLanguages: ['zh_CN', 'en'],
     target: [
       {
-        target: '7z',
+        target: 'dmg',
       },
     ],
   },
