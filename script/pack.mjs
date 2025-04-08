@@ -52,6 +52,7 @@ const config = {
 
     // mac
     '!**/env/lib/tcl*',
+    '!**/env/lib/terminfo',
     // windows
     '!**/env/Library/lib/tcl*',
   ],
