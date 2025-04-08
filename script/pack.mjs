@@ -1,5 +1,10 @@
 import builder from 'electron-builder'
 import map from 'licia/map.js'
+import stripIndent from 'licia/stripIndent.js'
+import splitPath from 'licia/splitPath.js'
+import isWindows from 'licia/isWindows.js'
+import { hashFile } from './util.mjs'
+import path from 'path'
 
 cd('dist')
 
@@ -72,7 +77,7 @@ const config = {
     electronLanguages: ['zh_CN', 'en'],
     target: [
       {
-        target: 'dmg',
+        target: '7z',
       },
     ],
   },
@@ -83,6 +88,25 @@ const config = {
   },
 }
 
-await builder.build({
+const artifacts = await builder.build({
   config,
 })
+
+if (isWindows) {
+  const artifact = artifacts[0]
+  const { name, dir } = splitPath(artifact)
+  const { size } = await fs.stat(artifact)
+  const sha512 = await hashFile(artifact)
+  const content = stripIndent`version: ${pkg.version}
+    files:
+      - url: ${name}
+        sha512: ${sha512}
+        size: ${size}
+    path: ${name} 
+    sha512: ${sha512}
+    releaseDate: '${new Date().toISOString()}'`
+  await fs.writeFile(
+    path.resolve(dir, `${pkg.productName}-latest.yml`),
+    content
+  )
+}

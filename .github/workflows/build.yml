@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows]
+        os: [windows, macos]
 
     steps:
     - uses: actions/checkout@v4
@@ -28,4 +28,5 @@ jobs:
         name: ${{ matrix.os }}
         path: |
           release/**/*.dmg
+          release/**/*.7z
           release/**/*-lates*.yml
