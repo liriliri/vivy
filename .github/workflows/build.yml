@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}-latest
+
+    strategy:
+      matrix:
+        os: [macos]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+    - run: |
+        npm i
+        npm run build
+        npm run pack
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.os }}
+        path: |
+          release/**/*.dmg
+          release/**/*-lates*.yml
