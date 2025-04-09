@@ -238,7 +238,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
       {
         label: t('reportIssue'),
         click() {
-          shell.openExternal('https://github.com/liriliri/vivy-docs/issues')
+          shell.openExternal('https://github.com/liriliri/vivy/issues')
         },
       },
       {
