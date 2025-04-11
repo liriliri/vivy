@@ -10,16 +10,27 @@
 
 Stable diffusion desktop app.
 
+[![Windows][windows-image]][release-url]
+[![macOS][mac-image]][release-url]
+[![Downloads][download-image]][release-url]
+![License][license-image]
+
 </div>
+
+[windows-image]: https://img.shields.io/badge/-Windows-blue?style=flat-square&logo=windows
+[mac-image]: https://img.shields.io/badge/-macOS-black?style=flat-square&logo=apple
+[download-image]: https://img.shields.io/github/downloads/liriliri/vivy/total?style=flat-square
+[release-url]: https://github.com/liriliri/vivy/releases
+[license-image]: https://img.shields.io/github/license/liriliri/vivy?style=flat-square
 
 <img src="https://vivy.liriliri.io/screenshot.png" style="width:100%">
 
-VIVY is a desktop application for Stable Diffusion that rewrites [Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)'s user interface based on its [API](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API).
+[VIVY](https://vivy.liriliri.io) is a desktop application for Stable Diffusion that rewrites [Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)'s user interface based on its [API](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API).
 
 
 ## Installation
 
-Click [here](https://github.com/liriliri/vivy-docs/releases/) to download and install VIVY. Both Windows x64 and Mac arm64 are supported.
+Click [here](https://github.com/liriliri/vivy/releases/) to download and install VIVY. Both Windows x64 and Mac arm64 are supported.
 
 Currently, the application does not include any model files. Users need to download the models and place them in the corresponding folder for normal usage.
 
@@ -37,14 +48,7 @@ Currently, the application does not include any model files. Users need to downl
 * CPU and memory usage monitoring
 * Model file management
 
-### Prompt Builder
+## Related Projects
 
-<img src="https://vivy.liriliri.io/prompt_builder.png" style="width:100%">
-
-### Sketch
-
-<img src="https://vivy.liriliri.io/sketch.png" style="width:100%">
-
-### Model Manager
-
-<img src="https://vivy.liriliri.io/model_manager.png" style="width:100%">
+* [licia](https://github.com/liriliri/licia): Utility library used by VIVY.
+* [luna](https://github.com/liriliri/luna): UI components used by VIVY.
