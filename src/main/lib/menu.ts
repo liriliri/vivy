@@ -64,6 +64,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
       },
       {
         label: t('quitVivy'),
+        accelerator: isMac ? 'Cmd+Q' : 'Ctrl+Q',
         click() {
           window.getWin('main')?.close()
         },
