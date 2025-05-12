@@ -39,8 +39,8 @@ export default observer(function Graph() {
         try {
           const { cuda } = await webui.getMemory()
           dataRef.current.vram = cuda.system.used
-        } catch (e) {
-          // @ts-ignore
+        } catch {
+          // ignore
         }
       }
       timer = setTimeout(updateCpuAndRam, 2000)

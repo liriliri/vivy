@@ -109,8 +109,8 @@ class Store {
           this.sdVaes = await webui.getSdVaes()
           break
       }
-    } catch (e) {
-      // @ts-ignore
+    } catch {
+      // ignore
     }
   }
   updateListHeight = () => {

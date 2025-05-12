@@ -364,7 +364,7 @@ export class Project {
       await this.load(VivyFile.decode(data))
       this.setPath(path!)
       this.updateRecent()
-    } catch (e) {
+    } catch {
       notify(
         t('openProjectErr', {
           name: splitPath(path!).name,

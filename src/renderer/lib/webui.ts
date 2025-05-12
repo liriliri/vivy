@@ -361,8 +361,8 @@ export async function wait(checkInterval: number = 5.0): Promise<boolean> {
           waitPromise = null
           return resolve(true)
         }
-      } catch (e) {
-        // @ts-ignore
+      } catch {
+        // ignore
       }
       setTimeout(check, checkInterval * 1000)
     }

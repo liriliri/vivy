@@ -166,7 +166,7 @@ export class GenTask extends Task {
           },
         })
       }
-    } catch (e) {
+    } catch {
       this.status = TaskStatus.Fail
       this.emit('fail')
       return
@@ -337,7 +337,7 @@ export class FaceRestorationTask extends Task {
         codeformer_visibility: faceRestorationOptions.codeFormerVisibility,
         codeformer_weight: faceRestorationOptions.codeFormerWeight,
       })
-    } catch (e) {
+    } catch {
       this.status = TaskStatus.Fail
       this.emit('fail')
       return

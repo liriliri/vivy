@@ -38,7 +38,7 @@ export default observer(function () {
     term.unicode.activeVersion = '11'
     try {
       term.loadAddon(new WebglAddon())
-    } catch (e) {
+    } catch {
       term.loadAddon(new CanvasAddon())
     }
     term.open(terminalRef.current!)
