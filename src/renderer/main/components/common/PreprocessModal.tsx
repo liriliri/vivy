@@ -19,7 +19,7 @@ import LunaToolbar, {
 import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
 import LunaImageViewer from 'luna-image-viewer/react'
 import ImageViewer from 'luna-image-viewer'
-import { LoadingCircle } from './loading'
+import { LoadingCircle } from 'share/renderer/components/loading'
 import * as webui from '../../../lib/webui'
 import clamp from 'licia/clamp'
 import toBool from 'licia/toBool'
