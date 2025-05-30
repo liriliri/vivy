@@ -57,7 +57,7 @@
     "jsdom": "^24.1.0",
     "licia": "^1.47.0",
     "luna-cropper": "^0.2.1",
-    "luna-data-grid": "^1.3.2",
+    "luna-data-grid": "^1.4.3",
     "luna-image-viewer": "^1.0.0",
     "luna-mask-editor": "^0.5.1",
     "luna-menu": "^0.1.2",

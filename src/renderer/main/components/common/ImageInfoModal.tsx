@@ -101,11 +101,7 @@ export default observer(function ImageInfoModal(props: IProps) {
         minHeight={41}
       />
       <div
-        className={className(
-          'modal-button',
-          'button',
-          showSuccess ? 'success' : 'primary'
-        )}
+        className={className('modal-button', 'button', 'primary')}
         onMouseDown={(e) => e.preventDefault()}
         onClick={copyGenData}
       >

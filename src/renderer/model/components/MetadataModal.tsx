@@ -36,11 +36,7 @@ export default function MetadataModal(props: IProps) {
         prototype={false}
       />
       <div
-        className={className(
-          'modal-button',
-          'button',
-          showSuccess ? 'success' : 'primary'
-        )}
+        className={className('modal-button', 'button', 'primary')}
         onMouseDown={(e) => e.preventDefault()}
         onClick={copyMetadata}
       >
