@@ -1,7 +1,7 @@
 import { app } from 'electron'
 import * as download from '../window/download'
 import * as webui from '../window/webui'
-import * as terminal from '../window/terminal'
+import * as terminal from 'share/main/window/terminal'
 import * as model from '../window/model'
 import * as prompt from '../window/prompt'
 import * as system from '../window/system'

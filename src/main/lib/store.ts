@@ -19,15 +19,6 @@ export const getMainStore = memoize(function () {
   })
 })
 
-export const getTerminalStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/terminal.json'), {
-    bounds: {
-      width: 960,
-      height: 640,
-    },
-  })
-})
-
 export const getModelStore = memoize(function () {
   return new FileStore(getUserDataPath('data/model.json'), {
     bounds: {

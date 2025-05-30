@@ -40,7 +40,7 @@ function renderApp() {
       title = t('modelManager')
       break
     case 'terminal':
-      App = lazy(() => import('./terminal/App.js') as Promise<any>)
+      App = lazy(() => import('share/renderer/terminal/App.js') as Promise<any>)
       title = t('terminal')
       break
     case 'system':
