@@ -1,3 +1,7 @@
+## v1.0.1 (1 Jun 2025)
+
+* fix: quit shortcut
+
 ## v1.0.0 (8 Apr 2025)
 
 * feat: adjust theme color scheme

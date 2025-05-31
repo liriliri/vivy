@@ -1,7 +1,7 @@
 {
   "name": "vivy",
   "productName": "VIVY",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Stable diffusion desktop application",
   "main": "dist/main/index.js",
   "scripts": {
