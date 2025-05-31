@@ -18,38 +18,12 @@
 }
 
 .luna-modal {
-  top: 28px;
-  font-family: var(--font-family);
+  top: 31px;
   z-index: $z-index-popup-base;
-}
-
-.luna-modal-body,
-.luna-modal-input {
-  color: var(--color-text);
-  background: var(--color-bg-container);
 }
 
 .luna-modal-input {
   user-select: text !important;
-  border-color: var(--color-border);
-}
-
-.luna-modal-button-group {
-  .luna-modal-secondary {
-    border-color: var(--color-border);
-    color: var(--color-text);
-    background: var(--color-bg-container);
-  }
-  .luna-modal-primary {
-    background: var(--color-primary);
-  }
-  .luna-modal-button {
-    &:active {
-      &::before {
-        background: var(--color-primary);
-      }
-    }
-  }
 }
 
 @each $class in (':root', '.-theme-with-dark-background') {
@@ -78,7 +52,7 @@
 
 .luna-notification {
   padding-top: 40px;
-  z-index: $z-index-popup-base;
+  z-index: $z-index-popup-base + 5;
 }
 
 .luna-notification-item {
