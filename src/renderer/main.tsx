@@ -1,12 +1,10 @@
 import ReactDOM from 'react-dom/client'
 import { lazy } from 'react'
 import { i18n, t } from '../common/util'
-import { isDev } from 'share/common/util'
-import hotKey from 'licia/hotkey'
 import getUrlParam from 'licia/getUrlParam'
-import './main.scss'
-import 'share/renderer/main.scss'
-import './icon.css'
+import LunaModal from 'luna-modal'
+import LunaPainter from 'luna-painter'
+import 'share/renderer/main'
 import 'luna-setting/css'
 import 'luna-toolbar/css'
 import 'luna-image-viewer/css'
@@ -19,11 +17,11 @@ import 'luna-menu/css'
 import 'luna-painter/css'
 import 'luna-cropper/css'
 import 'luna-object-viewer/css'
+import 'share/renderer/luna.scss'
 import './luna.scss'
-import { spy } from 'mobx'
-import LunaModal from 'luna-modal'
-import LunaPainter from 'luna-painter'
-import isMac from 'licia/isMac'
+import 'share/renderer/main.scss'
+import './main.scss'
+import './icon.css'
 
 function renderApp() {
   const container: HTMLElement = document.getElementById('app') as HTMLElement
@@ -65,30 +63,11 @@ function renderApp() {
   ReactDOM.createRoot(container).render(<App />)
 }
 
-if (isDev()) {
-  hotKey.on('f5', () => location.reload())
-  spy((event) => {
-    switch (event.type) {
-      case 'action':
-        // console.log('mobx action', event.name, ...event.arguments)
-        break
-      case 'add':
-        // console.log('mobx add', event.debugObjectName)
-        break
-      case 'update':
-        // console.log('mobx update', event.debugObjectName)
-        break
-    }
-  })
-}
-
 ;(async function () {
   const language = await main.getLanguage()
   i18n.locale(language)
   LunaModal.i18n.locale(language)
   LunaPainter.i18n.locale(language)
-
-  document.body.classList.add(`platform-${isMac ? 'mac' : 'windows'}`)
 
   renderApp()
 })()

@@ -1,31 +1,3 @@
-@use './theme' as *;
-
-.luna-setting {
-  .luna-setting-item {
-    &:hover,
-    &.luna-setting-selected {
-      background: none;
-    }
-    &.luna-setting-selected:focus {
-      outline: none;
-    }
-  }
-}
-
-.luna-image-viewer {
-  border: none;
-  background: var(--color-bg-container);
-}
-
-.luna-modal {
-  top: 31px;
-  z-index: $z-index-popup-base;
-}
-
-.luna-modal-input {
-  user-select: text !important;
-}
-
 @each $class in (':root', '.-theme-with-dark-background') {
   #{$class} {
     .luna-data-grid-data-container {
@@ -43,21 +15,6 @@
       }
     }
   }
-}
-
-.luna-performance-monitor {
-  border: none;
-  background-color: var(--color-bg-container) !important;
-}
-
-.luna-notification {
-  padding-top: 40px;
-  z-index: $z-index-popup-base + 5;
-}
-
-.luna-notification-item {
-  border-radius: 4px;
-  padding: 5px 10px;
 }
 
 .luna-object-viewer {
