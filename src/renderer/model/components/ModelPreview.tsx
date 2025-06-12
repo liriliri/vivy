@@ -5,7 +5,7 @@ import { t } from '../../../common/util'
 import { observer } from 'mobx-react-lite'
 import LunaImageViewer from 'luna-image-viewer/react'
 import fileUrl from 'licia/fileUrl'
-import { useCallback, useRef, useState } from 'react'
+import { JSX, useRef, useState } from 'react'
 import className from 'licia/className'
 import convertBin from 'licia/convertBin'
 import fileType from 'licia/fileType'
@@ -19,9 +19,6 @@ import dataUrl from 'licia/dataUrl'
 export default observer(function ModelPreview() {
   const modelPreviewRef = useRef<HTMLDivElement>(null)
   const [dropHighlight, setDropHighlight] = useState(false)
-  const [resizerStyle, setResizerStyle] = useState<any>({
-    height: '10px',
-  })
 
   let body: JSX.Element | null = null
 
@@ -106,51 +103,16 @@ export default observer(function ModelPreview() {
     setDropHighlight(true)
   }
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    const startY = e.clientY
-    const height = modelPreviewRef.current!.offsetHeight
-    setResizerStyle({
-      position: 'fixed',
-      width: '100%',
-      height: '100%',
-    })
-
-    const onMouseMove = (e: MouseEvent) => {
-      const deltaY = startY - e.clientY
-      modelPreviewRef.current!.style.height = `${height + deltaY}px`
-    }
-
-    const onMouseUp = (e: MouseEvent) => {
-      setResizerStyle({
-        height: '10px',
-      })
-      const deltaY = startY - e.clientY
-      store.setPreviewHeight(height + deltaY)
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', onMouseUp)
-    }
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseup', onMouseUp)
-  }, [])
-
   return (
     <div
       className={className(Style.modelPreview, {
         [Style.highlight]: dropHighlight,
       })}
-      style={{
-        height: store.previewHeight,
-      }}
       onDrop={onDrop}
       onDragLeave={onDragLeave}
       onDragOver={onDragOver}
       ref={modelPreviewRef}
     >
-      <div
-        className={Style.resizer}
-        style={resizerStyle}
-        onMouseDown={onMouseDown}
-      ></div>
       {body}
     </div>
   )

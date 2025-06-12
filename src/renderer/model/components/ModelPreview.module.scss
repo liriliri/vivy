@@ -1,12 +1,7 @@
 .model-preview {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  height: 100%;
   border-top: 1px solid var(--color-border);
   background: var(--color-bg-container);
-  max-height: calc(100vh - 202px);
-  min-height: 100px;
   :global(.luna-image-viewer) {
     background-color: transparent;
     width: 100%;
@@ -15,15 +10,6 @@
   &.highlight {
     background: var(--color-primary-bg);
   }
-}
-
-.resizer {
-  position: absolute;
-  width: 100%;
-  left: 0;
-  top: -8px;
-  cursor: row-resize;
-  z-index: 80;
 }
 
 .no-preview {

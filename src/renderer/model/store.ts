@@ -3,7 +3,6 @@ import { ModelType, IModel } from '../../common/types'
 import map from 'licia/map'
 import dateFormat from 'licia/dateFormat'
 import fileSize from 'licia/fileSize'
-import clamp from 'licia/clamp'
 import isEmpty from 'licia/isEmpty'
 import * as webui from '../lib/webui'
 import contain from 'licia/contain'
@@ -14,8 +13,7 @@ class Store {
   models: IModel[] = []
   data: any[] = []
   selectedModel?: IModel
-  previewHeight = 200
-  listHeight = 0
+  previewWeight = 40
   filter = ''
   sdModels: webui.StableDiffusionModel[] = []
   sdVaes: webui.StableDiffusionVae[] = []
@@ -26,26 +24,22 @@ class Store {
       selectedType: observable,
       models: observable,
       selectedModel: observable,
-      previewHeight: observable,
-      listHeight: observable,
+      previewWeight: observable,
       data: observable,
       filter: observable,
       setFilter: action,
       selectModel: action,
       selectType: action,
-      setPreviewHeight: action,
-      updateListHeight: action,
+      setPreviewWeight: action,
     })
 
     this.bindEvent()
     this.init()
   }
   async init() {
-    this.updateListHeight()
-
-    const previewHeight = await main.getModelStore('previewHeight')
-    if (previewHeight) {
-      this.setPreviewHeight(previewHeight)
+    const previewWeight = await main.getModelStore('previewWeight')
+    if (previewWeight) {
+      this.setPreviewWeight(previewWeight)
     }
 
     await this.refresh()
@@ -59,11 +53,9 @@ class Store {
   setFilter(filter: string) {
     this.filter = filter
   }
-  setPreviewHeight(height: number) {
-    this.previewHeight = height
-    main.setModelStore('previewHeight', height)
-
-    this.updateListHeight()
+  setPreviewWeight(weight: number) {
+    this.previewWeight = weight
+    main.setModelStore('previewWeight', weight)
   }
   selectType(type: ModelType) {
     this.selectedType = type
@@ -113,13 +105,6 @@ class Store {
       // ignore
     }
   }
-  updateListHeight = () => {
-    let height = window.innerHeight - 57 - this.previewHeight
-    const maxHeight = window.innerHeight - 100
-    const minHeight = 145
-    height = clamp(height, minHeight, maxHeight)
-    this.listHeight = height
-  }
   apply = async () => {
     if (!this.selectedModel) {
       return
@@ -163,8 +148,6 @@ class Store {
         this.refresh()
       }
     })
-
-    window.addEventListener('resize', this.updateListHeight)
   }
   private getSdLora(model: IModel) {
     return this.sdLoras.find((lora) => lora.path === model.path)
