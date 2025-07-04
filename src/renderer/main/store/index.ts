@@ -100,13 +100,13 @@ class Store extends BaseStore {
         this.isWebUIReady = true
       })
       await this.settings.getDevices()
-      await this.project.fetchSamplers()
-      await this.project.fetchSchedulers()
-      await this.fetchOptions()
-      await this.fetchModels()
-      await this.fetchVaes()
-      await this.fetchUpscalers()
-      await this.fetchControls()
+      await this.project.getSamplers()
+      await this.project.getSchedulers()
+      await this.getOptions()
+      await this.getModels()
+      await this.getVaes()
+      await this.getUpscalers()
+      await this.getControls()
     } else {
       this.showWebUIErr()
     }
@@ -125,7 +125,7 @@ class Store extends BaseStore {
       await webui.interrupt()
     }
   }
-  async fetchOptions() {
+  async getOptions() {
     const options = await webui.getOptions()
     runInAction(() => {
       this.options = {
@@ -134,7 +134,7 @@ class Store extends BaseStore {
       }
     })
   }
-  async fetchUpscalers() {
+  async getUpscalers() {
     const upscalers = filter(await webui.getUpscalers(), (upscaler) => {
       if (!this.settings.enableWebUI) {
         if (
@@ -161,7 +161,7 @@ class Store extends BaseStore {
     })
     setMainStore('upscalers', this.upscalers)
   }
-  async fetchControls() {
+  async getControls() {
     const controlTypes = await webui.getControlTypes()
     const controlModules = await webui.getControlModules()
     runInAction(() => {
@@ -171,13 +171,13 @@ class Store extends BaseStore {
       setMainStore('controlModules', controlModules)
     })
   }
-  async fetchModels() {
+  async getModels() {
     const models = await webui.getSdModels()
     runInAction(() => {
       this.models = map(models, (model) => model.title)
     })
   }
-  async fetchVaes() {
+  async getVaes() {
     const vaes = await webui.getSdVaes()
     runInAction(() => {
       this.vaes = map(vaes, (vae) => vae.model_name)
@@ -319,13 +319,13 @@ class Store extends BaseStore {
       switch (type) {
         case ModelType.StableDiffusion:
           await webui.refreshCheckpoints()
-          await this.fetchModels()
-          await this.fetchOptions()
+          await this.getModels()
+          await this.getOptions()
           break
         case ModelType.VAE:
           await webui.refreshVae()
-          await this.fetchVaes()
-          await this.fetchOptions()
+          await this.getVaes()
+          await this.getOptions()
           break
         case ModelType.Embedding:
           await webui.refreshEmbeddings()

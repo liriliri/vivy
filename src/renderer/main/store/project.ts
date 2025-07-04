@@ -110,7 +110,7 @@ export class Project {
       this.open(path)
     }
   }
-  async fetchSamplers() {
+  async getSamplers() {
     const samplers = await webui.getSamplers()
     runInAction(() => {
       this.samplers = map(samplers, (sampler) => sampler.name)
@@ -120,7 +120,7 @@ export class Project {
     }
     setMainStore('samplers', this.samplers)
   }
-  async fetchSchedulers() {
+  async getSchedulers() {
     const schedulers = await webui.getSchedulers()
     runInAction(() => {
       this.schedulers = map(schedulers, (scheduler) => {
