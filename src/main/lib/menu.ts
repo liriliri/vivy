@@ -5,6 +5,7 @@ import * as model from '../window/model'
 import * as download from '../window/download'
 import * as system from '../window/system'
 import * as terminal from 'share/main/window/terminal'
+import * as about from 'share/main/window/about'
 import * as window from 'share/main/lib/window'
 import tildify from 'licia/tildify'
 import isMac from 'licia/isMac'
@@ -49,7 +50,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
       {
         label: t('aboutVivy'),
         click() {
-          window.sendTo('main', 'showAbout')
+          about.showWin()
         },
       },
       {

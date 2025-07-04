@@ -58,6 +58,10 @@ function renderApp() {
       App = lazy(() => import('./webui/App.js') as Promise<any>)
       title = 'Stable Diffusion web UI'
       break
+    case 'about':
+      App = lazy(() => import('share/renderer/about/App.js') as Promise<any>)
+      title = t('aboutVivy')
+      break
   }
   preload.setTitle(title)
 

@@ -3,11 +3,8 @@ import Gallery from './components/gallery/Gallery'
 import Toolbar from './components/toolbar/Toolbar'
 import Statusbar from './components/statusbar/Statusbar'
 import Style from './App.module.scss'
-import LunaModal from 'luna-modal/react'
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useEffect } from 'react'
 import { t } from '../../common/util'
-import icon from '../assets/img/icon.png'
 import store from './store'
 import { autorun } from 'mobx'
 import splitPath from 'licia/splitPath'
@@ -27,10 +24,7 @@ autorun(() => {
 })
 
 export default observer(function App() {
-  const [aboutVisible, setAboutVisible] = useState(false)
-
   useEffect(() => {
-    const offShowAbout = main.on('showAbout', () => setAboutVisible(true))
     const offUpdateError = main.on('updateError', () => {
       Modal.alert(t('updateErr'))
     })
@@ -44,7 +38,6 @@ export default observer(function App() {
       }
     })
     return () => {
-      offShowAbout()
       offUpdateError()
       offUpdateNotAvailable()
       offUpdateAvailable()
@@ -81,23 +74,6 @@ export default observer(function App() {
           image={preprocessModal.image}
           onClose={() => preprocessModal.close()}
         />
-      )}
-      {createPortal(
-        <LunaModal
-          title={t('aboutVivy')}
-          visible={aboutVisible}
-          width={400}
-          onClose={() => setAboutVisible(false)}
-        >
-          <div className={Style.about}>
-            <img className={Style.icon} src={icon} />
-            <div>VIVY</div>
-            <div>
-              {t('version')} {VIVY_VERSION}
-            </div>
-          </div>
-        </LunaModal>,
-        document.body
       )}
     </>
   )
