@@ -1,7 +1,7 @@
 {
   "name": "vivy",
   "productName": "VIVY",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Stable diffusion desktop application",
   "main": "dist/main/index.js",
   "scripts": {
@@ -12,7 +12,6 @@
     "test": "vitest",
     "build": "zx script/build.mjs",
     "pack": "zx script/pack.mjs",
-    "upload": "zx script/upload.mjs",
     "suggestions": "zx script/suggestions.mjs",
     "build:main": "vite build --config vite.main.ts",
     "build:preload": "vite build --config vite.preload.ts",
@@ -62,7 +61,7 @@
     "jsdom": "^24.1.0",
     "licia": "^1.47.0",
     "luna-cropper": "^0.2.1",
-    "luna-data-grid": "^1.6.3",
+    "luna-data-grid": "^1.6.5",
     "luna-image-viewer": "^1.0.0",
     "luna-mask-editor": "^0.5.1",
     "luna-menu": "^0.1.2",

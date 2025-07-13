@@ -1,3 +1,7 @@
+## v1.0.2 (13 Jul 2025)
+
+* fix: update url
+
 ## v1.0.1 (1 Jun 2025)
 
 * fix: quit shortcut

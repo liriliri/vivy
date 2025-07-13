@@ -83,7 +83,7 @@ const config = {
   },
   publish: {
     provider: 'generic',
-    url: 'https://release.liriliri.io/',
+    url: 'https://release.liriliri.io/vivy/',
     channel: '${productName}-latest',
   },
 }
