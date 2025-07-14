@@ -37,6 +37,21 @@ async function main() {
     stdio: 'inherit',
     env,
   })
+
+  await execa(
+    'pip',
+    [
+      'install',
+      'opencv-python==4.11.0.86',
+      'opencv-python-headless==4.11.0.86',
+      'numpy==1.26.4',
+    ],
+    {
+      cwd: appDir,
+      stdio: 'inherit',
+      env,
+    }
+  )
 }
 
 main()

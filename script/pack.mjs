@@ -48,7 +48,7 @@ const config = {
 
     '!**/site-packages/**/__pycache__',
     '!**/site-packages/{collada,colorama,fsspec,h11,importlib_resources,jsonschema,jsonschema_specifications,lazy_loader,lib2to3,matplotlib,mpmath,opt_einsum,pandas,psutil,referencing,shapely,toolz}/tests',
-    '!**/site-packages/{mpl_toolkits,scipy,skimage,sklearn,sympy}/**/tests',
+    '!**/site-packages/{mpl_toolkits,numpy,scipy,skimage,sklearn,sympy}/**/tests',
     '!**/site-packages/joblib/test',
     '!**/site-packages/mediapipe/**/test',
     '!**/site-packages/torch/include',
