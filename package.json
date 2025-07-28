@@ -1,6 +1,7 @@
 {
   "name": "vivy",
   "productName": "VIVY",
+  "appId": "io.liriliri.vivy",
   "version": "1.0.2",
   "description": "Stable diffusion desktop application",
   "main": "dist/main/index.js",
@@ -19,7 +20,7 @@
     "start": "electron ./dist/main/index.js",
     "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css,json}\" \"test/*.test.ts\" \"*.{ts,json}\" \"script/*.mjs\" --write",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "genIcon": "lsla genIcon --input src/renderer/ --output src/renderer/icon.css --name vivy-icon --source src/share/renderer/icon/",
+    "genIcon": "lsla genIcon --input src/renderer/ --output src/renderer/icon.css --name vivy-icon --source src/renderer/icon/",
     "genTheme": "lsla genTheme --input src/common/theme.json --output src/renderer/theme.scss && lsla genTheme --input src/common/theme.json --output src/common/theme.ts",
     "genPb": "cd src/renderer/main/lib && pbjs -t static-module -w es6 -o vivyFile.js vivyFile.proto && pbts -o vivyFile.d.ts vivyFile.js"
   },

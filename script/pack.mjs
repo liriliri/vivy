@@ -28,6 +28,7 @@ const ignoreSitePackages = map(
 )
 
 const config = {
+  appId: pkg.appId,
   directories: {
     output: `../release/${pkg.version}`,
   },
