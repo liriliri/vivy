@@ -76,6 +76,7 @@ const config = {
   },
   mac: {
     electronLanguages: ['zh_CN', 'en'],
+    identity: null,
     target: [
       {
         target: 'dmg',
