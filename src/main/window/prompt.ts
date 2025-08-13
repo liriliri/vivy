@@ -1,8 +1,5 @@
 import { BrowserWindow } from 'electron'
 import * as window from 'share/main/lib/window'
-import { getPromptStore } from '../lib/store'
-
-const store = getPromptStore()
 
 let win: BrowserWindow | null = null
 
@@ -16,9 +13,8 @@ export function showWin() {
     name: 'prompt',
     minWidth: 960,
     minHeight: 640,
-    ...store.get('bounds'),
-    maximized: store.get('maximized'),
-    onSavePos: () => window.savePos(win, store, true),
+    width: 960,
+    height: 640,
   })
   win.on('close', () => {
     win?.destroy()

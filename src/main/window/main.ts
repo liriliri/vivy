@@ -35,9 +35,8 @@ export function showWin() {
     name: 'main',
     minWidth: 1280,
     minHeight: 850,
-    ...store.get('bounds'),
-    maximized: store.get('maximized'),
-    onSavePos: () => window.savePos(win, store, true),
+    width: 1280,
+    height: 850,
     menu: true,
   })
   win.on('close', (e) => {

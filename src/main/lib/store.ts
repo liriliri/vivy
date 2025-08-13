@@ -11,45 +11,12 @@ fs.exists(getUserDataPath('data'), function (exists) {
 
 export const getMainStore = memoize(function () {
   return new FileStore(getUserDataPath('data/main.json'), {
-    bounds: {
-      width: 1280,
-      height: 850,
-    },
     recentProjects: [],
   })
 })
 
 export const getModelStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/model.json'), {
-    bounds: {
-      width: 960,
-      height: 640,
-    },
-  })
-})
-
-export const getDownloadStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/download.json'), {
-    bounds: {
-      width: 640,
-      height: 480,
-    },
-  })
-})
-
-export const getPromptStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/prompt.json'), {
-    bounds: {
-      width: 960,
-      height: 640,
-    },
-  })
-})
-
-export const getSystemStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/system.json'), {
-    bounds: {},
-  })
+  return new FileStore(getUserDataPath('data/model.json'), {})
 })
 
 export const getSettingsStore = memoize(function () {
@@ -69,19 +36,5 @@ export const getSettingsStore = memoize(function () {
 })
 
 export const getWebUIStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/webui.json'), {
-    bounds: {
-      width: 1280,
-      height: 850,
-    },
-  })
-})
-
-export const getPainterStore = memoize(function () {
-  return new FileStore(getUserDataPath('data/painter.json'), {
-    bounds: {
-      width: 960,
-      height: 640,
-    },
-  })
+  return new FileStore(getUserDataPath('data/webui.json'), {})
 })

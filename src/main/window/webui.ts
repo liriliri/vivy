@@ -253,9 +253,8 @@ export function showWin() {
     name: 'webui',
     minHeight: 850,
     minWidth: 1280,
-    ...store.get('bounds'),
-    maximized: store.get('maximized'),
-    onSavePos: () => window.savePos(win, store, true),
+    width: 1280,
+    height: 850,
   })
   win.on('close', () => {
     win?.destroy()

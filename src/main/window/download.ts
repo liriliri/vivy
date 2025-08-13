@@ -1,7 +1,6 @@
 import { BrowserWindow, DownloadItem, session } from 'electron'
 import * as window from 'share/main/lib/window'
 import path from 'path'
-import { getDownloadStore } from '../lib/store'
 import { ModelType } from '../../common/types'
 import * as model from '../lib/model'
 import uuid from 'licia/uuid'
@@ -13,8 +12,6 @@ import fs from 'fs-extra'
 import remove from 'licia/remove'
 import Readiness from 'licia/Readiness'
 import { handleEvent } from 'share/main/lib/util'
-
-const store = getDownloadStore()
 
 let win: BrowserWindow | null = null
 
@@ -35,8 +32,8 @@ export function showWin() {
     name: 'download',
     minWidth: 640,
     minHeight: 480,
-    ...store.get('bounds'),
-    onSavePos: () => window.savePos(win, store),
+    width: 640,
+    height: 480,
   })
   win.on('close', () => {
     win?.destroy()
