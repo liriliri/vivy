@@ -3,7 +3,7 @@ import { LoadingBar } from 'share/renderer/components/loading'
 import Style from './App.module.scss'
 import store from './store'
 import { t } from '../../common/util'
-import { useState } from 'react'
+import { JSX, useState } from 'react'
 
 export default observer(function App() {
   const [iframeVisible, setIframeVisible] = useState(false)
