@@ -13,6 +13,7 @@ import InterrogateModal from './components/common/InterrogateModal'
 import PreprocessModal from './components/common/PreprocessModal'
 import { observer } from 'mobx-react-lite'
 import Modal from 'luna-modal'
+import LunaSplitPane, { LunaSplitPaneItem } from 'luna-split-pane/react'
 
 autorun(() => {
   const { path, isSave } = store.project
@@ -50,8 +51,31 @@ export default observer(function App() {
     <>
       <Toolbar />
       <div className={Style.workspace}>
-        <Sidebar />
-        <Gallery />
+        <LunaSplitPane
+          onResize={(weights) => {
+            const [sidebarWeight, galleryWeight] = weights
+            store.ui.set(
+              'sidebarWeight',
+              Math.round(
+                (sidebarWeight / (sidebarWeight + galleryWeight)) * 100
+              )
+            )
+          }}
+        >
+          <LunaSplitPaneItem
+            minSize={350}
+            weight={store.ui.sidebarWeight}
+            visible={!store.ui.sidebarCollapsed}
+          >
+            <Sidebar />
+          </LunaSplitPaneItem>
+          <LunaSplitPaneItem
+            minSize={400}
+            weight={100 - store.ui.sidebarWeight}
+          >
+            <Gallery />
+          </LunaSplitPaneItem>
+        </LunaSplitPane>
       </div>
       <Statusbar />
       {imageInfoModal.image && (

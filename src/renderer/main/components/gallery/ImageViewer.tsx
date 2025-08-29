@@ -24,7 +24,7 @@ import dataUrl from 'licia/dataUrl'
 
 export default observer(function () {
   const { project } = store
-  const imageViewerRef = useRef<ImageViewer>()
+  const imageViewerRef = useRef<ImageViewer>(null)
   const [upscaleModalVisible, setUpscaleModalVisible] = useState(false)
   const [faceRestorationModalVisible, setFaceRestorationModalVisible] =
     useState(false)

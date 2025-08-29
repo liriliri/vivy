@@ -14,7 +14,7 @@ import Style from './ImageList.module.scss'
 import { notify, isFileDrop } from 'share/renderer/lib/util'
 import { t } from '../../../../common/util'
 import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
-import { useCallback, useRef, useState } from 'react'
+import { JSX, useRef, useState } from 'react'
 import LunaModal from 'luna-modal'
 import last from 'licia/last'
 import contextMenu from 'share/renderer/lib/contextMenu'
@@ -26,9 +26,6 @@ import dataUrl from 'licia/dataUrl'
 export default observer(function () {
   const { project } = store
   const imageListRef = useRef<HTMLDivElement>(null)
-  const [resizerStyle, setResizerStyle] = useState<any>({
-    height: '10px',
-  })
   const [dropHighlight, setDropHighlight] = useState(false)
 
   const itemStyle = getItemStyle()
@@ -91,48 +88,13 @@ export default observer(function () {
     project.addFiles(e.dataTransfer.files)
   }
 
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    const startY = e.clientY
-    const height = imageListRef.current!.offsetHeight
-    setResizerStyle({
-      position: 'fixed',
-      width: '100%',
-      height: '100%',
-    })
-
-    const onMouseMove = (e: MouseEvent) => {
-      const deltaY = startY - e.clientY
-      imageListRef.current!.style.height = `${height + deltaY}px`
-    }
-
-    const onMouseUp = (e: MouseEvent) => {
-      setResizerStyle({
-        height: '10px',
-      })
-      const deltaY = startY - e.clientY
-      store.ui.set('imageListHeight', height + deltaY)
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', onMouseUp)
-    }
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseup', onMouseUp)
-  }, [])
-
   return (
     <div
       className={className(Style.imageList, {
         'full-mode': store.ui.imageListMaximized,
       })}
-      style={{
-        height: store.ui.imageListHeight,
-      }}
       ref={imageListRef}
     >
-      <div
-        className={Style.resizer}
-        style={resizerStyle}
-        onMouseDown={onMouseDown}
-      ></div>
       <LunaToolbar className={Style.toolbar}>
         <ToolbarIcon
           icon="save"

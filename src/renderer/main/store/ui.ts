@@ -4,20 +4,20 @@ import { setMainStore } from '../../lib/util'
 import { IImage } from './types'
 
 export class UI {
-  imageListHeight = 181
+  imageListWeight = 30
   imageListItemSize = 112
   imageListMaximized = false
   imageViewerMaximized = false
-  sidebarWidth = 400
+  sidebarWeight = 30
   sidebarCollapsed = false
   initImageHeight = 150
   constructor() {
     makeObservable(this, {
-      imageListHeight: observable,
+      imageListWeight: observable,
       imageListItemSize: observable,
       imageListMaximized: observable,
       imageViewerMaximized: observable,
-      sidebarWidth: observable,
+      sidebarWeight: observable,
       sidebarCollapsed: observable,
       initImageHeight: observable,
       set: action,
@@ -36,11 +36,11 @@ export class UI {
     this[key] = val
 
     await setMainStore('ui', {
-      imageListHeight: this.imageListHeight,
+      imageListWeight: this.imageListWeight,
       imageListItemSize: this.imageListItemSize,
       imageListMaximized: this.imageListMaximized,
       imageViewerMaximized: this.imageViewerMaximized,
-      sidebarWidth: this.sidebarWidth,
+      sidebarWeight: this.sidebarWeight,
       sidebarCollapsed: this.sidebarCollapsed,
       initImageHeight: this.initImageHeight,
     })
