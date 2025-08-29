@@ -2,7 +2,7 @@
   "name": "vivy",
   "productName": "VIVY",
   "appId": "io.liriliri.vivy",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Stable diffusion desktop application",
   "main": "dist/main/index.js",
   "scripts": {

@@ -1,3 +1,7 @@
+## v1.0.3 (30 Aug 2025)
+
+* fix: style
+
 ## v1.0.2 (13 Jul 2025)
 
 * fix: update url
