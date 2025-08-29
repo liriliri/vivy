@@ -7,7 +7,6 @@ export default extend(mainObj, {
   getWebUIPort: () => ipcRenderer.invoke('getWebUIPort'),
   isWebUIRunning: () => ipcRenderer.invoke('isWebUIRunning'),
   getDevices: () => ipcRenderer.invoke('getDevices'),
-  showTerminal: () => ipcRenderer.invoke('showTerminal'),
   showDownload: () => ipcRenderer.invoke('showDownload'),
   getDownloads: () => ipcRenderer.invoke('getDownloads'),
   showWebUI: () => ipcRenderer.invoke('showWebUI'),

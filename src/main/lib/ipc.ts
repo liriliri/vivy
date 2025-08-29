@@ -1,7 +1,6 @@
 import { app } from 'electron'
 import * as download from '../window/download'
 import * as webui from '../window/webui'
-import * as terminal from 'share/main/window/terminal'
 import * as model from '../window/model'
 import * as prompt from '../window/prompt'
 import * as system from '../window/system'
@@ -19,7 +18,6 @@ export function init() {
   handleEvent('showPainter', (mode: 'sketch' | 'mask') => painter.showWin(mode))
   handleEvent('showWebUI', () => webui.showWin())
   handleEvent('closePainter', () => painter.closeWin())
-  handleEvent('showTerminal', () => terminal.showWin())
   handleEvent('showDownload', () => download.showWin())
   handleEvent('showModel', () => model.showWin())
   handleEvent('downloadModel', (options) =>
