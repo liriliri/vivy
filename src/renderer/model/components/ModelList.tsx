@@ -4,27 +4,17 @@ import { observer } from 'mobx-react-lite'
 import { t } from '../../../common/util'
 import store from '../store'
 import { IModel } from '../../../common/types'
-import { useEffect, useRef } from 'react'
-import ResizeSensor from 'licia/ResizeSensor'
+import { useRef } from 'react'
 import DataGrid from 'luna-data-grid'
+import { useResizeSensor } from 'share/renderer/lib/hooks'
 
 export default observer(function ModelList() {
   const containerRef = useRef<HTMLDivElement>(null)
   const dataGridRef = useRef<DataGrid>(null)
-  const resizeSensorRef = useRef<ResizeSensor>(null)
 
-  useEffect(() => {
-    const resizeSensor = new ResizeSensor(containerRef.current!)
-    resizeSensor.addListener(() => {
-      dataGridRef.current?.fit()
-    })
-    resizeSensorRef.current = resizeSensor
-
-    return () => {
-      resizeSensor.destroy()
-      resizeSensorRef.current = null
-    }
-  }, [])
+  useResizeSensor(containerRef, () => {
+    dataGridRef.current?.fit()
+  })
 
   return (
     <div ref={containerRef} className={Style.container}>
