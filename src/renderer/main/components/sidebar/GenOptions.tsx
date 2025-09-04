@@ -12,6 +12,7 @@ import toStr from 'licia/toStr'
 import toNum from 'licia/toNum'
 import toBool from 'licia/toBool'
 import className from 'licia/className'
+import { JSX } from 'react'
 
 export default observer(function () {
   const { project } = store

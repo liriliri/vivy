@@ -8,7 +8,7 @@ import { t } from '../../../common/util'
 import className from 'licia/className'
 import store from '../store'
 import * as prompt from '../../lib/prompt'
-import { useRef } from 'react'
+import { JSX, useRef } from 'react'
 import isEmpty from 'licia/isEmpty'
 
 export default observer(function TagSelector() {
