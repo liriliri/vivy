@@ -27,8 +27,8 @@ import { parseImage, parseText } from '../../lib/genData'
 import startWith from 'licia/startWith'
 
 export default observer(function () {
-  const editorRef = useRef<editor.IStandaloneCodeEditor>()
-  const negativeEditorRef = useRef<editor.IStandaloneCodeEditor>()
+  const editorRef = useRef<editor.IStandaloneCodeEditor>(null)
+  const negativeEditorRef = useRef<editor.IStandaloneCodeEditor>(null)
   const [editorFocus, setEditorFocus] = useState(false)
   const [negativeEditorFocus, setNegativeEditorFocus] = useState(false)
 

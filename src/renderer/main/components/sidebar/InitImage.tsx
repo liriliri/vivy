@@ -26,7 +26,7 @@ export default observer(function InitImage() {
   const { project } = store
 
   const initImageRef = useRef<HTMLDivElement>(null)
-  const imageViewerRef = useRef<ImageViewer>()
+  const imageViewerRef = useRef<ImageViewer>(null)
   const [cropModalVisible, setCropModalVisible] = useState(false)
   const [newImageModalVisible, setNewImageModalVisible] = useState(false)
   const [dropHighlight, setDropHighlight] = useState(false)

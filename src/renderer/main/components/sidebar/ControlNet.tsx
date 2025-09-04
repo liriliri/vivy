@@ -32,7 +32,7 @@ export default observer(function ControlNet() {
   const { controlNetUnits, selectedControlNetUnit: selectedUnit } =
     store.project
   const [dropHighlight, setDropHighlight] = useState(false)
-  const imageViewerRef = useRef<ImageViewer>()
+  const imageViewerRef = useRef<ImageViewer>(null)
 
   const tabItems = map(controlNetUnits, (unit, idx) => {
     return (

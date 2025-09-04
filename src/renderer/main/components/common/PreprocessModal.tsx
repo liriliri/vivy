@@ -56,7 +56,7 @@ export default observer(function PreprocessModal(props: IProps) {
     type: 'All',
     preprocessor: 'none',
   })
-  const imageViewerRef = useRef<ImageViewer>()
+  const imageViewerRef = useRef<ImageViewer>(null)
 
   useEffect(() => {
     if (props.visible) {

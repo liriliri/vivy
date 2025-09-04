@@ -16,7 +16,7 @@ interface IProps {
 
 export default function CropModal(props: IProps) {
   const { image } = props
-  const cropperRef = useRef<Cropper>()
+  const cropperRef = useRef<Cropper>(null)
 
   const crop = () => {
     const canvas = cropperRef.current!.getCanvas()

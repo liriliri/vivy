@@ -12,7 +12,7 @@ import { useRef } from 'react'
 import isEmpty from 'licia/isEmpty'
 
 export default observer(function TagSelector() {
-  const tabRef = useRef<Tab>()
+  const tabRef = useRef<Tab>(null)
 
   const tabItems = map(store.categories, (category) => {
     return (

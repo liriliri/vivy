@@ -21,7 +21,7 @@ import ToolbarIcon from 'share/renderer/components/ToolbarIcon'
 import { t } from '../../../common/util'
 
 export default observer(function Prompt() {
-  const editorRef = useRef<editor.IStandaloneCodeEditor>()
+  const editorRef = useRef<editor.IStandaloneCodeEditor>(null)
   const [editorFocus, setEditorFocus] = useState(false)
 
   if (editorRef.current) {
