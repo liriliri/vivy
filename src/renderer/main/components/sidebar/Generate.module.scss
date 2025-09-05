@@ -1,7 +1,9 @@
+@use '../../../theme' as *;
+
 .generate {
   width: 100%;
   display: flex;
-  border-radius: var(--border-radius-s-m);
+  border-radius: #{$border-radius-s-m}px;
   overflow: hidden;
   :global(.button) {
     border-radius: 0;

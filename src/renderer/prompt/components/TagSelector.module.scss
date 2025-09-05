@@ -1,3 +1,5 @@
+@use '../../theme' as *;
+
 .container {
   flex: 1;
   position: relative;
@@ -65,7 +67,7 @@
   display: inline-block;
   margin-top: 8px;
   margin-right: 4px;
-  border-radius: var(--border-radius-s-m);
+  border-radius: #{$border-radius-s-m}px;
   &:hover {
     background: var(--color-fill-secondary);
   }

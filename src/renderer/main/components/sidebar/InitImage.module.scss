@@ -1,3 +1,5 @@
+@use '../../../theme' as *;
+
 .empty {
   padding: 12px;
   width: 100%;
@@ -22,7 +24,7 @@
   min-height: 150px;
   border: 1px solid var(--color-border);
   overflow: hidden;
-  border-radius: var(--border-radius-s-m);
+  border-radius: #{$border-radius-s-m}px;
 }
 
 .image-viewer {
