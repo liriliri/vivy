@@ -5,6 +5,7 @@ import * as model from '../window/model'
 import * as download from '../window/download'
 import * as system from '../window/system'
 import * as terminal from 'share/main/window/terminal'
+import * as process from 'share/main/window/process'
 import * as about from 'share/main/window/about'
 import * as window from 'share/main/lib/window'
 import tildify from 'licia/tildify'
@@ -16,9 +17,10 @@ import each from 'licia/each'
 import isEmpty from 'licia/isEmpty'
 import fs from 'fs-extra'
 import isWindows from 'licia/isWindows'
-import { handleEvent } from 'share/main/lib/util'
+import { getUserDataPath, handleEvent } from 'share/main/lib/util'
 import * as language from 'share/main/lib/language'
 import * as updater from 'share/main/lib/updater'
+import { isDev } from 'share/common/util'
 
 const settingsStore = getSettingsStore()
 const mainStore = getMainStore()
@@ -168,7 +170,7 @@ function getTemplate(): MenuItemConstructorOptions[] {
     ],
   }
 
-  const tools = {
+  const tools: any = {
     label: t('tools'),
     submenu: [
       {
@@ -190,12 +192,6 @@ function getTemplate(): MenuItemConstructorOptions[] {
         },
       },
       {
-        label: t('terminal'),
-        click() {
-          terminal.showWin()
-        },
-      },
-      {
         label: t('sysInfo'),
         click() {
           system.showWin()
@@ -212,6 +208,24 @@ function getTemplate(): MenuItemConstructorOptions[] {
       },
     })
   }
+
+  tools.submenu.push(
+    {
+      type: 'separator',
+    },
+    {
+      label: t('terminal'),
+      click() {
+        terminal.showWin()
+      },
+    },
+    {
+      label: t('processManager'),
+      click() {
+        process.showWin()
+      },
+    }
+  )
 
   const help: any = {
     role: 'help',
@@ -246,6 +260,22 @@ function getTemplate(): MenuItemConstructorOptions[] {
       {
         type: 'separator',
       },
+      ...(isDev()
+        ? [
+            {
+              label: t('openUserDataDir'),
+              click() {
+                shell.openPath(getUserDataPath(''))
+              },
+            },
+            {
+              label: t('debugMainProcess'),
+              click() {
+                process.debugMainProcess()
+              },
+            },
+          ]
+        : []),
       {
         role: 'toggledevtools',
         label: t('toggleDevtools'),

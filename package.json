@@ -17,7 +17,7 @@
     "build:main": "vite build --config vite.main.ts",
     "build:preload": "vite build --config vite.preload.ts",
     "build:renderer": "vite build",
-    "start": "electron ./dist/main/index.js",
+    "start": "electron ./dist/main/index.js --inspect=9229",
     "format": "lsla prettier \"webui/env/*.mjs\" \"src/**/*.{ts,tsx,scss,css,json}\" \"test/*.test.ts\" \"*.{ts,json}\" \"script/*.mjs\" --write",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "genIcon": "lsla genIcon --input src/renderer/ --output src/renderer/icon.css --name vivy-icon --source src/renderer/icon/",

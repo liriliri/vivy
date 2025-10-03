@@ -42,6 +42,10 @@ function renderApp() {
       App = lazy(() => import('share/renderer/terminal/App.js') as Promise<any>)
       title = t('terminal')
       break
+    case 'process':
+      App = lazy(() => import('share/renderer/process/App.js') as Promise<any>)
+      title = t('processManager')
+      break
     case 'system':
       App = lazy(() => import('./system/App.js') as Promise<any>)
       title = t('sysInfo')
