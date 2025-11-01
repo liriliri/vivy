@@ -119,7 +119,7 @@ export default observer(function () {
         className={className(Style.item, Style.systemInfo, Style.button)}
         onClick={() => main.showProcess()}
       >
-        <div className={Style.cpu}>CPU {cpuUsage.toFixed(2)}</div>
+        <div className={Style.cpu}>CPU {cpuUsage.toFixed(1)}%</div>
         <div className={Style.ram}>
           {t('ram')} {fileSize(ramUsage * 1024)}B
         </div>
