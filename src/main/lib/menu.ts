@@ -3,7 +3,6 @@ import * as webui from '../window/webui'
 import * as prompt from '../window/prompt'
 import * as model from '../window/model'
 import * as download from '../window/download'
-import * as system from '../window/system'
 import * as terminal from 'share/main/window/terminal'
 import * as process from 'share/main/window/process'
 import * as about from 'share/main/window/about'
@@ -189,12 +188,6 @@ function getTemplate(): MenuItemConstructorOptions[] {
         label: t('downloadManager'),
         click() {
           download.showWin()
-        },
-      },
-      {
-        label: t('sysInfo'),
-        click() {
-          system.showWin()
         },
       },
     ],

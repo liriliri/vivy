@@ -12,7 +12,6 @@ import * as model from '../lib/model'
 import { ModelType } from '../../common/types'
 import * as window from 'share/main/lib/window'
 import pidusage from 'pidusage'
-import os from 'os'
 import contain from 'licia/contain'
 import map from 'licia/map'
 import upperCase from 'licia/upperCase'
@@ -22,6 +21,7 @@ import { isDev } from 'share/common/util'
 import isStrBlank from 'licia/isStrBlank'
 import fs from 'fs-extra'
 import trim from 'licia/trim'
+import * as processWindow from 'share/main/window/process'
 
 const settingsStore = getSettingsStore()
 const store = getWebUIStore()
@@ -197,6 +197,26 @@ export async function start() {
   })
 
   app.on('will-quit', () => subprocess.kill())
+
+  processWindow.addProcess(() => {
+    return new Promise((resolve) => {
+      if (!isDead && subprocess.pid) {
+        pidusage(subprocess.pid, (err, stats) => {
+          if (!err) {
+            resolve({
+              cpu: stats.cpu / 100,
+              memory: stats.memory / 1024,
+              name: 'Web UI',
+              pid: subprocess.pid!,
+              type: 'Utility',
+            })
+          }
+        })
+      } else {
+        resolve()
+      }
+    })
+  })
 }
 
 function spawn(command: string, args: string[], options: any): Promise<string> {
@@ -262,31 +282,4 @@ export function showWin() {
   })
 
   window.loadPage(win, { page: 'webui' })
-}
-
-const cpuCount = os.cpus().length
-
-export function getCpuAndRam(): Promise<{
-  cpu: number
-  ram: number
-}> {
-  return new Promise((resolve, reject) => {
-    if (isDead || !subprocess.pid) {
-      return resolve({
-        cpu: 0,
-        ram: 0,
-      })
-    }
-
-    pidusage(subprocess.pid, (err, stats) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve({
-        cpu: stats.cpu / cpuCount,
-        ram: stats.memory,
-      })
-    })
-  })
 }

@@ -26,7 +26,6 @@ export default extend(mainObj, {
   showPainter: (mode: 'sketch' | 'mask') =>
     ipcRenderer.invoke('showPainter', mode),
   closePainter: () => ipcRenderer.invoke('closePainter'),
-  showSystem: () => ipcRenderer.invoke('showSystem'),
   getLogs: () => ipcRenderer.invoke('getLogs'),
   clearLogs: () => ipcRenderer.invoke('clearLogs'),
   getMainStore: (name) => ipcRenderer.invoke('getMainStore', name),
@@ -38,7 +37,6 @@ export default extend(mainObj, {
     return ipcRenderer.invoke('setSettingsStore', name, val)
   },
   readClipboardImage: () => ipcRenderer.invoke('readClipboardImage'),
-  getCpuAndRam: () => ipcRenderer.invoke('getCpuAndRam'),
   translate: (text) => ipcRenderer.invoke('translate', text),
   getModels: (type: ModelType) => ipcRenderer.invoke('getModels', type),
   openModelDir: (type: ModelType) => ipcRenderer.invoke('openModelDir', type),

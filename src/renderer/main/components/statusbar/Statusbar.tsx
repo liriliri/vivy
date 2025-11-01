@@ -35,9 +35,9 @@ export default observer(function () {
 
     async function updateCpuAndMem() {
       timer = null
-      const { cpu, ram } = await main.getCpuAndRam()
+      const { cpu, memory } = await main.getCpuAndMem()
       setCpuUsage(cpu)
-      setRamUsage(ram)
+      setRamUsage(memory)
       timer = setTimeout(updateCpuAndMem, 2000)
     }
 
@@ -117,11 +117,11 @@ export default observer(function () {
       {imageCount}
       <div
         className={className(Style.item, Style.systemInfo, Style.button)}
-        onClick={() => main.showSystem()}
+        onClick={() => main.showProcess()}
       >
         <div className={Style.cpu}>CPU {cpuUsage.toFixed(2)}</div>
         <div className={Style.ram}>
-          {t('ram')} {fileSize(ramUsage)}B
+          {t('ram')} {fileSize(ramUsage * 1024)}B
         </div>
       </div>
       <ProgressBar />
