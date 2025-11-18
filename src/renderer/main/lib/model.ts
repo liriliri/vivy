@@ -1,13 +1,13 @@
 import types from 'licia/types'
 import each from 'licia/each'
 import contain from 'licia/contain'
-import { ModelType } from '../../../common/types'
+import { ModelType } from 'common/types'
 import isArr from 'licia/isArr'
 import toArr from 'licia/toArr'
 import flatten from 'licia/flatten'
 import startWith from 'licia/startWith'
 import { notify } from 'share/renderer/lib/util'
-import { t } from '../../../common/util'
+import { t } from 'common/util'
 
 const urls: types.PlainObj<string> = {
   'v1-5-pruned-emaonly':

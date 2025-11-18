@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron'
 import { getModelStore } from '../lib/store'
 import * as window from 'share/main/lib/window'
-import { ModelType } from '../../common/types'
+import { ModelType } from 'common/types'
 import * as model from '../lib/model'
 import { handleEvent } from 'share/main/lib/util'
 

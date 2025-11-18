@@ -1,7 +1,7 @@
 import className from 'licia/className'
 import Style from './Generate.module.scss'
 import store from '../../store'
-import { t } from '../../../../common/util'
+import { t } from 'common/util'
 import { observer } from 'mobx-react-lite'
 import clamp from 'licia/clamp'
 import toStr from 'licia/toStr'

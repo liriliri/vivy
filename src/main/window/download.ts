@@ -1,7 +1,7 @@
 import { BrowserWindow, DownloadItem, session } from 'electron'
 import * as window from 'share/main/lib/window'
 import path from 'path'
-import { ModelType } from '../../common/types'
+import { ModelType } from 'common/types'
 import * as model from '../lib/model'
 import uuid from 'licia/uuid'
 import map from 'licia/map'

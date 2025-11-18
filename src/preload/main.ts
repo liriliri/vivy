@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import { ModelType } from '../common/types'
+import { ModelType } from 'common/types'
 import extend from 'licia/extend'
 import mainObj from 'share/preload/main'
 

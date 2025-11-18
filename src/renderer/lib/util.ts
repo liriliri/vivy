@@ -9,7 +9,7 @@ import suggestionsZhCN from '../assets/suggestions-zh-CN.txt?raw'
 import { isObservable, toJS } from 'mobx'
 import slugify from 'licia/slugify'
 import isWindows from 'licia/isWindows'
-import { i18n } from '../../common/util'
+import { i18n } from 'common/util'
 
 const suggestionsZhCNLines = suggestionsZhCN.split('\n')
 

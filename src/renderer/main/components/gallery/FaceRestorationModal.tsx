@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import LunaModal from 'luna-modal/react'
 import { createPortal } from 'react-dom'
-import { t } from '../../../../common/util'
+import { t } from 'common/util'
 import {
   IModelParam,
   checkCodeFormerModel,

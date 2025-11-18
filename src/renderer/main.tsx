@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { lazy } from 'react'
-import { i18n, t } from '../common/util'
+import { i18n, t } from 'common/util'
 import getUrlParam from 'licia/getUrlParam'
 import LunaModal from 'luna-modal'
 import LunaPainter from 'luna-painter'

@@ -1,7 +1,7 @@
 import store from '../store'
 import Style from './ModelPreview.module.scss'
 import { notify, isFileDrop } from 'share/renderer/lib/util'
-import { t } from '../../../common/util'
+import { t } from 'common/util'
 import { observer } from 'mobx-react-lite'
 import LunaImageViewer from 'luna-image-viewer/react'
 import fileUrl from 'licia/fileUrl'

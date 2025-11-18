@@ -1,5 +1,5 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
-import { ModelType, IModel } from '../../common/types'
+import { ModelType, IModel } from 'common/types'
 import map from 'licia/map'
 import dateFormat from 'licia/dateFormat'
 import fileSize from 'licia/fileSize'

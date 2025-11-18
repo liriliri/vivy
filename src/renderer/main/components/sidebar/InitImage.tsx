@@ -6,7 +6,7 @@ import className from 'licia/className'
 import toBool from 'licia/toBool'
 import ImageViewer from 'luna-image-viewer'
 import { notify, isFileDrop } from 'share/renderer/lib/util'
-import { t } from '../../../../common/util'
+import { t } from 'common/util'
 import { copyData } from '../../lib/util'
 import LunaImageViewer from 'luna-image-viewer/react'
 import LunaToolbar, {

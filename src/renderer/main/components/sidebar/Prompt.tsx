@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import Style from './Prompt.module.scss'
 import { notify } from 'share/renderer/lib/util'
-import { t } from '../../../../common/util'
+import { t } from 'common/util'
 import className from 'licia/className'
 import store from '../../store'
 import { editor } from 'monaco-editor'

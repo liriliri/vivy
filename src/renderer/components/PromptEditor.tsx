@@ -21,9 +21,9 @@ import {
   purple8Dark,
   yellow8,
   yellow8Dark,
-} from '../../common/theme'
+} from 'common/theme'
 import * as prompt from '../lib/prompt'
-import { t } from '../../common/util'
+import { t } from 'common/util'
 
 loader.config({ monaco })
 
